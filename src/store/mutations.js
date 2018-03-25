@@ -30,17 +30,34 @@ let mutations = {
     },
     check_login_details(state){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
+         if (user_details == null || user_details == undefined) {
           //this.$router.push('/login');
+          //if(window.location.port !== 80 || window.location.port !== 443){
+            window.location.href='/#/login';
+       // }else{
+        //    window.location.href= ':'+window.location.hostname+'/#/login';
+     ///   }
         }
       },
     catch_errors(state, payload){
-        console.log(window.location.hostname);
-        if(payload.error_code == 401){
-            //this.$router.push('/login?message='+payload.error_message);
+        console.log(payload);
+        if(payload.response.status == 401){
+            window.location.href='/#/login?message='+payload.response.data.error;
           }
-          else if(payload.error_code == 500){
-           // this.$router.push('/login?message='+payload.error_message);
+          else if(payload.response.status == 500){
+            state.show_alert= true;
+            state.alert_message = payload.message;
+            state.alert_type = 'alert-danger';
+          }
+          else if(payload.response.status == 422){
+            state.show_alert= true;
+            state.alert_message = payload.message;
+            state.alert_type = 'alert-danger';
+          }
+          else if(payload.response.status == 400){
+            state.show_alert= true;
+            state.alert_message = payload.response.data.message;
+            state.alert_type = 'alert-danger';
           }
     },
     changePageTitle(state, title) {

@@ -27,28 +27,24 @@
                   </div>
                 </div>
 
-                  
-                  <div class="col-sm-6">  
-                    <br>
-                    <div class="col-sm-12">   
-                    <label v-if="company_stations.length">           
-                      <label class="col-sm-4" v-for="input in company_stations">
-                        <input  v-bind:value="input.id"  v-model="user.selected_stations"   type="checkbox" > {{ input.name }}
-                      </label>
-                    </label>
-                    <p v-else>{{this.company_stations_null}}</p>
-                      
-                    </div>                            
-                  </div>
-                  <br>
-                  
-
-
+                <div class="col-sm-6">
+                    <div class="form-group">
+                      <b-card v-if="company_stations.length" header="Registered Stations" header-tag="h4" class="bg-info-card">            
+                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
+                        placeholder="Select Stations"
+                        label="name" track-by="id" 
+                        :options="company_stations" :multiple="true" :hide-selected="true" 
+                        :taggable="true" @tag="addTag">
+                        </multiselect>        
+                       </b-card>
+                        <p v-else>{{this.company_stations_null}}</p>
+                    </div>
+                </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="number"> Full Name</label>
-                      <input v-model="user.fullname" name="number" type="text" required autofocus placeholder="Full Name" class="form-control" id="number"/>
+                      <input v-model="user.fullname" name="fullname" type="text" required autofocus placeholder="Full Name" class="form-control" id="number"/>
                       <field-messages name="fullname" show="$invalid && $submitted" class="text-danger">
                         <div slot="required"> Full Name is a required field</div>
                       </field-messages>
@@ -60,7 +56,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="nozzle_code"> Username</label>
-                      <input v-model="user.username" name="nozzle_code" type="text" required autofocus placeholder="Username" class="form-control" id="nozzle_code"/>
+                      <input v-model="user.username" name="username" type="text" required autofocus placeholder="Username" class="form-control" id="nozzle_code"/>
                       <field-messages name="username" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Username is a required field</div>
                       </field-messages>
@@ -72,7 +68,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="brand"> Email</label>
-                      <input v-model="user.email" name="brand" type="text" required autofocus placeholder="Email" class="form-control" id="brand"/>
+                      <input v-model="user.email" name="email" type="text" required autofocus placeholder="Email" class="form-control" id="brand"/>
                       <field-messages name="email" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Email is a required field</div>
                       </field-messages>
@@ -84,7 +80,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="serial_number"> Phone Number</label>
-                      <input v-model="user.phone_number" name="serial_number" type="text" required autofocus placeholder="Phone Number" class="form-control" id="serial_number"/>
+                      <input v-model="user.phone_number" name="phone_number" type="text" required autofocus placeholder="Phone Number" class="form-control" id="serial_number"/>
                       <field-messages name="phone_number" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Phone Number is a required field</div>
                       </field-messages>
@@ -95,7 +91,7 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="product">Roles</label>
+                      <label for="role_id">Roles</label>
                       <select id="role" name="role_id" size="1" class="form-control" v-model="user.role_id" required checkbox>
 
                         <option
@@ -105,7 +101,7 @@
                         </option>
 
                       </select>
-                      <field-messages name="product" show="$invalid && $submitted" class="text-danger">
+                      <field-messages name="role_id" show="$invalid && $submitted" class="text-danger">
                         <div slot="checkbox">Role is required</div>
                       </field-messages>
                     </validate>
@@ -134,15 +130,18 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue'; import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import Multiselect from 'vue-multiselect';
   Vue.use(VueForm, options);
+  Vue.component(Multiselect);
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,
+      Multiselect,
     },
     data() {
       return {columndata: [{
@@ -178,7 +177,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/company_users',
+        url: this.$store.state.host_url+'/company_users',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -193,6 +192,13 @@
           company_id: "",
           station_id: ""
         },
+          phone_number: "",
+          selected_stations : [],
+          email: "",
+          username: "",
+          fullname: "",
+          role_id: 0,
+
         user : {
           company_id: "",
           station_id: "",
@@ -201,31 +207,26 @@
           email: "",
           username: "",
           fullname: "",
-          role_id: "",
+          role_id: 0,
           privilege: "",
         }
 
       }
     },
     methods: {
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
-      show_company_stations(company_name){
 
+      show_company_stations(company_name){
+        store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         this.company_stations_null = 'No Station Added Yet';
-        axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
           this.company_stations = response.data.data;
           ///get roles///
-            axios.get("http://127.0.0.1:8000/api/v1/roles/by_company/"+company_name,
+            axios.get(this.$store.state.host_url+"/roles/by_company/"+company_name,
               {
                 headers : {
                   "Authorization" : "Bearer " + user_details.token
@@ -233,30 +234,30 @@
             this.available_roles = response.data.data;
           });
         ///get users
-          axios.get("http://127.0.0.1:8000/api/v1/company_users/by_company/"+company_name,
+          axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_name,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
+                store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
           console.log(response.data.data);
           this.tableData.forEach((item, index) => {
-            this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
+            this.$set(item, "action", "<a class='btn btn-info'>Edit</a>");
         });
         
         });
 
       })
       .catch(function(error) {
-        console.log(error);
-          if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
+        store.commit("activateLoader", "end");   
+        store.commit("catch_errors", error); 
         });
+        
       },
         show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -275,6 +276,7 @@
         if (this.formstate.$invalid) {
           return;
         } else {
+          store.commit("activateLoader", "start");
           //include station and company_id
          // this.users.station_id= this.preset.station_id;
           this.user.company_id= this.preset.company_id;
@@ -286,7 +288,8 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             //console.log(response.data);
@@ -294,17 +297,25 @@
             this.tableData.forEach((item, index) => {
               this.$set(item, "action", "<a class='btn btn-info' href='#/admin/user/edit?user=" + item.id + "'>Edit</a>");
           });
+          store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'User Registered Successfully', 'show_alert': true});
           }
-        }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
+        }).catch(error => { 
+        store.commit("activateLoader", "end");   
+        store.commit("catch_errors", error); 
         })}
-      }
+      },
+      addTag(newTag) {
+            const tag = {
+                id: newTag,
+                name: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+            }
+            this.all_groups.push(tag)
+            this.selected_groups.push(tag)
+        },
     },
     mounted: function() {
-      this.check_login_details();
+      store.commit("check_login_details");
       this.show_available_companies();
     },
     destroyed: function() {
@@ -312,6 +323,7 @@
     }
   }
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
   .form-control{
     transition: initial;

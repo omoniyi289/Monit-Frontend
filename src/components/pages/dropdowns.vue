@@ -36,7 +36,7 @@
 <!--</div>-->
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import Multiselect from 'vue-multiselect';
 
 Vue.component(Multiselect);

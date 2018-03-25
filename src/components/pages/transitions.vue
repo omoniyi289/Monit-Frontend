@@ -89,7 +89,7 @@
 </template>
 <script>
 require('vue2-animate/dist/vue2-animate.min.css');
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 export default {
     name: "ContactUs",
     mounted: function() {

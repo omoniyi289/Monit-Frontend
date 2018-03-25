@@ -1,6 +1,6 @@
 <template>
-    <header class="header fixed-top">
-        <nav>
+    <header class="header fixed-top" >
+        <nav >
             <router-link to="/" class="logo">
                 <img src="~img/logo_black.png" alt="logo" />
             </router-link>

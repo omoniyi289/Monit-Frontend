@@ -561,7 +561,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import IEcharts from 'vue-echarts-v3/src/full.js';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/component/tooltip';

@@ -16,6 +16,12 @@ const routes = [{
         meta: {
         title: "Verify Email",
         }
+    },  {
+        path: '/fuel-supply/validate-request',
+        component: resolve => require(['pages/fuel-supply/validate-request'], resolve),
+        meta: {
+        title: "Verify Email",
+        }
     }, {
         path: '/register',
         component: resolve => require(['pages/auth/register'], resolve),

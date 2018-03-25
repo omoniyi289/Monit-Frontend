@@ -98,11 +98,7 @@
                                 </tr>
                               </tbody>
                             </table> 
-                            <div class="col-sm-12">
-                              <div class="form-group float-right">
-                                <button value="NEXT" class="btn btn-success" v-on:click ="to_totalizer">NEXT</button>
-                              </div>
-                            </div>
+                            
                         </b-tab>
                         <b-tab title="Totalizer Readings" >
                             <table class="table">
@@ -161,7 +157,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);
@@ -174,7 +170,7 @@
       return {
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/product_price_change',
+        url: this.$store.state.host_url+'/product_price_change',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -204,27 +200,21 @@
       to_totalizer(){
         
       },
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
       show_company_stations(company_name){
-
+        store.commit("activateLoader", "start");   
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
-        axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
+              store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
       })
       .catch(function(error) {
-          if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
         });
       },
       show_open_station_info(){
@@ -233,27 +223,26 @@
           return;
         } else {
           store.commit("activateLoader", "start");
-          ///get products///
-          //let params = {};
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params = 'station_id='+this.preset.station_id; 
-        axios.get("http://127.0.0.1:8000/api/v1/stock-readings/by_station?"+params,
+        axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-              console.log(response);
+       store.commit("activateLoader", "end");   
        if(response.data.data.length > 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'Readings already exist for today', 'show_alert': true});
                        this.show_setup_form= false;
        }else{
           let station_id= this.preset.station_id;
-          axios.get("http://127.0.0.1:8000/api/v1/pumps/by_station/"+station_id,
+          axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
+             store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
             this.open_pump_reading = [];
             //if(){
@@ -263,7 +252,7 @@
             'nozzle_code': element.nozzle_code, 'opening_reading': '', 'c_opening_reading': '' , 'status': 'Opened'});
           });
             ///  }
-            axios.get("http://127.0.0.1:8000/api/v1/tanks/by_station/"+station_id,
+            axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
@@ -278,24 +267,22 @@
                   });
         })
         .catch(function(error) {
-              if(error.response.status == 401){
-              this.$router.push('/login?message='+error.response.data.error);
-            }
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
           });
           }});
-          store.commit("activateLoader", "end");
+
         }},
       show_available_companies(){
-        store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
         this.available_companies = response.data.data;
         ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -304,11 +291,9 @@
       });
       })
       .catch(error => {
-          if(error.response.status == 401){
-          this.$router.push('/login?message='+error.response.data.error);
-        }
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
       });
-      store.commit("activateLoader", "end");
       }
       ,
      
@@ -330,38 +315,34 @@
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.readings = this.open_pump_reading;
 
-          axios.post("http://127.0.0.1:8000/api/v1/stock-readings", {'stocks': this.final_stock_info}, {
+          axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
-              axios.post("http://127.0.0.1:8000/api/v1/pump-readings", {'pumps': this.final_pump_info}, {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
+              axios.post(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
                 headers : {
                   "Authorization" : "Bearer " + user_details.token
                 }
-              }).then( response => {
+              }).then( response => {                         
+                store.commit("activateLoader", "end");
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings saved', 'show_alert': true});
                     }
-                  }).catch(error => {
-                  if(error.response.status == 401){
-                  this.$router.push('/login?message='+error.response.data.error);
-                }
-                console.log(error);
+                  }).catch(error => { store.commit("activateLoader", "end");   
+                    store.commit("catch_errors", error); 
               });
-        }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
+        }).catch(error => { 
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
         })}
-        store.commit("activateLoader", "end");
       }
     },
     mounted: function() {
-      this.check_login_details();
+      store.commit("check_login_details");
       this.show_available_companies();
     },
     destroyed: function() {

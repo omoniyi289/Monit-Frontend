@@ -112,9 +112,9 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue'; import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
   export default {
@@ -126,7 +126,7 @@
       return {
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/tanks',
+        url: this.$store.state.host_url+'/tanks',
         formstate: {},
         formstate2: {},
         available_companies: "",
@@ -163,16 +163,15 @@
       show_edit_form() {
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let id= this.$route.query.pump;
-        axios.get("http://127.0.0.1:8000/api/v1/pumps/"+ id,
+        axios.get(this.$store.state.host_url+"/pumps/"+ id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-
-          this.pump = response.data.data;
-        console.log(this.pump);
-        ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+             
+            this.pump = response.data.data;
+       
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -187,23 +186,23 @@
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
-        } else {
+        } else {store.commit("activateLoader", "start");
           let pump_detail = {
             pump: this.pump
           };
           let user_details = JSON.parse(localStorage.getItem('user_details'));
 
           let id= this.$route.query.pump;
-          axios.patch("http://127.0.0.1:8000/api/v1/pumps/"+id, pump_detail, {
+          axios.patch(this.$store.state.host_url+"/pumps/"+id, pump_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             console.log(response.data);
           }
-        }).catch(error => {
+        }).catch(error => { store.commit("activateLoader", "end");   store.commit("catch_errors", error); 
             if(error.response.status == 401){
             this.$router.push('/login?message='+error.response.data.error);
           }

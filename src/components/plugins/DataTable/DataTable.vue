@@ -30,13 +30,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(row, index) in paginated" @click="click(row, index)" :key="index">
+                    <tr v-for="(row, pindex) in paginated"  :key="pindex">
                         <template v-for="(column,index) in columns">
-                            <td :class="column.numeric ? 'numeric' : ''" v-if="!column.html" :key="index">
+                            <td :class="column.numeric ? 'numeric' : ''" v-if="!column.html && column.label != 'Actions'"  :key="index">
                                 {{ collect(row,column.field) }}
                             </td>
-                            <td :class="column.numeric ? 'numeric' : ''" v-html="collect(row, column.field)" v-if="column.html" :key="index">
-                            </td>
+                           <td v-if="extractName(column.field) === '__slot'" :key="index"
+                            >
+                                <slot :name="extractArgs(column.field)"
+                                :row-data="row" :row-index="pindex" 
+                                :row="row"
+                                ></slot>
+                             </td>
                         </template>
                         <slot name="tbody-tr" :row="row"></slot>
                     </tr>
@@ -111,7 +116,7 @@
                 currentPage: 1,
                 currentPerPage: this.perPage,
                 sortColumn: -1,
-                sortType: 'asc',
+                sortType: 'desc',
                 searchInput: '',
             }
         },
@@ -139,8 +144,13 @@
                 }
             },
 
-            click(row, index) {
-                this.$emit("rowClick", row, index);
+            erase(row, index) {
+                //this.$emit("rowClick", row, index);
+                console.log("erase");
+            },
+             edit(row, index) {
+              //  this.$emit("rowClick", row, index);
+                console.log("edit");
             },
 
             exportExcel() {
@@ -198,7 +208,12 @@
                         result = result[splitter[i]];
                 return result;
             },
-
+            extractName (string) {
+      return string.split(':')[0].trim()
+    },
+    extractArgs (string) {
+      return string.split(':')[1]
+    },
             collect(obj, field) {
                 if (typeof (field) === 'function')
                     return field(obj);

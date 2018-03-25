@@ -34,7 +34,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 //uncomment below line to import all charts at once
 // import IEcharts from 'vue-echarts-v3';
 // use only necessary charts to reduce size of package

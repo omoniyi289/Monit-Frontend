@@ -12,6 +12,7 @@ function addDays(noOfDays) {
 //=======vuex store start===========
 let user_detials= JSON.parse(localStorage.getItem('user_details'));
 let username='';
+console.log(user_detials);
 if(user_detials !== null){
      username= user_detials.username;
 }
@@ -22,6 +23,8 @@ const store = new Vuex.Store({
         show_alert: false,
         alert_message: "",
         alert_type: "",
+        host_url: "http://localhost:8000/api/v1",
+        //host_url: "http://sm2.api.energy360africa.com/api/v1",
         site_name: "Station Manager",
         page_title: null,
         user: {

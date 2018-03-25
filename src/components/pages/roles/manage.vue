@@ -84,7 +84,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);
@@ -122,7 +122,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/roles',
+        url: this.$store.state.host_url+'/roles',
         formstate: {},
         show_setup_form : false,
         tableData: [],
@@ -149,27 +149,27 @@
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let company_id= this.preset.company_id;
-          axios.get("http://127.0.0.1:8000/api/v1/roles/by_company/"+company_id,
+          axios.get(this.$store.state.host_url+"/roles/by_company/"+company_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
+            store.commit("activateLoader", "end");  
             this.tableData = response.data.data;
           console.log(response);
           this.tableData.forEach((item, index) => {
-            this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
+            this.$set(item, "action", "<a class='btn btn-info'>Edit</a>");
         });
         })
         .catch(function(error) {
-            let payload = {'errror_code' : error.response.status,'error_message': error.response.data.error};
-          store.commit("catch_errors", payload);       
+           store.commit("activateLoader", "end");  
+            store.commit("catch_errors", error); 
           });
-           store.commit("activateLoader", "end");
         },
         show_permissions(){
                      ///get products///
               let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get("http://127.0.0.1:8000/api/v1/permissions",
+              axios.get(this.$store.state.host_url+"/permissions",
                 {
                   headers : {
                     "Authorization" : "Bearer " + user_details.token
@@ -180,7 +180,7 @@
         },
       show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -189,16 +189,13 @@
         this.available_companies = response.data.data;
       })
       .catch(error => {
-         let payload = {'errror_code' : error.response.status,'error_message': error.response.data.error};
-          store.commit("catch_errors", payload);       
+       store.commit("activateLoader", "end");  
+        store.commit("catch_errors", error); 
       });
       }
       ,
       add_company_roles() {
-        //if (this.formstate.$invalid) {
-          //return;
-        //} else {
-          //include station and company_id
+       store.commit("activateLoader", "start");
           this.role.station_id= this.preset.station_id;
           this.role.company_id= this.preset.company_id;
           let role_detail = {
@@ -210,7 +207,8 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             //console.log(response.data);
@@ -218,17 +216,17 @@
             this.tableData.forEach((item, index) => {
               this.$set(item, "action", "<a class='btn btn-info' href='#/admin/roles/edit?role=" + item.id + "'>Edit</a>");
           });
+          store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Role added successfully', 'show_alert': true});
           }
         }).catch(error => {
-          let payload = {'errror_code' : error.response.status,'error_message': error.response.data.error};
-          store.commit("catch_errors", payload);        
-          //console.log(error);
+           store.commit("activateLoader", "end");  
+            store.commit("catch_errors", error); 
         })
         //}
       }
     },
     mounted: function() {
-      console.log(window.location.hostname);
       store.commit("check_login_details");
       this.show_available_companies();
       this.show_permissions();

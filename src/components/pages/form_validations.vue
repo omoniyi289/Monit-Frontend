@@ -110,7 +110,7 @@
 <script>
 import Vue from 'vue'
 
-import VueForm from "vue-form";
+import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
 Vue.use(VueForm, options);
 export default {

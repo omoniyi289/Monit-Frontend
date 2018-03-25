@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import datatable from "components/plugins/DataTable/DataTable.vue";
 export default {
     name: "users_list",

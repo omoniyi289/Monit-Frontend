@@ -167,9 +167,9 @@
 </template>
 
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue'; import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
   export default {
@@ -211,7 +211,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/pumps',
+        url: this.$store.state.host_url+'/pumps',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -247,7 +247,7 @@
 
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
-        axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -265,12 +265,12 @@
       show_station_pumps(){
         if (this.formstate2.$invalid) {
           return;
-        } else {
+        } else {store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
           console.log(station_id);
-          axios.get("http://127.0.0.1:8000/api/v1/pumps/by_station/"+station_id,
+          axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
@@ -291,7 +291,7 @@
         }},
       show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -299,7 +299,7 @@
           console.log(response.data.data);
         this.available_companies = response.data.data;
         ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -319,7 +319,7 @@
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
-        } else {
+        } else {store.commit("activateLoader", "start");
           //include station and company_id
           this.pump.station_id= this.preset.station_id;
           this.pump.company_id= this.preset.company_id;
@@ -332,7 +332,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             //console.log(response.data);
@@ -341,7 +341,7 @@
               this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
           });
           }
-        }).catch(error => {
+        }).catch(error => { store.commit("activateLoader", "end");   store.commit("catch_errors", error); 
             if(error.response.status == 401){
             this.$router.push('/login?message='+error.response.data.error);
           }

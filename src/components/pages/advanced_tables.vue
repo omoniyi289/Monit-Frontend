@@ -18,7 +18,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import {
     ClientTable,
     Event
@@ -151,7 +151,7 @@ export default {
                 "lname": "Malmfeldt",
                 "age": 50,
                 "state": "DC",
-                "button": "<i class='fa fa-pencil text-info mr-3'></i><i class='fa fa-trash text-danger'></i>"
+                "button": "<i v-on:click='syc()' class='fa fa-pencil text-info mr-3'></i><i class='fa fa-trash text-danger'></i>"
             }],
 
             columndata: [ // Array of objects

@@ -143,14 +143,14 @@
 </template>
 <script>
 import Vue from 'vue'
-import VueForm from "vue-form";
+import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
+import store from 'src/store/store.js';
 Vue.use(VueForm, options);
 export default {
     name: "register",
     data() {
         return {
-            url: 'http://127.0.0.1:8000/api/v1/users',
             formstate: {},
             submit_btn: "Sign Up",
             show_error: false,
@@ -180,12 +180,13 @@ export default {
             };
             this.submit_btn = "Registering...";
             //console.log(JSON.stringify(user_details));
-            axios.post(this.url, user_details).then(response => {
+            let host_url = this.$store.state.host_url;
+            axios.post(host_url+'/users', user_details).then(response => {
                 console.log(response.data);
             if (response.data.status == true) {
                 this.model = {};
                 this.success_message = "Thanks for registering with us, " +
-                    "an email verification has been sent to your email, please verify your email. Thanks";
+                    "an email has been sent to you, please verify your email. Thanks";
                 this.submit_btn = "Sign up";
                 this.show_success = true;
             }

@@ -15,9 +15,9 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue'; import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
   export default {
@@ -44,7 +44,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/privileges',
+        url: this.$store.state.host_url+'/privileges',
         formstate: {},
         show_setup_form : false,
         tableData: [],
@@ -74,7 +74,7 @@
         show_permissions(){
                      ///get products///
               let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get("http://127.0.0.1:8000/api/v1/permissions",
+              axios.get(this.$store.state.host_url+"/permissions",
                 {
                   headers : {
                     "Authorization" : "Bearer " + user_details.token

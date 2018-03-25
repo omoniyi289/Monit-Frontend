@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import VueQuillEditor from 'vue-quill-editor';
 import VueCodeMirror from 'vue-codemirror';
 import 'codemirror/keymap/sublime';

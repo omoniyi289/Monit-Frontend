@@ -45,7 +45,13 @@
                     </validate>
                   </div>
                 </div>
-
+                
+                 
+                <div class="col-lg-4">
+                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
+                    <br>
+                </div>
+                
                 <div class="col-sm-12">
                   <div class="form-group float-left">
                     <input type="submit" value="Show Form" class="btn btn-success" />
@@ -57,9 +63,8 @@
           
           <div class="col-md-12">
            
-            <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
-              <br>
-               <b>Date : {{new Date().toDateString()}}</b>
+            <vue-form :state="formstate" @submit.prevent="onSubmit" >
+               <input readonly type="text"  :value="selected_date" placeholder=""/>
               
               <b-card header-tag="h4" class="bg-info-card" header="Open the Station">
                 <div class="row ">
@@ -80,58 +85,44 @@
                                 <tr v-for ="(option, index) in close_tank_reading">
                                   <th>{{option.tank_code}}</th>
                                   <td>     
-                                      <input :value="close_tank_reading[index].opening_reading" readonly type="text"  class="form-control" />
+                                      <input v-model="close_tank_reading[index].opening_reading"  type="number" :disabled="isDisabled" class="form-control" />
                                   </td>
                                   <td>         
                                     <validate tag="div">
-                                      <input v-model="close_tank_reading[index].qty_received" id="qr" :name="qr+index" type="number" required placeholder="Quantity Recieved" class="form-control" />
+                                      <input v-model="close_tank_reading[index].qty_received" id="qr" :disabled="isDisabled"  :name="qr+index" type="number" required placeholder="" class="form-control" />
                                       <field-messages :name="qr+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Quantity Recieved is required</div>
                                       </field-messages>
                                     </validate>        
-                                    <validate tag="div">
-                                      <input v-model="close_tank_reading[index].c_qty_received"  id="c_qr" :name="c_qr+index" type="number" required placeholder="Confirm Quantity Recieved" class="form-control" :sameas="close_tank_reading[index].qty_received"/>
-                                      <field-messages :name="c_qr+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Quantity Recieved is required</div>
-                                          <div slot="sameas">Quantity Recieved should match</div>
-                                      </field-messages>
-                                    </validate>
+                                    
                                   </td>
                                   <td>         
                                     <validate tag="div">
-                                      <input v-model="close_tank_reading[index].rtt" id="qr" :name="rtt+index" type="number" required placeholder="Return to Tank" class="form-control" />
+                                      <input v-model="close_tank_reading[index].rtt" id="qr" :disabled="isDisabled" :name="rtt+index" type="number" required placeholder="" class="form-control" />
                                       <field-messages :name="rtt+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Retun to Tank is required</div>
                                       </field-messages>
                                     </validate>        
-                                    <validate tag="div">
-                                      <input v-model="close_tank_reading[index].c_rtt"  id="c_rtt" :name="c_rtt+index" type="number" required placeholder="Return to Tank" class="form-control" :sameas="close_tank_reading[index].rtt"/>
-                                      <field-messages :name="c_rtt+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm RTT Recieved is required</div>
-                                          <div slot="sameas">RTT should match</div>
-                                      </field-messages>
-                                    </validate>
+                                    
                                   </td>
                                   <td>
                   
                                     <validate tag="div">
-                                      <input v-model="close_tank_reading[index].closing_reading" id="rd" :name="trd+index" type="number" required placeholder="Closing Reading" class="form-control" />
+                                      <input v-model="close_tank_reading[index].closing_reading" id="rd"  :disabled="isDisabled" :name="trd+index" type="number" required placeholder="Closing Reading" class="form-control" />
                                       <field-messages :name="trd+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Closing Reading is required</div>
                                       </field-messages>
                                     </validate>        
-                                    <validate tag="div">
-                                      <input v-model="close_tank_reading[index].c_closing_reading"  id="c_rd" :name="c_trd+index" type="number" required placeholder="Confirm Closing Reading" class="form-control" :sameas="close_tank_reading[index].closing_reading"/>
-                                      <field-messages :name="c_trd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Closing Reading is required</div>
-                                          <div slot="sameas">Closing and Confirm Closing Reading should match</div>
-                                      </field-messages>
-                                    </validate>
+                                    
                                   </td>
                                 </tr>
                               </tbody>
                             </table> 
-                           
+                            <div class="col-sm-12">
+                              <div class="form-group float-right">
+                                <span class="btn btn-success" v-on:click ="isDisabled = !isDisabled">EDIT</span>
+                              </div>
+                            </div>
                         </b-tab>
                         <b-tab title="Totalizer Readings" >
                             <table class="table">
@@ -140,8 +131,11 @@
                                   <th>Pump Number</th>
                                   <th>Dispenser</th>
                                   <th>Opening Totalizer Reading</th>
+                                  <th>First Shift Reading</th>
                                   <th>Closing Totalizer Reading</th>
-                                  <th>Cash Collected </th>
+                                   <th>PPV </th>
+                                  <th>First Shift Cash Collected</th>
+                                  <th>Closing Cash Collected </th>
                                   
                                 </tr>
                               </thead>
@@ -150,37 +144,28 @@
                                   <th>{{option.pump_number}}</th>
                                   <td>{{option.nozzle_code}}</td>
                                   <td>     
-                                      <input :value="close_pump_reading[index].opening_reading" readonly type="text"  class="form-control" />
+                                      <input v-model="close_pump_reading[index].opening_reading" :disabled="isDisabled" type="number"  class="form-control" />
                                   </td>
                                   <td>               
-                                    <validate tag="div">
-                                      <input v-model="close_pump_reading[index].closing_reading" id="rd" :name="prd+index" type="number" required placeholder="Closing Reading" class="form-control" />
-                                      <field-messages :name="prd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Closing Reading is required</div>
-                                      </field-messages>
-                                    </validate>     
-                                     <validate tag="div">
-                                      <input v-model="close_pump_reading[index].c_closing_reading"  id="c_rd" :name="c_prd+index" type="number" required placeholder="Confirm Closing Reading" class="form-control" :sameas="close_pump_reading[index].closing_reading"/>
-                                      <field-messages :name="c_prd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Closing Reading is required</div>
-                                          <div slot="sameas">Closing and Confirm Closing Reading should match</div>
-                                      </field-messages>
-                                    </validate>   
+                                
+                                      <input v-model="close_pump_reading[index].first_shift_reading" id="rd" :disabled="isDisabled" :name="fsprd+index" type="number"  placeholder="" class="form-control" />
+                  
                                   </td>
-                                  <td>
-                                    <validate tag="div">
-                                      <input v-model="close_pump_reading[index].cash_collected" id="cc" :name="cc+index" type="number" required placeholder="Cash Collected" class="form-control" />
-                                      <field-messages :name="cc+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Cash Collected is required</div>
-                                      </field-messages>
-                                    </validate>
-                                    <validate tag="div">
-                                      <input v-model="close_pump_reading[index].c_cash_collected"  id="c_rd"  :name="c_cc+index" type="number" required placeholder="Confirm Cash Collected" class="form-control" :sameas="close_pump_reading[index].cash_collected"/>
-                                      <field-messages :name="c_cc+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Cash Collected is required</div>
-                                          <div slot="sameas">Cash and Confirm  Collected should match</div>
-                                      </field-messages>
-                                    </validate>
+                                  <td>                                         
+                                      <input v-model="close_pump_reading[index].closing_reading" id="rd" :disabled="isDisabled" :name="prd+index" type="number"  placeholder="" class="form-control" />
+                                
+                                  </td>
+                                  <td>                                         
+                                      <input v-model="close_pump_reading[index].ppv" id="rd" :disabled="isDisabled" :name="ppv+index" type="number"  placeholder="" class="form-control" />
+                                
+                                  </td>
+                                  <td>                            
+                                      <input v-model="close_pump_reading[index].first_shift_cash_collected"  :disabled="isDisabled" id="cc" :name="fscc+index" type="number"  placeholder="" class="form-control" />
+                                   
+                                  </td>
+                                  <td>                            
+                                      <input v-model="close_pump_reading[index].cash_collected" id="cc" :disabled="isDisabled" :name="cc+index" type="number"  placeholder="" class="form-control" />
+                                   
                                   </td>
 
                   
@@ -207,7 +192,8 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Datepicker from 'vuejs-datepicker';
+  import Vue from 'vue';
   import datatable from "components/plugins/DataTable/DataTable.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
@@ -216,29 +202,31 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,
+      Datepicker,
     },
     data() {
       return {
         ajaxLoading: true,
+        format: 'yyyy-MM-d',
         loading: true,
         url: this.$store.state.host_url+'/product_price_change',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        isDisabled: true,
         available_companies: "",
         products: "",
+        selected_date: "",
         trd: "tank_reading",
-        c_trd: "confirm_tank_reading",
+        ppv: "price_per_vol",
         qr: "quantity_received",
-        c_qr: "confirm_quantity_received",
         prd: "pump_reading",
         rtt: "rtt",
-        c_rtt: "c_rtt",
-        c_prd: "confirm_pump_reading",
+        fsprd: "first_shift_pump_reading",
         cc:"cash_collected",
-        c_cc: "confirm_cash_collected",//0037116128
+        fscc: "first_shift_cash_collected",//0037116128
         station_pumps:[],
         station_tanks:[],
         final_stock_info: {},
@@ -256,9 +244,9 @@
       to_totalizer(){
         
       },
-     
+      
       show_company_stations(company_name){
-       store.commit("activateLoader", "start");   
+        store.commit("activateLoader", "start");   
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
@@ -270,7 +258,7 @@
           this.company_stations = response.data.data;
       })
       .catch(function(error) {
-         store.commit("activateLoader", "end");   
+        store.commit("activateLoader", "end");   
           store.commit("catch_errors", error);
         });
       },
@@ -279,66 +267,64 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          this.selected_date = new Date(this.selected_date).toDateString();
+           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params = 'station_id='+this.preset.station_id; 
+        let params = 'station_id='+this.preset.station_id+'&date='+this.selected_date; 
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(stock_response => {
-             store.commit("activateLoader", "end");
-              console.log(stock_response);
+              store.commit("activateLoader", "end");   
        if(stock_response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
        }else{
-         if(stock_response.data.data[0]['phy_shift_end_volume_reading'] != null){
-           store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Station already closed for the day', 'show_alert': true});
-                       this.show_setup_form= false;
-         }else{
            this.station_tanks = stock_response.data.data;
             this.close_tank_reading = [];
             this.station_tanks.forEach(element => {
-            this.close_tank_reading.push({'tank_code': element.tank_code,'tank_id': element.tank_id,
-            'opening_reading': element.phy_shift_start_volume_reading, 'tank_id' : element.tank_id,
-            'closing_reading': '', 'c_closing_reading': '','rtt':'','qty_recieved':'',
-            'c_rtt':'','c_qty_recieved':'', 'status': 'Closed'});
+            this.close_tank_reading.push({'tank_code': element.tank_code,
+            'tank_id': element.tank_id,'opening_reading': element.phy_shift_start_volume_reading, 
+            'tank_id' : element.tank_id,'closing_reading': element.phy_shift_end_volume_reading,
+            'created_at': element.created_at,
+            'rtt':element.return_to_tank,'qty_received':element.end_delivery, 'status': 'Modified'});
           });
            
           ///pumps//
-          let params = 'station_id='+this.preset.station_id; 
+        let params = 'station_id='+this.preset.station_id+'&date='+this.selected_date; 
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(pump_response => {
-                store.commit("activateLoader", "end");
+              store.commit("activateLoader", "end");   
             this.station_pumps = pump_response.data.data;
             this.close_pump_reading = [];
             this.station_pumps.forEach(element => {
-              if(element.shift_1_totalizer_reading != null){
-            this.close_pump_reading.push({'pump_number': element.pump_number,'pump_id': element.pump_id,
-            'nozzle_code': element.nozzle_code, 'opening_reading' : element.shift_1_totalizer_reading , 
-            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
-            }else{
-              this.close_pump_reading.push({'pump_number': element.pump_number,'pump_id': element.pump_id,
-            'nozzle_code': element.nozzle_code,'opening_reading' : element.open_shift_totalizer_reading  , 
-            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
-            }
+            
+            this.close_pump_reading.push({'pump_number': element.pump_number,
+            'pump_id': element.pump_id,'nozzle_code': element.nozzle_code, 
+            'first_shift_reading' : element.shift_1_totalizer_reading , 
+            'opening_reading': element.open_shift_totalizer_reading, 
+            'closing_reading': element.close_shift_totalizer_reading,
+            'cash_collected': element.cash_collected, 
+            'first_shift_cash_collected': element.shift_1_cash_collected, 
+            'ppv':element.ppv,
+            'created_at': element.created_at,
+            'status': 'Modified'});
+            
           });
-         // console.log(this.close_tank_reading);
   
         })
         .catch(function(error) {
-         store.commit("activateLoader", "end");   
+            store.commit("activateLoader", "end");   
           store.commit("catch_errors", error);
           });}
-       }
+          
           });
-
         }},
       show_available_companies(){
         store.commit("activateLoader", "start");
@@ -348,6 +334,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
+        store.commit("activateLoader", "end");   
         this.available_companies = response.data.data;
         ///get products///
         axios.get(this.$store.state.host_url+"/products",
@@ -362,53 +349,50 @@
        store.commit("activateLoader", "end");   
           store.commit("catch_errors", error);
       });
-      store.commit("activateLoader", "end");
       }
       ,
-      update_price_panel(tabledata_id){
-        console.log(tabledata_id);
-      },
-      onSubmit() {
+        onSubmit() {
         if (this.formstate.$invalid) {
           return;
-        } else {store.commit("activateLoader", "start");
+        } else {
+          store.commit("activateLoader", "start");
           ////stock//
           this.final_stock_info.station_id= this.preset.station_id;
           this.final_stock_info.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.final_stock_info.created_by = user_details.id;
+          this.final_stock_info.last_modified_by = user_details.id;
           this.final_stock_info.readings = this.close_tank_reading;
 
           ////pumps///
           this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
-          this.final_pump_info.created_by = user_details.id;
+          this.final_pump_info.last_modified_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-
+          console.log(this.final_stock_info);
+          console.log(this.final_pump_info);
           axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {                         store.commit("activateLoader", "end");
+          }).then( response => {                         
+              store.commit("activateLoader", "end");
               axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-            }).then( response => {                         
+            }).then( response => {                        
               store.commit("activateLoader", "end");
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings updated', 'show_alert': true});
                     }
-                  }).catch(error => { store.commit("activateLoader", "end");   store.commit("catch_errors", error); 
-                  if(error.response.status == 401){
-                  this.$router.push('/login?message='+error.response.data.error);
-                }
-                console.log(error);
+                  }).catch(error => { 
+                  store.commit("activateLoader", "end");   
+                  store.commit("catch_errors", error);
               });
         }).catch(error => { 
-          store.commit("activateLoader", "end");   
+         store.commit("activateLoader", "end");   
           store.commit("catch_errors", error);
         })}
       }

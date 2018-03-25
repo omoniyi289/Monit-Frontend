@@ -10,17 +10,15 @@
                     </div>
                 </div> 
                 <div >
-                    <div v-if="show_message" class="center alert alert-info">
-                        {{ this.message }}<br>
+                    <div v-if="error_show_message" class="center alert alert-danger">
+                        Invalid Code Supplied<br>
                       
                     </div>
-                     <div v-if="passed" class="col-sm-12 text-center">
-                            <div class="form-group">
-                                <router-link tag="a" to="/login" class="btn btn-success btn-block">
-                                Verification Successful. Click to Login
-                                </router-link>
-                            </div>
+                    <div v-if="success_show_message" class="center alert alert-warning">
+                        Fuel Request {{ this.message }}<br> Thanks
+                      
                     </div>
+                     
                 </div>
             
             </div>
@@ -40,37 +38,47 @@ export default {
     data() {
         return {
             formstate: {},
-            url: this.$store.state.host_url+'/auth',
+            url: this.$store.state.host_url+'/fromMail_fuel-supply',
             user: {
                 email: '',
                 password: '',
             },
             passed: '',
-            show_message: false,
+            error_show_message: false,
+            success_show_message: false,
             message: '',
             localStorge: {},
             login_submit: 'LOGIN',
+            fuel_supply: {},
         }
     },
    
     mounted: function() {
-            console.log(this.$route.query);
-            let id= this.$route.query.meta;
-             axios.get(this.$store.state.host_url+"/users/verify/"+id,  {
+    
+             this.fuel_supply.request_code= this.$route.query.request_code;
+             this.fuel_supply.status= this.$route.query.status;
+             this.fuel_supply.last_modified_by= this.$route.query.user_id;
+            let fuel_supply = {
+                details: this.fuel_supply
+            }
+           // console.log(fuel_supply);
+             axios.post(this.url, fuel_supply,  {
                 headers: {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
-            
-            if(response.data.message == "passed"){
-                this.passed = true;
-            }else{
-                this.show_message = true;
-            this.message = response.data.message;
+            console.log(response.data.data);
+          if(response.data.data == 0){
+                this.error_show_message = true;
+            this.message = 'Invalid Code';
+            }else if(response.data.data == 1){
+                this.success_show_message = true;
+                this.message =this.fuel_supply.status;
             }
             
             //console.log(response);
-        }).catch(error => { store.commit("activateLoader", "end");   store.commit("catch_errors", error);       
+        }).catch(error => { store.commit("activateLoader", "end");  
+         store.commit("catch_errors", error);       
             this.show_message = true;
             this.message = error.response.data.message;
             console.log(error.message);

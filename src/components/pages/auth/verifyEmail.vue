@@ -5,17 +5,18 @@
     </section>
 </template>
 <script>
+    import store from 'src/store/store.js';
     export default {
         data(){
             return {
-                url : 'http://127.0.0.1:8000/api/v1/users/verify/',
                 message: '',
                 button_msg : '',
             }
         },
         methods: {
             do_verify(){
-                axios.get(this.url +  this.$route.params.token).then(response => {
+                let host_url = this.$store.state.host_url;
+                axios.get(host_url+'/users/vefify/' +  this.$route.params.token).then(response => {
                     let verify_res = response.data;
                     if (verify_res.status === true){
                         this.message = "Thanks for taking your time to verify your email," +

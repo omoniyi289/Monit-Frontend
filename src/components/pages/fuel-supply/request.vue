@@ -4,7 +4,7 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="show_station_pricing">
+            <vue-form :state="formstate2" @submit.prevent="show_station_fuel_supply">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
@@ -48,26 +48,28 @@
 
                 <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" value="Show Pricing" class="btn btn-success" />
+                    <input type="submit" value="Show Form" class="btn btn-success" />
                   </div>
                 </div>
               </div>
             </vue-form>
           </div>
-
-          <div class="col-sm-6">
-            <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
+          <div class="col-sm-4" v-show="!show_setup_form">
+          </div>
+          <div class="col-sm-4" v-show="show_setup_form">
+            <b-card header="Request for Fuel" header-tag="h5" class="bg-info-card">
+            <vue-form :state="formstate" @submit.prevent="onSubmit" >
               <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="product">Product</label>
-                      <select id="product" name="product" size="1" class="form-control" v-model="pricing.product_id" required checkbox>
+                      <select id="product" name="product" size="1" class="form-control" v-model="fuel_supply.product_id" required checkbox>
 
                         <option
                           v-for="option in products"
                           v-bind:value="option.id"
-                          :selected="option.code == pricing.product_id" >{{ option.code }}
+                          :selected="option.id == fuel_supply.product_id" >{{ option.name }}
                         </option>
 
                       </select>
@@ -80,29 +82,30 @@
 
                    
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="requested_price_tag"> Price</label>
-                      <input v-model="pricing.requested_price_tag" name="requested_price_tag" type="text" required autofocus placeholder="Price Tag" class="form-control" id="serial_number"/>
-                      <field-messages name="requested_price_tag" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Price is a required field</div>
+                      <label for="quantity_requested"> Request Quantity</label>
+                      <input v-model="fuel_supply.quantity_requested" name="quantity_requested" type="text" required autofocus placeholder="Request Quantity" class="form-control" id="serial_number"/>
+                      <field-messages name="quantity_requested" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Request Quantity is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" :value=pricing.submit_mode class="btn btn-success" />
+                    <input type="submit" value="Request Fuel" class="btn btn-success" />
                   </div>
                 </div>
               </div>
             </vue-form>
+            </b-card>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <div class="table-responsive">
-              <datatable title="Product Prices" :rows="tableData" :columns="columndata"></datatable>
+              <datatable title="Fuel Requests"  :rows="tableData" :columns="columndata"></datatable>
             </div>
           </div>
         </div>
@@ -125,24 +128,42 @@
     data() {
       return {columndata: [
          {
+          label: 'Date Requested',
+          field: 'created_at',
+          numeric: false,
+          html: false,
+        },
+         {
+          label: 'Request Code',
+          field: 'request_code',
+          numeric: false,
+          html: false,
+        },
+        {
           label: 'Product',
           field: 'product.code',
           numeric: false,
           html: false,
         }, {
-          label: 'Current Price',
-          field: 'new_price_tag',
+          
+          label: 'Quantity Requested',
+          field: 'quantity_requested',
           numeric: false,
           html: false,
         },{
-          label: 'Actions',
-          field: 'action',
+          label: 'Status',
+          field: 'status',
+          numeric: false,
+          html: true,
+        },{
+          label: 'Last Updated On',
+          field: 'updated_at',
           numeric: false,
           html: true,
         }],
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/product_price_change',
+        url: this.$store.state.host_url+'/fuel-supply',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -156,13 +177,13 @@
           company_id: "",
           station_id: ""
         },
-        pricing : {
-          new_price_tag: "",
+        fuel_supply : {
+          quantity_requested: "",
           station_id: "",
           company_id: "",
-          product_id:"",
-          updated_by: "",
-          requested_price_tag:"",
+          product_id:0,
+          created_by: "",
+          last_modified_by:"",
           submit_mode: "Add Price"
       
         }
@@ -189,26 +210,40 @@
           store.commit("catch_errors", error); 
         });
       },
-      show_station_pricing(){
+      show_station_fuel_supply(){
         if (this.formstate2.$invalid) {
           return;
         } else {
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          let station_id= this.preset.station_id;
-          console.log(station_id);
-          axios.get(this.$store.state.host_url+"/product_price/by_station/"+station_id,
+          let params = 'station_id='+this.preset.station_id; 
+          axios.get(this.$store.state.host_url+"/fuel-supply/by_station?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");   
-            this.tableData = response.data.data;
-
+            
+            console.log(response.data.data);
+            this.tableData = response.data.data.reverse();
+            console.log(this.tableData);
           this.tableData.forEach((item, index) => {
             this.$set(item, "action", "<button class='btn btn-info' v-on:click="+this.update_price_panel(item.id)+">Edit</button>");
         });
+         this.tableData.forEach((element, index) => {
+          
+         if(element.status == "Pending"){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Pending</span>");
+          }else if(element.status == "Approved"){
+            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Approved</span>");
+          }else if(element.status == "Disapproved"){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
+          }else{
+            this.$set(element, "status", "<span class='btn btn-primary btn-sm' >"+element.status+"</span>");
+          }
+        });
+       // this.tableData.reverse();
           // this.loader
         })
         .catch(function(error) {
@@ -250,16 +285,15 @@
         } else {
           store.commit("activateLoader", "start");
           //include station and company_id
-          this.pricing.station_id= this.preset.station_id;
-          this.pricing.company_id= this.preset.company_id;
+          this.fuel_supply.station_id= this.preset.station_id;
+          this.fuel_supply.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.pricing.curr = user_details.id;
-          this.pricing.updated_by = user_details.id;
-           let price_detail = {
-            product_change_log: this.pricing
+          this.fuel_supply.status= "Pending";
+          this.fuel_supply.created_by = user_details.id;
+           let fuel_supply_detail = {
+            fuel_request: this.fuel_supply
           };
-          console.log(JSON.stringify(price_detail));
-          axios.post(this.url, price_detail, {
+          axios.post(this.url, fuel_supply_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
@@ -268,27 +302,36 @@
             console.log(response.data);
             let station_response = response.data;
           if (station_response.status === true) {
-            if(this.pricing.submit_mode == 'Add Price'){
+      
               for( var i = 0, len = this.products.length; i < len; i++ ) {
-                  if( this.products[i]['id'] === this.pricing.product_id ) {
+                  if( this.products[i]['id'] === this.fuel_supply.product_id ) {
                     
                       this.added_product_name = this.products[i]['code'];
                       break;
                   }
               }
-              console.log(this.added_product_name);
-              this.tableData.push({'product.code': this.added_product_name, 'new_price_tag': this.pricing.requested_price_tag});
-              this.tableData.forEach((item, index) => {
-              this.$set(item, "action", "<a class='btn btn-info'>Edit</a>");
-              });
+              
+              this.tableData.push({'product':{'code': this.added_product_name}, 
+              'request_code': station_response.data.request_code,
+              'quantity_requested': station_response.data.quantity_requested,
+               'created_at':station_response.data.created_at ,
+               'updated_at':station_response.data.updated_at
+              , 'status': station_response.data.status});
+         /*      this.tableData.forEach((element, index) => {
+        
+         if(element.status == "Pending"){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Pending</span>");
+          }else if(element.status == "Approved"){
+            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Pending</span>");
+          }else if(element.status == "Disapproved"){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
+          }else{
+            this.$set(element, "status", "<span class='btn btn-primary btn-sm' >"+element.status+"</span>");
+          }
+        });*/
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Prduct Price Added Successfully', 'show_alert': true});
-            }
-            
-           //this.tableData.push({'product.name': this.pricing.name, 'new_price_tag': this.pricing.new_price_tag});
-           //this.tableData.forEach((item, index) => {
-         //  this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
-         // });
+                       'alert_message': 'Request Added Successfully', 'show_alert': true});
+          console.log(this.tableData);
           }
         }).catch(error => {
           store.commit("activateLoader", "end");   

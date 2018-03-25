@@ -348,7 +348,7 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import task from "components/widgets/task_component/task.vue";
 import chat from "components/widgets/chat_component/chat.vue";
 import weather from "components/widgets/weather/weather.vue";

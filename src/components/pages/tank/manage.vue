@@ -66,10 +66,11 @@
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import store from 'src/store/store.js';
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
@@ -78,11 +79,6 @@
     },
     data() {
       return {columndata: [{
-          label: 'ID',
-          field: 'id',
-          numeric: true,
-          html: false,
-        }, {
           label: 'Tank Code',
           field: 'code',
           numeric: false,
@@ -93,8 +89,8 @@
           numeric: false,
           html: false,
         }, {
-          label: 'Product',
-          field: 'product.code',
+          label: 'Dead Stock',
+          field: 'deadstock',
           numeric: true,
           html: false,
         }, {
@@ -110,7 +106,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/tanks',
+        url: this.$store.state.host_url+'/tanks',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -145,17 +141,11 @@
       }
     },
     methods: {
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
       show_company_stations(company_name){
 
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
-        axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -174,14 +164,16 @@
         if (this.formstate2.$invalid) {
           return;
         } else {
+          store.commit("activateLoader", "start");
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
           console.log(station_id);
-          axios.get("http://127.0.0.1:8000/api/v1/tanks/by_station/"+station_id,
+          axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
+                store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
           console.log(response);
           this.tableData.forEach((item, index) => {
@@ -190,15 +182,13 @@
           // this.loader
         })
         .catch(function(error) {
-            console.log(error);
-            if(error.response.status == 401){
-              this.$router.push('/login?message='+error.response.data.error);
-            }
+           store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
           });
         }},
       show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -206,7 +196,7 @@
           console.log(response.data.data);
         this.available_companies = response.data.data;
         ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -216,17 +206,15 @@
       });
       })
       .catch(error => {
-          if(error.response.status == 401){
-          this.$router.push('/login?message='+error.response.data.error);
-        }
-        console.log(error.response.status);
+       store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
       });
       }
       ,
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
-        } else {
+        } else {store.commit("activateLoader", "start");
           //include station and company_id
           this.tank.station_id= this.preset.station_id;
           this.tank.company_id= this.preset.company_id;
@@ -239,21 +227,20 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             console.log(response.data);
           }
-        }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
+        }).catch(error => { 
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
         })}
       }
     },
     mounted: function() {
-      this.check_login_details();
+     store.commit("check_login_details");
       this.show_available_companies();
     },
     destroyed: function() {

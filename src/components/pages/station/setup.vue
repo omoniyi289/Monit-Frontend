@@ -54,14 +54,16 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="name_gen">State</label>
-                                            <select id="name_gen" name="state" size="1" class="form-control" v-model="station.state" required checkbox>
+                                            <label for="state">State</label>
+                                            <select id="state" name="state" class="form-control" v-model="station.state" required autofocus >
                                                 <option value="0" selected disabled>
                                                     Please select
                                                 </option>
-                                                <option value="Osun">Osun</option>
-                                                <option value="Lagos">Lagos</option>
-                                                <option value="Imo">Imo</option>
+                                                <option
+                                                    v-for="option in available_states"
+                                                    v-bind:value="option.states.name" >{{ option.states.name }}
+                                                </option>
+                                                
                                             </select>
                                             <field-messages name="state" show="$invalid && $submitted" class="text-danger">
                                                 <div slot="checkbox">State is required</div>
@@ -223,10 +225,11 @@
     </div>
 </template>
 <script>
-    import Vue from 'vue'
+    import Vue from 'vue'; import store from 'src/store/store.js';
     import datatable from "components/plugins/DataTable/DataTable.vue";
-    import VueForm from "vue-form";
+    import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
     import options from "src/validations/validations.js";
+    import api_states from "src/assets/json/states.json";
     Vue.use(VueForm, options);
     export default {
         name: "formfeatures",
@@ -267,7 +270,7 @@
                 }],
                 ajaxLoading: true,
                 loading: true,
-                url: 'http://127.0.0.1:8000/api/v1/stations',
+                url: this.$store.state.host_url+'/stations',
                 formstate: {},
                 formstate2: {},
                 show_setup_form : false,
@@ -295,25 +298,20 @@
             }
         },
         methods: {
-            check_login_details(){
-                let user_details = JSON.parse(localStorage.getItem('user_details'));
-                if (user_details == null || user_details == undefined) {
-                    this.$router.push('/login');
-                }
-            },
             show_company_stations(){
 
                 if (this.formstate2.$invalid) {
                     return;
-                } else {
+                } else {store.commit("activateLoader", "start");
                     this.show_setup_form= true;
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
                     let company_id= this.preset.company_id;
-                    axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_id,
+                    axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
                         {
                             headers : {
                                 "Authorization" : "Bearer " + user_details.token
                             }}).then(response => {
+                                store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
                     console.log(response.data.data);
                     this.tableData.forEach((item, index) => {
@@ -322,15 +320,13 @@
                     // this.loader
                 })
                 .catch(function(error) {
-
-                        if(error.response.status == 401){
-                            this.$router.push('/login?message='+error.response.data.error);
-                        }
-                    });
+                    store.commit("activateLoader", "end");   
+                    store.commit("catch_errors", error); 
+                });
                 }},
             show_available_companies(){
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
-                axios.get("http://127.0.0.1:8000/api/v1/companies",
+                axios.get(this.$store.state.host_url+"/companies",
                     {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
@@ -349,7 +345,7 @@
             onSubmit() {
                 if (this.formstate.$invalid) {
                     return;
-                } else {
+                } else {store.commit("activateLoader", "start");
                     this.station.company_id = this.preset.company_id;
                     let station_detail = {
                         station: this.station
@@ -360,7 +356,8 @@
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
                         }
-                    }).then( response => {
+                    }).then( response => {                         
+                        store.commit("activateLoader", "end");
                         let station_response = response.data;
                             if (station_response.status === true) {
                                 console.log(response.data);
@@ -368,18 +365,20 @@
                               this.tableData.forEach((item, index) => {
                                 this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
                             });
+                            store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Company Registered Successfully', 'show_alert': true});
                             }
-                }).catch(error => {
-                        if(error.response.status == 401){
-                        this.$router.push('/login?message='+error.response.data.error);
-                         }
-                        console.log(error);
+                }).catch(error => { 
+                    store.commit("activateLoader", "end");   
+                    store.commit("catch_errors", error); 
+                       
                     })}
             }
         },
         mounted: function() {
-            this.check_login_details();
+            store.commit("check_login_details");
             this.show_available_companies();
+            this.available_states = api_states;
         },
         destroyed: function() {
 

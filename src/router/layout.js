@@ -87,13 +87,13 @@ const layout = [{
   path: '/configuration/pump/setup',
     component: resolve => require(['pages/pump/setup'], resolve),
     meta: {
-    title: "Tank Setup",
+    title: "Pump Setup",
   }
 }, {
   path: '/configuration/pump/manage',
     component: resolve => require(['pages/pump/manage'], resolve),
     meta: {
-    title: "Manage Tanks",
+    title: "Manage Pumps",
   }
 }, {
   path: '/configuration/pump-tank/manage',
@@ -102,6 +102,24 @@ const layout = [{
     title: "P to T Mapping",
   }
 }, {
+    path: '/fuel-supply/request',
+      component: resolve => require(['pages/fuel-supply/request'], resolve),
+      meta: {
+      title: "Request Fuel",
+    }
+  }, {
+    path: '/fuel-supply/manage',
+      component: resolve => require(['pages/fuel-supply/manage'], resolve),
+      meta: {
+      title: "Manage Fuel Requests",
+    }
+  }, {
+    path: '/fuel-supply/receive',
+      component: resolve => require(['pages/fuel-supply/receive'], resolve),
+      meta: {
+      title: "Manage Received Stocks",
+    }
+  }, {
   path: '/configuration/pump/edit',
     component: resolve => require(['pages/pump/edit'], resolve),
     meta: {
@@ -124,6 +142,18 @@ const layout = [{
       component: resolve => require(['pages/ss-management/close-station'], resolve),
       meta: {
       title: "Open Station",
+}
+}, {
+    path: '/ss-management/modify',
+      component: resolve => require(['pages/ss-management/modify'], resolve),
+      meta: {
+      title: "Modify Recording",
+}
+}, {
+    path: '/exp-management/manage',
+      component: resolve => require(['pages/exp-management/manage'], resolve),
+      meta: {
+      title: "Manage Expenses",
 }
 },{
     path: '/product_details',

@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-lg-12">
-            <b-card header=""  header-tag="h4" class="bg-primary-card">
+            <b-card header="" header-tag="h4" class="bg-primary-card">
                 <div class="row">
                     <div class="col-md-3">
                     </div>
@@ -48,16 +48,17 @@
                                         <validate tag="div">
                                             <label for="state">State</label>
                                             <select id="state" name="state" class="form-control" v-model="company.state" required autofocus >
-                                            
+                                                <option value="0" selected disabled>
+                                                    Please select
+                                                </option>
                                                 <option
                                                     v-for="option in available_states"
-                                                    v-bind:value="option.states.name" >
-                                                    {{ option.states.name }}
+                                                    v-bind:value="option.states.name" >{{ option.states.name }}
                                                 </option>
                                                 
                                             </select>
                                             <field-messages name="state" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">State is required</div>
+                                                <div slot="checkbox">State is required</div>
                                             </field-messages>
                                         </validate>
                                     </div>
@@ -87,7 +88,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group float-right">
-                                        <input type="submit" :value="company.submit_mode" class="btn btn-success" />
+                                        <input type="submit" value="Submit" class="btn btn-success" />
                                     </div>
                                 </div>
                             </div>
@@ -96,15 +97,38 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-sm-12">
-                        <div class="table-responsive">
-                            <datatable title="Registered Companies"  :rows="tableData" :columns="columndata">
-                                 <template slot="actions" scope="props">
-                                <div >
-                                <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
-                                <i class='fa fa-trash text-danger' @click="onAction('deete', props.rowData, props.rowIndex)"></i>
+                        <div class="ui container">
+                            <div class="vuetable-pagination ui basic segment grid">
+                            <vuetable-pagination-info ref="paginationInfoTop"
+                            ></vuetable-pagination-info>
+                            <vuetable-pagination ref="paginationTop"
+                                @vuetable-pagination:change-page="onChangePage"
+                            ></vuetable-pagination>
+                            </div>
+                            <vuetable ref="vuetable"
+                            api-url="http://localhost:8000/api/v1/companies"
+                            :fields="fields"
+                            pagination-path=""
+                            :per-page="20"
+                            :multi-sort="true"
+                            :sort-order="sortOrder"
+                            @vuetable:pagination-data="onPaginationData"
+                            >
+                            <template slot="actions" scope="props">
+                                <div class="custom-actions">
+                                 <button class="btn btn-info btn-sm" @click="onAction('edit-item', props.rowData, props.rowIndex)">EDIT</button>
+                                 <button class="btn btn-danger btn-sm" @click="onAction('delete-item', props.rowData, props.rowIndex)">DEL</button>
+                              
                                 </div>
                             </template>
-                            </datatable>
+                            </vuetable>
+                            <div class="vuetable-pagination ui basic segment grid">
+                            <vuetable-pagination-info ref="paginationInfo"
+                            ></vuetable-pagination-info>
+                            <vuetable-pagination ref="pagination"
+                                @vuetable-pagination:change-page="onChangePage"
+                            ></vuetable-pagination>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,51 +140,104 @@
     import Vue from 'vue';
     import store from 'src/store/store.js';
     import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
-    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import vuetable from "vuetable-2";
     import options from "src/validations/validations.js";
+     import CustomActions from 'components/plugins/DataTable/CustomActions.vue';
+     import accounting from 'accounting'
+    import moment from 'moment'
+    import Vuetable from 'vuetable-2/src/components/Vuetable'
+    import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
+    import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+
+  Vue.component('custom-actions', CustomActions);
     Vue.use(VueForm, options);
     import api_states from "src/assets/json/states.json";
     export default {
         name: "formfeatures",
-         components: {
-        datatable,
-        },
-         props:['data'],
+        components: {
+    Vuetable,
+    VuetablePagination,
+    VuetablePaginationInfo
+  },
         data() {
             return {
-        
-                columndata: [{
-                label: 'Name',
-                field: 'name',
-                numeric: false,
-                html: false,
-                }
-                , {
-                label: 'Address',
-                field: 'address',
-                numeric: false,
-                html: false,
-                }, {
-                label: 'Email',
-                field: 'email',
-                numeric: false,
-                html: false,
-                }, {
-                label: 'Registered On',
-                field: 'created_at',
-                numeric: true,
-                html: false,
-                }
-                ,{
-                field: '__slot:actions',
-                label: 'Actions',
-                }
-               ],
+                fields: [
+        {
+          name: '__handle',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        },
+        {
+          name: '__sequence',
+          title: '#',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned'
+        },
+        {
+          name: '__checkbox',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned'
+        },
+        {
+          name: 'name',
+          sortField: 'name',
+        }, 
+        {
+          name: 'email',
+          sortField: 'email'
+        },
+        {
+          name: 'birthdate',
+          sortField: 'birthdate',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned',
+          callback: 'formatDate|DD-MM-YYYY'
+        },
+        {
+          name: 'nickname',
+          sortField: 'nickname',
+          callback: 'allcap'
+        },
+        {
+          name: 'gender',
+          sortField: 'gender',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned',
+          callback: 'genderLabel'
+        },
+        {
+          name: 'salary',
+          sortField: 'salary',
+          titleClass: 'center aligned',
+          dataClass: 'right aligned',
+          callback: 'formatNumber'
+        },
+        // {
+        //   name: '__component:custom-actions',
+        //   title: 'Actions',
+        //   titleClass: 'center aligned',
+        //   dataClass: 'center aligned',
+        // },
+        {
+          name: '__slot:actions',
+          title: 'Slot Actions',
+          titleClass: 'center aligned',
+          dataClass: 'center aligned',
+        }
+      ],
+      sortOrder: [
+        {
+          field: 'email',
+          sortField: 'email',
+          direction: 'asc'
+        }
+      ],
                 tableData: [],
                 ajaxLoading: true,
                 loading: true,
                 url: this.$store.state.host_url+'/companies',
                 formstate: {},
+             
                 company: {
                     name: "",
                     email: "",
@@ -168,12 +245,41 @@
                     address: "",
                     city: "",
                     registration_number: "",
-                    submit_mode: "CREATE"
                 },
                 available_states: "",
+                
+
             }
         },
         methods: {
+             allcap (value) {
+      return value.toUpperCase()
+    },
+    genderLabel (value) {
+      return value === 'M'
+        ? '<span class="ui teal label"><i class="large man icon"></i>Male</span>'
+        : '<span class="ui pink label"><i class="large woman icon"></i>Female</span>'
+    },
+    formatNumber (value) {
+      return accounting.formatNumber(value, 2)
+    },
+    formatDate (value, fmt = 'D MMM YYYY') {
+      return (value == null)
+        ? ''
+        : moment(value, 'YYYY-MM-DD').format(fmt)
+    },
+    onPaginationData (paginationData) {
+      this.$refs.paginationTop.setPaginationData(paginationData)
+      this.$refs.paginationInfoTop.setPaginationData(paginationData)
+      this.$refs.pagination.setPaginationData(paginationData)
+      this.$refs.paginationInfo.setPaginationData(paginationData)
+    },
+    onChangePage (page) {
+      this.$refs.vuetable.changePage(page)
+    },
+    onAction (action, data, index) {
+      console.log('slot action: ' + action, data.name, index)
+    },
            show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         axios.get(this.$store.state.host_url+"/companies",
@@ -183,7 +289,6 @@
             }}).then(response => {
           console.log(response.data.data);
         this.tableData = response.data.data;
-        
         ///get products///
         axios.get(this.$store.state.host_url+"/products",
           {
@@ -200,54 +305,7 @@
       });
       }
       ,
-    onAction (action, data, index) {
-      this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data.name, index);
-      if(action == 'edit'){
-        this.company = data;
-        this.company.submit_mode="UPDATE"
-      }else if(action =='delete'){
-          
-      }else{
-          this.$modal.show('dialog', {
-            title: 'Alert!',
-            text: 'Click Okay to confirm DELETE',
-            buttons: [
-                {
-                title: 'OKAY',       // Button title
-                default: true,    // Will be triggered by default if 'Enter' pressed.
-                handler: () => {this.deleteItem(data)} // Button click handler
-                },
-                {
-                title: 'CLOSE'
-                }
-            ]
-            });
-      }
-    },
-        deleteItem(data){
-            store.commit("activateLoader", "start");
-            this.$modal.hide('dialog');
-            let user_details = JSON.parse(localStorage.getItem('user_details'));
-          axios.delete(this.url+'/'+data.id, {
-                        headers : {
-                            "Authorization" : "Bearer " + user_details.token
-                        }
-                    }).then( response => {                         
-                        store.commit("activateLoader", "end");        
-                        let company_response = response.data;
-                        if (company_response.status === true) {
-                            this.tableData.splice(this.tableData.indexOf(data), 1);
-                            this.$alert.success({duration:3000,forceRender:'',
-                        message:'Company Deleted Successfully',transition:''});
-                        }
-                        }).catch(error => { 
-                            store.commit("activateLoader", "end");   
-                            store.commit("catch_errors", error); 
-                });
-        },
             onSubmit() {
-                this.$SmoothScroll(document.getElementById("content-header"));
                 if (this.formstate.$invalid) {
                     return;
                 } else {store.commit("activateLoader", "start");
@@ -256,8 +314,7 @@
                         company: this.company
                     };
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
-                    //console.log(JSON.stringify(company_detail));
-                    if(this.company.submit_mode == 'CREATE'){
+                    console.log(JSON.stringify(company_detail));
                     axios.post(this.url, company_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
@@ -267,29 +324,11 @@
         
                         let company_response = response.data;
                         if (company_response.status === true) {
-                            this.tableData.push(company_response.data);
+                            this.tableData.push(response.data);
                             localStorage.setItem('company_details', response.data);
-                            console.log(response.data.data);
-                            this.$alert.success({duration:3000,forceRender:'',
-                        message:'Company Registered Successfully',transition:''});
-                        }
-                        }).catch(error => { 
-                            store.commit("activateLoader", "end");   
-                            store.commit("catch_errors", error); 
-                });}else if(this.company.submit_mode == 'UPDATE'){
-                    axios.patch(this.url+'/'+this.company.id, company_detail, {
-                        headers : {
-                            "Authorization" : "Bearer " + user_details.token
-                        }
-                    }).then( response => {                         
-                        store.commit("activateLoader", "end");        
-        
-                        let company_response = response.data;
-                        if (company_response.status === true) {
-                           // this.tableData.push(response.data);
-                           // this.tableData.
-                        this.$alert.success({duration:3000,forceRender:'',
-                        message:'Company Updated Successfully',transition:''});
+                            //console.log(response.data);
+                            store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Company Registered Successfully', 'show_alert': true});
                         }
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   
@@ -298,7 +337,6 @@
                     
                 }
             }
-        }, 
         },
         mounted: function() {          
             store.commit("check_login_details");

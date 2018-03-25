@@ -53,8 +53,8 @@
                 </div>
               </div>
             </vue-form>
-
-
+          </div>
+          <div class="col-sm-6">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               <div class="row">
 
@@ -73,10 +73,10 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="nozzle_code"> Nozzle Code</label>
-                      <input v-model="pump.nozzle_code" name="nozzle_code" type="text" required autofocus placeholder="Nozzle Code" class="form-control" id="nozzle_code"/>
+                      <label for="nozzle_code"> Dispenser</label>
+                      <input v-model="pump.nozzle_code" name="nozzle_code" type="text" required autofocus placeholder="Dispenser" class="form-control" id="nozzle_code"/>
                       <field-messages name="nozzle_code" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Nozzle Code is a required field</div>
+                        <div slot="required">Dispenser is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
@@ -154,7 +154,7 @@
               </div>
             </vue-form>
           </div>
-          <div class="col-sm-12">
+          <div class="col-sm-6">
             <div class="table-responsive">
               <datatable title="Registered Pumps" :rows="tableData" :columns="columndata"></datatable>
             </div>
@@ -167,8 +167,9 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import store from 'src/store/store.js';
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
@@ -177,13 +178,14 @@
     },
     data() {
       return {columndata: [{
-          label: 'ID',
-          field: 'id',
-          numeric: true,
-          html: false,
-        }, {
           label: 'Pump Code',
           field: 'number',
+          numeric: false,
+          html: false,
+        }
+        , {
+          label: 'Dispenser',
+          field: 'nozzle_code',
           numeric: false,
           html: false,
         }, {
@@ -197,11 +199,6 @@
           numeric: true,
           html: false,
         }, {
-          label: "Serial Number",
-          field: 'serial_number',
-          numeric: false,
-          html: false,
-        }, {
           label: 'Actions',
           field: 'action',
           numeric: false,
@@ -209,7 +206,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/pumps',
+        url: this.$store.state.host_url+'/pumps',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -235,44 +232,39 @@
       }
     },
     methods: {
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
+     
       show_company_stations(company_name){
-
+        store.commit("activateLoader", "start");   
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
-        axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-          this.company_stations = response.data.data;
-        console.log(response.data.data);
-
+              store.commit("activateLoader", "end");   
+             this.company_stations = response.data.data;
       })
       .catch(function(error) {
-          if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
+          store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
         });
       },
       show_station_pumps(){
         if (this.formstate2.$invalid) {
           return;
         } else {
+          store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
           console.log(station_id);
-          axios.get("http://127.0.0.1:8000/api/v1/pumps/by_station/"+station_id,
+          axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
+            store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
           console.log(response);
           this.tableData.forEach((item, index) => {
@@ -281,15 +273,13 @@
           // this.loader
         })
         .catch(function(error) {
-            console.log(error);
-            if(error.response.status == 401){
-              this.$router.push('/login?message='+error.response.data.error);
-            }
+            store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
           });
         }},
       show_available_companies(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get("http://127.0.0.1:8000/api/v1/companies",
+        axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -297,7 +287,7 @@
           console.log(response.data.data);
         this.available_companies = response.data.data;
         ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -307,17 +297,15 @@
       });
       })
       .catch(error => {
-          if(error.response.status == 401){
-          this.$router.push('/login?message='+error.response.data.error);
-        }
-        console.log(error.response.status);
+          store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
       });
       }
       ,
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
-        } else {
+        } else {store.commit("activateLoader", "start");
           //include station and company_id
           this.pump.station_id= this.preset.station_id;
           this.pump.company_id= this.preset.company_id;
@@ -330,7 +318,8 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             //console.log(response.data);
@@ -338,17 +327,18 @@
             this.tableData.forEach((item, index) => {
               this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
           });
+          store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Pump Added Successfully', 'show_alert': true});
           }
-        }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
+        }).catch(error => { 
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+           
         })}
       }
     },
     mounted: function() {
-      this.check_login_details();
+      store.commit("check_login_details");
       this.show_available_companies();
     },
     destroyed: function() {

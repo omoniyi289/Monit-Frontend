@@ -80,8 +80,9 @@
 </template>
 <script>
 import Vue from 'vue'
-import VueForm from "vue-form";
+import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
+import store from 'src/store/store.js';
 //unset user data
 localStorage.setItem('user_details', null);
 localStorage.setItem('company_details', null);
@@ -91,7 +92,6 @@ export default {
     data() {
         return {
             formstate: {},
-            url: 'http://127.0.0.1:8000/api/v1/auth',
             user: {
                 email: '',
                 password: '',
@@ -114,7 +114,8 @@ export default {
             } else {
             console.log(JSON.stringify(this.user));
             this.login_submit = "Logging In...";
-            axios.post(this.url, JSON.stringify(this.user), {
+            let host_url = this.$store.state.host_url;
+            axios.post(host_url+'/auth', JSON.stringify(this.user), {
                 headers: {
                     'Content-type': 'application/json'
                          }

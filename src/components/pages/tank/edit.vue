@@ -182,9 +182,9 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
-    import store from 'src/store/store.js';
+  import store from 'src/store/store.js';
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
@@ -225,7 +225,7 @@
         }],
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/tanks',
+        url: this.$store.state.host_url+'/tanks',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -261,26 +261,20 @@
       }
     },
     methods: {
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
-
       show_edit_form() {
+         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let id= this.$route.query.tank;
-        axios.get("http://127.0.0.1:8000/api/v1/tanks/"+ id,
+        axios.get(this.$store.state.host_url+"/tanks/"+ id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-
-          this.tank= response.data.data;
-          console.log(this.tank);
+          store.commit("activateLoader", "end"); 
+          this.tank= response.data.data[0];
+          console.log(response);
           ///get products///
-          axios.get("http://127.0.0.1:8000/api/v1/products",
+          axios.get(this.$store.state.host_url+"/products",
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
@@ -289,41 +283,40 @@
         });
       })
       .catch(function(error) {
-          console.log(error);
+         store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
         });
       },
       onSubmit() {
           if (this.formstate.$invalid) {
             return;
           } else {
+            store.commit("activateLoader", "start");
             let tank_detail = {
               tank: this.tank
             };
             let user_details = JSON.parse(localStorage.getItem('user_details'));
 
             let id= this.$route.query.tank;
-            axios.patch("http://127.0.0.1:8000/api/v1/tanks/"+id, tank_detail, {
+            axios.patch(this.$store.state.host_url+"/tanks/"+id, tank_detail, {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }
-            }).then( response => {
+            }).then( response => {                         
+              store.commit("activateLoader", "end");
               let station_response = response.data;
             if (station_response.status === true) {
-              console.log(response.data);
+              store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Tank Updated Successfully', 'show_alert': true});
             }
-          }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-            if(error.response.status == 500){
-              //this.$router.push('/login?message='+error.response.data.error);
-            }
-          console.log(error);
+          }).catch(error => { 
+            store.commit("activateLoader", "end");   
+            store.commit("catch_errors", error); 
         })}
       }
     },
     mounted: function() {
-      this.check_login_details();
+      store.commit("check_login_details");
       this.show_edit_form();
     },
     destroyed: function() {

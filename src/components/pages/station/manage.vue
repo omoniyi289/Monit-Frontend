@@ -42,9 +42,9 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import datatable from "components/plugins/DataTable/DataTable.vue";
-import VueForm from "vue-form";
+import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
 Vue.use(VueForm, options);
 export default {
@@ -94,15 +94,9 @@ export default {
         }
     },
     methods: {
-        check_login_details(){
-            let user_details = JSON.parse(localStorage.getItem('user_details'));
-            if (user_details == null || user_details == undefined) {
-                this.$router.push('/login');
-            }
-        },
         show_available_companies(){
             let user_details = JSON.parse(localStorage.getItem('user_details'));
-            axios.get("http://127.0.0.1:8000/api/v1/companies",
+            axios.get(this.$store.state.host_url+"/companies",
                 {
                     headers : {
                         "Authorization" : "Bearer " + user_details.token
@@ -116,30 +110,32 @@ export default {
         show_company_stations(){
             if (this.formstate.$invalid) {
                 return;
-            } else {
+            } else {store.commit("activateLoader", "start");
                 //this.loadersss= true;
                 console.log(this.loadersss);
             let user_details = JSON.parse(localStorage.getItem('user_details'));
             let company_id= this.preset.company_id;
-            axios.get("http://127.0.0.1:8000/api/v1/stations/by_company/"+company_id,
+            axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
                 {
                     headers : {
                         "Authorization" : "Bearer " + user_details.token
                     }}).then(response => {
+                store.commit("activateLoader", "end");   
                 this.tableData = response.data.data;
                 console.log(response.data.data);
                 this.tableData.forEach((item, index) => {
                 this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
                 });
-               // this.loader
+                
                 })
                 .catch(function(error) {
-                        console.log(error);
+                   store.commit("activateLoader", "end");   
+                   store.commit("catch_errors", error); 
             });
         }}
         },
     mounted: function() {
-        this.check_login_details();
+        store.commit("check_login_details");
         this.show_available_companies();
     },
 

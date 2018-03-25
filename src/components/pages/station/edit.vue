@@ -148,10 +148,10 @@
 
                                                 <select id="state" name="state" size="1" class="form-control" v-model="model.state" required checkbox>
                                                     <option
-                                                            v-for="option in state_options"
-                                                            v-bind:value="option"
-                                                            :selected="option == model.state"
-                                                    >{{ option }}</option>
+                                                            v-for="option in available_states"
+                                                            v-bind:value="option.states.name"
+                                                            :selected="option.states.name == model.state"
+                                                    >{{ option.states.name }}</option>
                                                 </select>
                                                 <field-messages name="state" show="$invalid && $submitted" class="text-danger">
                                                     <div slot="checkbox">State is required</div>
@@ -179,28 +179,22 @@
     </div>
 </template>
 <script>
-import Vue from 'vue';
+import Vue from 'vue' ;    import store from 'src/store/store.js';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.css'
-import VueForm from "vue-form";
+import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
+import api_states from "src/assets/json/states.json";
 Vue.use(VueForm, options);
 export default {
     name: "edit_user",
     data() {
         return {
             formstate: {},
-            dropzoneOptions:{
-                url: '',
-                thumbnailWidth: 150,
-                autoProcessQueue:false,
-                // maxFilesize: 0.5,
-                maxFiles:1,
-                headers: { "My-Awesome-Header": "header value" }
-            },
+            
             license_options : { 1 : "S.B.E", 2:"E.E" },
             expense_options : {1 : "Prepaid", 2:"Postpaid" },
-            state_options: {1: "Osun", 2: "Ekiti", 3: "Imo", 4: "Lagos"},
+        
             model: {
                 username: "",
                 email: "add@gmail.com",
@@ -209,7 +203,8 @@ export default {
                 country: 1,
                 pin: "500010",
                 terms: true
-            }
+            },
+            available_states: "",
         }
     },
     components: {
@@ -219,29 +214,28 @@ export default {
         onSubmit: function() {
             if (this.formstate.$invalid) {
                 return;
-            } else {
+            } else {store.commit("activateLoader", "start");
               let station_details = {
                 station: this.model
             };
             let user_details = JSON.parse(localStorage.getItem('user_details'));
 
                 let id= this.$route.query.station;
-            axios.patch("http://127.0.0.1:8000/api/v1/stations/"+id, station_details, {
+            axios.patch(this.$store.state.host_url+"/stations/"+id, station_details, {
                 headers : {
                     "Authorization" : "Bearer " + user_details.token
                 }
-            }).then( response => {
+            }).then( response => {                         
+                store.commit("activateLoader", "end");
                 let station_response = response.data;
             if (station_response.status === true) {
-                console.log(response.data);
-            }
-            }).catch(error => {
-                    if (error.status === false){
-                    //this.show_error = true;
-                    console.log('reset password!');
-                    //this.message =  error.message;
-                }
-                console.log(error);
+              store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Station Updated Successfully', 'show_alert': true});
+                    }
+            }).catch(error => { 
+                store.commit("activateLoader", "end");   
+                store.commit("catch_errors", error); 
+                    
             })
             }
         },
@@ -262,9 +256,10 @@ export default {
         }
     },
     mounted: function() {
+        this.available_states = api_states;
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let id= this.$route.query.station;
-        axios.get("http://127.0.0.1:8000/api/v1/stations/"+ id,
+        axios.get(this.$store.state.host_url+"/stations/"+ id,
             {
                 headers : {
                     "Authorization" : "Bearer " + user_details.token
@@ -273,7 +268,7 @@ export default {
             this.model= response.data.data;
             })
             .catch(function(error) {
-                    console.log(error);
+                   store.commit("catch_errors", error); 
                 });
     },
     destroyed: function() {

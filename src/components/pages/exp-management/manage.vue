@@ -4,20 +4,18 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="show_station_pricing">
+            <vue-form :state="formstate2" @submit.prevent="show_station_expenses">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="company">Select Company</label>
                       <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                        <option value="0" selected disabled>
-                          Select Company
-                        </option>
+                     
                         <option
-                          v-for="option in available_companies"
+                          v-for="(option, index) in available_companies"
                           v-bind:value="option.id"
-                          :selected="option.id == preset.company_id" >{{ option.name }}
+                         >{{ option.name }}
                         </option>
                       </select>
                       <field-messages name="company" show="$invalid && $submitted" class="text-danger">
@@ -34,7 +32,7 @@
                       <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required checkbox>
 
                         <option
-                          v-for="option in company_stations"
+                          v-for="(option, index) in company_stations"
                           v-bind:value="option.id"
                           :selected="option.name == preset.station_id" >{{ option.name }}
                         </option>
@@ -55,54 +53,74 @@
             </vue-form>
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-5">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               <div class="row">
-                <div class="col-lg-8">
+                
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="product">Product</label>
-                      <select id="product" name="product" size="1" class="form-control" v-model="pricing.product_id" required checkbox>
-
-                        <option
-                          v-for="option in products"
-                          v-bind:value="option.id"
-                          :selected="option.code == pricing.product_id" >{{ option.code }}
-                        </option>
-
-                      </select>
-                      <field-messages name="product" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Product is required</div>
+                      <label for="amount"> Amount</label>
+                      <input v-model="expense.amount" name="amount" type="text" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
+                      <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Amount is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
 
-                   
-
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="requested_price_tag"> Price</label>
-                      <input v-model="pricing.requested_price_tag" name="requested_price_tag" type="text" required autofocus placeholder="Price Tag" class="form-control" id="serial_number"/>
-                      <field-messages name="requested_price_tag" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Price is a required field</div>
+                      <label for="expense_code">Expense Code</label>
+                      <input v-model="expense.expense_code" name="expense_code" type="text" required autofocus placeholder="Expense Code" class="form-control" id="serial_number"/>
+                      <field-messages name="expense_code" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Expense Code is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
 
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="expense_type">Expense Type</label>
+                      <input v-model="expense.expense_type" name="expense_type" type="text" required autofocus placeholder="Expense Type" class="form-control" id="serial_number"/>
+                      <field-messages name="expense_type" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Expense Type is a required field</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
                 <div class="col-sm-8">
+                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
+                    <br>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="description">Description</label>
+                      <input v-model="expense.description" name="description" type="text" required autofocus placeholder="Description" class="form-control" id="serial_number"/>
+                      <field-messages name="description" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Description is a required field</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" :value=pricing.submit_mode class="btn btn-success" />
+                    <input type="submit" value="Submit Expense" class="btn btn-success" />
                   </div>
                 </div>
               </div>
+
             </vue-form>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-7">
             <div class="table-responsive">
-              <datatable title="Product Prices" :rows="tableData" :columns="columndata"></datatable>
+              <datatable title="Expenses Incurred" :rows="tableData" :columns="columndata"></datatable>
             </div>
           </div>
         </div>
@@ -116,39 +134,48 @@
   import datatable from "components/plugins/DataTable/DataTable.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import Datepicker from 'vuejs-datepicker';
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,
+      Datepicker,
     },
     data() {
       return {columndata: [
          {
-          label: 'Product',
-          field: 'product.code',
+          label: 'Date',
+          field: 'date',
           numeric: false,
           html: false,
         }, {
-          label: 'Current Price',
-          field: 'new_price_tag',
+          label: 'Amount',
+          field: 'amount',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Type',
+          field: 'expense_type',
           numeric: false,
           html: false,
         },{
-          label: 'Actions',
-          field: 'action',
+          label: 'Description',
+          field: 'description',
           numeric: false,
           html: true,
         }],
         ajaxLoading: true,
+        selected: true,
         loading: true,
-        url: this.$store.state.host_url+'/product_price_change',
+        format: 'yyyy-MM-d',
+        url: this.$store.state.host_url+'/expenses',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
         tableData: [],
         available_companies: "",
-        products: "",
+        selected_date: "",
         station_pumps:"",
         company_stations: "",
         added_product_name: "",
@@ -156,14 +183,12 @@
           company_id: "",
           station_id: ""
         },
-        pricing : {
-          new_price_tag: "",
-          station_id: "",
-          company_id: "",
-          product_id:"",
-          updated_by: "",
-          requested_price_tag:"",
-          submit_mode: "Add Price"
+        expense : {
+          expense_code: "",
+          expense_type: "",
+          amount: "",
+          date:"",
+          description: "",
       
         }
 
@@ -189,7 +214,7 @@
           store.commit("catch_errors", error); 
         });
       },
-      show_station_pricing(){
+      show_station_expenses(){
         if (this.formstate2.$invalid) {
           return;
         } else {
@@ -198,17 +223,13 @@
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
           console.log(station_id);
-          axios.get(this.$store.state.host_url+"/product_price/by_station/"+station_id,
+          axios.get(this.$store.state.host_url+"/expenses/by_station/"+station_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
-
-          this.tableData.forEach((item, index) => {
-            this.$set(item, "action", "<button class='btn btn-info' v-on:click="+this.update_price_panel(item.id)+">Edit</button>");
-        });
           // this.loader
         })
         .catch(function(error) {
@@ -223,8 +244,8 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-          console.log(response.data.data);
         this.available_companies = response.data.data;
+         console.log(this.available_companies);
         ///get products///
         axios.get(this.$store.state.host_url+"/products",
           {
@@ -241,25 +262,22 @@
       });
       }
       ,
-      update_price_panel(tabledata_id){
-        console.log(tabledata_id);
-      },
+     
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
         } else {
           store.commit("activateLoader", "start");
           //include station and company_id
-          this.pricing.station_id= this.preset.station_id;
-          this.pricing.company_id= this.preset.company_id;
+          this.expense.station_id= this.preset.station_id;
+          this.expense.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.pricing.curr = user_details.id;
-          this.pricing.updated_by = user_details.id;
-           let price_detail = {
-            product_change_log: this.pricing
+          this.expense.created_by= user_details.id;
+          this.expense.date = new Date(this.selected_date).toDateString();
+           let expense_detail = {
+            expenses: this.expense
           };
-          console.log(JSON.stringify(price_detail));
-          axios.post(this.url, price_detail, {
+          axios.post(this.url, expense_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
@@ -268,29 +286,13 @@
             console.log(response.data);
             let station_response = response.data;
           if (station_response.status === true) {
-            if(this.pricing.submit_mode == 'Add Price'){
-              for( var i = 0, len = this.products.length; i < len; i++ ) {
-                  if( this.products[i]['id'] === this.pricing.product_id ) {
-                    
-                      this.added_product_name = this.products[i]['code'];
-                      break;
-                  }
-              }
-              console.log(this.added_product_name);
-              this.tableData.push({'product.code': this.added_product_name, 'new_price_tag': this.pricing.requested_price_tag});
-              this.tableData.forEach((item, index) => {
-              this.$set(item, "action", "<a class='btn btn-info'>Edit</a>");
-              });
+              this.tableData.push(station_response.data);
+             
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Prduct Price Added Successfully', 'show_alert': true});
             }
-            
-           //this.tableData.push({'product.name': this.pricing.name, 'new_price_tag': this.pricing.new_price_tag});
-           //this.tableData.forEach((item, index) => {
-         //  this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/pump/edit?pump=" + item.id + "'>Edit</a>");
-         // });
           }
-        }).catch(error => {
+        ).catch(error => {
           store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
         })}

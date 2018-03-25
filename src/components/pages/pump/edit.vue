@@ -66,7 +66,7 @@
                         <option
                           v-for="option in products"
                           v-bind:value="option.id"
-                          :selected="option.name == pump.product_id" >{{ option.name }}
+                          >{{ option.name }}
                         </option>
 
                       </select>
@@ -114,7 +114,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);
@@ -127,7 +127,7 @@
       return {
         ajaxLoading: true,
         loading: true,
-        url: 'http://127.0.0.1:8000/api/v1/tanks',
+        url: this.$store.state.host_url+'/tanks',
         formstate: {},
         formstate2: {},
         available_companies: "",
@@ -154,26 +154,20 @@
       }
     },
     methods: {
-      check_login_details(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        if (user_details == null || user_details == undefined) {
-          this.$router.push('/login');
-        }
-      },
-
       show_edit_form() {
+        store.commit("activateLoader", "start");   
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let id= this.$route.query.pump;
-        axios.get("http://127.0.0.1:8000/api/v1/pumps/"+ id,
+        axios.get(this.$store.state.host_url+"/pumps/"+ id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-
+              store.commit("activateLoader", "end");  
           this.pump = response.data.data;
         console.log(this.pump);
         ///get products///
-        axios.get("http://127.0.0.1:8000/api/v1/products",
+        axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -182,43 +176,40 @@
       });
       })
       .catch(function(error) {
-          console.log(error);
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
         });
       },
       onSubmit() {
         if (this.formstate.$invalid) {
           return;
         } else {
+          store.commit("activateLoader", "start");
           let pump_detail = {
             pump: this.pump
           };
           let user_details = JSON.parse(localStorage.getItem('user_details'));
 
           let id= this.$route.query.pump;
-          axios.patch("http://127.0.0.1:8000/api/v1/pumps/"+id, pump_detail, {
+          axios.patch(this.$store.state.host_url+"/pumps/"+id, pump_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
-          }).then( response => {
+          }).then( response => {                         
+            store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
             store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Pump Successfully Updated', 'show_alert': true});
-            console.log(response.data);
           }
-        }).catch(error => {
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          if(error.response.status == 500){
-            //this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
+        }).catch(error => { 
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
         })}
       }
     },
     mounted: function() {
-      this.check_login_details();
+      store.commit("check_login_details");
       this.show_edit_form();
     },
     destroyed: function() {

@@ -58,7 +58,7 @@
     import 'zrender/lib/vml/vml';
     import LinearGradient from 'zrender/lib/graphic/LinearGradient'
     //data tables
-//    import Vue from 'vue';
+//    import Vue from 'vue' ;    import store from 'src/store/store.js';
     import datatable from "components/plugins/DataTable/DataTable.vue";
     let unsub;
     export default {
