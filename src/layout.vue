@@ -34,6 +34,7 @@
      * import left-side from default or horizontal-menu or mini-menu
      * eg: import left_side from 'components/layouts/left-side/horizontal-menu/left-side'
      */
+     
     import left_side from 'components/layouts/left-side/default/left-side'
 
     /**
@@ -80,7 +81,7 @@
      * import animejs for the menu transition effects
      */
     import anime from 'animejs'
-
+    import store from 'src/store/store.js';
     export default {
         name: 'layout',
         components: {
@@ -97,20 +98,61 @@
             }
         },
         mounted() {
-            this.check_login_details();
-            
-            if (window.innerWidth <= 992) {
+            store.commit("check_login_details");
+          
+           if (window.innerWidth <= 992) {
                 this.$store.commit('left_menu', 'close')
             }
+
+        store.commit("activateLoader", "start");
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
+        var company_route = '';
+        //console.log(user_details);
+        if(user_details.is_verified !== undefined && user_details.is_verified == 2){
+          ///e360 super user
+          company_route = '/companies/e360_super_user';
+        }else if(user_details.is_company_set_up !== undefined && user_details.is_company_set_up == 1){
+          //first company super user
+          company_route = '/companies/first_company_user/'+user_details.id;
+        }else if(user_details.company_id !== undefined){
+          ///for regular company users
+          company_route = '/companies/company_user/'+user_details.company_id;
+        }
+        //console.log(company_route);
+        axios.get(store.state.host_url+company_route,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+          store.commit("activateLoader", "end"); 
+          
+          ///one company
+        if(response.data.data.length == 1){
+            store.state.available_company = response.data.data[0];
+            store.state.show_single_company = true;
+        }else{
+          ///multi companies
+          store.state.available_companies = response.data.data;
+          store.state.show_multi_company = true;
+        }
+        axios.get(store.state.host_url+"/products",
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+                store.state.products = response.data.data;
+      });
+      })
+      .catch(error => {
+       store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+      });
+      
         },
         methods: {
-            check_login_details(){
-                if (this.user_details == null || this.user_details == undefined) {
-                    if (this.company_details == null) {
-                        this.$router.push('login');
-                    }
-                }
-            }
+         
+          
         }
 
     }

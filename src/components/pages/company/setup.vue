@@ -94,11 +94,11 @@
                         </vue-form>
                     </div>
                     <div class="col-md-3">
-                    </div>
+                -    </div>
                     <div class="col-sm-12">
                         <div class="table-responsive">
-                            <datatable title="Registered Companies"  :rows="tableData" :columns="columndata">
-                                 <template slot="actions" scope="props">
+                            <datatable title="Company"  :rows="tableData" :columns="columndata">
+                            <template slot="actions" slot-scope="props">
                                 <div >
                                 <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
                                 <i class='fa fa-trash text-danger' @click="onAction('deete', props.rowData, props.rowIndex)"></i>
@@ -116,14 +116,14 @@
     import Vue from 'vue';
     import store from 'src/store/store.js';
     import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
-    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
     import options from "src/validations/validations.js";
     Vue.use(VueForm, options);
     import api_states from "src/assets/json/states.json";
     export default {
         name: "formfeatures",
          components: {
-        datatable,
+        datatable,csview,
         },
          props:['data'],
         data() {
@@ -175,29 +175,13 @@
         },
         methods: {
            show_available_companies(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get(this.$store.state.host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.tableData = response.data.data;
-        
-        ///get products///
-        axios.get(this.$store.state.host_url+"/products",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.products = response.data.data;
-      });
-      })
-      .catch(error => {
-          store.commit("activateLoader", "end");   
-            store.commit("catch_errors", error); 
-      });
+        this.products = store.state.products;
+        if(store.state.show_single_company){
+            console.log(store.state.available_company);
+          this.tableData.push(store.state.available_company);
+        }else if(store.state.show_multi_company == true){
+          this.tableData = store.state.available_companies;
+        }
       }
       ,
     onAction (action, data, index) {
@@ -271,7 +255,9 @@
                             localStorage.setItem('company_details', response.data);
                             console.log(response.data.data);
                             this.$alert.success({duration:3000,forceRender:'',
-                        message:'Company Registered Successfully',transition:''});
+                            message:'Company Registered Successfully, please re-login to continue',transition:''});
+                            this.formstate.$submitted=false;
+                            this.company= {submit_mode: "CREATE"};
                         }
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   
@@ -286,10 +272,11 @@
         
                         let company_response = response.data;
                         if (company_response.status === true) {
-                           // this.tableData.push(response.data);
-                           // this.tableData.
+                            this.company='';
                         this.$alert.success({duration:3000,forceRender:'',
                         message:'Company Updated Successfully',transition:''});
+                        this.formstate.$submitted=false;
+                        this.company= {submit_mode: "CREATE"};
                         }
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   

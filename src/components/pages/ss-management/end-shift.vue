@@ -4,63 +4,26 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="show_open_station_info">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="company">Select Company</label>
-                      <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                        <option value="0" selected disabled>
-                          Select Company
-                        </option>
-                        <option
-                          v-for="option in available_companies"
-                          v-bind:value="option.id"
-                          :selected="option.id == preset.company_id" >{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="station">Select Station</label>
-                      <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required checkbox>
-
-                        <option
-                          v-for="option in company_stations"
-                          v-bind:value="option.id"
-                          :selected="option.name == preset.station_id" >{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="station" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Station is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group float-left">
-                    <input type="submit" value="Show Form" class="btn btn-success" />
-                  </div>
-                </div>
-              </div>
-            </vue-form>
+            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <button class="btn btn-success" 
+                      @click="show_open_station_info( props.rowData, props.rowIndex)">Proceed</button>
+                        
+                    </div>
+                  </template>
+                </csview>
+              <hr>
           </div>
           
           <div class="col-md-12">
            
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               <br>
-               <b>Date : {{new Date().toDateString()}}</b>
-              
+               <b>Date : {{this.set_date}}</b>
+              <br>
+              Enter Readings for the {{this.shift_batch}}
+              <br>
               <b-card header-tag="h4" class="bg-info-card" header="End Sales Shift">
                 <div class="row ">
                   <div class="col-lg-12">               
@@ -70,8 +33,8 @@
                             <table class="table">
                               <thead>
                                 <tr>
-                                  <th>Pump Number</th>
-                                  <th>Dispenser</th>
+                               
+                                  <th>Pump Nozzle Code</th>
                                   <th>Closing Totalizer Reading</th>
                                   <th>Confirm Closing Totalizer Reading</th>
                                   <th>Cash Collected</th>
@@ -80,8 +43,8 @@
                               </thead>
                               <tbody>
                                 <tr  v-for="(option, index) in close_pump_reading">
-                                  <th>{{option.pump_number}}</th>
-                                  <td>{{option.nozzle_code}}</td>
+                               
+                                  <td>{{option.pump_nozzle_code}}</td>
                                   <td>
                   
                                     <validate tag="div">
@@ -142,7 +105,7 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
@@ -150,7 +113,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,csview,
     },
     data() {
       return {
@@ -161,8 +124,12 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-        available_companies: "",
+        available_companies: [],
+        available_company: [],
         products: "",
+        set_date:"",
+        show_multi_company: false,
+        show_single_company: false,
         rd: "reading",
         c_rd: "confirm_reading",
         cc:"cash_collected",
@@ -172,6 +139,7 @@
         final_stock_info: {},
         final_pump_info: {},
         company_stations: "",
+        shift_batch: "",
         preset : {
           company_id: "",
           station_id: ""
@@ -198,14 +166,16 @@
         store.commit("catch_errors", error); 
         });
       },
-      show_open_station_info(){
+         show_open_station_info(station_id, company_id){
+        this.preset.company_id = company_id;
+        this.preset.station_id = station_id;
         if (this.formstate2.$invalid) {
           return;
         } else {store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params = 'station_id='+this.preset.station_id; 
-        axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
+          let params = 'station_id='+this.preset.station_id; 
+        axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -216,7 +186,19 @@
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
        }else{
+         this.set_date = response.data.data[0].created_at;
+         if(response.data.data[0].shift_1_totalizer_reading == null){
+           this.shift_batch="First Shift";
+         }else if(response.data.data[0].shift_2_totalizer_reading == null){
+           this.shift_batch="Second Shift";
+         }else{
+           store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Data already entered for two shifts', 'show_alert': true});
+          this.show_setup_form= false;
+          return;
+         }
           let station_id= this.preset.station_id;
+
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
@@ -225,10 +207,11 @@
                 store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
             this.close_pump_reading = [];
+            this.close_pump_reading.created_at= this.set_date;
             this.station_pumps.forEach(element => {
-            this.close_pump_reading.push({'pump_number': element.number,'pump_id': element.id
-            ,'nozzle_code': element.nozzle_code, 'closing_reading': '', 'c_closing_reading': ''
-            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End'});
+            this.close_pump_reading.push({'pump_id': element.id
+            ,'pump_nozzle_code': element.pump_nozzle_code, 'closing_reading': '', 'c_closing_reading': ''
+            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End', 'created_at':this.set_date});
           });
         })
         .catch(function(error) {
@@ -240,29 +223,14 @@
       
         }},
       show_available_companies(){
-        store.commit("activateLoader", "start");
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get(this.$store.state.host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-              store.commit("activateLoader", "end");   
-        this.available_companies = response.data.data;
-        ///get products///
-        axios.get(this.$store.state.host_url+"/products",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-        this.products = response.data.data;
-      });
-      })
-      .catch(error => {
-         store.commit("activateLoader", "end");   
-         store.commit("catch_errors", error); 
-      });
-  
+        this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
+        }
       }
       ,
       update_price_panel(tabledata_id){
@@ -273,13 +241,17 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          this.$SmoothScroll(document.getElementById("content-header"));
+          
           ////pumps///
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-
+          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.shift_batch = this.shift_batch;
+          
           axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -290,6 +262,8 @@
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings updated', 'show_alert': true});
+                       this.formstate.$submitted=false;
+                       this.close_pump_reading= {};
                     }
                   }).catch(error => { 
                     store.commit("activateLoader", "end");   

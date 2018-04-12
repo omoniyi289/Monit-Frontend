@@ -4,6 +4,13 @@ const layout = [{
     meta: {
         title: "Dashboard",
     }
+},
+{
+    path: '/index',
+    component: resolve => require(['pages/index'], resolve),
+    meta: {
+        title: "Dashboard",
+    }
 }, {
     path: '/index2',
     component: resolve => require(['pages/index2'], resolve),
@@ -14,7 +21,7 @@ const layout = [{
     path: '/admin/company/setup',
         component: resolve => require(['pages/company/setup'], resolve),
         meta: {
-        title: "Company Setup",
+        title: "Company Profile",
     }
     }
     , {
@@ -22,6 +29,12 @@ const layout = [{
             component: resolve => require(['pages/users/create'], resolve),
             meta: {
             title: "Create Users",
+    }
+    }, {
+        path: '/admin/users/profile',
+            component: resolve => require(['pages/users/profile'], resolve),
+            meta: {
+            title: "User Profile",
     }
     },
        {
@@ -33,12 +46,19 @@ const layout = [{
         }
         ,
         {
-         path: '/admin/pricing/manage',
-             component: resolve => require(['pages/pricing/manage'], resolve),
+         path: '/admin/pricing/setup',
+             component: resolve => require(['pages/pricing/setup'], resolve),
              meta: {
-             title: "Product Pricing",
+             title: "Set Product Price/Request Price Change",
          }
-         }
+         } ,
+         {
+          path: '/admin/pricing/approve',
+              component: resolve => require(['pages/pricing/approve'], resolve),
+              meta: {
+              title: "Approve Price Change",
+          }
+          }
         ,
        {
         path: '/admin/privileges/manage',
@@ -47,53 +67,23 @@ const layout = [{
             title: "Manage Privileges",
         }
         }, {
-    path: '/configuration/station/setup',
-        component: resolve => require(['pages/station/setup'], resolve),
-        meta: {
-        title: "Station Setup",
-    }
-    }, {
     path: '/configuration/station/manage',
         component: resolve => require(['pages/station/manage'], resolve),
         meta: {
         title: "Manage Stations",
     }
     }, {
-    path: '/configuration/station/edit',
-        component: resolve => require(['pages/station/edit'], resolve),
-        meta: {
-        title: "Configuration > Station > Edit",
-    }
-    }, {
-    path: '/configuration/tank/setup',
-        component: resolve => require(['pages/tank/setup'], resolve),
-        meta: {
-        title: "Tank Setup",
-    }
-}, {
     path: '/configuration/tank/manage',
         component: resolve => require(['pages/tank/manage'], resolve),
         meta: {
-        title: "Manage Tanks",
+        title: "Tanks",
     }
-}, {
-    path: '/configuration/tank/edit',
-        component: resolve => require(['pages/tank/edit'], resolve),
-        meta: {
-        title: "Configuration > Tank > Edit",
-    }
-    },
-, {
-  path: '/configuration/pump/setup',
-    component: resolve => require(['pages/pump/setup'], resolve),
-    meta: {
-    title: "Pump Setup",
-  }
-}, {
+}
+,{
   path: '/configuration/pump/manage',
     component: resolve => require(['pages/pump/manage'], resolve),
     meta: {
-    title: "Manage Pumps",
+    title: "Pumps",
   }
 }, {
   path: '/configuration/pump-tank/manage',
@@ -120,12 +110,6 @@ const layout = [{
       title: "Manage Received Stocks",
     }
   }, {
-  path: '/configuration/pump/edit',
-    component: resolve => require(['pages/pump/edit'], resolve),
-    meta: {
-    title: "Configuration > Pump > Edit",
-  }
-}, {
     path: '/ss-management/open-station',
       component: resolve => require(['pages/ss-management/open-station'], resolve),
       meta: {
@@ -141,7 +125,7 @@ const layout = [{
     path: '/ss-management/close-station',
       component: resolve => require(['pages/ss-management/close-station'], resolve),
       meta: {
-      title: "Open Station",
+      title: "Close Station",
 }
 }, {
     path: '/ss-management/modify',
@@ -154,6 +138,12 @@ const layout = [{
       component: resolve => require(['pages/exp-management/manage'], resolve),
       meta: {
       title: "Manage Expenses",
+}
+}, {
+    path: '/cash-management/create',
+      component: resolve => require(['pages/cash-management/create'], resolve),
+      meta: {
+      title: "Manage Payments",
 }
 },{
     path: '/product_details',

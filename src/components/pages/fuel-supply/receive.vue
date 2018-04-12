@@ -6,53 +6,16 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="show_station_fuel_supply">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="company">Select Company</label>
-                      <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                       
-                        <option
-                          v-for="(option,index) in available_companies"
-                          v-bind:value="option.id"
-                          :selected="index == 0">{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="station">Select Station</label>
-                      <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required checkbox>
-
-                        <option
-                          v-for="option in company_stations"
-                          v-bind:value="option.id"
-                          :selected="option.name == preset.station_id" >{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="station" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Station is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group float-left">
-                    <input type="submit" value="Show Form" class="btn btn-success" />
-                  </div>
-                </div>
-              </div>
-            </vue-form>
+            <csview  :companies="available_companies" :stations="company_stations">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <button class="btn btn-success" 
+                      @click="show_station_fuel_supply( props.rowData, props.rowIndex)">Proceed</button>
+                        
+                    </div>
+                  </template>
+            </csview>
+            <hr>
           </div>
           <div class="col-sm-4" v-show="!show_setup_form">
           </div>
@@ -64,8 +27,8 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="quantity_requested"> Request Code</label>
-                      <input v-model="fuel_supply.request_code" name="quantity_requested" type="text" required autofocus placeholder="Request Code" class="form-control" id="serial_number"/>
-                      <field-messages name="quantity_requested" show="$invalid && $submitted" class="text-danger">
+                      <input v-model="fuel_supply.request_code" name="quantity_requested" type="text" required autofocus placeholder="Request Code" class="form-control" id="request_code"/>
+                      <field-messages name="request_code" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Request Code is a required field</div>
                       </field-messages>
                     </validate>
@@ -84,70 +47,51 @@
                      <div class="form-group">
                         Created At: <input v-model="fuel_supply.created_at" name="created_at" type="text"  autofocus  class="form-control" readonly/>
                     </div>
-                    </div>
-                    <div class="col-sm-12">
                     <div class="form-group">
-                        <validate tag="div">
-                        
-                        <input v-model="fuel_supply.quantity_supplied" name="quantity_supplied" type="text" required autofocus placeholder="Request Supplied" class="form-control" id="serial_number"/>
-                        <field-messages name="quantity_supplied" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Request Supplied is a required field</div>
-                        </field-messages>
-                        </validate>
+                        Truck Registration Time: <input v-model="fuel_supply.truck_reg_number" name="truck_reg_number" type="text"  autofocus  class="form-control" readonly/>
                     </div>
+                     <div class="form-group">
+                        Qty Loaded: <input v-model="fuel_supply.quantity_loaded" name="quantity_loaded" type="text"  autofocus  class="form-control" readonly/>
+                    </div>
+                     <div class="form-group">
+                        Waybill Number: <input v-model="fuel_supply.waybill_number" name="waybill_number" type="text"  autofocus  class="form-control" readonly/>
+                    </div>
+                     <div class="form-group">
+                        Driver Departure Time: <input v-model="fuel_supply.truck_departure_time" name="truck_departure_time" type="text"  autofocus  class="form-control" readonly/>
                     </div>
                     
+                    </div>
                     <div class="col-sm-12">
                     <div class="form-group">
                         <validate tag="div">
                         
-                        <input v-model="fuel_supply.truck_reg_number" name="truck_reg_number" type="text" required autofocus placeholder="Truck Reg. Number" class="form-control" id="serial_number"/>
-                        <field-messages name="truck_reg_number" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Truck Reg. Number is a required field</div>
+                        <input v-model="fuel_supply.quantity_supplied" name="quantity_supplied" type="text" required autofocus placeholder="Quantity Supplied" class="form-control" id="quantity_supplied"/>
+                        <field-messages name="quantity_supplied" show="$invalid && $submitted" class="text-danger">
+                            <div slot="required">Quantity Supplied is a required field</div>
                         </field-messages>
                         </validate>
                     </div>
                     </div>
+                
                     <div class="col-sm-12">
                     <div class="form-group">
                         <validate tag="div">
                         
-                        <input v-model="fuel_supply.waybill_number" name="waybill_number" type="text" required autofocus placeholder="Way Bill Number" class="form-control" id="serial_number"/>
-                        <field-messages name="waybill_number" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Way Bill Number is a required field</div>
-                        </field-messages>
-                        </validate>
-                    </div>
-                    </div>
-                    <div class="col-sm-12">
-                    <div class="form-group">
-                        <validate tag="div">
-                        
-                        <input v-model="fuel_supply.arrival_time" name="arrival_time" type="text" required autofocus placeholder="Arrival Time" class="form-control" id="serial_number"/>
+                        <input v-model="fuel_supply.arrival_time" name="arrival_time" type="text" required autofocus placeholder="Arrival Time" class="form-control" id="arrival_time"/>
                         <field-messages name="arrival_time" show="$invalid && $submitted" class="text-danger">
                             <div slot="required">Arrival Time is a required field</div>
                         </field-messages>
                         </validate>
                     </div>
                     </div>
-                     <div class="col-sm-12">
-                    <div class="form-group">
-                        <validate tag="div">
-                        
-                        <input v-model="fuel_supply.driver_name" name="driver_name" type="text" required autofocus placeholder="Driver's Name" class="form-control" id="serial_number"/>
-                        <field-messages name="driver_name" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Driver's Name is a required field</div>
-                        </field-messages>
-                        </validate>
-                    </div>
-                    </div>
+                  
                     <div class="col-sm-12">
                     <div class="form-group">
                         <validate tag="div">
                         
-                        <input v-model="fuel_supply.quantity_before_discharge" name="quantity_before_discharge" type="text" required autofocus placeholder="Quantity before Discharge" class="form-control" id="serial_number"/>
+                        <input v-model="fuel_supply.quantity_before_discharge" name="quantity_before_discharge" type="text" required autofocus placeholder="Tank Vol before Discharge" class="form-control" id="quantity_before_discharge"/>
                         <field-messages name="quantity_before_discharge" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Quantity before Discharge is a required field</div>
+                            <div slot="required">Tank Volume before Discharge is a required field</div>
                         </field-messages>
                         </validate>
                     </div>
@@ -156,9 +100,9 @@
                     <div class="form-group">
                         <validate tag="div">
                         
-                        <input v-model="fuel_supply.quantity_after_discharge" name="quantity_after_discharge" type="text" required autofocus placeholder="Quantity after Discharge" class="form-control" id="serial_number"/>
+                        <input v-model="fuel_supply.quantity_after_discharge" name="quantity_after_discharge" type="text" required autofocus placeholder="Tank Vol after Discharge" class="form-control" id="quantity_after_discharge"/>
                         <field-messages name="quantity_after_discharge" show="$invalid && $submitted" class="text-danger">
-                            <div slot="required">Quantity after Discharge is a required field</div>
+                            <div slot="required">Tank Volume after Discharge is a required field</div>
                         </field-messages>
                         </validate>
                     </div>
@@ -167,7 +111,7 @@
 
                     <div class="col-sm-12">
                     <div class="form-group float-left">
-                        <input type="submit" value="UPDATE REQUEST" class="btn btn-success" />
+                        <input type="submit" value="SUBMIT STOCK DETAILS" class="btn btn-success" />
                     </div>
                     </div>
                  </div>
@@ -175,7 +119,7 @@
             </vue-form>
             </b-card>
           </div>
-          <div class="col-sm-8" >
+          <div class="col-sm-8" v-show="show_setup_form">
             <div class="table-responsive">
               <datatable title="Fuel Deliveries"  :rows="tableData" :columns="columndata"></datatable>
             </div>
@@ -188,17 +132,23 @@
 <script>
   import Vue from 'vue';
   import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,csview
     },
     data() {
       return {columndata: [
+         {
+          label: 'Date/Time',
+          field: 'created_at',
+          numeric: false,
+          html: true,
+        },
          {
           label: 'Request Code',
           field: 'request_code',
@@ -211,6 +161,12 @@
           field: 'quantity_requested',
           numeric: false,
           html: false,
+        }, {
+          
+          label: 'Quantity Loaded',
+          field: 'quantity_loaded',
+          numeric: true,
+          html: true,
         },{
           label: 'Quantity Supplied',
           field: 'quantity_supplied',
@@ -228,6 +184,11 @@
           field: 'driver_name',
           numeric: false,
           html: false,
+        },{
+          label: 'Driver\'s Departure Time',
+          field: 'truck_departure_time',
+          numeric: false,
+          html: true,
         },{
           label: 'Arrival Time',
           field: 'arrival_time',
@@ -250,12 +211,7 @@
           numeric: false,
           html: true,
         }
-         ,{
-          label: 'Date/Time',
-          field: 'created_at',
-          numeric: false,
-          html: true,
-        }
+        
 ],
         ajaxLoading: true,
         loading: true,
@@ -264,8 +220,11 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-        available_companies: "",
+        available_companies: [],
+        available_company: [],
         products: "",
+        show_multi_company: false,
+        show_single_company: false,
         station_pumps:"",
         company_stations: "",
         is_code_valid: false,
@@ -294,7 +253,8 @@
           quantity_after_discharge:"",
           request_code:"",
           driver_name:"",
-          created_at:""
+          created_at:"",
+          truck_departure_time:"",
       
         }
 
@@ -320,21 +280,24 @@
           store.commit("catch_errors", error); 
         });
       },
-      show_station_fuel_supply(){
+      show_station_fuel_supply(station_id, company_id){
+        this.preset.company_id = company_id;
+        this.preset.station_id = station_id;
+        this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate2.$invalid) {
           return;
         } else {
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          let params = 'station_id='+this.preset.station_id; 
-          axios.get(this.$store.state.host_url+"/stock-received/by_station?"+params,
+          let params = 'station_id='+station_id; 
+          axios.get(this.$store.state.host_url+"/stock-received/params?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");                  
-        this.tableData=response.data.data;
+              this.tableData = response.data.data;
           
         })
         .catch(function(error) {
@@ -343,34 +306,21 @@
           });
         }},
       show_available_companies(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get(this.$store.state.host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.available_companies = response.data.data;
-        ///get products///
-        axios.get(this.$store.state.host_url+"/products",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.products = response.data.data;
-      });
-      })
-      .catch(error => {
-       store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-      });
+        this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
+        }
       }
       ,
       update_price_panel(tabledata_id){
         console.log(tabledata_id);
       },
       onSubmit() {
+        this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
         } else {
@@ -379,7 +329,7 @@
           this.fuel_supply.station_id= this.preset.station_id;
           this.fuel_supply.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.fuel_supply.created_by = user_details.id;
+          this.fuel_supply.stock_received_by = user_details.id;
            let fuel_supply_detail = {
             stock_received: this.fuel_supply
           };
@@ -390,8 +340,11 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");
-             console.log(response.data.data.id);
-              axios.get(this.url+'/print-pdf?id='+response.data.data.id, 
+           
+            this.tableData=response.data.data;
+            this.tableData.forEach(element =>{
+           if(this.fuel_supply.request_code == element.request_code){
+            axios.get(this.url+'/print-delivery-pdf?id='+element.id, 
             { responseType: 'blob' }
           ).then( response => {
               console.log(response);
@@ -403,10 +356,11 @@
               link.click();
           }).catch(error =>{
             console.log(error);
-          });
-            this.tableData.push(response.data.data);
+          });}
+            }
+            );
             store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Request Cleared Successfully', 'show_alert': true});
+                       'alert_message': 'Request cleared successfully, delivery note downloaded', 'show_alert': true});
          
         }).catch(error => {
           store.commit("activateLoader", "end");   
@@ -414,27 +368,26 @@
         })}
       },
       check_request_code(code){
-        console.log(code);
+        this.$SmoothScroll(document.getElementById("content-header"));
          store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          axios.get(this.$store.state.host_url+"/fuel-supply/by_request_code/"+code,
+          let params='code='+code+'&company_id='+this.preset.company_id+'&station_id='+this.preset.station_id;
+          axios.get(this.$store.state.host_url+"/fuel-supply/by_request_code/params?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");  
-                console.log(response.data.data);                
-                if(response.data.data.length> 0){
                     this.is_code_valid= true;
-                     this.fuel_supply.quantity_requested= response.data.data[0].quantity_requested;
-                     this.fuel_supply.created_at= response.data.data[0].created_at;
-                }else{
-                    store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Invalid Request Code', 'show_alert': true});
-                }
-          
-        })
+                     this.fuel_supply.quantity_requested = response.data.data.stock_received.quantity_requested;
+                     this.fuel_supply.created_at = response.data.data.stock_received.created_at;
+                     this.fuel_supply.quantity_loaded = response.data.data.stock_received.quantity_loaded;
+                     this.fuel_supply.driver_name = response.data.data.stock_received.driver_name;
+                     this.fuel_supply.truck_departure_time = response.data.data.stock_received.truck_departure_time;
+                     this.fuel_supply.truck_reg_number = response.data.data.stock_received.truck_reg_number;
+                     this.fuel_supply.waybill_number = response.data.data.stock_received.waybill_number;
+            })
         .catch(function(error) {
            store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 

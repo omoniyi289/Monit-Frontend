@@ -1,368 +1,152 @@
 <template>
     <div>
-        <div class="row mb-4">
-            <div class="col-lg-3  col-sm-6 mb-3">
-                <div class="text-center p-3 widget_social_icons box_shadow">
-                    <div class="widget_social_inner1">
-                        <i class="fa fa-user-o fb_text"></i>
-                    </div>
-                    <div class="text-ash">
-                        <h4 class="mt-2 text_size">7465+</h4>
-                        <p class="m-0 mt-2">Users</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-sm-6 mb-3">
-                <div class="text-center p-3 widget_social_icons box_shadow ">
-                    <div class="widget_social_inner1">
-                        <i class="fa fa-link fb_text"></i>
-                    </div>
-                    <div class="text-ash">
-                        <h4 class="mb-0 mt-2 text_size">1245+</h4>
-                        <p class="m-0 mt-2">Followers</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="text-center p-3 widget_social_icons box_shadow">
-                    <div class=" widget_social_inner1">
-                        <i class="fa fa-comments-o fb_text"></i>
-                    </div>
-                    <div class="text-ash">
-                        <h4 class="mb-0 mt-2 text_size">742+</h4>
-                        <p class="m-0 mt-2">Messages</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 mb-3">
-                <div class="text-center p-3 widget_social_icons box_shadow">
-                    <div class=" widget_social_inner1">
-                        <i class="fa fa-clone fb_text"></i>
-                    </div>
-                    <div class="text-ash">
-                        <h4 class="mb-0 mt-2 text_size">465+</h4>
-                        <p class="m-0 mt-2">Documents</p>
-                    </div>
+      <div class="row">
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <b-card header="Quick Links" header-tag="h4" class="bg-success-card">
+                        <a href="/#/admin/users/profile"><b-breadcrumb class="breadcrumb1" >
+                            ACCOUNT SETTINGS</b-breadcrumb></a>
+                        <a href="/#/ss-management/open-station"><b-breadcrumb class="breadcrumb1" >
+                            OPEN STATION</b-breadcrumb></a>
+                        <a href="/#/ss-management/close-station"><b-breadcrumb class="breadcrumb2" >
+                           CLOSE STATION </b-breadcrumb></a>
+                        <a href="/#/fuel-supply/request"><b-breadcrumb class="breadcrumb3" >
+                           REQUEST FUEL SUPPLY </b-breadcrumb></a>
+                    </b-card>
                 </div>
             </div>
         </div>
-        <!--========================Annual Stats===========================-->
-        <div class="row">
-            <div class="col-lg-12 col-xl-8">
-                <b-card>
-                    <h5 class="ml-3 head_color">Annual Stats</h5>
-                    <div style="height: 305px;">
-                        <IEcharts :option="ajaxbar_chart" :loading="ajaxloading" @ready="onReady" ref="ajaxbar_chart"></IEcharts>
+        <div class="col-sm-9">
+            <div class="row">
+            <div class="col-xl-4 text-center">
+                <b-card claass="bg-default-card easy_pie_chart1">
+                   <div class="row">
+                        <div class="col-12 mb-3 mt-3">
+                            <div class="row">
+                                <div class="col-4 p-t-10 push-1">
+                                    <div class="top_border4 bg_color1">
+                                        <i class="fa fa-server circle_round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8 m-t-10">
+                                    <p class="user_font">Stations</p>
+                                   <p class="number_size">{{parseInt(this.final_data.total_stations).toLocaleString()}}</p>
+                                    
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </b-card>
-                <b-card class="article_widget">
+            </div>
+            <div class="col-xl-4 text-center">
+                <b-card claass="bg-default-card easy_pie_chart1">
                     <div class="row">
-                        <div class="col-12 col-lg-9 col-sm-9 text_color mt-2">
-                            <h5 class="ml-3"> Live With Trending Articles </h5>
-                            <div class="mt-3">
-                                <span class="text-left ml-3">
-                                    <span>
-                                        <i class="fa fa-map-marker"></i>
-                                        <small>London</small>
-                                    </span>
-                                </span>
-                                <span class="text-right pl-3">
-                                    <span>
-                                        <i class="fa fa-calendar"></i>
-                                        <small>04,Aug 2017</small>
-                                    </span>
-                                </span>
+                        <div class="col-12 mb-3 mt-3">
+                            <div class="row">
+                                <div class="col-4 p-t-10 push-1">
+                                    <div class="top_border4 bg_color2">
+                                        <i class="fa fa-server circle_round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8 m-t-10">
+                                    <p class="user_font">Tanks</p>
+                                    <p class="number_size">{{parseInt(this.final_data.total_tanks).toLocaleString()}}</p>
+                                </div>
                             </div>
-                            <p class="mt-4 ml-3">Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies semper
-                                ullamcorper at diam.</P>
                         </div>
-                        <div class="col-12  col-lg-3 col-sm-3 mt-3">
-                            <img src="~img/pages/gal4.jpg" alt="profile image" class="img-fluid">
+                    </div>
+                </b-card>
+            </div>
+            <div class="col-xl-4 text-center">
+                <b-card claass="bg-default-card easy_pie_chart1">
+                    <div class="row">
+                        <div class="col-12 mb-3 mt-3">
+                            <div class="row">
+                                <div class="col-4 p-t-10 push-1">
+                                    <div class="top_border2 bg_color3">
+                                        <i class="fa fa-server circle_round1"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8 m-t-10">
+                                    <p class="user_font">Pumps</p>
+                                    <p class="number_size">{{parseInt(this.final_data.total_pumps).toLocaleString()}} </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </b-card>
-                <!--=========================Site Visitors Chart=============================         -->
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
-                        <b-card>
-                            <h5 class="ml-3 head_color">Site Visitors Chart</h5>
-                            <vue-chartist :data="donut.data" :options="donut.options" type="Pie" :responsiveOptions="donut.responsiveoptions" ref="chartist6"></vue-chartist>
-                            <div class="row">
-                                <div class="col-lg-3 col-sm-12 text_color">
-                                    IE
-                                </div>
-                                <div class="col-lg-9 col-sm-12 progress_color1">
-                                    <b-progress v-model="progress2counter1" show-progress class="mb-4"></b-progress>
-                                </div>
-                                <div class="col-lg-3 col-sm-12 text_color">
-                                    Chrome
-                                </div>
-                                <div class="col-lg-9 col-sm-12 progress_color2">
-                                    <b-progress v-model="progress2counter4" show-progress class="mb-4"></b-progress>
-                                </div>
-                                <div class="col-lg-3 col-sm-12 text_color">
-                                    Firefox
-                                </div>
-                                <div class="col-lg-9 col-sm-12 progress_color3">
-                                    <b-progress v-model="progress2counter5" variant="success" show-progress class="mb-4"></b-progress>
-
-                                </div>
-                            </div>
-                        </b-card>
-                    </div>
-                    <!--=======================Features section=====================-->
-                    <div class="col-xl-6 col-lg-6 col-sm-6">
-                        <b-card>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="row ">
-                                        <div class="col-3 mt-4 mb-3 text-center">
-                                            <i class="fa fa-clone icon_color1"></i>
-                                        </div>
-                                        <div class="col-9 mt-4">
-                                            <h5 class="text_head_Color">
-                                                More Features</h5>
-                                            <p class="below_text">This is the kind of thing you need.</p>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3 mb-3  line">
-                                        <div class="col-3 mt-4 text-center">
-                                            <i class="fa fa-bookmark-o icon_color"></i>
-                                        </div>
-                                        <div class="col-9 mt-4">
-                                            <h5 class="text_head_Color">Unlimited Users</h5>
-                                            <p class="below_text">This is the kind of thing you need.</p>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3 mb-3  line">
-                                        <div class="col-3 mt-4 text-center">
-                                            <i class="fa fa-object-group icon_color1"></i>
-                                        </div>
-                                        <div class="col-9 mt-3">
-                                            <h5 class="text_head_Color">Custom Database</h5>
-                                            <p class="below_text">This is the kind of thing you need.</p>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3 mb-4  line">
-                                        <div class="col-3 mt-4 text-center">
-                                            <i class="fa fa-desktop icon_color"></i>
-                                        </div>
-                                        <div class="col-9 mt-3">
-
-                                            <h5 class="text_head_Color">Enhanced Reporting</h5>
-                                            <p class="below_text">This is the kind of thing you need.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </b-card>
-                    </div>
-                </div>
-                <!--======================registered users========================-->
-                <div class="row">
-                    <div class="col-xl-12 index2_table">
-                        <b-card no-block>
-                            <h5 class="head_color mt-4 ml-3 mb-2">Registered Users</h5>
-                            <div class="table-responsive">
-                                <datatable :exportable="true" per-page="5" :rows="tableData" :columns="columndata"></datatable>
-                            </div>
-                        </b-card>
-                    </div>
-                </div>
-
             </div>
-            <!--======================Monthly Sales========================-->
-            <div class="col-lg-12 col-xl-4">
-                <div class="row">
-                    <div class="col-lg-6 col-xl-12 col-md-6">
-                        <b-card>
-                            <h5 class="ml-3 mb-4 head_color">Monthly Sales</h5>
-                            <div style="height: 150px;" class="mt-2">
-                                <IEcharts :option="doughnut" :loading="loading" @ready="onReady"></IEcharts>
-                            </div>
-                        </b-card>
-                    </div>
-                    <!--====================Timeline============================-->
-                    <div class="col-lg-6 col-xl-12 col-md-6">
-                        <b-card>
-                            <h5 class="ml-3 mb-4 head_color">Timeline</h5>
+            </div>
+            <div class="row">
+            <div class="col-xl-4 text-center">
+              <b-card claass="bg-default-card easy_pie_chart1">
+                  <div class="row">
+                      <div class="col-12 mb-3 mt-3">
+                           <div class="row">
+                               <div class="col-4 p-t-10 push-1">
+                                   <div class="top_border1 bg_color4">
+                                   <i class="fa fa-line-chart circle_round"></i>
+                                   </div>
+                               </div>
+                               <div class="col-8 m-t-10">
+                                   <p class="user_font">Total Vol Supplied</p>
+                                    <p class="number_size">{{parseInt(this.final_data.total_vol_supplied).toLocaleString()}} Ltrs.</p>
+                                   
+                               </div>
+                           </div>
+                      </div>
+                  </div>
+              </b-card>
+            </div>
+            <div class="col-xl-4 text-center">
+                <b-card claass="bg-default-card easy_pie_chart1">
+                   <div class="row">
+                        <div class="col-12 mb-3 mt-3">
                             <div class="row">
-                                <div class="col-2">
-                                    <img src="~img/authors/avatar.jpg" alt="image missing" class="img-fluid rounded-circle">
-                                </div>
-                                <div class="col-10">
-                                    <span class="head_color">
-                                        <b>Walters</b> Started following Designs by
-                                        <span class="text-blue">Torres</span>
-                                    </span>
-                                </div>
-                                <div class="col-2 mt-4 mb-2">
-                                    <img src="~img/authors/avatar1.jpg" alt="image missing" class="img-fluid rounded-circle">
-                                </div>
-                                <div class="col-10 mt-4 mb-2">
-
-                                    <span class="head_color">
-                                        <b>Martin</b> shared the Icon designs of
-                                        <span class="text-blue">Alan Rivera</span>
-                                    </span>
-                                </div>
-                                <div class="col-2 mt-4 mb-2">
-                                    <img src="~img/authors/avatar2.jpg" alt="image missing" class="img-fluid rounded-circle">
-                                </div>
-                                <div class="col-10 mt-4 mb-2">
-
-                                    <span class="head_color">
-                                        <b>Stanley</b> completed the task assigned by
-                                        <span class="text-blue"> Stanley Ben Adams</span>
-                                    </span>
-                                </div>
-                                <div class="col-2 mt-4 mb-2">
-                                    <img src="~img/authors/avatar3.jpg" alt="image missing" class="img-fluid rounded-circle">
-                                </div>
-                                <div class="col-10 mt-4 mb-2">
-
-                                    <span class="head_color">
-                                        <b>Thomas</b> liked an article by Randy
-                                        <span class="text-blue">Spencer</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </b-card>
-                    </div>
-                    <!--==========================swiper section=========================================-->
-                    <div class="col-lg-6 col-xl-12 col-md-6 index2_swiper ">
-                        <b-card class="swiper-widget text-center">
-                            <swiper :options="swiperOption" ref="swiper">
-                                <swiper-slide>
-                                    <img src="~img/pages/weathernew.jpg" alt="profile image" class="img-fluid mb-2">
-                                    <h5 class="user_color mt-4 mb-4">User 1</h5>
-                                    <p>
-                                        Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies
-                                    </p>
-                                </swiper-slide>
-                                <swiper-slide>
-                                    <img src="~img/pages/headsset.jpg" alt="profile image" class="img-fluid mb-2">
-                                    <h5 class="user_color mt-4 mb-4">User 2</h5>
-                                    <p>
-                                        Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies
-                                    </p>
-                                </swiper-slide>
-                                <swiper-slide>
-                                    <img src="~img/pages/gal4.jpg" alt="profile image" class="img-fluid mb-2">
-                                    <h5 class="user_color mt-4 mb-4">User 3</h5>
-                                    <p>
-                                        Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies
-                                    </p>
-                                </swiper-slide>
-                                <swiper-slide>
-                                    <img src="~img/pages/gal10.jpg" alt="profile image" class="img-fluid mb-2">
-                                    <h5 class="user_color mt-4 mb-4">User 4</h5>
-                                    <p>
-                                        Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies
-                                    </p>
-                                </swiper-slide>
-                                <swiper-slide>
-                                    <img src="~img/pages/gal4.jpg" alt="profile image" class="img-fluid ">
-                                    <h5 class="user_color mt-4 mb-4">User 5</h5>
-                                    <p>
-                                        Morbi nisi elit, blandit sit amet tincidunt eget, ullamcorper at diam. Nunc ultricies
-                                    </p>
-                                </swiper-slide>
-                                <div class="mt-1"></div>
-                                <div class="swiper-pagination" slot="pagination"></div>
-                            </swiper>
-                            <hr>
-                            <div>
-                                <p class="pull-left mt-1">
-                                    <i class="fa fa-calendar text-danger pr-2"> </i>
-                                    <small>24-07-2017</small>
-                                    <i class="fa fa-clock-o text-primary"></i>
-                                    <small> 12:45pm</small>
-                                </p>
-                                <span>
-                                    <button class="btn btn-info pull-right text-white mt-2">View Details</button>
-                                </span>
-                            </div>
-                        </b-card>
-                    </div>
-
-                    <!--==================portfolio====================-->
-                    <div class="col-lg-6 col-xl-12 col-md-6">
-                        <div class="card tweet-profile">
-                            <div class="card-header text-center">
-                                <h4>Joncruz Roy</h4>
-                                <p>admin.roy9@example.com</p>
-                            </div>
-                            <span class="profile-img  text-center online_dot">
-                                <img src="~img/authors/avatar3.jpg" alt="profile image" class="img-fluid">
-                            </span>
-                            <div class="card-block dot back_color1">
-                                <div class="tweet-details1">
-                                </div>
-                                <div class="row">
-                                    <div class="chat-conversation">
-                                        <ul class="conversation-list">
-                                            <li class="clearfix odd conversers1">
-                                                <div class="conversation-text">
-                                                    <div class="ctext-wrap m-t-10">
-                                                        <p class="text-left">
-                                                            Hello Wilton, are the review papers ready?
-                                                            <i class="text-right">8:31 pm</i>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="clearfix  m-t-10 conversers2">
-                                                <div class="conversation-text">
-                                                    <div class="ctext-wrap">
-                                                        <p>
-                                                            Not yet, it will take a bit of time for you to get them.
-                                                            <br>
-                                                            <i class="text-right">8:31 pm</i>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="clearfix odd m-t-10 conversers1">
-                                                <div class="conversation-text">
-                                                    <div class="ctext-wrap">
-                                                        <p class="text-left">
-                                                            Treat this on urgent Basis.
-                                                            <i class="text-right">8:33 pm</i>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="clearfix  m-t-10 conversers2">
-                                                <div class="conversation-text">
-                                                    <div class="ctext-wrap">
-                                                        <p>
-                                                            I will make it as early as possible.
-                                                            <br>
-                                                            <i class="text-right">8:34 pm</i>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="clearfix odd m-t-10 conversers1">
-                                                <div class="conversation-text">
-                                                    <div class="ctext-wrap">
-                                                        <p class="text-left">
-                                                            Okay.
-                                                            <i class="text-right">8:35 pm</i>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                <div class="col-4 p-t-10 push-1">
+                                    <div class="top_border4 bg_color5">
+                                        <i class="fa fa-line-chart circle_round"></i>
                                     </div>
+                                </div>
+                                <div class="col-8 m-t-10">
+                                    <p class="user_font">Total Pump Sales</p>
+                                    <p class="number_size">{{parseInt(this.final_data.total_pump_sales).toLocaleString()}} Ltrs.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </b-card>
+            </div>
+            <div class="col-xl-4 text-center">
+                <b-card claass="bg-default-card easy_pie_chart1">
+                    <div class="row">
+                        <div class="col-12 mb-3 mt-3">
+                            <div class="row">
+                                <div class="col-4 p-t-10 push-1">
+                                    <div class="top_border4 bg_color6">
+                                        <i class="fa fa-line-chart circle_round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-8 m-t-10">
+                                    <p class="user_font">Total Tank Sales</p>
+                                    <p class="number_size">{{parseInt(this.final_data.total_tank_sales).toLocaleString()}} Ltrs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </b-card>
+            </div>
             </div>
         </div>
+        </div>
+        
+        <div class="col-sm-12" v-show="show_setup_form">
+            <div class="table-responsive">
+              <datatable title="Sales and Stock Data" :rows="tableData" :columns="columndata">
+              </datatable>
+            </div>
+          </div>
     </div>
 </template>
 <script>
@@ -376,7 +160,7 @@
     import VueAwesomeSwiper from 'vue-awesome-swiper';
     import countTo from 'vue-count-to';
 
-    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
     import vScroll from "components/plugins/scroll/vScroll.vue";
     import portfolio from "components/widgets/portfolio/portfolio.vue"
     import VueChartist from 'v-chartist'
@@ -387,7 +171,7 @@
         name: "index2",
         components: {
             IEcharts,
-            datatable,
+            datatable,csview,
             countTo,
             vScroll,
             portfolio,
@@ -395,202 +179,66 @@
         },
         data() {
             return {
-                serverdata: [],
-                instances: [],
+            csu_company:"",
+            is_change_password:false,
+            csu_stations:[],
+            cru_company:"",
+            cru_stations:[],
+            myrole:"",
+            company_stations: [],                
+            available_companies: [],
+            is_company_regular_user: false,
+            is_company_super_user: false,
+            is_e360_super_user: false,
+            final_data: [],
+            preset : {
+                    company_id: 0,
+                    station_id: 0
+                    },
+            
                 loading: false,
                 ajaxloading: true,
-                //==========Doughnut chart data start=====
-                doughnut: {
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b}: {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        x: 'left',
-                        data: ['Jan', 'Mar', 'May', 'Aug', 'Dec']
-
-                    },
-                    series: [{
-                        name: 'Sales',
-                        type: 'pie',
-                        radius: ['50%', '70%'],
-                        avoidLabelOverlap: false,
-                        color: ['#137cbc', '#279fc9', '#4cb6e5', '#98d4f9', '#afebf9'],
-                        label: {
-                            normal: {
-                                show: false,
-                                position: 'center',
-
-                            },
-
-                            emphasis: {
-                                show: true,
-                                textStyle: {
-                                    fontSize: '30',
-                                    fontWeight: 'bold'
-                                }
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data: [{
-                            value: 455,
-                            name: 'Jan',
-
-                        }, {
-                            value: 310,
-                            name: 'Mar'
-                        }, {
-                            value: 234,
-                            name: 'May'
-                        }, {
-                            value: 135,
-                            name: 'Aug'
-                        }, {
-                            value: 148,
-                            name: 'Dec'
-                        }]
-                    }]
-                },
-                //==========Doughnut chart data end=====
-                // ======donut chart start=======
-                donut: {
-                    data: {
-                        labels: ['C', 'IE', 'F'],
-                        series: [50, 20, 30],
-
-                    },
-                    options: {
-
-                        donut: true,
-                        donutWidth: 42,
-                        labelInterpolationFnc: function (value) {
-                            return value[0]
-                        }
-                    },
-                    responsiveoptions: [
-                        ['screen and (min-width: 640px)', {
-                            chartPadding: 30,
-                            labelOffset: 40,
-                            labelDirection: 'explode',
-                            labelInterpolationFnc: function (value) {
-                                return value;
-                            }
-                        }],
-                        ['screen and (min-width: 1024px)', {
-                            labelOffset: 50,
-                            chartPadding: 40
-                        }]
-                    ]
-                },
-                // ======donut chart end================
-
-                //==========swipper=========
-
-                swiperOption: {
-                    pagination: '.swiper-pagination',
-                    paginationClickable: true,
-                    spaceBetween: 55,
-                    effect: 'flip',
-                    centeredSlides: true,
-                    autoplay: 2500,
-                    autoplayDisableOnInteraction: false,
-                    loop: false,
-                    nextButton: '.swiper-button-next',
-                    prevButton: '.swiper-button-prev'
-                },
-                //=============progress bar============
-                progress2counter1: 20,
-                progress2counter4: 50,
-                progress2counter5: 30,
-
-
-                //===========AJAX chart data start=========
-                ajaxbar_chart: {
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    grid: {
-                        bottom: '10%',
-                        right: '1%',
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            //
-                        }
-                    },
-                    calculable: true,
-                    legend: {
-                        data: ['PROJECTS', 'SALES']
-                    },
-                    color: ['#a0bce5', '#baf2e1'],
-                    xAxis: [{
-                        type: 'category',
-                        name: 'YEAR',
-                        data: ['2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015',
-                            '2016', '2017'
-                        ]
-                    }],
-                    yAxis: [{
-                            type: 'value',
-                            name: '%',
-                            axisLabel: {
-                                formatter: '{value} '
-                            }
-                        },
-                        {
-                            type: 'value',
-
-                            axisLabel: {
-                                formatter: '{value} '
-                            }
-                        }
-                    ],
-                    series: [{
-                            name: 'PROJECTS',
-                            type: 'bar',
-                            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-                        },
-                        {
-                            name: 'SALES',
-                            type: 'bar',
-                            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-                        },
-
-                    ]
-                },
-                //===========AJAX chart data end=========\
-                // ===tabledata
                 tableData: [],
+                show_setup_form: false,
                 columndata: [{
-                    label: 'ID',
+                    label: 'Date',
                     color: ['#ccc'],
-                    field: 'id',
+                    field: 'date',
                     numeric: true,
                     html: false,
                 }, {
-                    label: 'Name',
-                    field: 'name',
+                    label: 'Station',
+                    field: 'station',
                     numeric: false,
-                    html: false,
-                }, {
-                    label: 'Email',
-                    field: 'email',
+                    html: true,
+                },{
+                    label: 'Product',
+                    field: 'product',
                     numeric: false,
-                    html: false,
+                    html: true,
                 }, {
-                    label: 'Status',
-                    field: 'status',
+                    label: 'PPV',
+                    field: 'ppv',
                     numeric: false,
-                    html: false,
+                    html: true,
                 }, {
-                    label: 'Actions',
-                    field: 'action',
+                    label: 'Pump Sales',
+                    field: 'pump_sales',
+                    numeric: false,
+                    html: true,
+                }, {
+                    label: 'Tank Sales',
+                    field: 'tank_sales',
+                    numeric: false,
+                    html: true,
+                }, {
+                    label: 'Expected Pump Sales',
+                    field: 'expected_pump_sales',
+                    numeric: false,
+                    html: true,
+                }, {
+                    label: 'Tolerance',
+                    field: 'tolerance',
                     numeric: false,
                     html: true,
                 }]
@@ -598,410 +246,726 @@
             }
         },
         mounted: function () {
-            unsub = this.$store.subscribe((mutation, state) => {
-                if (mutation.type == "left_menu") {
-                    this.instances.forEach(function (item, index) {
-                        setTimeout(function () {
-                            item.resize();
-                        });
-                    });
-                    setTimeout(() => {
-                        this.$refs.swiper.swiper.update();
-                    });
-                }
-            });
-            axios.get(
-                    "http://www.filltext.com/?rows=10&id={index}&name={firstName}~{lastName}&email={email}&status=[%22Activated%22,%22Deactivated%22]"
-                ).then(response => {
-                    this.tableData = response.data;
-                    this.tableData.forEach((item, index) => {
-                        this.$set(item, "action",
-                            "<a class='text-info' href='javascript:void(0)'><i class='fa fa-pencil'></i></a> <a class='text-danger' href='javascript:void(0)'><i class='fa fa-trash'></i></a>"
-                        );
-                    });
-                })
-                .catch(function (error) {
-
-                });
-
-            axios.get("http://www.filltext.com/?rows=1&chartdata={numberArray|12,100}").then(response => {
-                    this.ajaxbar_chart.series[0].data = response.data[0].chartdata;
-                    this.ajaxloading = false;
-                })
-                .catch(function (error) {
-
-                });
-
+            var url = window.location+"go";
+            if(url.includes('company_user')){
+                this.$route.query.company_user = undefined;
+                //do a reload to set menu permissions to the newly stored        
+                console.log("here");
+                //this.$forceUpdate();
+                // vm.$forceUpdate();
+                window.location.href = "/#/index/";
+                location.reload();         
+            }
+            this.populate_dashboard();
+          
+         
         },
-        beforeRouteLeave(to, from, next) {
-            unsub();
-            next();
-        },
-
         methods: {
-            onReady(instance) {
-                this.instances.push(instance)
-            },
-            // ===chart animation===
-            update_chart() {
-                setInterval(() => {
-                    for (var i = 0; i < this.ajaxbar_chart.series.length; i++) {
-                        this.ajaxbar_chart.series[i].data.shift();
-                        this.ajaxbar_chart.series[i].data.push(Math.floor((Math.random() * (1000 - 90) + 90) +
-                            1));
+          populate_dashboard(){
+            store.commit("activateLoader", "start");
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        var company_route = '';
+        //console.log(user_details);
+        if(user_details.is_verified !== undefined && user_details.is_verified == 2){
+          ///e360 super user
+          this.myrole = "e360 Super User";
+          company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id+'company_id=all';
+          axios.get(store.state.host_url+company_route,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+          store.commit("activateLoader", "end"); 
+          this.show_setup_form = true;
+          this.final_data = response.data.data;
+          var table_data = [];
+        table_data=this.final_data.merged_data_by_date;
+        //  table_data.forEach((item, index) => {
+         //     console.log(index);
+         // });
+         var table_data_by_date = Object.keys(table_data).map(function(key) {
+         return [key, table_data[key]];
+         });
+         table_data_by_date= table_data_by_date.reverse();
+         ////by date///////
+         table_data_by_date.forEach(element => {
+             let main_date = element[0];
+             let table_data_by_product = element[1];
+             var i_result = Object.keys(table_data_by_product).map(function(key) {
+            return [key, table_data_by_product[key]];
+            });
+            // console.log(i_result);
+                var total_pump_sales_string='';
+                var total_tank_sales_string='';
+                var ppv_string= '';
+                var tolerance_string='';
+                var expected_pump_sales_string='';
+                var station_name_string = '';
+                let product_string='';
+                ////by product//////
+            i_result.forEach(element => {
+                var total_pump_sales=0;
+                var total_tank_sales=0;
+                var expected_pump_sales=0;
+                var tolerance=0;
+                var ppv= 0;
+                var station_name = 'c';
+                let product = element[0];
+                let stock_and_pump_data = element[1];
+                var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
+            return [key, stock_and_pump_data[key]];
+            });
+            if(ii_result[0] !== undefined){
+            if(ii_result[0][0]=="pump_data"){
+                var tot_open_pump_reading= 0;
+                var tot_close_pump_reading = 0;
+
+                var tot_shift_start_tank_reading= 0;
+                var tot_shift_end_tank_reading = 0;
+
+                ii_result[0][1].forEach(element =>{
+                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
+                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
+                    ppv = element.ppv;
+                    station_name = element.station.name;
+                }
+                );
+                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
+                
+                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
+            }}
+            if(ii_result[1] !== undefined){
+            if(ii_result[1][0]=="tank_data"){
+                ii_result[1][1].forEach(element =>{
+                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
+                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
+                 //station_name = element.station.name;
+                }
+                );
+                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
+                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
+                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
+               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
+            }}  
+                if(total_tank_sales !=0){
+                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
+                }else{
+                    tolerance ='Invalid';
+                }
+                total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
+                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
+                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
+                expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
+                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                //all return readings with real values return station, just pick one
+                
+                if(station_name !='c'){
+                    station_name_string = station_name;
                     }
-                }, 4000);
-            },
-            // ===chart animation===
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+               });
+            
+            this.tableData.push({'date': main_date, 'product': product_string, 
+                'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
+                total_pump_sales_string, 'station': station_name_string, 'tolerance': 
+                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
+                 });
+
+         
+         this.is_e360_super_user = true;
+            })
+            .catch(error => {
+            store.commit("activateLoader", "end");   
+                store.commit("catch_errors", error); 
+            });
+            
+        }
+        else if(user_details.is_company_set_up !== undefined && user_details.is_company_set_up == 1){
+          //first company super user
+          this.myrole = "Super User";
+          console.log(this.myrole);
+          //company_route = '/companies/first_company_user/'+user_details.id;
+          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=not_needed';
+          //company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
+          axios.get(store.state.host_url+company_route,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+          store.commit("activateLoader", "end"); 
+          this.available_companies = response.data.data;;
+            this.is_company_super_user = true;   
+            this.show_setup_form = true;
+            this.final_data = response.data.data;
+            var table_data = [];
+            table_data=this.final_data.merged_data_by_date;
+        //  table_data.forEach((item, index) => {
+         //     console.log(index);
+         // });
+         var table_data_by_date = Object.keys(table_data).map(function(key) {
+         return [key, table_data[key]];
+         });
+         table_data_by_date= table_data_by_date.reverse();
+         table_data_by_date.forEach(element => {
+             let main_date = element[0];
+             let table_data_by_product = element[1];
+             var i_result = Object.keys(table_data_by_product).map(function(key) {
+            return [key, table_data_by_product[key]];
+            });
+            // console.log(i_result);
+                var total_pump_sales_string='';
+                var total_tank_sales_string='';
+                var ppv_string= '';
+                var tolerance_string='';
+                var expected_pump_sales_string='';
+                var station_name_string = '';
+                let product_string='';
+                ////by product//////
+            i_result.forEach(element => {
+                var total_pump_sales=0;
+                var total_tank_sales=0;
+                var expected_pump_sales=0;
+                var tolerance=0;
+                var ppv= 0;
+                var station_name = 'c';
+                let product = element[0];
+                let stock_and_pump_data = element[1];
+                var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
+            return [key, stock_and_pump_data[key]];
+            });
+            if(ii_result[0] !== undefined){
+            if(ii_result[0][0]=="pump_data"){
+                var tot_open_pump_reading= 0;
+                var tot_close_pump_reading = 0;
+
+                var tot_shift_start_tank_reading= 0;
+                var tot_shift_end_tank_reading = 0;
+
+                ii_result[0][1].forEach(element =>{
+                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
+                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
+                    ppv = element.ppv;
+                    station_name = element.station.name;
+                }
+                );
+                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
+                
+                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
+            }}
+            if(ii_result[1] !== undefined){
+            if(ii_result[1][0]=="tank_data"){
+                ii_result[1][1].forEach(element =>{
+                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
+                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
+                 //station_name = element.station.name;
+                }
+                );
+                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
+                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
+                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
+               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
+            }}  
+                if(total_tank_sales !=0){
+                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
+                }else{
+                    tolerance ='Invalid';
+                }
+                total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
+                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
+                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
+                expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
+                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                //all return readings with real values return station, just pick one
+                
+                if(station_name !='c'){
+                    station_name_string = station_name;
+                    }
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+               });
+            
+            this.tableData.push({'date': main_date, 'product': product_string, 
+                'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
+                total_pump_sales_string, 'station': station_name_string, 'tolerance': 
+                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
+                 });
+              })
+            .catch(error => {
+            store.commit("activateLoader", "end");   
+                store.commit("catch_errors", error); 
+            });
+               
+        }else if(user_details.company_id !== undefined){
+          ///for regular company users
+          company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
+          axios.get(store.state.host_url+company_route,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+          store.commit("activateLoader", "end"); 
+          ///one company
+          this.is_company_regular_user = true;   
+          this.show_setup_form = true;
+          this.final_data = response.data.data;
+          console.log(this.final_data.total_pumps);
+          var table_data = [];
+          table_data=this.final_data.merged_data_by_date;
+        //  table_data.forEach((item, index) => {
+         //     console.log(index);
+         // });
+         var table_data_by_date = Object.keys(table_data).map(function(key) {
+         return [key, table_data[key]];
+         });
+         table_data_by_date= table_data_by_date.reverse();
+         table_data_by_date.forEach(element => {
+             let main_date = element[0];
+             let table_data_by_product = element[1];
+             var i_result = Object.keys(table_data_by_product).map(function(key) {
+            return [key, table_data_by_product[key]];
+            });
+            // console.log(i_result);
+                var total_pump_sales_string='';
+                var total_tank_sales_string='';
+                var ppv_string= '';
+                var tolerance_string='';
+                var expected_pump_sales_string='';
+                var station_name_string = '';
+                let product_string='';
+                ////by product//////
+            i_result.forEach(element => {
+                var total_pump_sales=0;
+                var total_tank_sales=0;
+                var expected_pump_sales=0;
+                var tolerance=0;
+                var ppv= 0;
+                var station_name = 'c';
+                let product = element[0];
+                let stock_and_pump_data = element[1];
+                var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
+            return [key, stock_and_pump_data[key]];
+            });
+            if(ii_result[0] !== undefined){
+            if(ii_result[0][0]=="pump_data"){
+                var tot_open_pump_reading= 0;
+                var tot_close_pump_reading = 0;
+
+                var tot_shift_start_tank_reading= 0;
+                var tot_shift_end_tank_reading = 0;
+
+                ii_result[0][1].forEach(element =>{
+                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
+                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
+                    ppv = element.ppv;
+                    station_name = element.station.name;
+                }
+                );
+                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
+                
+                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
+            }}
+            if(ii_result[1] !== undefined){
+            if(ii_result[1][0]=="tank_data"){
+                ii_result[1][1].forEach(element =>{
+                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
+                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
+                 //station_name = element.station.name;
+                }
+                );
+                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
+                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
+                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
+               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
+            }}  
+                if(total_tank_sales !=0){
+                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
+                }else{
+                    tolerance ='Invalid';
+                }
+                total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
+                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
+                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
+                expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
+                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                //all return readings with real values return station, just pick one
+                
+                if(station_name !='c'){
+                    station_name_string = station_name;
+                    }
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+               });
+            
+            this.tableData.push({'date': main_date, 'product': product_string, 
+                'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
+                total_pump_sales_string, 'station': station_name_string, 'tolerance': 
+                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
+                 });
+              })
+            .catch(error => {
+            store.commit("activateLoader", "end");   
+                store.commit("catch_errors", error); 
+            });
+            }
+          }
         }
     }
 </script>
 <!-- styles -->
 <!-- adding scoped attribute will apply the css to this component only -->
-<style src="assets/css/widgets.css" scoped></style>
-<style scoped>
-    .swiper-pagination {
-        position: relative;
-    }
-
-    .swiper-pagination-fraction,
-    .swiper-pagination-custom,
-    .swiper-container-horizontal>.swiper-pagination-bullets {
-        top: 5px;
-    }
-
-    .swiper-container {
-        margin-top: 0px !important;
-    }
-</style>
-<style type="text/css" lang="scss">
-    .index2_table .table-responsive .card {
-        border: none;
-        box-shadow: none;
-        margin-bottom: 0;
-    }
-
-    .index2_swiper .swiper-pagination-bullet-active {
-        background: #08aa80;
-    }
-    /*===============================notes========*/
-
-    .notes {
-        line-height: 22px;
-        font-size: 13px;
-        padding: 0 15px 0 36px;
-        position: relative;
-        outline: none;
-        background: #fff;
-        background-size: 100% 30px;
-    }
-
-    .notes p {
-        border-bottom: 1px solid #dfe8ec;
-        ;
-    }
-
-    .notes::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        top: 0;
-        left: 25px;
-        bottom: 0;
-        border-left: 1px solid #0fd1c1;
-    }
-
-    .social .bg-default-card .info {
-        font-size: 12px;
-    }
-
-    .social .bg-default-card span {
-        display: block;
-        text-transform: uppercase;
-    }
-
-    .social .bg-default-card .value {
-        font-size: 40px;
-        line-height: normal;
-    }
-
-
-    .social .bg-default-card {
-        i {
-            transition: 300ms;
-        }
-        &:hover {
-            i {
-                font-size: 45px;
-                transition: 300ms;
-            }
-        }
-    }
-
-    .social_cuntdata {
-        font-weight: bold;
-        font-size: 18px;
-    }
-
-    .subscribe_btn {
-        background-color: transparent;
-        border: 0;
-        outline: none;
-    }
-
-    .widget_social_icons {
-        background-color: #fff;
-    }
-
-    .fb_text {
-        color: #215fe2;
-        font-size: 28px;
-    }
-
-    .box_shadow {
-        box-shadow: 2px 2px 15px 0px #ccc;
-    }
-
-    .head_color {
-        color: #686868;
-    }
-
-    .text_size {
-        font-size: 25px;
-        color: #797f82;
-    }
-
-    .text-ash {
-        color: #575f65;
-    }
-
-    .text_color {
-        color: #646161 !important;
-    }
-
-    .swiper-pagination {
-        margin: 0 !important;
-    }
-
-    .text-blue {
-        color: #215fe2;
-    }
-
-    .progress_color2 .progress-bar {
-        background-color: #7FAFF7;
-    }
-
-    .icon_color {
-        font-size: 27px;
-        color: #828686;
-    }
-
-    .icon_color1 {
-        font-size: 25px;
-        color: #6e8dce;
-    }
-
-    .line {
-        border-top: 1px solid #ccc;
-    }
-
-    .text_head_Color {
-        color: #707373;
-    }
-
-    .below_text {
-        color: #a2a1a1;
-    }
-
-    .index2_table th {
-        color: #686868;
-    }
-
-    .index2_table td {
-        color: #686868;
-    }
-
-    .user_color {
-        color: #8e8c8e;
-    }
-
-    .count1 {
-        font-size: 18px;
-        color: #686868;
-    }
-
-    .ti_color {
-        color: #215fe2;
-    }
-
-    .fb_color {
-        font-size: 18px;
-        color: #3B5998;
-    }
-
-    .twi_color {
-        color: #00aced;
-        font-size: 18px;
-    }
-
-    .gi_color {
-        color: red;
-        font-size: 18px;
-    }
-
-    .pin_color {
-        color: red;
-    }
-
-    .cam_color {
-        color: green
-    }
-
-    .events1 {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding-top: 2px;
-        padding-bottom: 2px;
-        margin-top: 15px;
-        margin-right: -20px;
-        font-size: 18px;
-        color: #555;
-    }
-
-    .online_dot img {
-        position: relative;
-    }
-
-    .online_dot::after {
-        content: "";
-        position: absolute;
-        margin-top: -28px;
-        height: 11px;
-        width: 11px;
-        border: 2px solid #FFF;
-        border-radius: 50%;
-        background-color: green;
-        margin-left: -13px;
-    }
-
-    .conversation-list .ctext-wrap p {
-        margin: 0;
-        padding-top: 3px;
-    }
-
-    .conversation-list .odd .ctext-wrap:after {
-        border-color: rgba(238, 238, 242, 0);
-        left: 99%;
-        margin-right: -1px;
-        border-top: 0 solid #D8F1E4;
-        border-left: 12px solid #D8F1E4;
-        border-bottom: 14px solid transparent;
-    }
-
-    .conversation-list .ctext-wrap p {
-        margin: 0;
-        /*padding-top: 3px;*/
-    }
-
-    .ctext-wrap p {
-        margin-bottom: 10px;
-    }
-
-    .conversation-list .odd .conversation-text {
-        float: right;
-        margin-right: 25px;
-        text-align: right;
-        width: 95%;
-    }
-
-    .conversation-list .ctext-wrap i {
-        color: #777;
-        display: block;
-        font-size: 11px;
-        font-style: normal;
-        position: relative;
-    }
-
-    .conversation-list .conversers1 .ctext-wrap {
-        background: #D8F1E4;
-    }
-
-    .conversation-list .ctext-wrap {
-        border-radius: 3px;
-        display: inline-block;
-        padding: 5px 10px;
-        position: relative;
-        box-shadow: 2px -2px 4px 0px rgba(0, 0, 0, 0.1)
-    }
-
-    .text-field {
-        padding: 6px 10px;
-    }
-
-    .conversation-list .odd .ctext-wrap:after {
-        border-color: rgba(238, 238, 242, 0);
-        left: 99%;
-        margin-right: -1px;
-        border-top: 0 solid #D8F1E4;
-        border-left: 12px solid #D8F1E4;
-        border-bottom: 14px solid transparent;
-    }
-
-    .conversation-list .ctext-wrap:after {
-        right: 100%;
-        top: 0;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        margin-left: -1px;
-        border-top: 0 solid #fff;
-        border-right: 12px solid #e9f9ff;
-        border-bottom: 14px solid transparent;
-    }
-
-    .clearfix:after {
-        clear: both;
-    }
-
-    .back_color1 {
-        width: auto;
-        height: 274px;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-
-    .conversation-list .conversation-text {
-        float: left;
-        font-size: 13px;
-        width: 70%;
-    }
-
-    .clearfix:before,
-    .clearfix:after {
-        content: " ";
-        display: table;
-    }
-
-    .conversation-list .conversers2 .ctext-wrap {
-        background: #e9f9ff;
-    }
-
-    .m-t-10 {
-        margin-top: 10px !important;
-    }
-
-    .conversation-list {
-        width: auto;
-        height: 340px;
-        padding-left: 27px;
-    }
-
-    .profile-img {
-        background-color: #fff;
-    }
-    .chat-conversation{
-        width: 100%;
-    }
-</style>
 <style src="chartist/dist/chartist.css"></style>
+<style scoped src="assets/css/index.css"></style>
+<style>
+.index1_swiper .swiper-pagination-bullet-active {
+    background: #fff !important;
+}
+.swiper-widget{
+  padding: 7px;
+
+}
+.sales-info{
+    color: #636c72;
+}
+.echarts{
+    height: 179px !important;
+}
+/*socio-tabs*/
+
+.socio-tabs {
+    min-height: 370px;
+    background-color:#f5f8fa;
+}
+
+.socio-tabs .tab-content {
+    min-height: 315px;
+}
+
+.socio-tabs .nav-item a {
+    padding: 15px 0;
+    text-align: center;
+}
+
+.socio-tabs .nav-tabs li:first-child a.active {
+    background-color: #55ACEE;
+}
+
+.socio-tabs .nav-tabs li:nth-child(2) a.active {
+    background-color: #3B5998;
+}
+
+.socio-tabs .nav-tabs li:last-child a.active {
+    background-color: #3F729B;
+}
+
+.socio-tabs .nav-tabs {
+    border-top: 3px solid #FFF;
+    border-bottom: 0;
+}
+
+.socio-tabs .nav-item {
+    width: 33.33%;
+}
+
+.socio-tabs .nav-tabs .nav-link,
+.socio-tabs .nav-tabs .nav-link:focus,
+.socio-tabs .nav-tabs .nav-link:hover {
+    border-color: #fff #fff #ddd;
+    font-size: 14px;
+    color: #777;
+}
+
+.socio-tabs .nav-tabs .nav-link.active,
+.socio-tabs .nav-tabs .nav-item.show .nav-link {
+    border-color: #fff #fff #ddd;
+    color: #FFF;
+}
+
+.tab-pane .card {
+    border-color: #FFF;
+    margin:3px 0 0 0;
+}
+
+.tab-pane .card-block {
+    padding: 12px;
+}
+.PMS{
+    color: #1d8a99;
+}
+.AGO{
+    color: #c5b451;
+}
+.DPK{
+    color: #360568;
+}
+.twitter .tweet-img {
+    width: 17%;
+}
+.twitter .tweet {
+    width: 83%;
+    padding-left: 3%;
+}
+.swiper-container{
+    margin-top: 22px;
+}
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
+    bottom: 26px !important;
+}
+a.prfl-link {
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.twitter .tweet .options {
+    margin: 0;
+}
+
+.twitter .tweet .options i {
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.facebook .page-img,
+.instagram .page-img {
+    width: 17%;
+}
+
+.facebook .page-name,
+.instagram .page-name {
+    width: 83%;
+    padding-left: 3%;
+}
+.fb-friends{
+    overflow: hidden;
+}
+.fb-friends img {
+    width: 23%;
+    margin: 0 0 5px 2px;
+    cursor: pointer;
+}
+.fb-friends img:hover{
+    transform: scale(1.1,1.1);
+    transition: 300ms
+}
+.insta-pins .insta-img {
+    width: 49%;
+    margin: 0 1px;
+    float: left;
+    position: relative;
+}
+
+.insta-pins .insta-img img {
+    width: 100%;
+    height: 130px;
+}
+
+.insta-pins .insta-img .pic-credits {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 3px 7px;
+    color: #555;
+    background-color: rgba(255, 255, 255, .6);
+}
+
+.task1 {
+    padding-bottom: 20px!important;
+}
+
+.task1 .btn {
+    margin-right: 15px!important;
+}
+
+
+/*========chart============*/
+
+#annual-sales {
+    position: relative;
+    height: 260px;
+}
+
+#annual-sales .ct-grid {
+    stroke: rgba(0, 0, 0, .07);
+    stroke-width: 1px;
+    stroke-dasharray: 0;
+}
+
+#annual-sales .ct-label {
+    color: rgba(0, 0, 0, .7);
+    font-size: 1.1rem;
+}
+
+#annual-sales .ct-label.ct-horizontal.ct-end {
+    margin-left: -15px;
+}
+
+@media screen and (max-width:390px) {
+    #annual-sales {
+        height: 200px;
+    }
+    #annual-sales .ct-label.ct-horizontal.ct-end {
+        transform: rotate(-45deg);
+    }
+}
+
+#annual-sales .ct-series-a .ct-line,
+#annual-sales .ct-series-a .ct-point {
+    stroke: #4FC1E9;
+}
+
+#annual-sales .ct-series-b .ct-line,
+#annual-sales .ct-series-b .ct-point {
+    stroke: #09BD8F;
+}
+
+#annual-sales .ct-point {
+    stroke-width: 7px;
+    cursor: pointer;
+}
+
+#annual-sales .ct-series-a .ct-area {
+    fill: #BFBFC6;
+    fill-opacity: .05
+}
+
+#annual-sales .ct-series-b .ct-area {
+    fill: #4086C1;
+    fill-opacity: .05
+}
+
+#annual-sales .ct-line {
+    stroke-width: 1px
+}
+
+
+.chartist-tooltip {
+    background-color: #0a0a0a;
+    color: #FFF;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.chartist-tooltip:before,
+.chartist-tooltip:after {
+    content: none;
+}
+
+.nav-tabs:focus {
+    outline: none;
+}
+
+.icon_color {
+    color: #22b1e3;
+    font-size: 25px;
+}
+
+.circle_round{
+    font-size: 20px;
+}
+.circle_round1{
+    font-size: 22px;
+}
+.top_border1{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    line-height: 4.1;
+    font-size: 15px;
+    color: #fff;
+    box-shadow:1px 1px 20px rgba(75, 156, 228, 0.88);
+}
+.top_border2{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    line-height: 4.1;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: 1px 1px 20px rgba(82, 162, 185, 0.86);
+}
+.top_border3{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    line-height: 4.1;
+    font-size: 15px;
+    color: #fff;
+    box-shadow: 1px 1px 22px rgb(19, 191, 210);
+}
+.top_border4{
+    width:60px;
+    height:60px;
+    border-radius: 50%;
+    line-height: 4.1;
+    font-size: 15px;
+    color: #fff;
+    box-shadow:1px 1px 20px rgba(23, 96, 160, 0.89);
+}
+.bg_color1{
+    background-color: #4b9ce4;
+}
+.bg_color2{
+    background-color: #328ba7;
+}
+.bg_color3{
+    background-color: #13d269;
+}
+.bg_color4{
+    background-color: #d83ad0;
+}
+.bg_color5{
+    background-color: #3d8368;
+}
+.bg_color6{
+    background-color: #1760a0;
+}
+.number_size{
+    font-size: 20px;
+    color: #646567;
+    margin-bottom: 0 !important;
+}
+.user_font{
+    font-size: 13px;
+    color: #646567;
+    margin-bottom: 0!important;
+}
+.m-t-10{
+    margin-top: 8px;
+}
+/*======chartist=========*/
+</style>
+<style scoped lang="scss">
+    /*========================easy pie chart========================*/
+
+.easychart {
+    & .chart {
+        margin: 2px auto;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+    }
+    .circle_val {
+        display: block;
+        font-weight: normal;
+        color: #646a6f;
+        position: relative;
+    }
+    .percent {
+        display: inline-block;
+        z-index: 2;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+</style>

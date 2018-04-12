@@ -12,10 +12,7 @@ function addDays(noOfDays) {
 //=======vuex store start===========
 let user_detials= JSON.parse(localStorage.getItem('user_details'));
 let username='';
-console.log(user_detials);
-if(user_detials !== null){
-     username= user_detials.username;
-}
+
 const store = new Vuex.Store({
     state: {
         left_open: true,
@@ -23,15 +20,26 @@ const store = new Vuex.Store({
         show_alert: false,
         alert_message: "",
         alert_type: "",
+        menu_items: [],
+        available_companies: "",
+        available_company: "",
+        products:"",
+        show_single_company: false,
+        show_multi_company: false,
         host_url: "http://localhost:8000/api/v1",
         //host_url: "http://sm2.api.energy360africa.com/api/v1",
         site_name: "Station Manager",
         page_title: null,
-        user: {
+        /*user: {
             name: username,
             picture: require("img/authors/prf4.jpg"),
             job: "Project Manager"
-        },
+        },*/
+        user: user_detials,
+        preset : {
+            company_id: 0,
+            station_id: 0
+            },
         cal_events: [{
             id: 0,
             title: 'Office',

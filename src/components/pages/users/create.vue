@@ -3,31 +3,44 @@
     <div class="col-lg-12">
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
-          <div class="col-md-10">
+          <div class="col-md-12">
             <vue-form :state="formstate2" @submit.prevent="onSubmit">
               <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
+                <div class="col-lg-5">
+                  <div class="form-group" v-if="show_multi_company">
                     <validate tag="div">
-                      <label for="company">Select Company</label>
-                      <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                        <option value="0" selected disabled>
-                          Select Company
-                        </option>
-                        <option
-                          v-for="option in available_companies"
-                          v-bind:value="option.id"
-                          :selected="option.id == preset.company_id" >{{ option.name }}
-                        </option>
-                      </select>
+                      Select Company
+                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
+                          <option
+                            v-for="(option, index) in available_companies"
+                            v-bind:value="option.id"
+                            >{{ option.name }}
+                          </option>                       
+                      </select>                     
                       <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Company is required</div>
+                        <div slot="requred">Company is required</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+
+                  <div class="form-group" v-if="show_single_company">
+                    <validate tag="div">
+                      Select Company
+                      <select  name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
+                        <option :value="available_company.id"
+                          >{{ available_company.name }}
+                        </option>
+                        
+                      </select>
+                      
+                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
+                        <div slot="requred">Company is required</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
-
-                <div class="col-sm-6">
+              <div class="col-lg-5" v-show="show_setup_form && fill_form" >
+                <div class="col-sm-12">
                     <div class="form-group">
                       <b-card v-if="company_stations.length" header="Registered Stations" header-tag="h4" class="bg-info-card">            
                         <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
@@ -40,7 +53,7 @@
                         <p v-else>{{this.company_stations_null}}</p>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="number"> Full Name</label>
@@ -52,7 +65,7 @@
                   </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="nozzle_code"> Username</label>
@@ -64,11 +77,11 @@
                   </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="brand"> Email</label>
-                      <input v-model="user.email" name="email" type="text" required autofocus placeholder="Email" class="form-control" id="brand"/>
+                      <input v-model="user.email" name="email" type="email" required autofocus placeholder="Email" class="form-control" id="brand"/>
                       <field-messages name="email" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Email is a required field</div>
                       </field-messages>
@@ -76,7 +89,7 @@
                   </div>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="serial_number"> Phone Number</label>
@@ -88,21 +101,20 @@
                   </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="role_id">Roles</label>
+                      <label for="role_id">Role</label>
                       <select id="role" name="role_id" size="1" class="form-control" v-model="user.role_id" required checkbox>
 
                         <option
                           v-for="option in available_roles"
-                          v-bind:value="option.id"
-                          :selected="option.name == user.role" >{{ option.name }}
+                          v-bind:value="option.id" >{{ option.name }}
                         </option>
 
                       </select>
                       <field-messages name="role_id" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Role is required</div>
+                        <div slot="required">Role is required</div>
                       </field-messages>
                     </validate>
                   </div>
@@ -113,15 +125,26 @@
                 
                 <div class="col-sm-12">
                   <div class="form-group float-right">
-                    <input type="submit" value="Submit" class="btn btn-success" />
+                    <input type="submit" :value="user.submit_mode" class="btn btn-success" />
                   </div>
                 </div>
               </div>
+              </div>
             </vue-form>
           </div>
-          <div class="col-sm-12">
+          <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
-              <datatable title="Registered Users" :rows="tableData" :columns="columndata"></datatable>
+            <div>
+                <button v-on:click="fill_form=!fill_form" style=" margin-bottom: 10px" class="btn btn-success"> ADD A NEW USER</button>
+            </div>
+              <datatable title="Registered Users" :rows="tableData" :columns="columndata">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
+                      <i class='fa fa-trash text-danger' @click="onAction('delete', props.rowData, props.rowIndex)"></i>
+                    </div>
+                  </template>
+              </datatable>
             </div>
           </div>
         </div>
@@ -131,8 +154,10 @@
 </template>
 <script>
   import Vue from 'vue'; import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import VueForm from "vue-form";    
+  import vueSmoothScroll from 'vue-smoothscroll'; 
+  Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import Multiselect from 'vue-multiselect';
   Vue.use(VueForm, options);
@@ -140,16 +165,11 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,
+      datatable,csview,
       Multiselect,
     },
     data() {
       return {columndata: [{
-          label: 'ID',
-          field: 'id',
-          numeric: true,
-          html: false,
-        }, {
           label: 'Full Name',
           field: 'fullname',
           numeric: false,
@@ -165,16 +185,19 @@
           numeric: true,
           html: false,
         }, {
+          label: 'Stations',
+          field: 'stations',
+          numeric: true,
+          html: true,
+        }, {
           label: "Role",
           field: 'role.name',
           numeric: false,
           html: false,
-        }, {
+        },{
+          field: '__slot:actions',
           label: 'Actions',
-          field: 'action',
-          numeric: false,
-          html: true,
-        }],
+          }],
         ajaxLoading: true,
         loading: true,
         url: this.$store.state.host_url+'/company_users',
@@ -182,10 +205,14 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-        available_companies: "",
-        available_roles: "",
+       available_companies: [],
+        available_company: [],
         products: "",
+        show_multi_company: false,
+        show_single_company: false,
+        available_roles: "",
         station_pumps:"",
+        fill_form: false,
         company_stations: "",
         company_stations_null: "",
         preset : {
@@ -209,6 +236,7 @@
           fullname: "",
           role_id: 0,
           privilege: "",
+          submit_mode: 'CREATE',
         }
 
       }
@@ -239,13 +267,27 @@
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
-                store.commit("activateLoader", "end");   
+            store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
-          console.log(response.data.data);
-          this.tableData.forEach((item, index) => {
-            this.$set(item, "action", "<a class='btn btn-info'>Edit</a>");
-        });
-        
+            this.tableData.forEach((item, index) => {
+              let perm='';
+              this.tableData[index]['selected_stations']=[];              
+              if(item.station_users !==undefined){
+              item.station_users.forEach((inner_item, inner_index) => {
+                    var element = '';
+                  if(inner_item.station !==undefined){
+                      element = inner_item.station;
+                      perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
+                      this.tableData[index]['selected_stations'].push(element);
+                      
+                      this.tableData[index]['stations']=perm;
+                      this.tableData[index]['tabledata_index']=index;
+                      }
+                       });
+              }
+                  });
+            this.show_setup_form=true;
+          //console.log(response.data.data);     
         });
 
       })
@@ -256,23 +298,62 @@
         
       },
         show_available_companies(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get(this.$store.state.host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-        this.available_companies = response.data.data;
-      })
-      .catch(error => {
-          if(error.response.status == 401){
-          this.$router.push('/login?message='+error.response.data.error);
+          this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
         }
-      });
       }
-      ,
-      
+        , onAction (action, data, index) {
+                this.$SmoothScroll(document.getElementById("content-header"));
+                console.log('slot action: ' + action, data.fullname, index);
+                if(action == 'edit'){
+                    this.fill_form = true;
+                    this.user = data;
+                    this.user.submit_mode="UPDATE"
+                }else if(action =='delete'){
+                    this.$modal.show('dialog', {
+                        title: 'Alert!',
+                        text: 'Click Okay to confirm DELETE',
+                        buttons: [
+                            {
+                            title: 'OKAY',       // Button title
+                            default: true,    // Will be triggered by default if 'Enter' pressed.
+                            handler: () => {this.deleteItem(data)} // Button click handler
+                            },
+                            {
+                            title: 'CLOSE'
+                            }
+                        ]
+                        });
+                }
+                },
+            deleteItem(data){
+                store.commit("activateLoader", "start");
+                this.$modal.hide('dialog');
+                let user_details = JSON.parse(localStorage.getItem('user_details'));
+                axios.delete(this.url+'/'+data.id, {
+                            headers : {
+                                "Authorization" : "Bearer " + user_details.token
+                            }
+                        }).then( response => {                         
+                            store.commit("activateLoader", "end");        
+                            let company_response = response.data;
+                            if (company_response.status === true) {
+                                this.tableData.splice(this.tableData.indexOf(data), 1);
+                                this.$alert.success({duration:5000,forceRender:'',
+                            message:'User Deleted Successfully',transition:''});
+                            }
+                            }).catch(error => { 
+                                store.commit("activateLoader", "end");   
+                                store.commit("catch_errors", error); 
+                    });
+            },
       onSubmit() {
+        this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
         } else {
@@ -284,6 +365,7 @@
             user: this.user
           };
           let user_details = JSON.parse(localStorage.getItem('user_details'));
+          if(this.user.submit_mode == 'CREATE'){
           axios.post(this.url, user_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -292,19 +374,78 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            //console.log(response.data);
-            this.tableData.push(response.data.data);
-            this.tableData.forEach((item, index) => {
-              this.$set(item, "action", "<a class='btn btn-info' href='#/admin/user/edit?user=" + item.id + "'>Edit</a>");
-          });
-          store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'User Registered Successfully', 'show_alert': true});
+            console.log(response.data.data);
+             this.tableData.push(response.data.data);  
+            //  console.log(inner_item);
+             this.tableData.forEach((item, index) => {
+              let perm='';
+              this.tableData[index]['selected_stations']=[];              
+              if(item.station_users !==undefined){
+              item.station_users.forEach((inner_item, inner_index) => {
+                    var element = '';
+                   
+                  if(inner_item.station !==undefined){
+                      element = inner_item.station;
+                      perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
+                      this.tableData[index]['selected_stations'].push(element);
+                      
+                      this.tableData[index]['stations']=perm;
+                      this.tableData[index]['tabledata_index']=index;
+                      }
+                       });
+              }
+                  });        
+            this.$alert.success({duration:5000,forceRender:'',
+            message:'User registered successfully, default password is 123456',transition:''});
+            this.formstate.$submitted=false;
+            this.user= {submit_mode: "CREATE"};
           }
         }).catch(error => { 
         store.commit("activateLoader", "end");   
         store.commit("catch_errors", error); 
         })}
-      },
+        else if(this.user.submit_mode == 'UPDATE'){
+                    axios.patch(this.url+"/"+this.user.id, user_detail, {
+                        headers : {
+                            "Authorization" : "Bearer " + user_details.token
+                        }
+                    }).then( response => {                         
+                        store.commit("activateLoader", "end");        
+                        console.log(response);
+                        let company_response = response.data;
+                        if(company_response.status === true) {
+                          this.tableData = response.data.data;
+                          this.tableData.forEach((item, index) => {
+                          let perm='';
+                          this.tableData[index]['selected_stations']=[];              
+                          if(item.station_users !==undefined){
+                          item.station_users.forEach((inner_item, inner_index) => {
+                                var element = '';
+                                console.log(inner_item);
+                              if(inner_item.station !==undefined){
+                                  element = inner_item.station;
+                                  perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
+                                  this.tableData[index]['selected_stations'].push(element);
+                                  
+                                  this.tableData[index]['stations']=perm;
+                                  this.tableData[index]['tabledata_index']=index;
+                                  }
+                                  });
+                          }
+                              });
+                        this.$alert.success({duration:5000,forceRender:'',
+                        message:'User Updated Successfully',transition:''});
+                        this.formstate.$submitted=false;
+                        this.user= {submit_mode: "CREATE"};
+                        this.form_reset();
+                        }
+                        }).catch(error => { 
+                            store.commit("activateLoader", "end");   
+                            store.commit("catch_errors", error); 
+                });
+                    
+                }
+      }},
       addTag(newTag) {
             const tag = {
                 id: newTag,
@@ -312,6 +453,20 @@
             }
             this.all_groups.push(tag)
             this.selected_groups.push(tag)
+        },
+        form_reset(){
+          this.user = {
+          company_id: "",
+          station_id: "",
+          phone_number: "",
+          selected_stations : [],
+          email: "",
+          username: "",
+          fullname: "",
+          role_id: 0,
+          privilege: "",
+          submit_mode: 'CREATE',
+        }
         },
     },
     mounted: function() {

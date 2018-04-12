@@ -20,7 +20,13 @@ const routes = [{
         path: '/fuel-supply/validate-request',
         component: resolve => require(['pages/fuel-supply/validate-request'], resolve),
         meta: {
-        title: "Verify Email",
+        title: "Verify Fuel Request by Mail",
+        }
+    },  {
+        path: '/pricing/validate-request',
+        component: resolve => require(['pages/pricing/validate-request'], resolve),
+        meta: {
+        title: "Verify Price Change by Mail",
         }
     }, {
         path: '/register',
@@ -30,7 +36,7 @@ const routes = [{
         }
     }, {
         path: '/forgotpassword',
-        component: resolve => require(['pages/forgotpassword'], resolve),
+        component: resolve => require(['pages/auth/forgotpassword'], resolve),
         meta: {
             title: "Forgot Password",
         }
@@ -52,6 +58,12 @@ const routes = [{
         component: resolve => require(['pages/lockscreen'], resolve),
         meta: {
             title: "Lockscreen",
+        }
+    }, {
+        path: '/dev',
+        component: resolve => require(['pages/dev'], resolve),
+        meta: {
+            title: "DEV",
         }
     }, {
         path: '/500',

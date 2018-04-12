@@ -23,11 +23,11 @@
                         <span slot="text">
                             <i class="fa fa-bell-o noti-icon"></i>
                             <div class="notifications_badge_top">
-                                <span class="badge badge-danger">4
+                                <span class="badge badge-danger">e360
                                 </span>
                             </div>
                         </span>
-                        <b-dropdown-item class="dropdownheader socio-tabs1" exact>
+                        <!--<b-dropdown-item class="dropdownheader socio-tabs1" exact>
                             <b-tabs>
                                 <b-tab title="Notifications" class="tabs_cont" active>
                                     <b-dropdown-item exact>
@@ -136,16 +136,15 @@
                                 <b-tab title="Updates" disabled>
                                 </b-tab>
                             </b-tabs>
-                        </b-dropdown-item>
+                        </b-dropdown-item>-->
                     </b-dropdown>
                     <!-- User Account: style can be found in dropdown-->
                     <b-dropdown class="user user-menu bell_bg user_btn" right link>
                         <span slot="text">
-                            <img :src="this.$store.state.user.picture" class="rounded-circle" alt="User Image">
-                            <!-- User name-->
-                            <p class="user_name_max">{{this.$store.state.user.name}}</p>
+                             <!-- User name-->
+                            <p class="user_name_max">{{this.$store.state.user.username}}</p>
                         </span>
-                        <b-dropdown-item exact class="dropdown_content">
+                        <!--<b-dropdown-item exact class="dropdown_content">
                             <router-link to="/user_profile" exact class="drpodowtext">
                                 <i class="fa fa-user-o"></i> Profile
                             </router-link>
@@ -164,7 +163,7 @@
                             <router-link to="/login" exact class="drpodowtext">
                                 <i class="fa fa-sign-out"></i> Logout
                             </router-link>
-                        </b-dropdown-item>
+                        </b-dropdown-item>-->
                     </b-dropdown>
                 </div>
             </div>

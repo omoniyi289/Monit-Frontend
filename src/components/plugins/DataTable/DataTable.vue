@@ -35,6 +35,9 @@
                             <td :class="column.numeric ? 'numeric' : ''" v-if="!column.html && column.label != 'Actions'"  :key="index">
                                 {{ collect(row,column.field) }}
                             </td>
+                            <td v-html="collect(row, column.field)" :class="column.numeric ? 'numeric' : ''" v-if="column.html && column.label != 'Actions'"  :key="index">
+                            </td>
+
                            <td v-if="extractName(column.field) === '__slot'" :key="index"
                             >
                                 <slot :name="extractArgs(column.field)"
@@ -139,7 +142,7 @@
                 if (this.sortColumn === index) {
                     this.sortType = this.sortType === 'asc' ? 'desc' : 'asc';
                 } else {
-                    this.sortType = 'asc';
+                    this.sortType = 'desc';
                     this.sortColumn = index;
                 }
             },

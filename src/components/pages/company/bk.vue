@@ -280,7 +280,7 @@
     onAction (action, data, index) {
       console.log('slot action: ' + action, data.name, index)
     },
-           show_available_companies(){
+           show_available_companies(){ store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         axios.get(this.$store.state.host_url+"/companies",
           {

@@ -2,9 +2,13 @@
     <aside class="right-aside" >
         <!-- Content Header (Page header) -->
         <section class="content-header" >
-              <vue-alert style="margin-left: 0px;"></vue-alert>
+            <vue-alert style="margin-left: 0px;"></vue-alert>
             <h1 >{{this.$store.state.page_title?this.$store.state.page_title:this.$route.meta.title}}    
-              
+                <transition name="fade">
+                <span  v-show="this.$store.state.show_alert" class="center col-sm-12 alert" :class=this.$store.state.alert_type  
+                style="margin-left: 100px;">{{this.$store.state.alert_message}}
+                </span> 
+                </transition>
             </h1>
             <div class="col-lg-4 mt-3" v-show="this.$store.state.show_modal_alert">
                 <b-card class="bg-primary-card">
@@ -35,7 +39,13 @@ export default {
 
     },
     mounted: function(){
-       
+       this.$alert.success({
+            duration:10,
+            forceRender:'',
+            message:'',
+            transition:'',
+            type:''
+            });
     }
 }
 </script>

@@ -11,7 +11,7 @@
 </template>
 <script>
 import Vue from 'vue' ;    import store from 'src/store/store.js';
-import datatable from "components/plugins/DataTable/DataTable.vue";
+import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
 export default {
     name: "users_list",
     components: {

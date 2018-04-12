@@ -10,16 +10,16 @@
                     </div>
                 </div> 
                 <div >
-                    <div v-if="error_show_message" class="center alert alert-danger">
-                        {{ this.message }}<br>
+                    <div v-if="error_show_message" class="center alert alert-warning">
+                        Invalid Request Id Supplied<br>
                       
                     </div>
-                    <div v-if="loading" class="center alert alert-warning">
+                    <div v-if="loading" class="center alert alert-danger">
                         Please Wait...<br>
                       
                     </div>
-                    <div v-if="success_show_message" class="center alert alert-success">
-                        Fuel Request {{ this.message }}.<br> Thanks!
+                    <div v-if="success_show_message" class="center alert alert-warning">
+                        price Change Request Updated.<br> Thanks!
                       
                     </div>
                      
@@ -33,16 +33,14 @@
 import Vue from 'vue'; import store from 'src/store/store.js';
 import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
-//unset user data
-localStorage.setItem('user_details', null);
-localStorage.setItem('company_details', null);
+
 Vue.use(VueForm, options);
 export default {
     name: "login2",
     data() {
         return {
             formstate: {},
-            url: this.$store.state.host_url+'/fromMail_fuel-supply',
+            url: this.$store.state.host_url+'/fromMail_pricing',
             user: {
                 email: '',
                 password: '',
@@ -54,20 +52,20 @@ export default {
             message: '',
             localStorge: {},
             login_submit: 'LOGIN',
-            fuel_supply: {},
+            product_change: {},
         }
     },
    
     mounted: function() {
              
-             this.fuel_supply.request_code= this.$route.query.request_code;
-             this.fuel_supply.status= this.$route.query.status;
-             this.fuel_supply.last_modified_by= this.$route.query.user_id;
-            let fuel_supply = {
-                details: this.fuel_supply
+             this.product_change.log_id= this.$route.query.log_id;
+             this.product_change.is_approved= this.$route.query.is_approved;
+             this.product_change.updated_by= this.$route.query.user_id;
+            let product_change = {
+                details: this.product_change
             }
-           // console.log(fuel_supply);
-             axios.post(this.url, fuel_supply,  {
+            console.log(product_change);
+             axios.post(this.url, product_change,  {
                 headers: {
                     'Content-type': 'application/json'
                          }
@@ -76,18 +74,16 @@ export default {
             console.log(response.data.data);
           if(response.data.data == 0){
                 this.error_show_message = true;
-            this.message = 'Invalid Code Supplied';
+            this.message = 'Invalid Code';
             }else if(response.data.data == 1){
                 this.success_show_message = true;
                 this.message =this.fuel_supply.status;
             }
             
             //console.log(response);
-        }).catch(error => { 
-            store.commit("activateLoader", "end");  
-             this.loading= false;
+        }).catch(error => { store.commit("activateLoader", "end");  
          store.commit("catch_errors", error);       
-             this.error_show_message = true;
+            this.show_message = true;
             this.message = error.response.data.message;
             console.log(error.message);
         });

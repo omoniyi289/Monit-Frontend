@@ -66,23 +66,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-12 mt-3 " >
-                            <div class="form-group">
-                                <validate tag="div">
-                                            <label for="name_gen">Gender</label>
-                                            <select id="name_gen" name="gender" size="1" class="form-control" v-model="model.gender" required checkbox>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                                
-                                            </select>
-                                            <field-messages name="gender" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="checkbox">Gender is required</div>
-                                            </field-messages>
-                                        </validate>
-                              
-                            </div>
-                        </div>
-                       
+                        
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <validate tag="div">
@@ -160,7 +144,6 @@ export default {
             model: {
                 fullname: "",
                 phone_number: "",
-                gender: 0,
                 username: "",
                 email: "",
                 password: '',
@@ -184,7 +167,7 @@ export default {
             axios.post(host_url+'/users', user_details).then(response => {
                 console.log(response.data);
             if (response.data.status == true) {
-                this.model = {};
+                //this.model = {};
                 this.success_message = "Thanks for registering with us, " +
                     "an email has been sent to you, please verify your email. Thanks";
                 this.submit_btn = "Sign up";

@@ -3,14 +3,14 @@
         <div class="user_section">
             <div class="row">
                 <div class="col-12">
-                    <div class="img-wrapper"><img :src="this.$store.state.user.picture" alt="user not found" class="rounded-circle"></div>
-                    <p class="mt-2 mb-1 user_name_max text-center">{{this.$store.state.user.name}}</p>
+                    <div class="img-wrapper"><img :src='require("img/authors/logo.jpg")'
+                     alt="user" class="rounded-circle"></div>
+                    <p class="mt-2 mb-1 user_name_max text-center">{{this.$store.state.user.fullname}}</p>
                 </div>
                 <div class="leftuser_icons col-12 compact_data">
                     <div class="row">
-                        <div class="col-md-3"><a href="#/user_profile" title="User Profile"><i class="fa fa-user-o"></i></a></div>
+                        <div class="col-md-3"><a href="#/admin/users/profile" title=""><i class="fa fa-user-o"></i></a></div>
                         <div class="col-md-3"><a href="#/lockscreen" title="Lock screen"><i class="fa fa-lock"  aria-hidden="true"></i></a></div>
-                        <div class="col-md-3"><a href="#/edit_user" title="E-mail"><i class="fa fa-cog"></i></a></div>
                         <div class="col-md-3 logout_padd"><a href="#/login" title="Logout"><i class="fa fa-sign-out"></i></a></div>
                     </div>
                 </div>

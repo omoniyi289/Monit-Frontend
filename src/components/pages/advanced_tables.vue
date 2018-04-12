@@ -23,7 +23,7 @@ import {
     ClientTable,
     Event
 } from 'vue-tables-2';
-import datatable from "components/plugins/DataTable/DataTable.vue";
+import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
 Vue.use(ClientTable, {}, false);
 export default {
     name: "advanced_tables",

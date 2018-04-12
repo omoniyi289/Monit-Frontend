@@ -5,59 +5,20 @@
         <div class="row">
           <div class="col-md-12">
             <div class = "col-md-12">
-              <vue-form :state="formstate2" @submit.prevent="show_station_pumps_to_tanks">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <validate tag="div">
-                        <label for="company">Select Company</label>
-                        <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                          <option value="0" selected disabled>
-                            Select Company
-                          </option>
-                          <option
-                            v-for="option in available_companies"
-                            v-bind:value="option.id"
-                            :selected="option.id == preset.company_id" >{{ option.name }}
-                          </option>
-                        </select>
-                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                          <div slot="checkbox">Company is required</div>
-                        </field-messages>
-                      </validate>
+              <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <button class="btn btn-success" 
+                      @click="show_station_pumps_to_tanks( props.rowData, props.rowIndex)">Proceed</button>
+                        
                     </div>
-                  </div>
-
-                  <div class="col-lg-6">
-                    <div class="form-group">
-                      <validate tag="div">
-                        <label for="station">Select Station</label>
-                        <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required checkbox>
-
-                          <option
-                            v-for="option in company_stations"
-                            v-bind:value="option.id"
-                            :selected="option.name == preset.station_id" >{{ option.name }}
-                          </option>
-                        </select>
-                        <field-messages name="station" show="$invalid && $submitted" class="text-danger">
-                          <div slot="checkbox">Station is required</div>
-                        </field-messages>
-                      </validate>
-                    </div>
-                  </div>
-
-                  <div class="col-sm-12">
-                    <div class="form-group float-left">
-                      <input type="submit" value="Show Station Details" class="btn btn-success" />
-                    </div>
-                  </div>
-                </div>
-              </vue-form>
+                  </template>
+                </csview>
+                <hr>
             </div>
           </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-5" v-show="show_setup_form">
               <vue-form :state="formstate3" @submit.prevent="add_pump_group">
                 <div class="row">
                   <div class="col-lg-12">
@@ -78,7 +39,7 @@
                       <b-card header="Select Pumps Here" header-tag="h4" class="bg-info-card">            
                         <multiselect v-model="pump_map.selected_pumps" tag-placeholder="Add this as new Pump Group" 
                         placeholder="Select Pumps"
-                        label="number" track-by="id" 
+                        label="pump_nozzle_code" track-by="id" 
                         :options="available_pumps" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
                         </multiselect>        
@@ -95,7 +56,7 @@
               </vue-form>
             </div>
             <div class="col-sm-2"></div>
-            <div class="col-sm-5">
+            <div class="col-sm-5" v-show="show_setup_form">
               <vue-form :state="formstate4" @submit.prevent="add_tank_group">
                 <div class="row">
                   <div class="col-lg-12">
@@ -135,18 +96,30 @@
               </vue-form>
             </div>
 
-            <div class="col-sm-6">
+            <div class="col-sm-6" v-show="show_setup_form">
               <div class="table-responsive">
-                <datatable title="Pump Groups" :rows="pumpgroup_tableData" :columns="columndata"></datatable>
+                <datatable title="Pump Groups" :rows="pumpgroup_tableData" :columns="columndata">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                       <i class='fa fa-trash text-danger' @click="onAction('delete', '/pump_groups/', props.rowData, props.rowIndex)"></i>
+                    </div>
+                  </template>
+                </datatable>
               </div>
             </div>
             
-            <div class="col-sm-6">
+            <div class="col-sm-6" v-show="show_setup_form">
               <div class="table-responsive">
-                <datatable title="Tanks Groups" :rows="tankgroup_tableData" :columns="columndata"></datatable>
+                <datatable title="Tanks Groups" :rows="tankgroup_tableData" :columns="columndata">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                        <i class='fa fa-trash text-danger' @click="onAction('delete', '/tank_groups/', props.rowData, props.rowIndex)"></i>
+                    </div>
+                  </template>
+                </datatable>
               </div>
             </div>
-            <div class="col-sm-4" >      
+            <div class="col-sm-4" v-show="show_setup_form">      
               <b-card header="Select respective Groups" header-tag="h4" class="bg-info-card">
                 <vue-form :state="formstate" @submit.prevent="add_new_map">
                   <div class="col-sm-12 "> 
@@ -213,9 +186,15 @@
           
             </div>
             
-            <div class="col-sm-8">
+            <div class="col-sm-8" v-show="show_setup_form">
               <div class="table-responsive">
-                <datatable title="Pump to Tank Mapping" :rows="map_tableData" :columns="columndata"></datatable>
+                <datatable title="Pump to Tank Mapping" :rows="map_tableData" :columns="columndata">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <i class='fa fa-trash text-danger' @click="onAction('delete', '/pumps-tanks/', props.rowData, props.rowIndex)"></i>
+                    </div>
+                  </template>
+                </datatable>
               </div>
             </div>
 
@@ -227,7 +206,7 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import Multiselect from 'vue-multiselect';
@@ -237,7 +216,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,
+      datatable,csview,
       Multiselect
     },
     data() {
@@ -252,12 +231,10 @@
           field: 'registered_indexes',
           numeric: true,
           html: false,
-        }, {
+        },{
+          field: '__slot:actions',
           label: 'Actions',
-          field: 'action',
-          numeric: false,
-          html: true,
-        }],
+          }],
         ajaxLoading: true,
         loading: true,
         formstate: {},
@@ -268,11 +245,14 @@
         pumpgroup_tableData: [],
         tankgroup_tableData: [],
         map_tableData: [],
-        available_companies: {},
         available_pumps: {},
         available_tanks: {},
         p_t_group: {},
+        available_companies: [],
+        available_company: [],
         products: "",
+        show_multi_company: false,
+        show_single_company: false,
         all_groups: [],
         station_tanks: [],
         company_stations: [],
@@ -324,7 +304,9 @@
           }
         });
       },
-      show_station_pumps_to_tanks(){
+      show_station_pumps_to_tanks(station_id, company_id){
+        this.preset.company_id = company_id;
+        this.preset.station_id = station_id;
         if (this.formstate2.$invalid) {
           return;
         } else {
@@ -349,10 +331,8 @@
              this.pumpgroup_tableData.forEach((item, index) => {
                let pump_concat= '';
                item.pumps.forEach(element => {
-                 pump_concat = pump_concat+ ' | '+ element.number
+                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code
                });
-               
-            this.$set(item, "action", "<a class='btn btn-info'>DEL</a>");
             this.$set(item, "registered_indexes", pump_concat);
         });
 
@@ -361,8 +341,6 @@
                item.tanks.forEach(element => {
                  tank_concat = tank_concat+ ' | '+ element.code
                });
-              
-            this.$set(item, "action", "<a class='btn btn-info'>DEL</a>");
             this.$set(item, "registered_indexes", tank_concat);
         });
 
@@ -372,8 +350,6 @@
                  p_t_concat = item.get_pump_group.name;
                  p_t_concat = p_t_concat+ ' | '+item.get_tank_group.name;
               // });
-              
-            this.$set(item, "action", "<a class='btn btn-info'>DEL</a>");
             this.$set(item, "registered_indexes", p_t_concat);
         });
          
@@ -384,34 +360,21 @@
           });
         }},
       show_available_companies(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let host_url = this.$store.state.host_url;
-        axios.get(host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          
-        this.available_companies = response.data.data;
-        ///get products///
-        axios.get(this.$store.state.host_url+"/products",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-        this.products = response.data.data;
-      });
-      })
-      .catch(error => {
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-      });
+         this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
+        }
       }
       ,
       add_pump_group(){
         if (this.formstate3.$invalid) {
           return;
             } else {
+              this.$SmoothScroll(document.getElementById("content-header"));
               store.commit("activateLoader", "start");
                 //include station and company_id
             this.pump_map.station_id = this.preset.station_id;
@@ -434,12 +397,10 @@
                 if(this.pumpgroup_tableData.length-1 == index){
                 let pump_concat= '';
                this.pump_map.selected_pumps.forEach(element => {
-                 pump_concat = pump_concat+ ' | '+ element.number;
+                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
                });
                 this.$set(item, "registered_indexes", pump_concat);
                 }
-                this.$set(item, "action", "<a class='btn btn-info' >Edit</a>");
-                
             });
                store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Pump Group Added Successfully', 'show_alert': true});
@@ -464,13 +425,10 @@
           return;
             } else {
               store.commit("activateLoader", "start");
-
+              this.$SmoothScroll(document.getElementById("content-header"));
               this.p_t_group.station_id = this.preset.station_id;
               this.p_t_group.company_id= this.preset.company_id;
-              //this.p_t_group.name= this.p_t_group.name;
-              console.log(this.p_t_group);
-
-              //let tankgroup_detail = ;
+             
             let user_details = JSON.parse(localStorage.getItem('user_details'));
             axios.post(this.$store.state.host_url+"/pumps-tanks", {'p_t_group' : this.p_t_group},
               {
@@ -478,20 +436,16 @@
                     "Authorization" : "Bearer " + user_details.token
                   }}).then(response => {
                 store.commit("activateLoader", "end");
-                this.map_tableData.push(response.data.data);
+                this.map_tableData= response.data.data;
                 this.map_tableData.forEach((item, index) => {
-                ///last element
-                if(this.map_tableData.length-1 == index){
-                let tank_concat= '';
-               // p_t_concat = p_t_group.get_pump_group.name;
-                //p_t_concat = p_t_concat+ ' | '+item.get_tank_group.name;
-
-                this.$set(item, "registered_indexes", tank_concat);
-                }
-                this.$set(item, "action", "<a class='btn btn-info' >Edit</a>");
-                
-            });
-             store.commit("showAlertBox", {'alert_type': 'alert-success',
+                let p_t_concat= '';
+               //item.get.forEach(element => {
+                 p_t_concat = item.get_pump_group.name;
+                 p_t_concat = p_t_concat+ ' | '+item.get_tank_group.name;
+              // });
+                this.$set(item, "registered_indexes", p_t_concat);
+                 });
+                store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Map Created Successfully', 'show_alert': true});
                   })
                   .catch(function(error) {
@@ -506,7 +460,7 @@
         if (this.formstate4.$invalid) {
           return;
             } else {store.commit("activateLoader", "start");
-
+              this.$SmoothScroll(document.getElementById("content-header"));
                 //include station and company_id
             this.tank_map.station_id = this.preset.station_id;
             this.tank_map.company_id= this.preset.company_id;
@@ -533,51 +487,66 @@
                  console.log(element.code);
                });
                 this.$set(item, "registered_indexes", tank_concat);
-                }
-                this.$set(item, "action", "<a class='btn btn-info' >Edit</a>");
-                
+                }            
             });
             store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Tank Group Created Successfully', 'show_alert': true});
               })
               .catch(error => {
-                
+     
                 console.log(error);
               });
           }
-      }
-      ,
-      onSubmit() {
-        if (this.formstate.$invalid) {
-          return;
-        } else {store.commit("activateLoader", "start");
-          //include station and company_id
-          this.tank.station_id= this.preset.station_id;
-          this.tank.company_id= this.preset.company_id;
-          let tank_detail = {
-            tank: this.tank
-          };
-          let user_details = JSON.parse(localStorage.getItem('user_details'));
-          console.log(JSON.stringify(tank_detail));
-          axios.post(this.url, tank_detail, {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }
-          }).then( response => {                         
-            store.commit("activateLoader", "end");
-            let station_response = response.data;
-          if (station_response.status === true) {
-            console.log(response.data);
-          }
-        }).catch(error => { 
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-            if(error.response.status == 401){
-            this.$router.push('/login?message='+error.response.data.error);
-          }
-          console.log(error);
-        })}
-      }
+      },
+      onAction (action,url,data, index) {
+                this.$SmoothScroll(document.getElementById("content-header"));
+                if(action == 'delete'){
+                    this.$modal.show('dialog', {
+                        title: 'Alert!',
+                        text: 'Click Okay to confirm DELETE',
+                        buttons: [
+                            {
+                            title: 'OKAY',       // Button title
+                            default: true,    // Will be triggered by default if 'Enter' pressed.
+                            handler: () => {this.deleteItem(data, url)} // Button click handler
+                            },
+                            {
+                            title: 'CLOSE'
+                            }
+                        ]
+                        });
+                }
+                },
+            deleteItem(data, url){
+                store.commit("activateLoader", "start");
+                this.$modal.hide('dialog');
+                let user_details = JSON.parse(localStorage.getItem('user_details'));
+                axios.delete(store.state.host_url+url+data.id, {
+                            headers : {
+                                "Authorization" : "Bearer " + user_details.token
+                            }
+                        }).then( response => {                         
+                            store.commit("activateLoader", "end");        
+                            let company_response = response.data;
+                            if (company_response.status === true) {
+                                if(url == '/pumps-tanks/'){
+                                  this.map_tableData.splice(this.map_tableData.indexOf(data), 1);
+                                    }
+                                else if(url == '/pump_groups/'){
+                                  this.pumpgroup_tableData.splice(this.pumpgroup_tableData.indexOf(data), 1);
+                                    }
+                                  else if(url == '/tank_groups/'){
+                                    this.tankgroup_tableData.splice(this.tankgroup_tableData.indexOf(data), 1);
+                                  }
+                                this.$alert.success({duration:5000,forceRender:'',
+                            message:'Item Deleted Successfully',transition:''});
+                            }
+                            }).catch(error => { 
+                                store.commit("activateLoader", "end");   
+                                store.commit("catch_errors", error); 
+                    });
+            },
+      
     },
     mounted: function() {
       store.commit("check_login_details");

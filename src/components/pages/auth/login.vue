@@ -83,9 +83,7 @@ import Vue from 'vue'
 import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
 import options from "src/validations/validations.js";
 import store from 'src/store/store.js';
-//unset user data
-localStorage.setItem('user_details', null);
-localStorage.setItem('company_details', null);
+
 Vue.use(VueForm, options);
 export default {
     name: "login2",
@@ -120,17 +118,40 @@ export default {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
-
             let auth_response = response.data;
             if (auth_response.status === true) {
                 this.login_submit = "LOGIN";
                 let user_data = auth_response.data;
                     localStorage.setItem('user_details',JSON.stringify(user_data));
-                console.log(user_data);
+                    this.$store.state.user = auth_response.data;
+                 /*   ///company_users
+                    if(user_data.role_id !== undefined){
+                        var r_p_array=[];
+                        var permissions= [];
+                       console.log( "i did tis "  +user_data.role_id);
+                        axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
+                        
+                        r_p_array = response.data.data;  
+                   
+                       localStorage.setItem('role_details',
+                       JSON.stringify(r_p_array));
+                       console.log(localStorage.getItem('role_details'));
+                   
+                      });
+                    }
+                */
                 if (user_data.is_company_set_up == 0){
-                    this.$router.push('/admin/company/setup');
+                    this.$router.push('/#/admin/company/setup');
                 }else if (user_data.is_company_set_up == 1){
                     this.$router.push('/');
+                }
+                else if(user_data.is_password_reset == 0){
+                    //to activate a window reload on index
+                window.location.href="/#/index?company_user=true";
+                }
+                else if(user_data.is_password_reset == 1){
+                this.$router.push('/#/index?company_user=true');
+                //window.location.href="/index?new=meg";
                 }
             }
         }).catch(error => {
@@ -149,7 +170,15 @@ export default {
        }
     ,
     mounted: function() {
+        //unset user data
+        localStorage.setItem('user_details', null);
+        localStorage.setItem('company_details', null);
+        if(this.$route.params.message="token_expired"){
+            this.show_error = true;
+            this.error_message = "session expired, please re-login";
 
+        }
+        //localStorage.setItem('role_details', null);
     },
     destroyed: function() {
 

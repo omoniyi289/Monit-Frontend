@@ -4,53 +4,18 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="show_station_fuel_supply">
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="company">Select Company</label>
-                      <select id="company" name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" required checkbox>
-                       
-                        <option
-                          v-for="(option,index) in available_companies"
-                          v-bind:value="option.id"
-                          :selected="index == 0">{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-lg-6">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="station">Select Station</label>
-                      <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required checkbox>
-
-                        <option
-                          v-for="option in company_stations"
-                          v-bind:value="option.id"
-                          :selected="option.name == preset.station_id" >{{ option.name }}
-                        </option>
-                      </select>
-                      <field-messages name="station" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Station is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group float-left">
-                    <input type="submit" value="Show Form" class="btn btn-success" />
-                  </div>
-                </div>
-              </div>
-            </vue-form>
+       
+                <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <button class="btn btn-success" 
+                      @click="show_station_fuel_supply( props.rowData, props.rowIndex)">Proceed</button>
+                        
+                    </div>
+                  </template>
+                </csview>
+        
+            <hr>
           </div>
           <div class="col-sm-4" v-show="!show_setup_form">
           </div>
@@ -61,9 +26,9 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="quantity_requested"> Request Code</label>
-                      <input v-model="fuel_supply.request_code" name="quantity_requested" type="text" required autofocus placeholder="Request Code" class="form-control" id="serial_number"/>
-                      <field-messages name="quantity_requested" show="$invalid && $submitted" class="text-danger">
+                      <label for="request_code"> Request Code</label>
+                      <input readonly v-model="fuel_supply.request_code" name="request_code" type="text" required autofocus placeholder="Request Code" class="form-control" id="request_code"/>
+                      <field-messages name="request_code" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Request Code is a required field</div>
                       </field-messages>
                     </validate>
@@ -73,37 +38,128 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="product">Status</label>
-                      <select id="product" name="product" size="1" class="form-control" v-on:change="show_recieve_stock_form(fuel_supply.status)" v-model="fuel_supply.status" required >
+                      <label for="status">Status</label>
+                      <select id="status" name="status" size="1" class="form-control" v-model="fuel_supply.status" required  v-on:change="selected_status_action(fuel_supply.status)" >
 
                         <option
                           v-for="(option,index) in statuses"
                           v-bind:value="option"
-                          :selected="index == 0" >{{option}}
+                         >{{option}}
                         </option>
 
                       </select>
-                      <field-messages name="product" show="$invalid && $submitted" class="text-danger">
-                        <div slot="checkbox">Product is required</div>
+                      <field-messages name="status" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Status is required</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
-                
+
+                <div class="col-sm-12" v-if="show_git_inputs">
+                  <div class="form-group">
+                      <label for="quantity_loaded"> Quantity Loaded</label>
+                      <input v-model="fuel_supply.quantity_loaded" name="quantity_loaded" type="text" required autofocus placeholder="Quantity Loaded" class="form-control" id="quantity_loaded"/>
+                    
+                  </div>
+                </div>
+                <div class="col-sm-12" v-if="show_git_inputs">
+                  <div class="form-group">
+                      <label for="driver_name"> Driver's Name</label>
+                      <input v-model="fuel_supply.driver_name" name="driver_name" type="text" required autofocus placeholder="Driver's Name" class="form-control" id="driver_name"/>
+                     
+                  </div>
+                </div>
+                <div class="col-sm-12" v-if="show_git_inputs">
+                  <div class="form-group">
+                      <label for="truck_reg_number"> Truck Registration Number</label>
+                      <input v-model="fuel_supply.truck_reg_number" name="truck_reg_number" type="text" required autofocus placeholder="Truck Registration Number" class="form-control" id="truck_reg_number"/>
+                     
+                  </div>
+                </div>
+
+                <div class="col-sm-12" v-if="show_git_inputs && first_time_seal_input" >
+                  <div class="form-group">
+                      <label for="compartments"> Number of Truck Compartments</label>
+                      <input v-model="fuel_supply.compartments"  name="compartments" type="number" required autofocus placeholder="Compartments" class="form-control" id=""/>
+                        <br>
+                      <div v-for="n in parseInt(fuel_supply.compartments)" >
+                       
+                        <div class="form-group">    
+                              <div class="form-group row">        
+                                  <div class="col-md-6">
+                                     <input type="text" v-model="fuel_supply.first_seal_numbers[n-1]" required  :placeholder="seal_no+' '+n" class="form-control" id="rd" :name="seal_no+n"/>
+                                  </div>
+                 
+                                  <div class="col-md-6">
+                                    <input type="text" v-model="fuel_supply.first_seal_quantities[n-1]" required  :placeholder="seal_quantity+' '+n" class="form-control" id="rd" :name="seal_quantity+n"/>
+                                  </div>
+                              </div>                    
+                        </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="col-12" v-if="show_git_inputs && return_time_seal_input" >
+                  <div class="form-group">
+                      <label for="compartments"> Seal Numbers vs. Quantity</label>
+                      <div v-for="(item, index) in fuel_supply.latest_seal_numbers" >
+                      <div >
+                   
+                        <div class="form-group">               
+                          
+                          <div class="form-group">
+                             <div class="form-group row">        
+                                  <div class="col-md-6">
+                                     <input type="text"  :value="item" id="rd" readonly required autofocus class="form-control" />
+                                  </div>
+                 
+                                  <div class="col-md-6">
+                                    <input type="text"  :value="fuel_supply.latest_seal_quantities[index]" id="rd" readonly required autofocus class="form-control" />
+                                  </div>
+                              </div>
+                          </div>
+                       
+                      </div>
+
+                   
+                        <div class="form-group">
+                        
+                        <div class="form-group">
+                            <div class="form-group row">        
+                                  <div class="col-md-6">
+                                     <input type="text" v-model="fuel_supply.new_seal_numbers[index]" required  placeholder="New Seal Number" class="form-control" id="rd" :name="seal_no+index"/>
+                                  </div>
+                 
+                                  <div class="col-md-6">
+                                    <input type="text" v-model="fuel_supply.new_seal_quantities[index]" required  placeholder="New Quantity" class="form-control" id="rd" :name="seal_quantity+index"/>
+                                  </div>
+                              </div>
+                        </div>
+                        </div>
+                      </div>
+                      
+                      </div>
+                  </div>
+                </div>
+
+
                 <div class="col-sm-12">
                   <div class="form-group float-left">
                    
-                    <input  type="submit" value="UPDATE REQUEST" class="btn btn-success" />
+                    <input  type="submit" value="UPDATE REQUEST/GENERATE WAYBILL" class="btn btn-success" />
                   </div>
                 </div>
               </div>
             </vue-form>
             </b-card>
           </div>
-          <div class="col-sm-8">
+          <div class="col-sm-8" v-show="show_setup_form">
             <div class="table-responsive">
               <datatable title="Fuel Requests"  :rows="tableData" :columns="columndata">
-                
+                <template slot="actions" slot-scope="props">
+                  <div >
+                        <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                  </div>
+                </template>
               </datatable>
             </div>
           </div>
@@ -115,7 +171,7 @@
 <script>
   import Vue from 'vue';
   import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import {ServerTable, ClientTable, Event} from 'vue-tables-2';
   import options from "src/validations/validations.js";
@@ -125,17 +181,21 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable
+      datatable,csview,
     },
     data() {
       return {columndata: [
+         
         {
           label: 'Date Requested',
           field: 'created_at',
           numeric: false,
           html: false,
         },
-        
+        {
+                field: '__slot:actions',
+                label: 'Actions',
+                },
          {
           label: 'Request Code',
           field: 'request_code',
@@ -169,16 +229,24 @@
         url: this.$store.state.host_url+'/fuel-supply',
         formstate: {},
         formstate2: {},
+        seal_no:'Seal Number',
+        seal_quantity:'Quantity in',
         show_setup_form : false,
         tableData: [],
-        available_companies: "",
+        available_companies: [],
+        available_company: [],
         products: "",
+        show_multi_company: false,
+        return_time_seal_input:false,
+        first_time_seal_input:false,
+        show_single_company: false,
         station_pumps:"",
         company_stations: "",
         added_product_name: "",
+        show_git_inputs: false,
         statuses: [
           'Pending', 'Approved', 'Rejected', 'Order in Process',
-          'Goods in Transit', 'Arrived at Destintation', 'Delivery Completed'
+          'Goods in Transit', 'Arrived at Destination'
 
         ],
   number:0,
@@ -187,14 +255,25 @@
           station_id: 0
         },
         fuel_supply : {
-          quantity_requested: "",
           station_id: "",
           company_id: "",
           product_id:0,
-          created_by: "",
+          waybill_printed_by: "",
           last_modified_by:"",
-          submit_mode: "Add Price"
-      
+          submit_mode: "UPDATE REQUEST/GENERATE WAYBILL",
+          status:"",
+          first_seal_numbers:[],
+          new_seal_numbers:[],
+          latest_seal_numbers:[],
+          first_seal_quantities:[],
+          new_seal_quantities:[],
+          latest_seal_quantities:[],
+          compartments:1,
+          request_code:"",
+          driver_name:"",
+          quantity_loaded:"",
+          truck_reg_number:"",
+          truck_departure_time:""
         }
 
       }
@@ -224,37 +303,22 @@
           store.commit("catch_errors", error); 
         });
       },
-      show_station_fuel_supply(){
-        if (this.formstate2.$invalid) {
-          return;
-        } else {
+      show_station_fuel_supply(station_id, company_id){
+        this.preset.company_id = company_id;
+        this.preset.station_id = station_id;
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          let params = 'station_id='+this.preset.station_id; 
+          let params = 'station_id='+station_id; 
           axios.get(this.$store.state.host_url+"/fuel-supply/by_station?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");  
-              /*  response.data.data.forEach((element, index) => {
-                  if(element.stock_received == null){
-                    this.tableData.push({
-                      'request_code': element.request_code,
-                      'product': element.product,
-                      'status':element.status,
-                      'quantity_requested':element.quantity_requested,
-                      'created_at': element.created_at,
-                      'updated_at': element.updated_at,
-                    });
-          
-                 }else{
-                this.tableData.push(response.data.data);
-                }
-          }); */
-                
+       
         this.tableData=response.data.data;
+        console.log(response.data.data);
         this.tableData.forEach((element, index) => {
         this.$set(element, "update", 
           "<btn class='btn btn-info' v-on:click="+this.number++ +"'>Edit</btn>");
@@ -274,37 +338,49 @@
            store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
           });
-        }},
+        },
       show_available_companies(){
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        axios.get(this.$store.state.host_url+"/companies",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.available_companies = response.data.data;
-        ///get products///
-        axios.get(this.$store.state.host_url+"/products",
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          console.log(response.data.data);
-        this.products = response.data.data;
-      });
-      })
-      .catch(error => {
-       store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-      });
+        this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
+        }
       }
       ,
-      set_req_code(tabledata_id){
-       
-        console.log(tabledata_id);
+      selected_status_action(status){
+          if(status == 'Goods in Transit'){
+              this.show_git_inputs = true; 
+              this.fuel_supply.compartments = 1;
+              this.fuel_supply.latest_seal_numbers = [];
+              this.fuel_supply.first_seal_numbers = [];
+              this.fuel_supply.new_seal_numbers = [];
+              this.fuel_supply.first_seal_quantities=[],
+              this.fuel_supply.new_seal_quantities=[],
+              this.fuel_supply.latest_seal_quantities=[],
+              this.fuel_supply.submit_mode="UPDATE REQUEST/GENERATE WAYBILL"
+              console.log(this.fuel_supply.stock_seal_numbers.length);   
+            if(this.fuel_supply.stock_seal_numbers.length == 0){
+                this.first_time_seal_input = true;
+                this.return_time_seal_input = false;
+            }else{
+              this.return_time_seal_input= true;
+              this.fuel_supply.stock_seal_numbers.forEach(element => {
+                this.fuel_supply.latest_seal_numbers.push(element.latest_seal_number);
+                this.fuel_supply.latest_seal_quantities.push(element.latest_seal_quantity);
+              });
+              console.log(this.fuel_supply.latest_seal_numbers);
+
+
+        }
+          }else{
+            this.show_git_inputs = false;
+          }
       },
       onSubmit() {
+        this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
         } else {
@@ -314,6 +390,8 @@
           this.fuel_supply.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.fuel_supply.last_modified_by = user_details.id;
+          //for goods in transit
+          this.fuel_supply.waybill_printed_by=  user_details.id;
            let fuel_supply_detail = {
             fuel_request: this.fuel_supply
           };
@@ -339,24 +417,89 @@
           }else{
             this.$set(element, "status", "<span class='btn btn-primary btn-sm' >"+element.status+"</span>");
           }
+
+            if(this.fuel_supply.request_code == element.request_code && this.fuel_supply.status =='Goods in Transit'){
+                axios.get(this.url+'/print-waybill-pdf?request_code='+element.request_code, 
+              { responseType: 'blob' }
+            ).then( response => {
+                console.log(response);
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'waybill-note.pdf');
+                document.body.appendChild(link);
+                link.click();
+            }).catch(error =>{
+              console.log(error);
+            });
+              }
+
         });
+
+          if(this.fuel_supply.status== 'Goods in Transit'){
             store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Request Updated Successfully, Waybill Downloaded', 'show_alert': true});
+              }else{
+              store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Request Updated Successfully', 'show_alert': true});
+             
+              }
+              this.fuel_supply={};
+              this.formstate.$submitted=false;
+              this.show_git_inputs= false;
          
         }).catch(error => {
           store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
         })}
       },
-      show_recieve_stock_form(status){
-        console.log(status);
+    onAction (action, data, index) {
+      this.$SmoothScroll(document.getElementById("content-header"));
+      console.log('slot action: ' + action, data, index);
+      if(action == 'update'){
+        this.supply_reset();
+        this.fuel_supply.id = data.id;
+        this.fuel_supply.status='',
+        this.fuel_supply.driver_name='',
+        this.fuel_supply.quantity_loaded='',
+        this.fuel_supply.request_code=data.request_code;
+        this.fuel_supply.product_id=data.product_id;
+        this.fuel_supply.stock_seal_numbers=data.stock_seal_numbers;
+        if(data.stock_received != null){
+        this.fuel_supply.driver_name= data.stock_received.driver_name;
+        this.fuel_supply.quantity_loaded= data.stock_received.quantity_loaded;
+        this.fuel_supply.stock_received_id= data.stock_received.id;
+        this.fuel_supply.truck_reg_number= data.stock_received.truck_reg_number;
+          }
+        this.show_git_inputs = false;
+        this.first_time_seal_input = false;
+        this.return_time_seal_input = false;
       }
-
+    },
+    supply_reset(){
+      this.fuel_supply = {
+          station_id: "",
+          company_id: "",
+          product_id:0,
+          waybill_printed_by: "",
+          last_modified_by:"",
+          submit_mode: "UPDATE REQUEST/GENERATE WAYBILL",
+          status:"",
+          first_seal_numbers:[],
+          new_seal_numbers:[],
+          latest_seal_numbers:[],
+          compartments:1,
+          request_code:"",
+          driver_name:"",
+          quantity_loaded:"",
+          truck_reg_number:"",
+          truck_departure_time:""
+        };
+    }
     },
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
-      this.set_req_code("this is me");
     },
     destroyed: function() {
 

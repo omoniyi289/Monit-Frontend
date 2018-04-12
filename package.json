@@ -50,6 +50,7 @@
         "vue-clip": "^1.0.0",
         "vue-codemirror": "^4.0.2",
         "vue-count-to": "^1.0.13",
+        "vue-datetime-picker": "^0.2.1",
         "vue-echarts-v3": "^1.0.18",
         "vue-flatpickr-component": "5.0.4",
         "vue-form": "^4.8.0",
