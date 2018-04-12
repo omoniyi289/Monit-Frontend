@@ -15,13 +15,10 @@ ssh root@185.130.207.215 <<-EOF
     mv ./live ./backup # Create new backup
     mv ./temp ./live
     mkdir ./temp # create new temp directory for next deployment
-    cp ./lara-config/.env ./live
     cd ./live
-    composer install --no-dev --optimize-autoloader --no-plugins --no-scripts
-    composer update
-    php artisan key:generate
-    #php artisan route:cache resolve closure based routes before caching
-    php artisan migrate --force
+    npm install
+    npm update
+    npm run dev
     chmod -R 755 .
     chown -R www-data:www-data .
 EOF
