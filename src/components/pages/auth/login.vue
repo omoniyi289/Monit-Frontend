@@ -178,7 +178,7 @@ export default {
             this.error_message = "session expired, please re-login";
 
         }
-        //localStorage.setItem('role_details', null);
+    
     },
     destroyed: function() {
 
