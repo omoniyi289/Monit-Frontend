@@ -5,8 +5,4 @@ deploy_test.sh
 /.git/
 .gitignore
 .gitattributes
-readme.md
-.env.example
-shippable.yml
-phpunit.xml
 ci-cd.sh
