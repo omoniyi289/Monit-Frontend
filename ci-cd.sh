@@ -1,8 +1,8 @@
 #!/bin/bash
 
 ##### CI #####
-composer install
-php artisan key:generate --env=testing
+#composer install
+#php artisan key:generate --env=testing
 #php artisan migrate --force
 #./vendor/bin/phpunit #No tests yet
 
