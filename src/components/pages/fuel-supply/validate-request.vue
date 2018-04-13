@@ -15,8 +15,7 @@
                       
                     </div>
                     <div v-if="loading" class="center alert alert-warning">
-                        Please Wait...<br>
-                      
+                        Please Wait...<br>  
                     </div>
                     <div v-if="success_show_message" class="center alert alert-success">
                         Fuel Request {{ this.message }}.<br> Thanks!
