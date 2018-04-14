@@ -7,9 +7,9 @@
 #./vendor/bin/phpunit #No tests yet
 
 #### CD ####
-rsync -vzrh --exclude-from="deploy_exclude.txt" . root@185.130.207.215:/var/www/SMfrontend-Bundle/temp
-ssh root@185.130.207.215 <<-EOF
-    
+#rsync -vzrh --exclude-from="deploy_exclude.txt" . root@185.130.207.215:/var/www/SMfrontend-Bundle/temp
+#ssh root@185.130.207.215 <<-EOF
+
     cd /var/www/SMfrontend-Bundle
     rm -rf ./backup # Delete previous backup
     mv ./live ./backup # Create new backup
