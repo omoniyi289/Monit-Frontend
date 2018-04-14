@@ -16,7 +16,7 @@ ssh root@185.130.207.215 <<-EOF
     mv ./temp ./live
     mkdir ./temp # create new temp directory for next deployment
     cd ./live
-    export PATH=/sbin:/usr/sbin:/usr/bin:/usr/local/bin
+   
     npm install
     npm update
     npm run dev
