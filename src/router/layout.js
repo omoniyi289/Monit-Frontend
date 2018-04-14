@@ -134,6 +134,30 @@ const layout = [{
       title: "Modify Recording",
 }
 }, {
+    path: '/store-management/stock-transfer',
+      component: resolve => require(['pages/store-management/stock-transfer'], resolve),
+      meta: {
+      title: "Stock Transfer",
+}
+}, {
+    path: '/store-management/stock-count',
+      component: resolve => require(['pages/store-management/stock-count'], resolve),
+      meta: {
+      title: "Stock Count",
+}
+}, {
+    path: '/store-management/manage-item',
+      component: resolve => require(['pages/store-management/manage-item'], resolve),
+      meta: {
+      title: "Manage Items",
+}
+}, {
+    path: '/store-management/receive-stock',
+      component: resolve => require(['pages/store-management/receive-stock'], resolve),
+      meta: {
+      title: "Receive Stock",
+}
+}, {
     path: '/exp-management/manage',
       component: resolve => require(['pages/exp-management/manage'], resolve),
       meta: {

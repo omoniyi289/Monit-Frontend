@@ -8,7 +8,6 @@
 
 #### CD ####
 rsync -vzrh --exclude-from="deploy_exclude.txt" . root@185.130.207.215:/var/www/SMfrontend-Bundle/temp
-
 ssh root@185.130.207.215 <<-EOF
     export PATH=$PATH:/home/jenkins/.jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/node_js/bin/
     cd /var/www/SMfrontend-Bundle
