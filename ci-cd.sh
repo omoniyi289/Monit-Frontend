@@ -9,7 +9,6 @@
 #### CD ####
 rsync -vzrh --exclude-from="deploy_exclude.txt" . root@185.130.207.215:/var/www/SMfrontend-Bundle/temp
 ssh root@185.130.207.215 <<-EOF
-
     export PATH=/sbin:/usr/sbin:/usr/bin:/usr/local/bin
     cd /var/www/SMfrontend-Bundle
     rm -rf ./backup # Delete previous backup
