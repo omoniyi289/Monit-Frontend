@@ -9,13 +9,14 @@
 #### CD ####
 rsync -vzrh --exclude-from="deploy_exclude.txt" . root@185.130.207.215:/var/www/SMfrontend-Bundle/temp
 ssh root@185.130.207.215 <<-EOF
-    export PATH=/sbin:/usr/sbin:/usr/bin:/usr/local/bin
+    
     cd /var/www/SMfrontend-Bundle
     rm -rf ./backup # Delete previous backup
     mv ./live ./backup # Create new backup
     mv ./temp ./live
     mkdir ./temp # create new temp directory for next deployment
     cd ./live
+    export PATH=/sbin:/usr/sbin:/usr/bin:/usr/local/bin
     npm install
     npm update
     npm run dev
