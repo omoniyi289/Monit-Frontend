@@ -12,7 +12,7 @@ ssh root@185.130.207.215 <<-EOF
     cd ./live
     export PATH=/var/lib/jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/recent_node/bin/
     #npm install
-    npm run dev
+    sudo npm run dev
     chmod -R 755 .
     chown -R www-data:www-data .
 EOF
