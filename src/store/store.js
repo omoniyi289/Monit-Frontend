@@ -8,9 +8,14 @@ Vue.use(Vuex)
 function addDays(noOfDays) {
     return (noOfDays * 24 * 60 * 60 * 1000)
 }
-
+let user_detials='';
 //=======vuex store start===========
-let user_detials= JSON.parse(localStorage.getItem('user_details'));
+try{
+    user_detials = JSON.parse(localStorage.getItem('user_details'));
+}catch(e){
+  alert("Please enable the use of third party cookies and site data in your brower\'s settings to continue with the application");
+}
+
 let username='';
 
 const store = new Vuex.Store({
