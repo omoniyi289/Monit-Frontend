@@ -173,7 +173,7 @@ export default {
         //unset user data
         localStorage.setItem('user_details', null);
         localStorage.setItem('company_details', null);
-        if(this.$route.params.message="token_expired"){
+        if(this.$route.params.message == "token_expired"){
             this.show_error = true;
             this.error_message = "session expired, please re-login";
 

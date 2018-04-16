@@ -40,19 +40,7 @@
                   </div>
                 </div>
               <div class="col-lg-5" v-show="show_setup_form && fill_form" >
-                <div class="col-sm-12">
-                    <div class="form-group">
-                      <b-card v-if="company_stations.length" header="Registered Stations" header-tag="h4" class="bg-info-card">            
-                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
-                        placeholder="Select Stations"
-                        label="name" track-by="id" 
-                        :options="company_stations" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag">
-                        </multiselect>        
-                       </b-card>
-                        <p v-else>{{this.company_stations_null}}</p>
-                    </div>
-                </div>
+                
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
@@ -100,11 +88,25 @@
                     </validate>
                   </div>
                 </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                      <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
+                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
+                        placeholder="Select Stations"
+                        label="name" track-by="id" 
+                        :options="company_stations" :multiple="true" :hide-selected="true" 
+                        :taggable="true" @tag="addTag">
+                        </multiselect>        
+                       </b-card>
+                        <p v-else>{{this.company_stations_null}}</p>
+                    </div>
+                </div>
+
 
                 <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="role_id">Role</label>
+                      <label for="role_id">Select Role</label>
                       <select id="role" name="role_id" size="1" class="form-control" v-model="user.role_id" required checkbox>
 
                         <option
@@ -118,6 +120,20 @@
                       </field-messages>
                     </validate>
                   </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="form-group">
+                      <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
+                        <multiselect v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
+                        placeholder="Select Modules"
+                        label="name" track-by="id" 
+                        :options="company_notifications" :multiple="true" :hide-selected="true" 
+                        :taggable="true" @tag="addTag">
+                        </multiselect>        
+                       </b-card>
+                        <p v-else>{{this.company_notifications_null}}</p>
+                    </div>
                 </div>
 
 
@@ -190,6 +206,11 @@
           numeric: true,
           html: true,
         }, {
+          label: 'Notifications Allowed',
+          field: 'notifications',
+          numeric: true,
+          html: true,
+        }, {
           label: "Role",
           field: 'role.name',
           numeric: false,
@@ -215,6 +236,8 @@
         fill_form: false,
         company_stations: "",
         company_stations_null: "",
+        company_notifications_null: "",
+        company_notifications: [],
         preset : {
           company_id: "",
           station_id: ""
@@ -231,6 +254,7 @@
           station_id: "",
           phone_number: "",
           selected_stations : [],
+          selected_notifications:[],
           email: "",
           username: "",
           fullname: "",
@@ -247,6 +271,7 @@
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         this.company_stations_null = 'No Station Added Yet';
+        this.company_notifications_null = 'No available notofication modules';
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
@@ -272,7 +297,7 @@
             this.tableData.forEach((item, index) => {
               let perm='';
               this.tableData[index]['selected_stations']=[];              
-              if(item.station_users !==undefined){
+              if(item.station_users !==undefined && item.station_users !==null){
               item.station_users.forEach((inner_item, inner_index) => {
                     var element = '';
                   if(inner_item.station !==undefined){
@@ -285,6 +310,22 @@
                       }
                        });
               }
+              let notf='';
+              this.tableData[index]['selected_notifications']=[];              
+              if(item.user_notifications !==undefined && item.user_notifications !==null){
+              item.user_notifications.forEach((inner_item, inner_index) => {
+                    var element = '';
+                  if(inner_item.module !==undefined && item.module !==null){
+                      element = inner_item.module;
+                      notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
+                      this.tableData[index]['selected_notifications'].push(element);
+                      
+                      this.tableData[index]['notifications']=notf;
+                      this.tableData[index]['tabledata_index']=index;
+                      }
+                       });
+              }
+              
                   });
             this.show_setup_form=true;
           //console.log(response.data.data);     
@@ -297,6 +338,18 @@
         });
         
       },
+       show_notification_modules(){
+                     ///get products///
+              let user_details = JSON.parse(localStorage.getItem('user_details'));
+              axios.get(this.$store.state.host_url+"/notifications",
+                {
+                  headers : {
+                    "Authorization" : "Bearer " + user_details.token
+                  }}).then(response => {
+                //
+                this.company_notifications = response.data.data;
+                });
+        },
         show_available_companies(){
           this.products = store.state.products;
         if(store.state.show_single_company){
@@ -380,7 +433,7 @@
              this.tableData.forEach((item, index) => {
               let perm='';
               this.tableData[index]['selected_stations']=[];              
-              if(item.station_users !==undefined){
+              if(item.station_users !==undefined && item.station_users!==null){
               item.station_users.forEach((inner_item, inner_index) => {
                     var element = '';
                    
@@ -390,6 +443,22 @@
                       this.tableData[index]['selected_stations'].push(element);
                       
                       this.tableData[index]['stations']=perm;
+                      this.tableData[index]['tabledata_index']=index;
+                      }
+                       });
+              }
+
+              let notf='';
+              this.tableData[index]['selected_notifications']=[];              
+              if(item.user_notifications !==undefined && item.user_notifications !==null){
+              item.user_notifications.forEach((inner_item, inner_index) => {
+                    var element = '';
+                  if(inner_item.module !==undefined && item.module!== null){
+                      element = inner_item.module;
+                      notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
+                      this.tableData[index]['selected_notifications'].push(element);
+                      
+                      this.tableData[index]['notifications']=notf;
                       this.tableData[index]['tabledata_index']=index;
                       }
                        });
@@ -418,7 +487,7 @@
                           this.tableData.forEach((item, index) => {
                           let perm='';
                           this.tableData[index]['selected_stations']=[];              
-                          if(item.station_users !==undefined){
+                          if(item.station_users !==undefined && item.station_users !==null){
                           item.station_users.forEach((inner_item, inner_index) => {
                                 var element = '';
                                 console.log(inner_item);
@@ -432,6 +501,23 @@
                                   }
                                   });
                           }
+
+                          let notf='';
+                          this.tableData[index]['selected_notifications']=[];              
+                          if(item.user_notifications !==undefined && item.user_notifications !==null){
+                          item.user_notifications.forEach((inner_item, inner_index) => {
+                                var element = '';
+                              if(inner_item.module !==undefined && item.module!==null){
+                                  element = inner_item.module;
+                                  notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
+                                  this.tableData[index]['selected_notifications'].push(element);
+                                  
+                                  this.tableData[index]['notifications']=notf;
+                                  this.tableData[index]['tabledata_index']=index;
+                                  }
+                                  });
+                          }
+
                               });
                         this.$alert.success({duration:5000,forceRender:'',
                         message:'User Updated Successfully',transition:''});
@@ -472,6 +558,7 @@
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
+      this.show_notification_modules();
     },
     destroyed: function() {
 
