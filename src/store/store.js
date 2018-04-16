@@ -26,8 +26,8 @@ const store = new Vuex.Store({
         products:"",
         show_single_company: false,
         show_multi_company: false,
-        host_url: "http://localhost:8000/api/v1",
-        //host_url: "http://sm2.api.energy360africa.com/api/v1",
+        //host_url: "http://localhost:8000/api/v1",
+        host_url: "http://sm2.api.energy360africa.com/api/v1",
         site_name: "Station Manager",
         page_title: null,
         /*user: {
