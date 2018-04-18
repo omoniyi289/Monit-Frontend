@@ -140,17 +140,10 @@ export default {
                       });
                     }
                 */
-                if (user_data.is_company_set_up == 0){
+                if (user_data.is_company_set_up == 0 && user_data.role_id == 'super'){
                     this.$router.push('/#/admin/company/setup');
-                }else if (user_data.is_company_set_up == 1){
-                    this.$router.push('/');
-                }
-                else if(user_data.is_password_reset == 0){
-                    //to activate a window reload on index
-                window.location.href="/#/index?company_user=true";
-                }
-                else if(user_data.is_password_reset == 1){
-                this.$router.push('/#/index?company_user=true');
+                }else{
+                this.$router.push('/');
                 //window.location.href="/index?new=meg";
                 }
             }
