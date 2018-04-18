@@ -395,7 +395,7 @@
                             let company_response = response.data;
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
-                                this.$alert.success({duration:5000,forceRender:'',
+                                this.$alert.success({duration:10000,forceRender:'',
                             message:'Company Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
@@ -428,7 +428,7 @@
                               this.tableData.forEach((item, index) => {
                                 this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
                             });
-                             this.$alert.success({duration:5000,forceRender:'',
+                             this.$alert.success({duration:10000,forceRender:'',
                         message:'Station Registered Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.station= {submit_mode: "CREATE"};
@@ -451,7 +451,7 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                         
-                        this.$alert.success({duration:5000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'Station Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.station= {submit_mode: "CREATE"};

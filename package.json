@@ -1,10 +1,10 @@
 {
-    "name": "vuejs-admin",
+    "name": "staman",
     "version": "1.0.0",
     "description": "Vuejs based station manager app",
     "main": "main.js",
     "private": true,
-    "author": "Omoniyi Omotoso",
+    "author": "e360 Africa Limited",
     "scripts": {
         "dev": "npm run development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",

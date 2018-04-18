@@ -193,7 +193,7 @@
         store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
         var company_route = '';
         //console.log(user_details);
-        if(user_details.is_verified !== undefined && user_details.is_verified == 2){
+        if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           company_route = '/companies/e360_super_user';
           axios.get(store.state.host_url+company_route,
@@ -210,7 +210,7 @@
                 store.commit("catch_errors", error); 
             });
         }
-        else if(user_details.is_company_set_up !== undefined && user_details.is_company_set_up == 1){
+        else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
           //first company super user
           company_route = '/companies/first_company_user/'+user_details.id;
           axios.get(store.state.host_url+company_route,
@@ -237,7 +237,7 @@
             store.commit("activateLoader", "end");   
                 store.commit("catch_errors", error); 
             });
-        }else if(user_details.company_id !== undefined){
+        }else{
           ///for regular company users
           company_route = '/companies/company_user/'+user_details.company_id;
           axios.get(store.state.host_url+company_route,

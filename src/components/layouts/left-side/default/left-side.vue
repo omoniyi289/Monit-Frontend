@@ -50,18 +50,18 @@ export default {
    
     mounted: function() {
         let user_data = JSON.parse(localStorage.getItem('user_details'));
-        if(user_data.role_id !== undefined){
-                        var r_p_array=[];
-                        var permissions= [];
-                       console.log( "i did tis "  +user_data.role_id);
-                        axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
-                        
-                        r_p_array = response.data.data;  
-                        this.final_permissions= this.f_menu_items(r_p_array);
-                   
+        console.log(user_data.role_id);
+        if(user_data.role_id == 'master' || user_data.role_id == 'super'){
+            this.final_permissions= this.f_menu_items("all");
+        }else{
+            var r_p_array=[];
+            var permissions= [];
+            console.log( "i did tis "  +user_data.role_id);
+            axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
+                  r_p_array = response.data.data;  
+                this.final_permissions= this.f_menu_items(r_p_array);               
                       });
-                    }else{
-                        this.final_permissions= this.f_menu_items("all");
+                        
                     }
     },
     destroyed: function() {
@@ -203,6 +203,38 @@ export default {
                                 icon: 'fa fa-angle-double-right'
                             });
                                 }
+                            }
+        ///Store Mng
+        if( true){
+            menu_items.push({ name: 'Store Management',
+                            icon: 'fa fa-pencil',
+                            child: [],
+                                });      
+                            var current_index = menu_items.length-1;           
+                            menu_items[current_index].child.push({
+                                name: 'Items',
+                                link: '/store-management/manage-item',
+                                icon: 'fa fa-angle-double-right'
+                            });
+            
+                            menu_items[current_index].child.push({
+                                name: 'Stock Refill',
+                                link: '/store-management/stock-refill',
+                                icon: 'fa fa-angle-double-right'
+                            });
+
+                            menu_items[current_index].child.push({
+                                name: 'Stock Count',
+                                link: '/store-management/stock-count',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            //if(permissions.includes('MSSt')){
+                            menu_items[current_index].child.push({
+                                name: 'Stock Transfer',
+                                link: '/store-management/stock-transfer',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                         //       }
                             }
 
         ///Exp Mgt

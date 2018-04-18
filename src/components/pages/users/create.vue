@@ -4,7 +4,7 @@
       <b-card header="" header-tag="h4" class="bg-default-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="onSubmit">
+            <vue-form :state="formstate" @submit.prevent="onSubmit">
               <div class="row">
                 <div class="col-lg-5">
                   <div class="form-group" v-if="show_multi_company">
@@ -397,7 +397,7 @@
                             let company_response = response.data;
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
-                                this.$alert.success({duration:5000,forceRender:'',
+                                this.$alert.success({duration:10000,forceRender:'',
                             message:'User Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
@@ -464,7 +464,7 @@
                        });
               }
                   });        
-            this.$alert.success({duration:5000,forceRender:'',
+            this.$alert.success({duration:10000,forceRender:'',
             message:'User registered successfully, default password is 123456',transition:''});
             this.formstate.$submitted=false;
             this.user= {submit_mode: "CREATE"};
@@ -519,7 +519,7 @@
                           }
 
                               });
-                        this.$alert.success({duration:5000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'User Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.user= {submit_mode: "CREATE"};

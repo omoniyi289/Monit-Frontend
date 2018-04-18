@@ -146,6 +146,12 @@ const layout = [{
       title: "Stock Count",
 }
 }, {
+    path: '/store-management/stock-refill',
+      component: resolve => require(['pages/store-management/stock-refill'], resolve),
+      meta: {
+      title: "Stock Refill",
+}
+}, {
     path: '/store-management/manage-item',
       component: resolve => require(['pages/store-management/manage-item'], resolve),
       meta: {

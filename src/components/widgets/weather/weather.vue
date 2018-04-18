@@ -33,7 +33,7 @@
     import geolocator from "geolocator"
     var options = {
         enableHighAccuracy: false,
-        timeout: 5000,
+        timeout: 10000,
         maximumWait: 10000,
         maximumAge: 0, // disable cache
         desiredAccuracy: 30, // meters

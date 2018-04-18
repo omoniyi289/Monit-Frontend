@@ -538,7 +538,7 @@
                                   else if(url == '/tank_groups/'){
                                     this.tankgroup_tableData.splice(this.tankgroup_tableData.indexOf(data), 1);
                                   }
-                                this.$alert.success({duration:5000,forceRender:'',
+                                this.$alert.success({duration:10000,forceRender:'',
                             message:'Item Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 

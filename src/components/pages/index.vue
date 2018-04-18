@@ -266,10 +266,10 @@
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         var company_route = '';
         //console.log(user_details);
-        if(user_details.is_verified !== undefined && user_details.is_verified == 2){
+        if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           this.myrole = "e360 Super User";
-          company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id+'company_id=all';
+          company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id+'company_id=master';
           axios.get(store.state.host_url+company_route,
           {
             headers : {
@@ -383,12 +383,12 @@
             });
             
         }
-        else if(user_details.is_company_set_up !== undefined && user_details.is_company_set_up == 1){
+        else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
           //first company super user
           this.myrole = "Super User";
           console.log(this.myrole);
           //company_route = '/companies/first_company_user/'+user_details.id;
-          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=not_needed';
+          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=super';
           //company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
           axios.get(store.state.host_url+company_route,
           {
@@ -500,7 +500,7 @@
                 store.commit("catch_errors", error); 
             });
                
-        }else if(user_details.company_id !== undefined){
+        }else{
           ///for regular company users
           company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
           axios.get(store.state.host_url+company_route,

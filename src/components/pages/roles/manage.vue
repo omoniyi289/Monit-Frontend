@@ -304,7 +304,7 @@
                             let company_response = response.data;
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
-                                this.$alert.success({duration:5000,forceRender:'',
+                                this.$alert.success({duration:10000,forceRender:'',
                             message:'Role Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
@@ -396,7 +396,7 @@
                               }}
                               );
                                   });
-                        this.$alert.success({duration:5000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'Role Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.role= {submit_mode: "CREATE"};

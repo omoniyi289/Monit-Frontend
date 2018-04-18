@@ -270,7 +270,7 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                           this.tableData = response.data.data;
-                        this.$alert.success({duration:5000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'Pump Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.pump = {submit_mode: "CREATE"};
@@ -328,7 +328,7 @@
                             let company_response = response.data;
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
-                                this.$alert.success({duration:5000,forceRender:'',
+                                this.$alert.success({duration:10000,forceRender:'',
                             message:'Pump Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 

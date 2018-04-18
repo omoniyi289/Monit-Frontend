@@ -17,7 +17,13 @@ try{
 }
 
 let username='';
-
+let host_url='';
+if(process.env.NODE_ENV == 'production'){
+    host_url = "http://sm2.api.energy360africa.com/api/v1";
+}else{
+    host_url=  "http://localhost:8000/api/v1";
+}
+process.env.NODE_ENV;
 const store = new Vuex.Store({
     state: {
         left_open: true,
@@ -32,7 +38,7 @@ const store = new Vuex.Store({
         show_single_company: false,
         show_multi_company: false,
         //host_url: "http://localhost:8000/api/v1",
-        host_url: "http://sm2.api.energy360africa.com/api/v1",
+        host_url: host_url,
         site_name: "Station Manager",
         page_title: null,
         /*user: {

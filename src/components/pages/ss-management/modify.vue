@@ -23,7 +23,7 @@
           
           <div class="col-md-12">
            
-            <vue-form :state="formstate" @submit.prevent="onSubmit" >
+            <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form" >
                <input readonly type="text"  :value="selected_date" placeholder=""/>
               
               <b-card header-tag="h4" class="bg-info-card" header="Open the Station">
@@ -220,7 +220,17 @@
       to_totalizer(){
         
       },
-  
+  show_available_companies(){
+        this.products = store.state.products;
+        if(store.state.show_single_company){
+          this.available_company = store.state.available_company;
+          this.show_single_company = store.state.show_single_company;
+        }else if(store.state.show_multi_company == true){
+          this.available_companies = store.state.available_companies;
+          this.show_multi_company = store.state.show_multi_company;
+        }
+      }
+      ,
   show_open_station_info(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;

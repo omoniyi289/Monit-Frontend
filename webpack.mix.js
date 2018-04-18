@@ -67,7 +67,7 @@ mix.copy('index.html', 'dist/')
 mix.js('src/main.js', '/')
     // Add any additional vendor modules that need to be cached
     // remove any unused libraries in the array as they will be included in the vendor bundle
-    .extract(['vue', 'bootstrap-vue', 'animejs', 'axios', 'vue-echarts-v3/src/full.js','vue2-dropzone'])
+    .extract(['vue', 'bootstrap-vue', 'animejs', 'axios'])
 
 
 // set path for production link

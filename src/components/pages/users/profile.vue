@@ -267,7 +267,7 @@ export default {
                         if(this.model.password !== undefined){
                         password_message = ", password changed";
                         }
-                        this.$alert.success({duration:5000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'Account Updated Successfully'+password_message,transition:''});
                         ///finally
                         
@@ -288,7 +288,7 @@ export default {
         store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
         var company_route = '';
         //console.log(user_details);
-        if(user_details.is_verified !== undefined && user_details.is_verified == 2){
+        if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           this.myrole = "e360 Super User";
           company_route = '/companies/e360_super_user';
@@ -315,7 +315,7 @@ export default {
             });
             
         }
-        else if(user_details.is_company_set_up !== undefined && user_details.is_company_set_up == 1){
+        else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
           //first company super user
           this.myrole = "Super User";
           company_route = '/companies/first_company_user/'+user_details.id;
@@ -343,7 +343,7 @@ export default {
             store.commit("activateLoader", "end");   
                 store.commit("catch_errors", error); 
             });
-        }else if(user_details.company_id !== undefined){
+        }else{
           ///for regular company users
           company_route = '/companies/company_user/'+user_details.company_id;
           axios.get(store.state.host_url+company_route,

@@ -201,7 +201,7 @@ export default {
                 address: "hyd ",
                 city: "Hyderabad",
                 country: 1,
-                pin: "500010",
+                pin: "1000010",
                 terms: true
             },
             available_states: "",
