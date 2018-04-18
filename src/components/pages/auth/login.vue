@@ -110,7 +110,7 @@ export default {
             if (this.formstate.$invalid) {
                 return;
             } else {
-            console.log(JSON.stringify(this.user));
+            console.log("loggin in");
             this.login_submit = "Logging In...";
             let host_url = this.$store.state.host_url;
             axios.post(host_url+'/auth', JSON.stringify(this.user), {
@@ -118,33 +118,21 @@ export default {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
+                console.log('main resp');
             let auth_response = response.data;
             if (auth_response.status === true) {
+                console.log('rwsponse!');
                 this.login_submit = "LOGIN";
                 let user_data = auth_response.data;
                     localStorage.setItem('user_details',JSON.stringify(user_data));
                     this.$store.state.user = auth_response.data;
-                 /*   ///company_users
-                    if(user_data.role_id !== undefined){
-                        var r_p_array=[];
-                        var permissions= [];
-                       console.log( "i did tis "  +user_data.role_id);
-                        axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
-                        
-                        r_p_array = response.data.data;  
-                   
-                       localStorage.setItem('role_details',
-                       JSON.stringify(r_p_array));
-                       console.log(localStorage.getItem('role_details'));
-                   
-                      });
-                    }
-                */
+             
                 if (user_data.is_company_set_up == 0 && user_data.role_id == 'super'){
                     this.$router.push('/#/admin/company/setup');
-                }else{
-                this.$router.push('/');
-                //window.location.href="/index?new=meg";
+                }
+                else{
+                //this.$router.push('/');
+                window.location.href="/";
                 }
             }
         }).catch(error => {
