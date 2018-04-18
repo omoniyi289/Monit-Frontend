@@ -21,7 +21,7 @@ let host_url='';
 if(process.env.NODE_ENV == 'production'){
     host_url = "http://sm2.api.energy360africa.com/api/v1";
 }else{
-    host_url=  "http://localhost:8000/api/v1";
+    host_url=  "http://sm2.api.energy360africa.com/api/v1";
 }
 process.env.NODE_ENV;
 const store = new Vuex.Store({
