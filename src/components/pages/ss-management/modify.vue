@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <b-card header="" header-tag="h4" class="bg-default-card">
+      <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
           <div class="col-md-12">
             <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
@@ -15,9 +15,8 @@
                 </csview>
             <div class="col-lg-3">
                 <i><b>please select date before proceed</b></i>
-                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
-                 
-                </div>
+                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>     
+            </div>
             <hr>
           </div>
           
@@ -166,7 +165,9 @@
   import Datepicker from 'vuejs-datepicker';
   import Vue from 'vue';
   import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import VueForm from "vue-form";     
+  import vueSmoothScroll from 'vue-smoothscroll';     
+  Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);
@@ -179,7 +180,7 @@
     data() {
       return {
         ajaxLoading: true,
-        format: 'yyyy-MM-d',
+        format: 'yyyy-MM-dd',
         loading: true,
         url: this.$store.state.host_url+'/product_price_change',
         formstate: {},

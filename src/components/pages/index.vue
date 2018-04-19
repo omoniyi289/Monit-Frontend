@@ -276,16 +276,21 @@
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
           store.commit("activateLoader", "end"); 
-          this.show_setup_form = true;
           this.final_data = response.data.data;
           var table_data = [];
+          if(this.final_data.total_pumps > 0 && this.final_data.total_tanks >0 && this.final_data.total_stations >0 )
+            {
+             this.show_setup_form = true;
+           }
+
         table_data=this.final_data.merged_data_by_date;
-        //  table_data.forEach((item, index) => {
-         //     console.log(index);
-         // });
+       try{
          var table_data_by_date = Object.keys(table_data).map(function(key) {
          return [key, table_data[key]];
          });
+          }catch(error){
+              console.log(error);
+          }
          table_data_by_date= table_data_by_date.reverse();
          ////by date///////
          table_data_by_date.forEach(element => {

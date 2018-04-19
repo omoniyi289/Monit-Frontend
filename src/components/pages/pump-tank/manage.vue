@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <b-card header="" header-tag="h4" class="bg-default-card">
+      <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
           <div class="col-md-12">
             <div class = "col-md-12">
