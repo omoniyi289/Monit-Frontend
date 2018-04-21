@@ -8,120 +8,99 @@
                   <template slot="actions" slot-scope="props">
                     <div >
                       <button class="btn btn-success" 
-                      @click="show_open_station_info( props.rowData, props.rowIndex)">Proceed</button>
+                      @click="show_station_transfers( props.rowData, props.rowIndex)">Proceed</button>
                         
                     </div>
                   </template>
-                </csview>
+            </csview>
             <hr>
           </div>
           
-          <div class="col-md-12">
-           
+          <div class="col-sm-3">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
-              <br>
-               <b>Date : {{this.set_date}}</b>
-              
-              <b-card header-tag="h4" class="bg-info-card" header="Open the Station">
-                <div class="row ">
-                  <div class="col-lg-12">               
-                    <b-tabs>
-                        <b-tab title="Stock Readings" >
-                           <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Tank Name</th>
-                                  <th>Opening Volume Reading</th>
-                                  <th>Confirm Opening Volume Reading</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr v-for ="(option, index) in open_tank_reading">
-                                  <th>{{option.tank_code}}</th>
-                                  <td>
-                  
-                                    <validate tag="div">
-                                      <input v-model="open_tank_reading[index].opening_reading" id="rd" :name="trd+index" type="number" required placeholder="Opening Reading" class="form-control" />
-                                      <field-messages :name="trd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Opening Reading is required</div>
-                                      </field-messages>
-                                    </validate>        
-                                  </td>
-                                  <td>
-                                    <validate tag="div">
-                                      <input v-model="open_tank_reading[index].c_opening_reading"  id="c_rd" :name="c_trd+index" type="number" required placeholder="Confirm Opening Reading" class="form-control" :sameas="open_tank_reading[index].opening_reading"/>
-                                      <field-messages :name="c_trd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Opening Reading is required</div>
-                                          <div slot="sameas">Opening and Confirm Opening Reading should match</div>
-                                      </field-messages>
-                                    </validate>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table> 
-                            
-                        </b-tab>
-                        <b-tab title="Totalizer Readings" >
-                            <table class="table">
-                              <thead>
-                                <tr>
-                                  <th>Pump Nozzle Code</th>
-                                  <th>Opening Totalizer Reading</th>
-                                  <th>Confirm Opening Totalizer Reading</th>
-                                  
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr  v-for="(option, index) in open_pump_reading">
-                                  <th>{{option.pump_nozzle_code}}</th>
-                                  <td>
-                  
-                                    <validate tag="div">
-                                      <input v-model="open_pump_reading[index].opening_reading" id="rd" :name="prd+index" type="number" required placeholder="Opening Reading" class="form-control" />
-                                      <field-messages :name="prd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Opening Reading is required</div>
-                                      </field-messages>
-                                    </validate>        
-                                  </td>
-                                  <td>
-                                    <validate tag="div">
-                                      <input v-model="open_pump_reading[index].c_opening_reading"  id="c_rd" :name="c_prd+index" type="number" required placeholder="Confirm Opening Reading" class="form-control" :sameas="open_pump_reading[index].opening_reading"/>
-                                      <field-messages :name="c_prd+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm Opening Reading is required</div>
-                                          <div slot="sameas">Opening and Confirm Opening Reading should match</div>
-                                      </field-messages>
-                                    </validate>
-                                  </td>
-                  
-                                </tr>
-                              </tbody>
-                            </table> 
-                            <div class="col-sm-12">
-                              <div class="form-group float-right">
-                                <input type="submit" value="UPLOAD READINGS" class="btn btn-success"></input>
-                              </div>
-                            </div>
-                        </b-tab>
-                        
-                    </b-tabs>           
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="product_id">Item Name</label>
+                      <input readonly v-model="item_variant.item.name" name="product_id" type="text" required  class="form-control" id="serial_number"/>
+                      <field-messages name="product_id" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Item Name is required</div>
+                      </field-messages>
+                    </validate>
                   </div>
                 </div>
-              </b-card>
-             
+
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="is_approved">Receive/Discard</label>
+                      <select id="is_approved" name="is_approved" size="1" class="form-control" v-model="item_variant.status" required >
+                            <option value="Received">Receive</option>
+                            <option value="Discarded">Discard</option>
+                      </select>
+                      <field-messages name="is_approved" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Choice is required</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="current_price_tag">Quantity Transfered</label>
+                      <input readonly v-model="item_variant.quantity_transferred" name="current_price_tag" type="number" required autofocus placeholder="Q T" class="form-control" id="serial_number"/>
+                      <field-messages name="current_price_tag" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Q T is a required field</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="requested_price_tag">Quantity Received</label>
+                      <input  v-model="item_variant.quantity_received" name="requested_price_tag" type="number"  autofocus placeholder="Q R" class="form-control" id="serial_number"/>
+                      <field-messages name="requested_price_tag" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Q R is a required field</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+
+                <div class="col-sm-12">
+                  <div class="form-group float-left">
+                    <input type="submit" v-if="approve" value="Submit" class="btn btn-success" />
+                  </div>
+                </div>
+              </div>
             </vue-form>
-          </div>   
+          </div>
+          <div class="col-sm-9"  v-show="show_setup_form">
+            <div class="table-responsive">
+                <datatable title="Transfered Stocks" :rows="tableData" :columns="log_columndata">
+                    <template slot="actions" slot-scope="props">
+                        <div >
+                            <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                        </div>
+                    </template>
+                </datatable>
+            </div>
+          </div>
+
+         
         </div>
       </b-card>
     </div>
   </div>
 </template>
 <script>
-  import Vue from 'vue'
+  import Vue from 'vue';
+  import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
-  import store from 'src/store/store.js';
-  import moment from 'moment';
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
@@ -130,189 +109,199 @@
     },
     data() {
       return {
+            log_columndata: [
+              {
+          label: 'Transfered On',
+          field: 'date_transfered',
+          numeric: false,
+          html: false,
+        },
+         {
+          label: 'Item Name',
+          field: 'item.name',
+          numeric: false,
+          html: false,
+        },
+         {
+          label: 'Variant Value',
+          field: 'item_variant.variant_value',
+          numeric: false,
+          html: false,
+        },
+        {
+          field: '__slot:actions',
+          label: 'Actions',
+        }, {
+          label: 'Composite SKU',
+          field: 'compositesku',
+          numeric: false,
+          html: false,
+        }
+        , {
+          label: 'Status',
+          field: 'status',
+          numeric: false,
+          html: true,
+        }, {
+          label: 'Quantity Transfered',
+          field: 'quantity_transferred',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Quantity Received',
+          field: 'quantity_received',
+          numeric: false,
+          html: false,
+        }],
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/product_price_change',
+        url: this.$store.state.host_url+'/item-variants',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        log_tableData:[],
+        approve:false,
         available_companies: [],
         available_company: [],
         products: "",
-        set_date: "",
         show_multi_company: false,
         show_single_company: false,
-        trd: "tank_reading",
-        c_trd: "confirm_tank_reading",
-        prd: "pump_reading",
-        c_prd: "confirm_pump_reading",
-        cc:"cash_collected",
-        c_cc: "confirm_cash_collected",//0037116128
-        station_pumps:[],
-        station_tanks:[],
-        final_stock_info: {},
-        final_pump_info: {},
+        station_pumps:"",
         company_stations: "",
+        added_product_name: "",
         preset : {
           company_id: "",
           station_id: ""
         },
-        open_pump_reading : [],
-        open_tank_reading : [],
+        item_variant : {
+          quantity_received: "",
+          quantity_transferred: "",
+          item: { name: '',
+                },
+          is_approved: 0,
+          status:0,
+        }
+
       }
     },
     methods: {
-      to_totalizer(){
-        
-      },
-      show_company_stations(company_name){
-        store.commit("activateLoader", "start");   
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        //let company_name= this.preset.company_name;
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-              store.commit("activateLoader", "end");   
-          this.company_stations = response.data.data;
-      })
-      .catch(function(error) {
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-        });
-      },
+     
       
-         show_open_station_info(station_id, company_id){
+       show_station_transfers(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
-        this.$store.state.show_alert = false;
         if (this.formstate2.$invalid) {
           return;
         } else {
           store.commit("activateLoader", "start");
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params = 'station_id='+this.preset.station_id; 
-        axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
+          this.show_setup_form= true;
+          //this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
+          //updated_by: "",approved_by: 0,requested_price_tag:"",submit_mode: "Add Price",  
+            //        };
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          let station_id= this.preset.station_id;
+          
+          axios.get(this.$store.state.host_url+"/item-variants/stock-transfer/"+station_id,
+            {
+              headers : {
+                "Authorization" : "Bearer " + user_details.token
+              }}).then(response => {
+                store.commit("activateLoader", "end");   
+            this.tableData = response.data.data;
+            this.tableData.forEach(element => {
+              if(element.status == 'Discarded'){
+                this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Discarded</span>");
+                this.$set(element, "__slot:actions", "");
+              }else if(element.status == 'Completed'){
+                this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Completed</span>");
+              }else if(element.status == 'Received'){
+                this.$set(element, "status", "<span class='btn btn-success btn-sm' >Received</span>");
+                this.$set(element, "__slot:actions", "");
+              }
+            });
+           
+            
+        })
+        .catch(function(error) {
+           store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+          });
+
+        }
+        },
+     onAction (action, data, index) {
+      this.$SmoothScroll(document.getElementById("content-header"));
+      console.log('slot action: ' + action, data, index);
+      if(action == 'update'){
+        if(data.status != "<span class='btn btn-warning btn-sm' >Completed</span>"){
+            store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Stock Already Updated', 'show_alert': true});
+           return;
+          }else{
+        this.item_variant = data;
+        this.approve = true;
+        }
+        //console.log(data);
+        
+      }
+    },
+      onSubmit() {
+        this.$SmoothScroll(document.getElementById("content-header"));
+        if (this.formstate.$invalid) {
+          return;
+        } else {
+          store.commit("activateLoader", "start");
+          //include station and company_id
+          this.item_variant.station_id= this.preset.station_id;
+          this.item_variant.company_id= this.preset.company_id;
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          this.item_variant.received_by= user_details.id;
+          console.log(this.item_variant);
+             let item_variant = {
+            item_variant: this.item_variant
+          };
+          axios.patch(store.state.host_url+'/item-variants/stock-transfer/'+this.item_variant.id, item_variant, {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }
+          }).then( response => {
+            store.commit("activateLoader", "end");    
+            this.approve = false;
+            store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Stock Updated Successfully', 'show_alert': true});
+         this.tableData = response.data.data;
+            this.tableData.forEach(element => {
+              if(element.status == 'Discarded'){
+                this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Discarded</span>");
+              }else if(element.status == 'Completed'){
+                this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Completed</span>");
+              }else if(element.status == 'Received'){
+                this.$set(element, "status", "<span class='btn btn-success btn-sm' >Received</span>");
+              }
+            });
+
+        }).catch(error => {
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+        });
+        }
+        },
+        load_products(){
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          axios.get(store.state.host_url+"/products",
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-       store.commit("activateLoader", "end");   
-       if(response.data.data.length > 0){
-         ///station has data
-         var d_date = new Date(response.data.data[0].created_at);
-         d_date.setDate(d_date.getDate() + 1);
-         this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');
-         }else{
-           ///new station
-           this.set_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-           store.commit("showAlertBox", {'alert_type': 'alert-warning',
-                      'alert_message': 'new station alert! make sure you have pumps and tanks configured before proceeding', 'show_alert': true});
-         this.show_setup_form= true;  
-         }
-         ///check if next date is tomorrow
-         if(response.data.data[0].created_at.includes(moment(new Date()).format('YYYY-MM-DD'))){
-           console.log(response.data.data[0].created_at);
-           console.log(moment(new Date()).format('YYYY-MM-DD'));
-           store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                      'alert_message': 'Readings already exist for today', 'show_alert': true});
-            this.show_setup_form= false;  
-         return;
-         }
-         this.show_setup_form= true;    
-         let station_id= this.preset.station_id;
-          axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
-            {
-              headers : {
-                "Authorization" : "Bearer " + user_details.token
-              }}).then(response => {
-             store.commit("activateLoader", "end");   
-            this.station_pumps = response.data.data;
-            this.open_pump_reading = [];
-            //if(){
-            this.show_setup_form= true;
-            this.station_pumps.forEach(element => {
-            this.open_pump_reading.push({'pump_nozzle_code': element.pump_nozzle_code,'pump_id': element.id,
-           'opening_reading': '', 'c_opening_reading': '' , 'status': 'Opened'});
-          });
-            ///  }
-            axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
-            {
-              headers : {
-                "Authorization" : "Bearer " + user_details.token
-              }}).then(response => {
-            this.station_tanks = response.data.data;
-            this.open_tank_reading = [];
-            this.station_tanks.forEach(element => {
-            this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': '', 'c_opening_reading': '', 'status': 'Opened'});
-          });
-         // console.log(this.open_tank_reading);
-          
-                  });
-        })
-        .catch(function(error) {
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-          });
-          });
-
-        }},
-     
-     
-      onSubmit() {
-          this.$SmoothScroll(document.getElementById("content-header"));
-        if (this.formstate.$invalid) {
-          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'input error, please cross-check stock and totalizer readings', 'show_alert': true});
-          return;
-        } else {
-          store.commit("activateLoader", "start");
-            ////stock//
-          this.final_stock_info.station_id= this.preset.station_id;
-          this.final_stock_info.company_id= this.preset.company_id;
-          let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.final_stock_info.created_by = user_details.id;
-          this.final_stock_info.readings = this.open_tank_reading;
-          this.final_stock_info.created_at = this.set_date;
-          ////pumps///
-          this.final_pump_info.station_id= this.preset.station_id;
-          this.final_pump_info.company_id= this.preset.company_id;
-          this.final_pump_info.created_by = user_details.id;
-          this.final_pump_info.created_at = this.set_date;
-          this.final_pump_info.readings = this.open_pump_reading;
-
-          axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }
-          }).then( response => {                         
-            store.commit("activateLoader", "end");
-              axios.post(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
-                headers : {
-                  "Authorization" : "Bearer " + user_details.token
-                }
-              }).then( response => {                         
-                store.commit("activateLoader", "end");
-                    let station_response = response.data;
-                    if (station_response.status === true) {
-                      store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings saved', 'show_alert': true});
-                       this.formstate.$submitted=false;
-                        this.open_pump_reading= {};
-                    }
-                  }).catch(error => { store.commit("activateLoader", "end");   
-                    store.commit("catch_errors", error); 
-              });
-        }).catch(error => { 
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-        })}
-      }
+                this.products = response.data.data;
+      });
+        }
+      
     },
     mounted: function() {
       store.commit("check_login_details");
+      this.load_products();
     },
     destroyed: function() {
 

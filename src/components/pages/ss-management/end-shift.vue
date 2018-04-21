@@ -105,8 +105,11 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import VueForm from "vue-form";     
+  import vueSmoothScroll from 'vue-smoothscroll';     
+  Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);

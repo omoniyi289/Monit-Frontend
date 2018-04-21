@@ -222,7 +222,7 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                             this.tableData.splice(this.tableData.indexOf(data), 1);
-                            this.$alert.success({duration:3000,forceRender:'',
+                            this.$alert.success({duration:10000,forceRender:'',
                         message:'Company Deleted Successfully',transition:''});
                         }
                         }).catch(error => { 
@@ -254,7 +254,7 @@
                             this.tableData.push(company_response.data);
                             localStorage.setItem('company_details', response.data);
                             console.log(response.data.data);
-                            this.$alert.success({duration:3000,forceRender:'',
+                            this.$alert.success({duration:10000,forceRender:'',
                             message:'Company Registered Successfully, please re-login to continue',transition:''});
                             this.formstate.$submitted=false;
                             this.company= {submit_mode: "CREATE"};
@@ -273,7 +273,7 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                             this.company='';
-                        this.$alert.success({duration:3000,forceRender:'',
+                        this.$alert.success({duration:10000,forceRender:'',
                         message:'Company Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
                         this.company= {submit_mode: "CREATE"};

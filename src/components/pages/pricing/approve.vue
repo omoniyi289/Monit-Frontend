@@ -247,8 +247,15 @@
       this.$SmoothScroll(document.getElementById("content-header"));
       console.log('slot action: ' + action, data, index);
       if(action == 'update'){
+        if(data.status != "<span class='btn btn-warning btn-sm' >Not yet Approved</span>")
+        {
+            store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Stock Already Updated', 'show_alert': true});
+           return;
+          }else{
         this.pricing = data;
         this.approve = true;
+        }
       }
     },
       onSubmit() {
@@ -278,6 +285,7 @@
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Product  Change Updated Successfully', 'show_alert': true});
                 let element = this.pricing;
+                this.approve = false;
               if(element.is_approved == null){
             this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }else if(element.is_approved == 1){

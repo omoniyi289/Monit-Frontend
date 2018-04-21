@@ -1,169 +1,133 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <b-card header="" header-tag="h4" class="bg-info-card">
-        <div class="row">
+      <b-card header="" header-tag="h4" class="bg-info-card"> 
           <div class="col-md-12">
-            <vue-form :state="formstate2" @submit.prevent="onSubmit">
+            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      <button class="btn btn-success" 
+                      @click="show_company_items( props.rowData, props.rowIndex)">Proceed</button>
+                        
+                    </div>
+                  </template>
+                </csview>
+            <hr>
+          </div>
+
+        <div class="row">
+          <div style="margin-left: 3%"  class="col-11">
+            <vue-form  v-show="show_setup_form_2" :state="formstate2" @submit.prevent="update_variant_for_station">
               <div class="row">
                 <div class="col-lg-5">
-                  <div class="form-group" v-if="show_multi_company">
+                  
+                  <div class="form-group" >
                     <validate tag="div">
-                      Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
-                          <option
-                            v-for="(option, index) in available_companies"
+                      Select Item
+                      <select  name="company" size="1" class="form-control" v-on:change="show_item_variants(item_variant.item_id)" v-model="item_variant.item_id" >
+                       <option
+                            v-for="(option, index) in tableData"
                             v-bind:value="option.id"
                             >{{ option.name }}
-                          </option>                       
-                      </select>                     
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-
-                  <div class="form-group" v-if="show_single_company">
-                    <validate tag="div">
-                      Select Company
-                      <select  name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
-                        <option :value="available_company.id"
-                          >{{ available_company.name }}
-                        </option>
+                          </option> 
                         
                       </select>
                       
                       <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
+                        <div slot="requred">Item is required</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
-              <div class="col-lg-5" v-show="show_setup_form && fill_form" >
+              <b-card header-tag="h4" class="bg-info-card" header="Stock Refill">
+                <div class="row ">
+                  <div class="col-12">               
+                    <b-tabs>
+                      <b-tab title="" >
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>Item Name</th>
+                                  <th>Parent SKU</th>
+                                  <th>Variant Option</th>
+                                  <th>Variant Value</th>
+                                  <th>Composite SKU</th>
+                                  <th>Supply Price</th>
+                                  <th>Retail Price</th>
+                                  <th>Reorder Level</th>
+                                  <th>Current Available Quantity</th>                                  
+                                  <th>Refill Quantity</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr  v-for="(option, index) in item_variants">
+                                  <td>{{option.item.name}}</td>
+                                  <td>{{option.item.parentsku}}</td>
+                                  <td>{{option.variant_option}}</td>
+                                  <td>{{option.variant_value}}</td>
+                                  <td>{{option.compositesku}}</td>
+                                  <td>
+                  
+                                    <validate tag="div">
+                                      <input v-model="item_variants[index].supply_price" id="rd" :name="rd+index" type="number" required placeholder="COG" class="form-control" />
+                                      <field-messages :name="rd+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">COG is required</div>
+                                      </field-messages>
+                                    </validate>        
+                                  </td>
+                                  <td>
+                                    <validate tag="div">
+                                      <input v-model="item_variants[index].retail_price"  id="c_rd" :name="c_rd+index" type="number" required placeholder="Retail Price" class="form-control" />
+                                      <field-messages :name="c_rd+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Retail Price is required</div>
+                                      </field-messages>
+                                    </validate>
+                                  </td>
+                                  <td>
+                                    <validate tag="div">
+                                      <input v-model="item_variants[index].reorder_level" id="rd" :name="rd+index" type="number" required placeholder="Reorder Level" class="form-control" />
+                                      <field-messages :name="rd+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Reorder Level is required</div>
+                                      </field-messages>
+                                    </validate>        
+                                  </td>
+                                  
+                                  <td>
+                                    <validate tag="div">
+                                      <input readonly v-model="item_variants[index].qty_in_stock" id="cc" :name="cc+index" type="number" required placeholder="Quantity in Stock" class="form-control" />
+                                      <field-messages :name="cc+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Quantity in Stock is required</div>
+                                      </field-messages>
+                                    </validate>        
+                                  </td>
+                                  <td>
+                                    <validate tag="div">
+                                      <input v-model="item_variants[index].restock_qty"  id="c_rd"  :name="c_cc+index" type="number" required placeholder="Refill Quantity" class="form-control" />
+                                      <field-messages :name="c_cc+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Refill Quantity is required</div>
+                                        
+                                      </field-messages>
+                                    </validate>
+                                  </td>
+                  
+                                </tr>
+                              </tbody>
+                            </table> 
+                            <div class="col-sm-12">
+                              <div class="form-group float-right">
+                                <input type="submit" value="COMPLETE REFILL" class="btn btn-success"></input>
+                              </div>
+                            </div>
+                        </b-tab>
+                      </b-tabs>           
+                  </div>
+                </div>
+              </b-card>
                 
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="number"> Full Name</label>
-                      <input v-model="user.fullname" name="fullname" type="text" required autofocus placeholder="Full Name" class="form-control" id="number"/>
-                      <field-messages name="fullname" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required"> Full Name is a required field</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="nozzle_code"> Username</label>
-                      <input v-model="user.username" name="username" type="text" required autofocus placeholder="Username" class="form-control" id="nozzle_code"/>
-                      <field-messages name="username" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Username is a required field</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="brand"> Email</label>
-                      <input v-model="user.email" name="email" type="email" required autofocus placeholder="Email" class="form-control" id="brand"/>
-                      <field-messages name="email" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Email is a required field</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="serial_number"> Phone Number</label>
-                      <input v-model="user.phone_number" name="phone_number" type="text" required autofocus placeholder="Phone Number" class="form-control" id="serial_number"/>
-                      <field-messages name="phone_number" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Phone Number is a required field</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                      <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
-                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
-                        placeholder="Select Stations"
-                        label="name" track-by="id" 
-                        :options="company_stations" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag">
-                        </multiselect>        
-                       </b-card>
-                        <p v-else>{{this.company_stations_null}}</p>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-12">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="role_id">Select Role</label>
-                      <select id="role" name="role_id" size="1" class="form-control" v-model="user.role_id" required checkbox>
-
-                        <option
-                          v-for="option in available_roles"
-                          v-bind:value="option.id" >{{ option.name }}
-                        </option>
-
-                      </select>
-                      <field-messages name="role_id" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Role is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
-                <div class="col-sm-12">
-                    <div class="form-group">
-                      <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
-                        <multiselect v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
-                        placeholder="Select Modules"
-                        label="name" track-by="id" 
-                        :options="company_notifications" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag">
-                        </multiselect>        
-                       </b-card>
-                        <p v-else>{{this.company_notifications_null}}</p>
-                    </div>
-                </div>
-
-
-                
-                
-                <div class="col-sm-12">
-                  <div class="form-group float-right">
-                    <input type="submit" :value="user.submit_mode" class="btn btn-success" />
-                  </div>
-                </div>
-              </div>
               </div>
             </vue-form>
           </div>
-          <div class="col-sm-12" v-show="show_setup_form">
-            <div class="table-responsive">
-            <div>
-                <button v-on:click="fill_form=!fill_form" style=" margin-bottom: 10px" class="btn btn-success"> ADD A NEW USER</button>
-            </div>
-              <datatable title="Registered Users" :rows="tableData" :columns="columndata">
-                  <template slot="actions" slot-scope="props">
-                    <div >
-                      <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
-                      <i class='fa fa-trash text-danger' @click="onAction('delete', props.rowData, props.rowIndex)"></i>
-                    </div>
-                  </template>
-              </datatable>
-            </div>
           </div>
-        </div>
       </b-card>
     </div>
   </div>
@@ -174,6 +138,7 @@
   import VueForm from "vue-form";    
   import vueSmoothScroll from 'vue-smoothscroll'; 
   Vue.use(vueSmoothScroll);
+  import Datepicker from 'vuejs-datepicker';
   import options from "src/validations/validations.js";
   import Multiselect from 'vue-multiselect';
   Vue.use(VueForm, options);
@@ -183,50 +148,77 @@
     components: {
       datatable,csview,
       Multiselect,
+      Datepicker,
     },
     data() {
-      return {columndata: [{
-          label: 'Full Name',
-          field: 'fullname',
+      return {
+        variant_columndata: [
+          {
+          label: 'Item Name',
+          field: 'item.name',
           numeric: false,
           html: false,
         }, {
-          label: 'EMail',
-          field: 'email',
+          label: 'Parent SKU',
+          field: 'item.parentsku',
+          numeric: false,
+          html: false,
+        },{
+          label: 'Variant Option',
+          field: 'variant_option',
           numeric: false,
           html: false,
         }, {
-          label: 'Phone',
-          field: 'phone_number',
+          label: 'Variant Value',
+          field: 'variant_value',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Composite SKU',
+          field: 'compositesku',
+          numeric: true,
+          html: false,
+        },{
+          label: 'Reorder Level',
+          field: 'reorder_level',
           numeric: true,
           html: false,
         }, {
-          label: 'Stations',
-          field: 'stations',
+          label: 'Quantity in Stock',
+          field: 'qty_in_stock',
           numeric: true,
           html: true,
         }, {
-          label: 'Notifications Allowed',
-          field: 'notifications',
+          label: 'Cost of Goods',
+          field: 'supply_price',
           numeric: true,
           html: true,
         }, {
-          label: "Role",
-          field: 'role.name',
-          numeric: false,
-          html: false,
+          label: 'Retail Price',
+          field: 'retail_price',
+          numeric: true,
+          html: true,
+        }, {
+          label: 'Last Restock Date',
+          field: 'last_restock_date',
+          numeric: true,
+          html: true,
         },{
           field: '__slot:actions',
           label: 'Actions',
           }],
+        
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/company_users',
+        url: this.$store.state.host_url+'/items',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-       available_companies: [],
+        show_setup_form_2 : false,
+        tableData_2: [],
+        format: 'yyyy-MM-dd',
+        available_companies: [],
         available_company: [],
         products: "",
         show_multi_company: false,
@@ -234,10 +226,12 @@
         available_roles: "",
         station_pumps:"",
         fill_form: false,
+        fill_form_2: false,
+        rd: "reading",
+        c_rd: "_reading",
+        cc:"collected",
+        c_cc: "_collected",
         company_stations: "",
-        company_stations_null: "",
-        company_notifications_null: "",
-        company_notifications: [],
         preset : {
           company_id: "",
           station_id: ""
@@ -248,89 +242,31 @@
           username: "",
           fullname: "",
           role_id: 0,
-
-        user : {
-          company_id: "",
-          station_id: "",
-          phone_number: "",
-          selected_stations : [],
-          selected_notifications:[],
-          email: "",
-          username: "",
-          fullname: "",
-          role_id: 0,
-          privilege: "",
-          submit_mode: 'CREATE',
-        }
+          item_variants :{
+            },
+          item_variant : [],
+          final_data:{},
 
       }
     },
     methods: {
 
-      show_company_stations(company_name){
+      show_company_items(station_id, company_id){
+        this.preset.company_id= company_id;
+        this.preset.station_id= station_id;
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        this.company_stations_null = 'No Station Added Yet';
-        this.company_notifications_null = 'No available notofication modules';
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
+        
+        axios.get(this.$store.state.host_url+"/items/by_company/"+company_id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-          this.company_stations = response.data.data;
-          ///get roles///
-            axios.get(this.$store.state.host_url+"/roles/by_company/"+company_name,
-              {
-                headers : {
-                  "Authorization" : "Bearer " + user_details.token
-                }}).then(response => {
-            this.available_roles = response.data.data;
-          });
-        ///get users
-          axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_name,
-            {
-              headers : {
-                "Authorization" : "Bearer " + user_details.token
-              }}).then(response => {
-            store.commit("activateLoader", "end");   
-            this.tableData = response.data.data;
-            this.tableData.forEach((item, index) => {
-              let perm='';
-              this.tableData[index]['selected_stations']=[];              
-              if(item.station_users !==undefined && item.station_users !==null){
-              item.station_users.forEach((inner_item, inner_index) => {
-                    var element = '';
-                  if(inner_item.station !==undefined){
-                      element = inner_item.station;
-                      perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-                      this.tableData[index]['selected_stations'].push(element);
-                      
-                      this.tableData[index]['stations']=perm;
-                      this.tableData[index]['tabledata_index']=index;
-                      }
-                       });
-              }
-              let notf='';
-              this.tableData[index]['selected_notifications']=[];              
-              if(item.user_notifications !==undefined && item.user_notifications !==null){
-              item.user_notifications.forEach((inner_item, inner_index) => {
-                    var element = '';
-                  if(inner_item.module !==undefined && item.module !==null){
-                      element = inner_item.module;
-                      notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
-                      this.tableData[index]['selected_notifications'].push(element);
-                      
-                      this.tableData[index]['notifications']=notf;
-                      this.tableData[index]['tabledata_index']=index;
-                      }
-                       });
-              }
-              
-                  });
-            this.show_setup_form=true;
-          //console.log(response.data.data);     
-        });
-
+          this.tableData = response.data.data;
+          this.show_setup_form=true;
+          this.show_setup_form_2=true;
+          store.commit("activateLoader", "end");   
+         
       })
       .catch(function(error) {
         store.commit("activateLoader", "end");   
@@ -338,18 +274,52 @@
         });
         
       },
-       show_notification_modules(){
-                     ///get products///
-              let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get(this.$store.state.host_url+"/notifications",
-                {
-                  headers : {
-                    "Authorization" : "Bearer " + user_details.token
-                  }}).then(response => {
-                //
-                this.company_notifications = response.data.data;
-                });
-        },
+       show_item_variants(item_id){
+        store.commit("activateLoader", "start");
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        let params='station_id='+this.preset.station_id+'&item_id='+item_id;
+        axios.get(this.$store.state.host_url+"/item-variants/by_station/params?"+params,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+              this.update_view(response);
+          store.commit("activateLoader", "end");   
+         
+      })
+      .catch(function(error) {
+        store.commit("activateLoader", "end");   
+        store.commit("catch_errors", error); 
+        });
+        
+      },
+     update_view(response){
+       let table_data = [];
+          table_data.item_variants=response.data.data.item_variants;
+          table_data.item_variants_by_station=response.data.data.item_variants_by_station;
+          ///set current item_variants to db items_variants
+          this.item_variants = table_data.item_variants;
+          this.item_variants.forEach( (element, index) => {
+            var retail_price = 0;
+            var supply_price = 0;
+            var qty_in_stock = 0;
+            var refill_quantity = 0;
+            ///update these paramters based on the last time updated for the station
+            table_data.item_variants_by_station.forEach( (inner_element, inner_index) => {
+              if(inner_element.compositesku == element.compositesku ){
+                 retail_price = inner_element.retail_price;
+                 supply_price = inner_element.supply_price;
+                 qty_in_stock = inner_element.qty_in_stock;
+              }
+               });
+          //update the view
+          this.item_variants[index].retail_price = retail_price;
+          this.item_variants[index].supply_price = supply_price;
+          this.item_variants[index].qty_in_stock = qty_in_stock;
+          this.item_variants[index].restock_qty = refill_quantity;
+          });
+
+     },
         show_available_companies(){
           this.products = store.state.products;
         if(store.state.show_single_company){
@@ -359,53 +329,8 @@
           this.available_companies = store.state.available_companies;
           this.show_multi_company = store.state.show_multi_company;
         }
-      }
-        , onAction (action, data, index) {
-                this.$SmoothScroll(document.getElementById("content-header"));
-                console.log('slot action: ' + action, data.fullname, index);
-                if(action == 'edit'){
-                    this.fill_form = true;
-                    this.user = data;
-                    this.user.submit_mode="UPDATE"
-                }else if(action =='delete'){
-                    this.$modal.show('dialog', {
-                        title: 'Alert!',
-                        text: 'Click Okay to confirm DELETE',
-                        buttons: [
-                            {
-                            title: 'OKAY',       // Button title
-                            default: true,    // Will be triggered by default if 'Enter' pressed.
-                            handler: () => {this.deleteItem(data)} // Button click handler
-                            },
-                            {
-                            title: 'CLOSE'
-                            }
-                        ]
-                        });
-                }
-                },
-            deleteItem(data){
-                store.commit("activateLoader", "start");
-                this.$modal.hide('dialog');
-                let user_details = JSON.parse(localStorage.getItem('user_details'));
-                axios.delete(this.url+'/'+data.id, {
-                            headers : {
-                                "Authorization" : "Bearer " + user_details.token
-                            }
-                        }).then( response => {                         
-                            store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
-                                this.tableData.splice(this.tableData.indexOf(data), 1);
-                                this.$alert.success({duration:10000,forceRender:'',
-                            message:'User Deleted Successfully',transition:''});
-                            }
-                            }).catch(error => { 
-                                store.commit("activateLoader", "end");   
-                                store.commit("catch_errors", error); 
-                    });
-            },
-      onSubmit() {
+      },
+        update_variant_for_station() {
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
@@ -413,13 +338,14 @@
           store.commit("activateLoader", "start");
           //include station and company_id
          // this.users.station_id= this.preset.station_id;
-          this.user.company_id= this.preset.company_id;
-          let user_detail = {
-            user: this.user
-          };
+          this.final_data.company_id= this.preset.company_id;
+          this.final_data.station_id= this.preset.station_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          if(this.user.submit_mode == 'CREATE'){
-          axios.post(this.url, user_detail, {
+          this.final_data.created_by= user_details.id;
+          this.final_data.modified_by= user_details.id;
+          this.final_data.item_variants= this.item_variants;
+          
+          axios.post(this.$store.state.host_url+"/item-variants/stock-refill/", this.final_data, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
@@ -427,111 +353,17 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            console.log(response.data.data);
-             this.tableData.push(response.data.data);  
-            //  console.log(inner_item);
-             this.tableData.forEach((item, index) => {
-              let perm='';
-              this.tableData[index]['selected_stations']=[];              
-              if(item.station_users !==undefined && item.station_users!==null){
-              item.station_users.forEach((inner_item, inner_index) => {
-                    var element = '';
-                   
-                  if(inner_item.station !==undefined){
-                      element = inner_item.station;
-                      perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-                      this.tableData[index]['selected_stations'].push(element);
-                      
-                      this.tableData[index]['stations']=perm;
-                      this.tableData[index]['tabledata_index']=index;
-                      }
-                       });
-              }
-
-              let notf='';
-              this.tableData[index]['selected_notifications']=[];              
-              if(item.user_notifications !==undefined && item.user_notifications !==null){
-              item.user_notifications.forEach((inner_item, inner_index) => {
-                    var element = '';
-                  if(inner_item.module !==undefined && item.module!== null){
-                      element = inner_item.module;
-                      notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
-                      this.tableData[index]['selected_notifications'].push(element);
-                      
-                      this.tableData[index]['notifications']=notf;
-                      this.tableData[index]['tabledata_index']=index;
-                      }
-                       });
-              }
-                  });        
+            this.update_view(response);
             this.$alert.success({duration:10000,forceRender:'',
-            message:'User registered successfully, default password is 123456',transition:''});
+            message:'Stock Refiiled successfully',transition:''});
             this.formstate.$submitted=false;
-            this.user= {submit_mode: "CREATE"};
           }
         }).catch(error => { 
         store.commit("activateLoader", "end");   
         store.commit("catch_errors", error); 
         })}
-        else if(this.user.submit_mode == 'UPDATE'){
-                    axios.patch(this.url+"/"+this.user.id, user_detail, {
-                        headers : {
-                            "Authorization" : "Bearer " + user_details.token
-                        }
-                    }).then( response => {                         
-                        store.commit("activateLoader", "end");        
-                        console.log(response);
-                        let company_response = response.data;
-                        if(company_response.status === true) {
-                          this.tableData = response.data.data;
-                          this.tableData.forEach((item, index) => {
-                          let perm='';
-                          this.tableData[index]['selected_stations']=[];              
-                          if(item.station_users !==undefined && item.station_users !==null){
-                          item.station_users.forEach((inner_item, inner_index) => {
-                                var element = '';
-                                console.log(inner_item);
-                              if(inner_item.station !==undefined){
-                                  element = inner_item.station;
-                                  perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-                                  this.tableData[index]['selected_stations'].push(element);
-                                  
-                                  this.tableData[index]['stations']=perm;
-                                  this.tableData[index]['tabledata_index']=index;
-                                  }
-                                  });
-                          }
-
-                          let notf='';
-                          this.tableData[index]['selected_notifications']=[];              
-                          if(item.user_notifications !==undefined && item.user_notifications !==null){
-                          item.user_notifications.forEach((inner_item, inner_index) => {
-                                var element = '';
-                              if(inner_item.module !==undefined && item.module!==null){
-                                  element = inner_item.module;
-                                  notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
-                                  this.tableData[index]['selected_notifications'].push(element);
-                                  
-                                  this.tableData[index]['notifications']=notf;
-                                  this.tableData[index]['tabledata_index']=index;
-                                  }
-                                  });
-                          }
-
-                              });
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'User Updated Successfully',transition:''});
-                        this.formstate.$submitted=false;
-                        this.user= {submit_mode: "CREATE"};
-                        this.form_reset();
-                        }
-                        }).catch(error => { 
-                            store.commit("activateLoader", "end");   
-                            store.commit("catch_errors", error); 
-                });
-                    
-                }
-      }},
+      
+      },
       addTag(newTag) {
             const tag = {
                 id: newTag,
@@ -540,25 +372,11 @@
             this.all_groups.push(tag)
             this.selected_groups.push(tag)
         },
-        form_reset(){
-          this.user = {
-          company_id: "",
-          station_id: "",
-          phone_number: "",
-          selected_stations : [],
-          email: "",
-          username: "",
-          fullname: "",
-          role_id: 0,
-          privilege: "",
-          submit_mode: 'CREATE',
-        }
-        },
+        
     },
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
-      this.show_notification_modules();
     },
     destroyed: function() {
 

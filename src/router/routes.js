@@ -40,13 +40,7 @@ const routes = [{
         meta: {
             title: "Forgot Password",
         }
-    }, {
-        path: '/reset_password',
-        component: resolve => require(['pages/reset_password'], resolve),
-        meta: {
-            title: "Reset Password",
-        }
-    }, {
+    },{
         path: '/verify',
             component: resolve => require(['pages/users/verify'], resolve),
             meta: {
@@ -58,12 +52,6 @@ const routes = [{
         component: resolve => require(['pages/lockscreen'], resolve),
         meta: {
             title: "Lockscreen",
-        }
-    }, {
-        path: '/dev',
-        component: resolve => require(['pages/dev'], resolve),
-        meta: {
-            title: "DEV",
         }
     }, {
         path: '/500',

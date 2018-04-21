@@ -10,7 +10,7 @@
                   <div class="form-group" v-if="show_multi_company">
                     <validate tag="div">
                       Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
+                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_items(preset.company_id)" v-model="preset.company_id" >
                           <option
                             v-for="(option, index) in available_companies"
                             v-bind:value="option.id"
@@ -256,7 +256,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="retail_price"> Retail Price</label>
-                      <input v-model="item.retail_price" name="retail_price" type="number" required autofocus placeholder="Retail Price" class="form-control" id="retail_price"/>
+                      <input v-model="item_variant.retail_price" name="retail_price" type="number" required autofocus placeholder="Retail Price" class="form-control" id="retail_price"/>
                       <field-messages name="retail_price" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Retail Price is a required field</div>
                       </field-messages>
@@ -281,7 +281,7 @@
             <div>
                 <button v-on:click="fill_form_2=!fill_form_2" style=" margin-bottom: 10px" class="btn btn-success"> ADD NEW ITEM VARIANT</button>
             </div>
-              <datatable title="Added Variant Items" :rows="tableData_2" :columns="variant_columndata">
+              <datatable v-show="show_setup_form_3" title="Added Variant Items" :rows="tableData_2" :columns="variant_columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onItemAction('edit', props.rowData, props.rowIndex)"></i>
@@ -347,28 +347,43 @@
           }],
 
         variant_columndata: [{
-          label: 'Name',
-          field: 'name',
+          label: 'Variant Option',
+          field: 'variant_option',
           numeric: false,
           html: false,
         }, {
-          label: 'Category',
-          field: 'category',
+          label: 'Variant Value',
+          field: 'variant_value',
           numeric: false,
           html: false,
         }, {
-          label: 'Brand',
-          field: 'brand',
+          label: 'Composite SKU',
+          field: 'compositesku',
+          numeric: true,
+          html: false,
+        },{
+          label: 'Reorder Level',
+          field: 'reorder_level',
           numeric: true,
           html: false,
         }, {
-          label: 'Parent SKU',
-          field: 'parentsku',
+          label: 'Quantity in Stock',
+          field: 'qty_in_stock',
           numeric: true,
           html: true,
         }, {
-          label: 'UOM',
-          field: 'uom',
+          label: 'Cost of Goods',
+          field: 'supply_price',
+          numeric: true,
+          html: true,
+        }, {
+          label: 'Retail Price',
+          field: 'retail_price',
+          numeric: true,
+          html: true,
+        }, {
+          label: 'Last Restock Date',
+          field: 'last_restock_date',
           numeric: true,
           html: true,
         },{
@@ -385,6 +400,7 @@
         tableData: [],
         show_setup_form_2 : false,
         tableData_2: [],
+        show_setup_form_3 : false,
         format: 'yyyy-MM-dd',
         available_companies: [],
         available_company: [],
@@ -421,6 +437,7 @@
           reorder_level: 0,
           compositesku: "",
           retail_price: 0,
+          item_id:'',
           last_restock_date :'',
           supply_price: 0,
           submit_mode: 'CREATE',
@@ -430,7 +447,7 @@
     },
     methods: {
 
-      show_company_stations(company_name){
+      show_company_items(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         
@@ -453,6 +470,7 @@
       },
        show_item_variants(item_id){
         store.commit("activateLoader", "start");
+        this.show_setup_form_3=true;
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         
         axios.get(this.$store.state.host_url+"/item-variants/by_item/"+item_id,
@@ -460,7 +478,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-          this.tableData2 = response.data.data;
+          this.tableData_2 = response.data.data;
           store.commit("activateLoader", "end");   
          
       })
@@ -532,7 +550,7 @@
                 store.commit("activateLoader", "start");
                 this.$modal.hide('dialog');
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
-                axios.delete(this.url+'/'+data.id, {
+                axios.delete(this.$store.state.host_url+"/item-variants/"+data.id, {
                             headers : {
                                 "Authorization" : "Bearer " + user_details.token
                             }
@@ -579,11 +597,13 @@
           //include station and company_id
          // this.users.station_id= this.preset.station_id;
           this.item.company_id= this.preset.company_id;
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+         
+          if(this.item.submit_mode == 'CREATE'){
+             this.item.created_by= user_details.id;
           let item_detail = {
             item: this.item
           };
-          let user_details = JSON.parse(localStorage.getItem('user_details'));
-          if(this.item.submit_mode == 'CREATE'){
           axios.post(this.url, item_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -604,6 +624,10 @@
         store.commit("catch_errors", error); 
         })}
         else if(this.item.submit_mode == 'UPDATE'){
+                      this.item.modified_by = user_details.id;
+                      let item_detail = {
+                        item: this.item
+                      };
                     axios.patch(this.url, item_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
@@ -625,19 +649,29 @@
                 }
       }},
       add_new_variant() {
-       // this.$SmoothScroll(document.getElementById("content-header"));
-        if (this.formstate2.$invalid  || this.item_variant.last_restock_date == '') {
+        if (this.formstate2.$invalid) {
           return;
-        } else {
+        }else if(this.item_variant.last_restock_date == ''){
+           this.$SmoothScroll(document.getElementById("content-header"));
+           store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Please select date to continue', 'show_alert': true});
+
+        }else if(this.item_variant.item_id == ''){
+           this.$SmoothScroll(document.getElementById("content-header"));
+           store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Please select respective item', 'show_alert': true});
+
+        }else {
           store.commit("activateLoader", "start");
-          //include station and company_id
-         // this.users.station_id= this.preset.station_id;
+         
           this.item_variant.company_id= this.preset.company_id;
+         
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          if(this.item_variant.submit_mode == 'CREATE'){
+          this.item_variant.created_by= user_details.id;
           let item_variant_detail = {
             item_variant: this.item_variant
           };
-          let user_details = JSON.parse(localStorage.getItem('user_details'));
-          if(this.item.submit_mode == 'CREATE'){
           axios.post(this.$store.state.host_url+"/item-variants", item_variant_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
@@ -647,24 +681,30 @@
             let station_response = response.data;
           if (station_response.status === true) {
             console.log(response.data.data);
-             this.tableData2.push(response.data.data);  
+             this.tableData_2.push(response.data.data); 
+            this.$SmoothScroll(document.getElementById("content-header")); 
             this.$alert.success({duration:10000,forceRender:'',
             message:'Item Variant registered successfully',transition:''});
-            this.formstate.$submitted=false;
+            this.formstate2.$submitted=false;
             this.item_variant = {submit_mode: "CREATE"};
           }
         }).catch(error => { 
+        this.$SmoothScroll(document.getElementById("content-header"));
         store.commit("activateLoader", "end");   
         store.commit("catch_errors", error); 
         })}
-        else if(this.item.submit_mode == 'UPDATE'){
-                    axios.patch(this.url, item_variant_detail, {
+        else if(this.item_variant.submit_mode == 'UPDATE'){
+                    this.item_variant.modified_by = user_details.id;
+                    let item_variant_detail = {
+                      item_variant: this.item_variant
+                    };
+                    axios.patch(this.$store.state.host_url+"/item-variants", item_variant_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                       this.$SmoothScroll(document.getElementById("content-header"));
                         this.$alert.success({duration:10000,forceRender:'',
                         message:'Item Variant Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
@@ -672,6 +712,7 @@
                         this.form_reset();
                         
                         }).catch(error => { 
+                          this.$SmoothScroll(document.getElementById("content-header"));
                             store.commit("activateLoader", "end");   
                             store.commit("catch_errors", error); 
                 });

@@ -218,7 +218,7 @@ export default {
                             });
             
                             menu_items[current_index].child.push({
-                                name: 'Stock Refill',
+                                name: 'Stock Fill/Refill',
                                 link: '/store-management/stock-refill',
                                 icon: 'fa fa-angle-double-right'
                             });
@@ -235,6 +235,11 @@ export default {
                                 icon: 'fa fa-angle-double-right'
                             });
                          //       }
+                          menu_items[current_index].child.push({
+                                name: 'Manage Stock Received',
+                                link: '/store-management/receive-stock',
+                                icon: 'fa fa-angle-double-right'
+                            });
                             }
 
         ///Exp Mgt
