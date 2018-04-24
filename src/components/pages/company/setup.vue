@@ -101,7 +101,7 @@
                             <template slot="actions" slot-scope="props">
                                 <div >
                                 <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
-                                <i class='fa fa-trash text-danger' @click="onAction('deete', props.rowData, props.rowIndex)"></i>
+                                <i class='fa fa-trash text-danger' @click="onAction('delete', props.rowData, props.rowIndex)"></i>
                                 </div>
                             </template>
                             </datatable>
@@ -179,6 +179,10 @@
         if(store.state.show_single_company){
             console.log(store.state.available_company);
           this.tableData.push(store.state.available_company);
+         /* if(store.state.available_company != null){
+            this.company = store.state.available_company;
+            this.company.submit_mode = "CREATE";
+          }*/
         }else if(store.state.show_multi_company == true){
           this.tableData = store.state.available_companies;
         }
@@ -191,8 +195,6 @@
         this.company = data;
         this.company.submit_mode="UPDATE"
       }else if(action =='delete'){
-          
-      }else{
           this.$modal.show('dialog', {
             title: 'Alert!',
             text: 'Click Okay to confirm DELETE',

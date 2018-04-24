@@ -67,7 +67,7 @@
                                         </validate>
                                     </div>
                                 </div>
-
+                                <!--
                                 <div class="col-sm-6">
                                   <div class="form-group">
                                     <validate tag="div">
@@ -89,7 +89,7 @@
                                       </field-messages>
                                     </validate>
                                   </div>
-                                </div>
+                                </div> -->
 
                                 <div class="col-sm-6">
                                   <div class="form-group">
@@ -107,7 +107,7 @@
                                   <div class="form-group">
                                     <validate tag="div">
                                       <label for="probe_id"> Probe ID</label>
-                                      <input v-model="tank.probe_id" name="probe_id" type="text" required autofocus placeholder="Probe ID" class="form-control" id="probe_id"/>
+                                      <input v-model="tank.probe_id" name="probe_id" type="text"  autofocus placeholder="Probe ID" class="form-control" id="probe_id"/>
                                       <field-messages name="probe_id" show="$invalid && $submitted" class="text-danger">
                                         <div slot="required">Probe ID is a required field</div>
                                       </field-messages>
@@ -118,7 +118,7 @@
                                   <div class="form-group">
                                     <validate tag="div">
                                       <label for="atg_tank_id"> ATG Tank ID</label>
-                                      <input v-model="tank.atg_tank_id" name="atg_tank_id" type="text" required autofocus placeholder="ATG Tank ID" class="form-control" id="atg_tank_id"/>
+                                      <input v-model="tank.atg_tank_id" name="atg_tank_id" type="text"  autofocus placeholder="ATG Tank ID" class="form-control" id="atg_tank_id"/>
                                       <field-messages name="atg_tank_id" show="$invalid && $submitted" class="text-danger">
                                         <div slot="required">ATG Tank ID is a required field</div>
                                       </field-messages>

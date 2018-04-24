@@ -35,7 +35,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="fcc_pump_nozzle_id"> FCC Pump Nozzle ID</label>
-                      <input v-model="pump.fcc_pump_nozzle_id" name="fcc_pump_nozzle_id" type="text" required autofocus placeholder="FCC Pump Nozzle ID" class="form-control" id="fcc_pump_nozzle_id"/>
+                      <input v-model="pump.fcc_pump_nozzle_id" name="fcc_pump_nozzle_id" type="text"  autofocus placeholder="FCC Pump Nozzle ID" class="form-control" id="fcc_pump_nozzle_id"/>
                       <field-messages name="fcc_pump_nozzle_id" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">FCC Pump Nozzle ID is a required field</div>
                       </field-messages>
