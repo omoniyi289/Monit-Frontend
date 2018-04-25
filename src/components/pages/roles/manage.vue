@@ -102,13 +102,13 @@
              <br>
             <div class="table-responsive">
               <div>
-                <button v-on:click="fill_form=!fill_form" style=" margin-bottom: 10px" class="btn btn-success"> ADD A NEW ROLE</button>
+                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>             
             </div>
               <datatable title="Defined Roles" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
-                      <i class='fa fa-trash text-danger' @click="onAction('deete', props.rowData, props.rowIndex)"></i>
+                      <i class='fa fa-trash text-danger' @click="onAction('delete', props.rowData, props.rowIndex)"></i>
                     </div>
                   </template>
               </datatable>
@@ -165,6 +165,7 @@
         available_companies: [],
         available_company: [],
         products: "",
+        button_text: "ADD A NEW ROLE",
         show_multi_company: false,
         show_single_company: false,
         station_pumps:"",
@@ -206,6 +207,15 @@
           store.commit("catch_errors", error); 
         });
       },
+      button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD A NEW ROLE"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD A NEW ROLE";
+        }
+      },
+
       show_company_roles(company_id){
           store.commit("activateLoader", "start");
           //store.commit("showAlertBox", {'alert_type': 'alert-danger', 'alert_message': 'This is sweet', 'show_alert': true});
@@ -269,8 +279,6 @@
                     this.role = data;
                     this.role.submit_mode="UPDATE"
                 }else if(action =='delete'){
-                    
-                }else{
                     this.$modal.show('dialog', {
                         title: 'Alert!',
                         text: 'Click Okay to confirm DELETE',

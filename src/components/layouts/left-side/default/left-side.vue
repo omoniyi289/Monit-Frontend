@@ -74,7 +74,8 @@ export default {
         if ( r_p_array == "all" ){
         permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR","CMRo","APDS",
                         "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
-                        "RFSu","AFRe","PFRe","RStk"];
+                        "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
+                        ,"RStk20","CStk20"];
         }
         else
         {   ///company user
@@ -129,7 +130,7 @@ export default {
                 
                 if(permissions.includes('CPCR')){
                         menu_items[current_index].child.push({
-                            name: 'Set Product Price',
+                            name: 'Request Product Price',
                             link: '/admin/pricing/setup',
                             icon: 'fa fa-angle-double-right'
                         });}
@@ -210,36 +211,42 @@ export default {
                             icon: 'fa fa-pencil',
                             child: [],
                                 });      
-                            var current_index = menu_items.length-1;           
+                            var current_index = menu_items.length-1;  
+                            if(permissions.includes("AMIs20")){         
                             menu_items[current_index].child.push({
                                 name: 'Items',
                                 link: '/store-management/manage-item',
                                 icon: 'fa fa-angle-double-right'
                             });
-            
+                            }
+                            if(permissions.includes("FRSk20")){
                             menu_items[current_index].child.push({
                                 name: 'Stock Fill/Refill',
                                 link: '/store-management/stock-refill',
                                 icon: 'fa fa-angle-double-right'
                             });
-
+                            }
+                            if(permissions.includes("CStk20")){
                             menu_items[current_index].child.push({
                                 name: 'Stock Count',
                                 link: '/store-management/stock-count',
                                 icon: 'fa fa-angle-double-right'
                             });
-                            //if(permissions.includes('MSSt')){
+                            }
+                            if(permissions.includes("TStk20")){
                             menu_items[current_index].child.push({
                                 name: 'Stock Transfer',
                                 link: '/store-management/stock-transfer',
                                 icon: 'fa fa-angle-double-right'
                             });
-                         //       }
+                              }
+                            if(permissions.includes("RStk20")){
                           menu_items[current_index].child.push({
                                 name: 'Manage Stock Received',
                                 link: '/store-management/receive-stock',
                                 icon: 'fa fa-angle-double-right'
                             });
+                            }
                             }
 
         ///Exp Mgt

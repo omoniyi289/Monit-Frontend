@@ -74,8 +74,9 @@
             </vue-form>
           </div>
           <div class="col-sm-12"  v-show="show_setup_form">
+           
             <div>
-              <button v-on:click="fill_form=!fill_form" style="float: right; margin-bottom: 10px" class="btn btn-success"> ADD NEW EXPENSE</button>
+                <span v-on:click="button_toggle" style="float: right; margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
             </div>
             <div class="table-responsive">
               <datatable title="Expenses Incurred" :rows="tableData" :columns="columndata"></datatable>
@@ -141,6 +142,7 @@
         available_companies: "",
         selected_date: "",
         station_pumps:"",
+        button_text: "ADD NEW EXPENSE",
         company_stations: "",
         added_product_name: "",
         preset : {
@@ -158,7 +160,14 @@
       }
     },
     methods: {
-     
+      button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD NEW EXPENSE"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD NEW EXPENSE";
+        }
+      },
       show_company_stations(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));

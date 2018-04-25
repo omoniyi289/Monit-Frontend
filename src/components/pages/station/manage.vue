@@ -223,7 +223,7 @@
                     </div>
                     <div class="col-sm-12" v-show="show_setup_form">
                         <div>
-                        <button v-on:click="fill_form=!fill_form" style="float: right; margin-bottom: 10px" class="btn btn-success"> ADD NEW STATION</button>
+                             <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>   
                         </div>
                         <div class="table-responsive">
                             
@@ -295,6 +295,7 @@
                 available_companies: [],
                 available_company: [],
                 products: "",
+                button_text: "ADD A NEW STATION",
                 show_multi_company: false,
                 show_single_company: false,
                 available_states:"",
@@ -321,6 +322,14 @@
             }
         },
         methods: {
+             button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD A NEW STATION"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD A NEW STATION";
+        }
+      },
             show_company_stations(){
 
                 if (this.formstate2.$invalid) {

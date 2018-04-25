@@ -150,8 +150,8 @@
           </div>
           <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
-            <div>
-                <button v-on:click="fill_form=!fill_form" style=" margin-bottom: 10px" class="btn btn-success"> ADD A NEW USER</button>
+             <div>
+                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
             </div>
               <datatable title="Registered Users" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
@@ -233,6 +233,7 @@
         show_single_company: false,
         available_roles: "",
         station_pumps:"",
+        button_text: "ADD A NEW USER",
         fill_form: false,
         company_stations: "",
         company_stations_null: "",
@@ -266,7 +267,14 @@
       }
     },
     methods: {
-
+       button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD A NEW USER"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD A NEW USER";
+        }
+      },
       show_company_stations(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));

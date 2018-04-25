@@ -123,7 +123,7 @@
           <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
             <div>
-                <button v-on:click="fill_form=!fill_form" style=" margin-bottom: 10px" class="btn btn-success"> ADD A NEW ITEM</button>
+                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>             
             </div>
               <datatable title="Added Items" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
@@ -278,8 +278,9 @@
           </div>
           <div class="col-sm-12" v-show="show_setup_form_2">
             <div class="table-responsive">
+           
             <div>
-                <button v-on:click="fill_form_2=!fill_form_2" style=" margin-bottom: 10px" class="btn btn-success"> ADD NEW ITEM VARIANT</button>
+                <span v-on:click="button_toggle_2" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text_2}}</span>             
             </div>
               <datatable v-show="show_setup_form_3" title="Added Variant Items" :rows="tableData_2" :columns="variant_columndata">
                   <template slot="actions" slot-scope="props">
@@ -405,6 +406,8 @@
         available_companies: [],
         available_company: [],
         products: "",
+        button_text: "ADD NEW ITEM",
+        button_text_2: "ADD NEW ITEM VARIANT",
         show_multi_company: false,
         show_single_company: false,
         available_roles: "",
@@ -446,7 +449,22 @@
       }
     },
     methods: {
-
+      button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD NEW ITEM"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD NEW ITEM";
+        }
+        },
+        button_toggle_2(){
+        this.fill_form_2 = !this.fill_form_2;
+        if(this.button_text_2 == "ADD NEW ITEM VARIANT"){
+        this.button_text_2 = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text_2 = "ADD NEW ITEM VARIANT";
+        }
+        },
       show_company_items(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));

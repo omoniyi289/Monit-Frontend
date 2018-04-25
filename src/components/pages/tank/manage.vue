@@ -169,8 +169,8 @@
                         </vue-form>
                     </div>
                     <div class="col-md-12"  v-show="show_setup_form">
-                        <div>
-                            <button v-on:click="fill_form=!fill_form" style="float: right; margin-bottom: 10px" class="btn btn-success"> ADD NEW TANK</button>
+                         <div>
+                            <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
                         </div>
                         <div class="table-responsive">
                             <datatable title="Registered Tanks" :rows="tableData" :columns="columndata">
@@ -247,6 +247,7 @@
                 fill_form:false,
                 show_multi_company: false,
                 show_single_company: false,
+                button_text: "ADD A NEW TANK",
                 station_tanks:"",
                 company_stations: "",
                 preset : {
@@ -274,7 +275,14 @@
             }
         },
         methods: {
-        
+         button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD A NEW TANK"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD A NEW TANK";
+        }
+      },
         show_station_tanks(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;

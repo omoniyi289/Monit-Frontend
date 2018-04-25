@@ -96,8 +96,8 @@
             </vue-form>
           </div>
           <div class="col-sm-12" v-show="show_setup_form">
-            <div>
-                <button v-on:click="fill_form=!fill_form" style="float: right; margin-bottom: 10px" class="btn btn-success"> ADD NEW PUMP</button>
+             <div>
+                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
             </div>
             <div class="table-responsive">
               <datatable title="Registered Pumps" :rows="tableData" :columns="columndata">
@@ -166,6 +166,7 @@
         fill_form: false,
         show_multi_company: false,
         show_single_company: false,
+        button_text: "ADD A NEW PUMP",
         station_pumps:"",
         company_stations: "",
         preset : {
@@ -186,7 +187,14 @@
       }
     },
     methods: {
-
+        button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "ADD A NEW PUMP"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "ADD A NEW PUMP";
+        }
+      },
        show_station_pumps(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
