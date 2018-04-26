@@ -154,11 +154,6 @@
           field: 'updated_at',
           numeric: false,
           html: false,
-        }, {
-          label: 'Approver',
-          field: 'approver.fullname',
-          numeric: false,
-          html: false,
         }],
         ajaxLoading: true,
         loading: true,

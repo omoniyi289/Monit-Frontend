@@ -39,7 +39,7 @@
                       <b-card header="Select Pumps Here" header-tag="h4" class="bg-info-card">            
                         <multiselect v-model="pump_map.selected_pumps" tag-placeholder="Add this as new Pump Group" 
                         placeholder="Select Pumps"
-                        label="pump_nozzle_code" track-by="id" 
+                        label="pump_nozzle_code" track-by="pump_nozzle_code" 
                         :options="available_pumps" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
                         </multiselect>        
@@ -77,7 +77,7 @@
                       <b-card header="Select Tanks Here" header-tag="h4" class="bg-info-card">            
                         <multiselect v-model="tank_map.selected_tanks" tag-placeholder="Add this as new Tank Group" 
                         placeholder="Select Tanks"
-                        label="code" track-by="name" 
+                        label="code" track-by="code" 
                         :options="available_tanks" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
                         </multiselect>        

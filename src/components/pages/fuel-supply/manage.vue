@@ -401,7 +401,6 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");
-             console.log(response.data.data);
           
             this.tableData = response.data.data;
              this.tableData.forEach((element, index) => {
@@ -411,7 +410,7 @@
          if(element.status == "Pending"){
             this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Pending</span>");
           }else if(element.status == "Approved"){
-            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Pending</span>");
+            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Approved</span>");
           }else if(element.status == "Disapproved"){
             this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
           }else{

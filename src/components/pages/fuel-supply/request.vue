@@ -129,13 +129,7 @@
           numeric: false,
           html: false,
         }
-        , {
-          
-          label: 'Approver',
-          field: 'approver.fullname',
-          numeric: false,
-          html: false,
-        },{
+        ,{
           label: 'Status',
           field: 'status',
           numeric: false,
@@ -271,11 +265,19 @@
                       break;
                   }
               }
-              
+             /* if(station_response.data.approver  != null){
               this.tableData.push({'product':{'code': this.added_product_name}, 
               'request_code': station_response.data.request_code,
               'quantity_requested': station_response.data.quantity_requested,
               'approver': {'fullname': station_response.data.approver.fullname},
+               'created_at':station_response.data.created_at,
+               'updated_at':station_response.data.updated_at
+              , 'status': station_response.data.status});*/
+            
+             // }
+             this.tableData.push({'product':{'code': this.added_product_name}, 
+              'request_code': station_response.data.request_code,
+              'quantity_requested': station_response.data.quantity_requested,
                'created_at':station_response.data.created_at,
                'updated_at':station_response.data.updated_at
               , 'status': station_response.data.status});

@@ -50,13 +50,19 @@
                     <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
                     <br>
                 </div>
-                 <div v-if="show_bank_details">
                 <div class="col-sm-12">
+                  <validate tag="div">
                   <div class="form-group">
                       <label for="bank_name">Bank Name</label>
-                      <input v-model="deposit.bank_name" name="bank_name" type="text" autofocus placeholder="Bank Name" class="form-control" id="bank_name"/>  
+                      <input v-model="deposit.bank_name" name="bank_name" type="text" required autofocus placeholder="Bank Name" class="form-control" id="bank_name"/>  
                   </div>
+                  <field-messages name="bank_name" show="$invalid && $submitted" class="text-danger">
+                              <div slot="required">Bank Name is required</div>
+                  </field-messages>
+                  </validate>
                 </div>
+                 <div v-if="show_bank_details">
+                
                 <div class="col-sm-12">
                   <div class="form-group">
                       <label for="account_number">Account Number</label>

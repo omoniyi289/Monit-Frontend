@@ -161,11 +161,6 @@
           field: 'updated_at',
           numeric: false,
           html: false,
-        }, {
-          label: 'Approver',
-          field: 'approver.fullname',
-          numeric: false,
-          html: false,
         }],
         ajaxLoading: true,
         loading: true,
@@ -225,11 +220,11 @@
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
                 store.commit("activateLoader", "end");   
-            this.tableData = response.data.data;
+                this.tableData = response.data.data;
         })
         .catch(function(error) {
            store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
+           store.commit("catch_errors", error); 
           });
 
           axios.get(this.$store.state.host_url+"/product_price_change/by_station/"+station_id,
