@@ -24,7 +24,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="amount"> Amount</label>
-                      <input v-model="expense.amount" name="amount" type="text" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
+                      <input v-model="expense.amount" name="amount" type="number" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
                       <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Amount is a required field</div>
                       </field-messages>
@@ -132,7 +132,7 @@
         ajaxLoading: true,
         selected: true,
         loading: true,
-        format: 'yyyy-MM-d',
+        format: 'yyyy-MM-dd',
         url: this.$store.state.host_url+'/expenses',
         formstate: {},
         formstate2: {},

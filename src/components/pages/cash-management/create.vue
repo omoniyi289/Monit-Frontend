@@ -24,7 +24,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="amount"> Amount</label>
-                      <input v-model="deposit.amount" name="amount" type="text" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
+                      <input v-model="deposit.amount" name="amount" type="number" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
                       <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Amount is a required field</div>
                       </field-messages>
@@ -54,7 +54,7 @@
                   <validate tag="div">
                   <div class="form-group">
                       <label for="bank_name">Bank Name</label>
-                      <input v-model="deposit.bank_name" name="bank_name" type="text" required autofocus placeholder="Bank Name" class="form-control" id="bank_name"/>  
+                      <input v-model="deposit.bank" name="bank_name" type="text" required autofocus placeholder="Bank Name" class="form-control" id="bank_name"/>  
                   </div>
                   <field-messages name="bank_name" show="$invalid && $submitted" class="text-danger">
                               <div slot="required">Bank Name is required</div>
@@ -147,7 +147,7 @@
           html: false,
         },{
           label: 'Bank Name',
-          field: 'bank_name',
+          field: 'bank',
           numeric: false,
           html: true,
         },{
@@ -176,7 +176,7 @@
         loading: true,
         show_pos_details: false,
         show_bank_details: false,
-        format: 'yyyy-MM-d',
+        format: 'yyyy-MM-dd',
         fill_form:'',
         url: this.$store.state.host_url+'/deposits',
         formstate: {},
@@ -197,7 +197,7 @@
           payment_type: 0,
           amount: "",
           date:"",
-          bank_name: "",
+          bank: "",
           teller_number:"",
           account_number:"",
           pos_receipt_range:"",
