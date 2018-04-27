@@ -331,7 +331,8 @@
              this.pumpgroup_tableData.forEach((item, index) => {
                let pump_concat= '';
                item.pumps.forEach(element => {
-                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code
+                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
+                  console.log(element.pump_nozzle_code);
                });
             this.$set(item, "registered_indexes", pump_concat);
         });
@@ -398,6 +399,7 @@
                 let pump_concat= '';
                this.pump_map.selected_pumps.forEach(element => {
                  pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
+                
                });
                 this.$set(item, "registered_indexes", pump_concat);
                 }

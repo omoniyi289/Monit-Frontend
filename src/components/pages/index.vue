@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Stations</p>
-                                   <p class="number_size">{{parseInt(this.final_data.total_stations).toLocaleString()}}</p>
+                                   <p class="number_size">{{parseFloat(this.final_data.total_stations).toLocaleString()}}</p>
                                     
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Tanks</p>
-                                    <p class="number_size">{{parseInt(this.final_data.total_tanks).toLocaleString()}}</p>
+                                    <p class="number_size">{{parseFloat(this.final_data.total_tanks).toLocaleString()}}</p>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Pumps</p>
-                                    <p class="number_size">{{parseInt(this.final_data.total_pumps).toLocaleString()}} </p>
+                                    <p class="number_size">{{parseFloat(this.final_data.total_pumps).toLocaleString()}} </p>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                </div>
                                <div class="col-8 m-t-10">
                                    <p class="user_font">Total Vol Supplied</p>
-                                    <p class="number_size">{{parseInt(this.final_data.total_vol_supplied).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size">{{parseFloat(this.final_data.total_vol_supplied).toLocaleString()}} Ltrs.</p>
                                    
                                </div>
                            </div>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Total Pump Sales</p>
-                                    <p class="number_size">{{parseInt(this.final_data.total_pump_sales).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size">{{parseFloat(this.final_data.total_pump_sales).toLocaleString()}} Ltrs.</p>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Total Tank Sales</p>
-                                    <p class="number_size">{{parseInt(this.final_data.total_tank_sales).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size">{{parseFloat(this.final_data.total_tank_sales).toLocaleString()}} Ltrs.</p>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +276,7 @@
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
           store.commit("activateLoader", "end"); 
-          this.final_data = response.data.data;
+          console.log(this.final_data = response.data.data);
           var table_data = [];
           if(this.final_data.total_pumps > 0 && this.final_data.total_tanks >0 && this.final_data.total_stations >0 )
             {
@@ -309,7 +309,7 @@
                 let product_string='';
                 ////by product//////
             i_result.forEach(element => {
-                var total_pump_sales=0;
+                let total_pump_sales=0;
                 var total_tank_sales=0;
                 var expected_pump_sales=0;
                 var tolerance=0;
@@ -335,9 +335,9 @@
                     station_name = element.station.name;
                 }
                 );
-                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
+                total_pump_sales = parseFloat(tot_close_pump_reading)- parseFloat(tot_open_pump_reading);
                 
-                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
+                
             }}
             if(ii_result[1] !== undefined){
             if(ii_result[1][0]=="tank_data"){
@@ -347,7 +347,8 @@
                  //station_name = element.station.name;
                 }
                 );
-                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
+                total_tank_sales = parseFloat(tot_shift_start_tank_reading) - parseFloat(tot_shift_end_tank_reading);
+                console.log(total_tank_sales);
                 //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
                 expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
                // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
@@ -358,19 +359,19 @@
                     tolerance ='Invalid';
                 }
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
                 product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
                 expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
                 //all return readings with real values return station, just pick one
                 
                 if(station_name !='c'){
                     station_name_string = station_name;
                     }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
                });
             
             this.tableData.push({'date': main_date, 'product': product_string, 
@@ -479,19 +480,19 @@
                     tolerance ='Invalid';
                 }
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
                 product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
                 expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
                 //all return readings with real values return station, just pick one
                 
                 if(station_name !='c'){
                     station_name_string = station_name;
                     }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
                });
             
             this.tableData.push({'date': main_date, 'product': product_string, 
@@ -593,19 +594,19 @@
                     tolerance ='Invalid';
                 }
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseInt(total_pump_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseInt(total_tank_sales).toLocaleString()+'</span><br>';
+                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
                 product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
                 expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseInt(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseInt(tolerance).toLocaleString()+'</span><br>';
+                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
                 //all return readings with real values return station, just pick one
                 
                 if(station_name !='c'){
                     station_name_string = station_name;
                     }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseInt(ppv).toLocaleString() +'</span><br>';
+                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
                });
             
             this.tableData.push({'date': main_date, 'product': product_string, 
