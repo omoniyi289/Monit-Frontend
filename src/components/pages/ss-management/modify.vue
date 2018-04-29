@@ -248,7 +248,6 @@
             }
           store.commit("activateLoader", "start");
           this.selected_date = new Date(this.selected_date).toDateString();
-           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params = 'station_id='+this.preset.station_id+'&date='+this.selected_date; 
@@ -257,7 +256,6 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(stock_response => {
-              store.commit("activateLoader", "end");   
        if(stock_response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});

@@ -199,7 +199,6 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-       store.commit("activateLoader", "end");   
        if(response.data.data.length > 0){
          ///station has data
          var d_date = new Date(response.data.data[0].created_at);
@@ -229,7 +228,6 @@
               headers : {
                 "Authorization" : "Bearer " + user_details.token
               }}).then(response => {
-             store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
             this.open_pump_reading = [];
             //if(){
@@ -249,7 +247,7 @@
             this.station_tanks.forEach(element => {
             this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': '', 'c_opening_reading': '', 'status': 'Opened'});
           });
-         // console.log(this.open_tank_reading);
+            store.commit("activateLoader", "end"); 
           
                   });
         })
@@ -257,8 +255,7 @@
           store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
           });
-          });
-
+          });  
         }},
      
      

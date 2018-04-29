@@ -304,11 +304,14 @@
             this.tableData = response.data.data;
             this.tableData.forEach((item, index) => {
               let perm='';
-              this.tableData[index]['selected_stations']=[];              
-              if(item.station_users !==undefined && item.station_users !==null){
+              this.tableData[index]['selected_stations']=[];    
+              if(item.role == null){
+                this.tableData[index]['role']= {'name': 'Nil'};    
+              }          
+              if(item.station_users !=undefined && item.station_users !=null){
               item.station_users.forEach((inner_item, inner_index) => {
                     var element = '';
-                  if(inner_item.station !==undefined){
+                  if(inner_item.station !==undefined && inner_item.station !=null){
                       element = inner_item.station;
                       perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
                       this.tableData[index]['selected_stations'].push(element);
@@ -320,10 +323,11 @@
               }
               let notf='';
               this.tableData[index]['selected_notifications']=[];              
-              if(item.user_notifications !==undefined && item.user_notifications !==null){
+              if(item.user_notifications !=undefined && item.user_notifications !=null){
               item.user_notifications.forEach((inner_item, inner_index) => {
                     var element = '';
-                  if(inner_item.module !==undefined && item.module !==null){
+                  if(inner_item.module !=undefined && item.module !=null && 
+                  inner_item.module !=null && item.module !=undefined){
                       element = inner_item.module;
                       notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                       this.tableData[index]['selected_notifications'].push(element);
@@ -445,7 +449,7 @@
               item.station_users.forEach((inner_item, inner_index) => {
                     var element = '';
                    
-                  if(inner_item.station !==undefined){
+                  if(inner_item.station !==undefined && inner_item.station !==null){
                       element = inner_item.station;
                       perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
                       this.tableData[index]['selected_stations'].push(element);
@@ -495,11 +499,11 @@
                           this.tableData.forEach((item, index) => {
                           let perm='';
                           this.tableData[index]['selected_stations']=[];              
-                          if(item.station_users !==undefined && item.station_users !==null){
+                          if(item.station_users !==undefined && item.station_users !=null){
                           item.station_users.forEach((inner_item, inner_index) => {
                                 var element = '';
                                 console.log(inner_item);
-                              if(inner_item.station !==undefined){
+                              if(inner_item.station !=undefined && inner_item.station !=null){
                                   element = inner_item.station;
                                   perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
                                   this.tableData[index]['selected_stations'].push(element);

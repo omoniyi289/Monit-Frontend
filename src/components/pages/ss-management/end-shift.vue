@@ -183,7 +183,6 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-         store.commit("activateLoader", "end");   
        if(response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});

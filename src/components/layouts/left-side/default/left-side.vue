@@ -56,7 +56,6 @@ export default {
         }else{
             var r_p_array=[];
             var permissions= [];
-            console.log( "i did tis "  +user_data.role_id);
             axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
                   r_p_array = response.data.data;  
                 this.final_permissions= this.f_menu_items(r_p_array);               
@@ -82,12 +81,12 @@ export default {
         //  var r_p_array = [];
         //  r_p_array = JSON.parse(localStorage.getItem('role_details'));  
             r_p_array.role_permissions.forEach((item, index) => {
-                console.log(item); 
+                //console.log(item); 
                 if(item.permission !== null){
                 permissions.push(item.permission.UI_slug);
                 }
             });
-            console.log(permissions);
+           // console.log(permissions);
         }
 
        let menu_items=[];

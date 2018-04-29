@@ -268,15 +268,26 @@
         //console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
-          this.myrole = "e360 Super User";
+          this.is_e360_super_user = true;
           company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id+'company_id=master';
+          }
+          else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
+          //first company super user
+          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=super';
+          this.is_company_super_user = true;
+          }
+          else{
+          ///for regular company users
+          company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
+          this.is_company_regular_user = true;
+          }
           axios.get(store.state.host_url+company_route,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
           store.commit("activateLoader", "end"); 
-          console.log(this.final_data = response.data.data);
+            this.final_data = response.data.data;
           var table_data = [];
           if(this.final_data.total_pumps > 0 && this.final_data.total_tanks >0 && this.final_data.total_stations >0 )
             {
@@ -295,18 +306,30 @@
          ////by date///////
          table_data_by_date.forEach(element => {
              let main_date = element[0];
-             let table_data_by_product = element[1];
-             var i_result = Object.keys(table_data_by_product).map(function(key) {
-            return [key, table_data_by_product[key]];
+             let table_data_by_station = element[1];
+             var _result = Object.keys(table_data_by_station).map(function(key) {
+            return [key, table_data_by_station[key]];
             });
-            // console.log(i_result);
-                var total_pump_sales_string='';
+            
+               
+                 ////by station//////
+            _result.forEach(element => {
+                 var total_pump_sales_string='';
                 var total_tank_sales_string='';
                 var ppv_string= '';
                 var tolerance_string='';
                 var expected_pump_sales_string='';
                 var station_name_string = '';
                 let product_string='';
+
+
+
+
+                 let station = element[0];
+             let stock_and_pump_data_by_product = element[1];
+             var i_result = Object.keys(stock_and_pump_data_by_product).map(function(key) {
+            return [key, stock_and_pump_data_by_product[key]];
+            });
                 ////by product//////
             i_result.forEach(element => {
                 let total_pump_sales=0;
@@ -314,74 +337,90 @@
                 var expected_pump_sales=0;
                 var tolerance=0;
                 var ppv= 0;
-                var station_name = 'c';
                 let product = element[0];
                 let stock_and_pump_data = element[1];
+                //console.log(stock_and_pump_data);
                 var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
             return [key, stock_and_pump_data[key]];
             });
             if(ii_result[0] !== undefined){
             if(ii_result[0][0]=="pump_data"){
-                var tot_open_pump_reading= 0;
-                var tot_close_pump_reading = 0;
+                var tot_open_pump_reading= 0.00;
+                var tot_close_pump_reading = 0.00;
 
-                var tot_shift_start_tank_reading= 0;
-                var tot_shift_end_tank_reading = 0;
+                var tot_shift_start_tank_reading= 0.00;
+                var tot_shift_end_tank_reading = 0.00;
+                var tot_delivery = 0.00;
+                var tot_rtt = 0.00;
 
                 ii_result[0][1].forEach(element =>{
-                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
-                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
-                    ppv = element.ppv;
-                    station_name = element.station.name;
+                    tot_open_pump_reading = tot_open_pump_reading + parseFloat(element.open_shift_totalizer_reading);
+                    tot_close_pump_reading = tot_close_pump_reading + parseFloat(element.close_shift_totalizer_reading);
+                    ppv = parseFloat(element.ppv);
+                  
                 }
                 );
-                total_pump_sales = parseFloat(tot_close_pump_reading)- parseFloat(tot_open_pump_reading);
+                total_pump_sales = tot_close_pump_reading - tot_open_pump_reading;
                 
                 
             }}
             if(ii_result[1] !== undefined){
             if(ii_result[1][0]=="tank_data"){
                 ii_result[1][1].forEach(element =>{
-                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
-                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
-                 //station_name = element.station.name;
+                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + parseFloat(element.phy_shift_start_volume_reading);
+                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + parseFloat(element.phy_shift_end_volume_reading);
+                  tot_delivery = tot_delivery + parseFloat(element.end_delivery);
+                  tot_rtt = tot_rtt + parseFloat(element.return_to_tank);
+                
                 }
                 );
-                total_tank_sales = parseFloat(tot_shift_start_tank_reading) - parseFloat(tot_shift_end_tank_reading);
-                console.log(total_tank_sales);
-                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
-                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
-               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
-            }}  
+                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading + tot_delivery;
+                expected_pump_sales = total_tank_sales/20*0.5 + total_tank_sales;
+                total_pump_sales = total_pump_sales -tot_rtt;
+              }}  
                 if(total_tank_sales !=0){
-                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
+                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2).toLocaleString();      
                 }else{
                     tolerance ='Invalid';
                 }
+                //consider rtt for pump sales
+                
+                 station_name_string = station;
+                station_name_string='<span >'+station_name_string + '</span><br>';
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
+                total_pump_sales.toFixed(2).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
+                total_tank_sales.toFixed(2).toLocaleString()+'</span><br>';
                 product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
                 expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
+                + expected_pump_sales.toFixed(2).toLocaleString()+'</span><br>';
+                
+                tolerance_string = '<span class="'+product+'">'+tolerance_string +tolerance+'</span><br>';
+                
                 //all return readings with real values return station, just pick one
                 
-                if(station_name !='c'){
-                    station_name_string = station_name;
-                    }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
-               });
-            
-            this.tableData.push({'date': main_date, 'product': product_string, 
+                //if(station_name !='c'){
+                    //console.log(station_name);
+                 
+               //    }
+                ppv_string = '<span class="'+product+'">'+ppv_string + ppv.toLocaleString() +'</span><br>';
+                
+                 }
+             
+                 );
+                  this.tableData.push({'date': main_date, 'product': product_string, 
                 'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
                 total_pump_sales_string, 'station': station_name_string, 'tolerance': 
                 tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
-                 });
-
+                  
+                  }
+                  
+             
+                 );
+               }
          
-         this.is_e360_super_user = true;
+               );
+         
             })
             .catch(error => {
             store.commit("activateLoader", "end");   
@@ -389,238 +428,6 @@
             });
             
         }
-        else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
-          //first company super user
-          this.myrole = "Super User";
-          console.log(this.myrole);
-          //company_route = '/companies/first_company_user/'+user_details.id;
-          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=super';
-          //company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
-          axios.get(store.state.host_url+company_route,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          store.commit("activateLoader", "end"); 
-          this.available_companies = response.data.data;;
-            this.is_company_super_user = true;   
-            this.show_setup_form = true;
-            this.final_data = response.data.data;
-            var table_data = [];
-            table_data=this.final_data.merged_data_by_date;
-        //  table_data.forEach((item, index) => {
-         //     console.log(index);
-         // });
-         var table_data_by_date = Object.keys(table_data).map(function(key) {
-         return [key, table_data[key]];
-         });
-         table_data_by_date= table_data_by_date.reverse();
-         table_data_by_date.forEach(element => {
-             let main_date = element[0];
-             let table_data_by_product = element[1];
-             var i_result = Object.keys(table_data_by_product).map(function(key) {
-            return [key, table_data_by_product[key]];
-            });
-            // console.log(i_result);
-                var total_pump_sales_string='';
-                var total_tank_sales_string='';
-                var ppv_string= '';
-                var tolerance_string='';
-                var expected_pump_sales_string='';
-                var station_name_string = '';
-                let product_string='';
-                ////by product//////
-            i_result.forEach(element => {
-                var total_pump_sales=0;
-                var total_tank_sales=0;
-                var expected_pump_sales=0;
-                var tolerance=0;
-                var ppv= 0;
-                var station_name = 'c';
-                let product = element[0];
-                let stock_and_pump_data = element[1];
-                var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
-            return [key, stock_and_pump_data[key]];
-            });
-            if(ii_result[0] !== undefined){
-            if(ii_result[0][0]=="pump_data"){
-                var tot_open_pump_reading= 0;
-                var tot_close_pump_reading = 0;
-
-                var tot_shift_start_tank_reading= 0;
-                var tot_shift_end_tank_reading = 0;
-
-                ii_result[0][1].forEach(element =>{
-                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
-                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
-                    ppv = element.ppv;
-                    station_name = element.station.name;
-                }
-                );
-                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
-                
-                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
-            }}
-            if(ii_result[1] !== undefined){
-            if(ii_result[1][0]=="tank_data"){
-                ii_result[1][1].forEach(element =>{
-                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
-                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
-                 //station_name = element.station.name;
-                }
-                );
-                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
-                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
-                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
-               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
-            }}  
-                if(total_tank_sales !=0){
-                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
-                }else{
-                    tolerance ='Invalid';
-                }
-                total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
-                total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
-                product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
-                expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
-                //all return readings with real values return station, just pick one
-                
-                if(station_name !='c'){
-                    station_name_string = station_name;
-                    }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
-               });
-            
-            this.tableData.push({'date': main_date, 'product': product_string, 
-                'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
-                total_pump_sales_string, 'station': station_name_string, 'tolerance': 
-                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
-                 });
-              })
-            .catch(error => {
-            store.commit("activateLoader", "end");   
-                store.commit("catch_errors", error); 
-            });
-               
-        }else{
-          ///for regular company users
-          company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
-          axios.get(store.state.host_url+company_route,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-          store.commit("activateLoader", "end"); 
-          ///one company
-          this.is_company_regular_user = true;   
-          this.show_setup_form = true;
-          this.final_data = response.data.data;
-          console.log(this.final_data.total_pumps);
-          var table_data = [];
-          table_data=this.final_data.merged_data_by_date;
-        //  table_data.forEach((item, index) => {
-         //     console.log(index);
-         // });
-         var table_data_by_date = Object.keys(table_data).map(function(key) {
-         return [key, table_data[key]];
-         });
-         table_data_by_date= table_data_by_date.reverse();
-         table_data_by_date.forEach(element => {
-             let main_date = element[0];
-             let table_data_by_product = element[1];
-             var i_result = Object.keys(table_data_by_product).map(function(key) {
-            return [key, table_data_by_product[key]];
-            });
-            // console.log(i_result);
-                var total_pump_sales_string='';
-                var total_tank_sales_string='';
-                var ppv_string= '';
-                var tolerance_string='';
-                var expected_pump_sales_string='';
-                var station_name_string = '';
-                let product_string='';
-                ////by product//////
-            i_result.forEach(element => {
-                var total_pump_sales=0;
-                var total_tank_sales=0;
-                var expected_pump_sales=0;
-                var tolerance=0;
-                var ppv= 0;
-                var station_name = 'c';
-                let product = element[0];
-                let stock_and_pump_data = element[1];
-                var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
-            return [key, stock_and_pump_data[key]];
-            });
-            if(ii_result[0] !== undefined){
-            if(ii_result[0][0]=="pump_data"){
-                var tot_open_pump_reading= 0;
-                var tot_close_pump_reading = 0;
-
-                var tot_shift_start_tank_reading= 0;
-                var tot_shift_end_tank_reading = 0;
-
-                ii_result[0][1].forEach(element =>{
-                    tot_open_pump_reading = tot_open_pump_reading + element.open_shift_totalizer_reading;
-                    tot_close_pump_reading = tot_close_pump_reading + element.close_shift_totalizer_reading;
-                    ppv = element.ppv;
-                    station_name = element.station.name;
-                }
-                );
-                total_pump_sales = tot_close_pump_reading- tot_open_pump_reading;
-                
-                //console.log('pump '+ppv+ ' '+product + ' ' + total_pump_sales);
-            }}
-            if(ii_result[1] !== undefined){
-            if(ii_result[1][0]=="tank_data"){
-                ii_result[1][1].forEach(element =>{
-                  tot_shift_start_tank_reading = tot_shift_start_tank_reading + element.phy_shift_start_volume_reading;
-                  tot_shift_end_tank_reading = tot_shift_end_tank_reading + element.phy_shift_end_volume_reading;
-                 //station_name = element.station.name;
-                }
-                );
-                total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading;
-                //{{number_format($phy_pms_tank_sales_vol/20*0.5 + $phy_pms_tank_sales_vol,2) }}
-                expected_pump_sales = (total_tank_sales/20*0.5 + total_tank_sales).toFixed(2);
-               // console.log('tank '+main_date+ ' '+ product + ' ' + total_tank_sales);
-            }}  
-                if(total_tank_sales !=0){
-                    tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2);      
-                }else{
-                    tolerance ='Invalid';
-                }
-                total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
-                parseFloat(total_pump_sales).toLocaleString()+'</span><br>';
-                total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
-                parseFloat(total_tank_sales).toLocaleString()+'</span><br>';
-                product_string = '<span class="'+product+'">'+product_string +product+'</span><br>';
-                expected_pump_sales_string = '<span class="'+product+'">'+expected_pump_sales_string
-                 +parseFloat(expected_pump_sales).toLocaleString()+'</span><br>';
-                tolerance_string = '<span class="'+product+'">'+tolerance_string +parseFloat(tolerance).toLocaleString()+'</span><br>';
-                //all return readings with real values return station, just pick one
-                
-                if(station_name !='c'){
-                    station_name_string = station_name;
-                    }
-                ppv_string = '<span class="'+product+'">'+ppv_string + parseFloat(ppv).toLocaleString() +'</span><br>';
-               });
-            
-            this.tableData.push({'date': main_date, 'product': product_string, 
-                'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
-                total_pump_sales_string, 'station': station_name_string, 'tolerance': 
-                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
-                 });
-              })
-            .catch(error => {
-            store.commit("activateLoader", "end");   
-                store.commit("catch_errors", error); 
-            });
-            }
-          }
         }
     }
 </script>

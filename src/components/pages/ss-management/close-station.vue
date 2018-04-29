@@ -254,7 +254,6 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(stock_response => {
-             store.commit("activateLoader", "end");
               console.log(stock_response);
        if(stock_response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
