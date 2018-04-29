@@ -286,7 +286,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(response => {
-          store.commit("activateLoader", "end"); 
+          
             this.final_data = response.data.data;
           var table_data = [];
           if(this.final_data.total_pumps > 0 && this.final_data.total_tanks >0 && this.final_data.total_stations >0 )
@@ -420,7 +420,7 @@
                }
          
                );
-         
+                store.commit("activateLoader", "end"); 
             })
             .catch(error => {
             store.commit("activateLoader", "end");   
