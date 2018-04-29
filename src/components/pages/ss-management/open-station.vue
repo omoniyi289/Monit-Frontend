@@ -234,7 +234,7 @@
             this.show_setup_form= true;
             this.station_pumps.forEach(element => {
             this.open_pump_reading.push({'pump_nozzle_code': element.pump_nozzle_code,'pump_id': element.id,
-           'opening_reading': '', 'c_opening_reading': '' , 'status': 'Opened'});
+           'opening_reading': '', 'c_opening_reading': '' , 'status': 'Opened', 'product': element.product.code});
           });
             ///  }
             axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
@@ -245,7 +245,8 @@
             this.station_tanks = response.data.data;
             this.open_tank_reading = [];
             this.station_tanks.forEach(element => {
-            this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': '', 'c_opening_reading': '', 'status': 'Opened'});
+            this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': '', 'c_opening_reading': ''
+            , 'status': 'Opened', 'product': element.product.code});
           });
             store.commit("activateLoader", "end"); 
           

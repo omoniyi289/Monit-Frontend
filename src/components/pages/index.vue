@@ -190,7 +190,14 @@
             is_company_regular_user: false,
             is_company_super_user: false,
             is_e360_super_user: false,
-            final_data: [],
+            final_data: {
+                total_pump_sales: 0,
+                total_tank_sales: 0,
+                total_pumps: 0,
+                total_tanks: 0,
+                total_stations: 0,
+                total_vol_supplied: 0,
+            },
             preset : {
                     company_id: 0,
                     station_id: 0

@@ -254,8 +254,9 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }}).then(stock_response => {
-              console.log(stock_response);
+         
        if(stock_response.data.data.length == 0){
+             store.commit("activateLoader", "end");
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
@@ -264,6 +265,7 @@
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'Station already closed for the day', 'show_alert': true});
                        this.show_setup_form= false;
+                       store.commit("activateLoader", "end");
          }else{
            ///date///
          
