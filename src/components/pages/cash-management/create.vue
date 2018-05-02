@@ -20,13 +20,19 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form && fill_form">
               <div class="row">
                 
+                <div class="col-sm-8">
+                    <datepicker :format="format" v-model="selected_reading_date"  placeholder="Sales Transaction Date">
+                    </datepicker>
+                    <br>
+                    <span class="btn btn-sm btn-primary" @click="validate_payment_amount"> VALIDATE</span>
+                </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="amount"> Amount</label>
-                      <input v-model="deposit.amount" name="amount" type="number" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
-                      <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Amount is a required field</div>
+                      <label for="expected_amount">Expected Amount</label>
+                      <input readonly v-model="deposit.expected_amount" name="expected_amount" type="number" required autofocus placeholder="Expected Amount" class="form-control" id="serial_number"/>
+                      <field-messages name="expected_amount" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Expected Amount is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
@@ -46,15 +52,16 @@
                       </validate>
                   </div>
                 </div>
-                <div class="col-sm-8">
-                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
-                    <br>
-                </div>
+                
                 <div class="col-sm-12">
                   <validate tag="div">
                   <div class="form-group">
                       <label for="bank_name">Bank Name</label>
-                      <input v-model="deposit.bank" name="bank_name" type="text" required autofocus placeholder="Bank Name" class="form-control" id="bank_name"/>  
+                       <select  name="bank_name"  size="1" class="form-control" v-model="deposit.bank" >
+                          <option v-for="(option, index) in available_banks"
+                                                v-bind:value="option.name" >{{ option.name }}
+                          </option>                       
+                       </select>
                   </div>
                   <field-messages name="bank_name" show="$invalid && $submitted" class="text-danger">
                               <div slot="required">Bank Name is required</div>
@@ -75,6 +82,7 @@
                       <input v-model="deposit.teller_number" name="teller_number" type="text" autofocus placeholder="Teller Number" class="form-control" id="teller_number"/>  
                   </div>
                 </div>
+                
                 </div>
                 <div v-if="show_pos_details">
                 <div class="col-sm-12">
@@ -89,11 +97,26 @@
                       <input v-model="deposit.pos_receipt_range" name="pos_receipt_range" type="text" autofocus placeholder="POS Receipt Range" class="form-control" id="pos_receipt_range"/>  
                   </div>
                 </div>
+               </div>
+                <div class="col-sm-12">
+                    <datepicker :format="format" v-model="selected_payment_date"  placeholder="Sales Payment Date">
+                    </datepicker>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="amount"> Amount</label>
+                      <input v-model="deposit.amount" name="amount" type="number" required autofocus placeholder="Amount" class="form-control" id="serial_number"/>
+                      <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Amount is a required field</div>
+                      </field-messages>
+                    </validate>
+                  </div>
                 </div>
 
                 <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" value="Submit Payment" class="btn btn-success" />
+                    <input v-show="show_submit_button" type="submit" value="Submit Payment" class="btn btn-success" />
                   </div>
                 </div>
               </div>
@@ -120,6 +143,7 @@
   import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import api_banks from "src/assets/json/banks.json";
   import Datepicker from 'vuejs-datepicker';
   Vue.use(VueForm, options);
   export default {
@@ -131,8 +155,14 @@
     data() {
       return {columndata: [
          {
-          label: 'Date',
-          field: 'date',
+          label: 'Transaction Date',
+          field: 'reading_date',
+          numeric: false,
+          html: false,
+        },
+        {
+          label: 'Payment Date',
+          field: 'teller_date',
           numeric: false,
           html: false,
         },{
@@ -183,9 +213,11 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        available_banks : '',
         available_companies: "",
         button_text: "ADD NEW PAYMENT",
-        selected_date: "",
+        selected_reading_date: "",
+        selected_payment_date: "",
         station_pumps:"",
         company_stations: "",
         added_product_name: "",
@@ -193,11 +225,15 @@
           company_id: "",
           station_id: ""
         },
+        show_submit_button: false,
         deposit : {
           payment_type: 0,
-          amount: "",
-          date:"",
+          amount: 0.00,
+          sales_transaction:"",
+          teller_date: "",
+          reading_date:"",
           bank: "",
+          expected_amount:0.00,
           teller_number:"",
           account_number:"",
           pos_receipt_range:"",
@@ -215,6 +251,38 @@
         }else if("HIDE FORM"){
           this.button_text = "ADD NEW PAYMENT";
         }
+      },
+      validate_payment_amount(){
+           if(this.selected_reading_date == ''){
+             this.$SmoothScroll(document.getElementById("content-header"));
+              store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                          'alert_message': 'Please select date to continue', 'show_alert': true});
+              store.commit("activateLoader", "end");
+              return;
+            }
+            let user_details = JSON.parse(localStorage.getItem('user_details'));
+            this.deposit.reading_date = new Date(this.selected_reading_date).toDateString();
+            let params="station_id="+this.preset.station_id+"&selected_date="+this.deposit.reading_date;
+             axios.get(this.url+"/validate_amount/params?"+params,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token
+            }}).then(response => {
+              store.commit("activateLoader", "end");   
+              if(response.data.data == 0){
+                this.$SmoothScroll(document.getElementById("content-header"));
+                store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'No sales recorded for the selected date', 'show_alert': true});
+                  return ;
+                  }
+              this.deposit.expected_amount = parseFloat(response.data.data);
+              this.show_submit_button= true;
+      })
+      .catch(function(error) {
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+        });
+
       },
       show_company_stations(company_name){
         store.commit("activateLoader", "start");
@@ -291,13 +359,14 @@
           this.deposit.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.deposit.created_by= user_details.id;
-          if(this.selected_date == ''){
+          if(this.selected_reading_date == '' || this.selected_payment_date == ''){
           store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Please select date to continue', 'show_alert': true});
+                       'alert_message': 'Please select necessary dates to continue', 'show_alert': true});
           store.commit("activateLoader", "end");
           return;
             }
-          this.deposit.date = new Date(this.selected_date).toDateString();
+          this.deposit.payment_date = new Date(this.selected_payment_date).toDateString();
+          this.deposit.reading_date = new Date(this.selected_reading_date).toDateString();
            let deposit_detail = {
             deposits: this.deposit
           };
@@ -315,7 +384,8 @@
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Payment Added Successfully', 'show_alert': true});
               this.formstate.$submitted=false;
-                this.deposit= {};
+              this.fill_form = !this.fill_form;
+              this.deposit= {};
             }
           }
         ).catch(error => {
@@ -327,6 +397,7 @@
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
+      this.available_banks = api_banks;
     },
     destroyed: function() {
 

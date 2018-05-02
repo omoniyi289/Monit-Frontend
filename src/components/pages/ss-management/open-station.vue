@@ -117,8 +117,11 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import VueForm from "vue-form";     
+  import vueSmoothScroll from 'vue-smoothscroll';     
+  Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   import moment from 'moment';
@@ -214,8 +217,7 @@
          ///check if next date is tomorrow
          
          if(response.data.data.length > 0 && response.data.data[0].created_at.includes(moment(new Date()).format('YYYY-MM-DD'))){
-           console.log(response.data.data[0].created_at);
-           console.log(moment(new Date()).format('YYYY-MM-DD'));
+        
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                       'alert_message': 'Readings already exist for today', 'show_alert': true});
             this.show_setup_form= false;  
@@ -297,7 +299,7 @@
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings saved', 'show_alert': true});
+                       'alert_message': 'Readings Saved Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                         this.open_pump_reading= {};
                     }

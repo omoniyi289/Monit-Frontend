@@ -25,7 +25,7 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form" >
                <input readonly type="text"  :value="selected_date" placeholder=""/>
               
-              <b-card header-tag="h4" class="bg-info-card" header="Open the Station">
+              <b-card header-tag="h4" class="bg-info-card" header="Modify Station Data">
                 <div class="row ">
                   <div class="col-lg-12">               
                     <b-tabs>
@@ -164,7 +164,8 @@
 <script>
   import Datepicker from 'vuejs-datepicker';
   import Vue from 'vue';
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView.vue";
   import VueForm from "vue-form";     
   import vueSmoothScroll from 'vue-smoothscroll';     
   Vue.use(vueSmoothScroll);
