@@ -118,7 +118,7 @@ export default {
                         menu_items[current_index].child.push({
                         name: 'Manage Roles',
                         link: '/admin/roles/manage',
-                        icon: 'fa fa-angle-double-right'
+                        icon: 'fa fa-user-lock'
                     });}
                 if(permissions.includes('CMUs')){
                         menu_items[current_index].child.push({

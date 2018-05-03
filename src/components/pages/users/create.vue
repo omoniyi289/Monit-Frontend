@@ -91,6 +91,10 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
+                        <div style="margin-bottom: 2%">
+                          <span class="btn btn-sm btn-info" @click="selectAllStation">Select All</span>
+                          <span class="btn btn-sm btn-warning" @click="deselectAllStation"> Unselect All</span>
+                        </div>
                         <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
                         placeholder="Select Stations"
                         label="name" track-by="id" 
@@ -125,6 +129,10 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
+                        <div style="margin-bottom: 2%">
+                          <span class="btn btn-sm btn-info" @click="selectAllNotf">Select All</span>
+                          <span class="btn btn-sm btn-warning" @click="deselectAllNotf"> Unselect All</span>
+                        </div>
                         <multiselect v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
                         placeholder="Select Modules"
                         label="name" track-by="id" 
@@ -566,6 +574,18 @@
           submit_mode: 'CREATE',
         }
         },
+         selectAllNotf() {
+          this.user.selected_notifications= this.company_notifications;
+           },
+        deselectAllNotf() {
+          this.user.selected_notifications= [];
+           },
+        selectAllStation() {
+          this.user.selected_stations= this.company_stations;
+           },
+        deselectAllStation() {
+          this.user.selected_stations= [];
+           },
     },
     mounted: function() {
       store.commit("check_login_details");

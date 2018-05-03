@@ -1,6 +1,6 @@
 /vendor/
 deploy_exclude.txt
-deploy_test.sh
+deployment.sh
 .env
 /.git/
 .gitignore

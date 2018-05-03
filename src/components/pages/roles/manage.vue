@@ -75,6 +75,10 @@
                     <div class="form-group">
                      
                       <b-card v-if="available_privileges.length" header="Available Privileges" header-tag="h4" class="bg-info-card">            
+                        <div style="margin-bottom: 2%">
+                          <span class="btn btn-sm btn-info" @click="selectAllPriv">Select All</span>
+                          <span class="btn btn-sm btn-warning" @click="deselectAllPriv"> Unselect All</span>
+                        </div>
                         <multiselect  v-model="role.selected_privileges" tag-placeholder="Add privilege(s) to role" 
                         placeholder="Select Privileges"
                         label="name" track-by="id" 
@@ -425,6 +429,12 @@
             this.all_groups.push(tag)
             this.selected_groups.push(tag)
         },
+        selectAllPriv() {
+          this.role.selected_privileges= this.available_privileges;
+           },
+        deselectAllPriv() {
+          this.role.selected_privileges= [];
+           },
     },
     mounted: function() {
       store.commit("check_login_details");
