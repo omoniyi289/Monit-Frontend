@@ -4,7 +4,7 @@ rsync -vzrhe "ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChe
 ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChecking=no ubuntu@34.246.63.12 <<-EOF
 
     
-    cd /var/www/SMfrontend-Bundle
+    cd /var/www/SMfrontend
     #sudo mv ./live/node_modules ./node-mods-bk  #backup node modules
     sudo rm -rf ./backup # Delete previous backup
     sudo mv ./live ./backup # Create new backup
