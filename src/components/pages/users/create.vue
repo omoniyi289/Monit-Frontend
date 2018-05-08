@@ -91,7 +91,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
-                        <div style="margin-bottom: 2%">
+                        <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllStation">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllStation"> Unselect All</span>
                         </div>
@@ -129,7 +129,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
-                        <div style="margin-bottom: 2%">
+                        <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllNotf">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllNotf"> Unselect All</span>
                         </div>
@@ -234,7 +234,8 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-       available_companies: [],
+        show_selector: true,
+        available_companies: [],
         available_company: [],
         products: "",
         show_multi_company: false,
@@ -382,7 +383,7 @@
       }
         , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
-                console.log('slot action: ' + action, data.fullname, index);
+                this.show_selector = false;
                 if(action == 'edit'){
                     this.fill_form = true;
                     this.user = data;
@@ -527,7 +528,8 @@
                           if(item.user_notifications !==undefined && item.user_notifications !==null){
                           item.user_notifications.forEach((inner_item, inner_index) => {
                                 var element = '';
-                              if(inner_item.module !==undefined && item.module!==null){
+                              if(inner_item.module !=undefined && item.module !=null && 
+                                  inner_item.module !=null && item.module !=undefined){
                                   element = inner_item.module;
                                   notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                                   this.tableData[index]['selected_notifications'].push(element);

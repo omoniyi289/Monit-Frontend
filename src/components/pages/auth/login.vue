@@ -157,7 +157,6 @@ export default {
         if(this.$route.params.message == "token_expired"){
             this.show_error = true;
             this.error_message = "session expired, please re-login";
-
         }
     
     },

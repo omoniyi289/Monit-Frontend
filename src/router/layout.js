@@ -53,6 +53,14 @@ const layout = [{
               title: "Approve Price Change",
           }
           }
+          ,
+         {
+          path: '/admin/pricing/execute',
+              component: resolve => require(['pages/pricing/execute'], resolve),
+              meta: {
+              title: "Execute Price Change",
+          }
+          }
         ,
        {
         path: '/admin/privileges/manage',

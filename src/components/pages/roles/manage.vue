@@ -75,7 +75,7 @@
                     <div class="form-group">
                      
                       <b-card v-if="available_privileges.length" header="Available Privileges" header-tag="h4" class="bg-info-card">            
-                        <div style="margin-bottom: 2%">
+                        <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllPriv">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllPriv"> Unselect All</span>
                         </div>
@@ -169,6 +169,7 @@
         available_companies: [],
         available_company: [],
         products: "",
+        show_selector: true,
         button_text: "ADD A NEW ROLE",
         show_multi_company: false,
         show_single_company: false,
@@ -280,6 +281,7 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
                     this.fill_form = true;
+                    this.show_selector = false;
                     this.role = data;
                     this.role.submit_mode="UPDATE"
                 }else if(action =='delete'){

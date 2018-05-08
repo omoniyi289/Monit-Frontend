@@ -139,6 +139,16 @@
                                     </div>
                                 </div>
 
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                      
+                                            <label for="manager_email">OEM Station ID</label>
+                                            <input v-model="station.oem_stationid" name="oem_stationid" type="oem_stationid"  placeholder="OEM Station ID" class="form-control" id="oem_stationid"/>
+                                            
+                                     
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -314,6 +324,7 @@
                     monthly_budget: "",
                     license_type: 0,
                     expense_type: 0,
+                    oem_stationid:"",
                     opening_time: "",
                     company_id: "",
                     submit_mode: "CREATE"

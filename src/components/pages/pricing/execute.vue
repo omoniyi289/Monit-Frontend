@@ -39,21 +39,16 @@
                   </div>
                 </div>
 
-                <div class="col-lg-12">
+                
+
+                <div v-if="show_set_time" class="col-sm-12">
                   <div class="form-group">
-                    <validate tag="div">
-                      <label for="is_approved">Approve/Disapprove</label>
-                      <select id="is_approved" name="is_approved" size="1" class="form-control" v-model="pricing.is_approved" required >
-                            <option value="1">Approve</option>
-                            <option value="0">Disapprove</option>
-                      </select>
-                      <field-messages name="is_approved" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Approval Choice is required</div>
-                      </field-messages>
-                    </validate>
+                     <label for="set_time">Valid From (Date-Time)</label>
+                        <datetime readonly type="datetime" v-model="pricing.set_time"></datetime>
+                       
                   </div>
                 </div>
-
+               
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
@@ -65,6 +60,7 @@
                     </validate>
                   </div>
                 </div>
+
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
@@ -79,7 +75,7 @@
 
                 <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" v-if="approve" value="Submit" class="btn btn-success" />
+                    <input type="submit" v-if="approve" value="Execute" class="btn btn-success" />
                   </div>
                 </div>
               </div>
@@ -107,8 +103,12 @@
   import Vue from 'vue';
   import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';    
+   Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
+  import Datetime from 'vue-datetime';
+  import 'vue-datetime/dist/vue-datetime.css'
+  Vue.use(Datetime)
   Vue.use(VueForm, options);
   export default {
     name: "formfeatures",
@@ -162,6 +162,7 @@
         }],
         ajaxLoading: true,
         loading: true,
+        show_set_time: true,
         url: this.$store.state.host_url+'/product_price_change',
         formstate: {},
         formstate2: {},
@@ -190,6 +191,7 @@
           approved_by: 0,
           requested_price_tag:"",
           current_price_tag: "",  
+          set_time:"",
         }
 
       }
@@ -242,6 +244,7 @@
           }else if(element.is_approved == 0){
             this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
           }
+          
             });
             console.log(response.data.data);
         });
@@ -250,10 +253,10 @@
       this.$SmoothScroll(document.getElementById("content-header"));
       console.log('slot action: ' + action, data, index);
       if(action == 'update'){
-        if(data.status != "<span class='btn btn-warning btn-sm' >Not yet Approved</span>")
+        if(data.status != "<span class='btn btn-info btn-sm' >Approved</span>")
         {
             store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Stock Already Updated', 'show_alert': true});
+                       'alert_message': 'Oops! Only requests with Approved Status can be executed', 'show_alert': true});
            return;
           }else{
         this.pricing = data;
@@ -266,18 +269,25 @@
         if (this.formstate.$invalid) {
           return;
         } else {
+            if(this.pricing.set_time == "" || this.pricing.set_time== null){
+             this.$SmoothScroll(document.getElementById("content-header"));
+              store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                          'alert_message': 'Please select date-time to continue', 'show_alert': true});
+              store.commit("activateLoader", "end");
+              return;
+            }
           store.commit("activateLoader", "start");
           //include station and company_id
           this.pricing.station_id= this.preset.station_id;
           this.pricing.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.pricing.updated_by = user_details.id;
-          this.pricing.approved_by = user_details.id;
+          this.pricing.executed_by = user_details.id;
           this.pricing.log_id = this.pricing.id;
-             let price_detail = {
-            details: this.pricing
+          this.pricing.is_executed = 1;
+          let price_detail = {
+            product_change_log: this.pricing
           };
-          axios.post(store.state.host_url+'/fromMail_pricing', price_detail, {
+          axios.post(this.url+'/execute/', price_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
@@ -286,13 +296,13 @@
             let station_response = response.data;
           if (station_response.status === true) {
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Product  Change Updated Successfully', 'show_alert': true});
+                       'alert_message': station_response.data.description, 'show_alert': true});
                 let element = this.pricing;
                 this.approve = false;
           if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-            else if(element.is_approved == null){
+          else if(element.is_approved == null){
             this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }else if(element.is_approved == 1){
             this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved</span>");
