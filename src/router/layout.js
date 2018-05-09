@@ -176,8 +176,7 @@ const layout = [{
       component: resolve => require(['pages/cash-management/create'], resolve),
       meta: {
       title: "Manage Payments",
-}
-
-}]
+}}
+]
 
 export default layout
