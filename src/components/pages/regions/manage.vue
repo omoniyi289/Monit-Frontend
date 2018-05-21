@@ -4,14 +4,14 @@
       <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
           <div class="col-md-12">
-            <vue-form :state="formstate" @submit.prevent="add_company_roles">
+            <vue-form :state="formstate" @submit.prevent="add_company_regions">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="col-lg-12">
                       <div class="form-group" v-if="show_multi_company">
                       <validate tag="div">
                       Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_roles(preset.company_id)" v-model="preset.company_id" >
+                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_regions(preset.company_id)" v-model="preset.company_id" >
                             <option
                               v-for="(option, index) in available_companies"
                               v-bind:value="option.id"
@@ -27,7 +27,7 @@
                     <div class="form-group" v-if="show_single_company">
                       <validate tag="div">
                         Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_roles(preset.company_id)" v-model="preset.company_id" >
+                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_regions(preset.company_id)" v-model="preset.company_id" >
                           <option :value="available_company.id"
                             >{{ available_company.name }}
                           </option>
@@ -39,7 +39,7 @@
                         </field-messages>
                       </validate>
                     </div>
-                   <!-- <button v-on:click="onclick_add_role = !onclick_add_role" class="btn btn-success">ADD NEW ROLE</button>
+                   <!-- <button v-on:click="onclick_add_region = !onclick_add_region" class="btn btn-success">ADD NEW REGION</button>
                     -->
                   </div>
 
@@ -49,51 +49,71 @@
                   <div class="col-sm-6">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="name"> Role Name</label>
-                      <input v-model="role.name" name="name" type="text" required autofocus placeholder="Name" class="form-control" id="serial_number"/>
+                      <label for="name"> Region Name</label>
+                      <input v-model="region.name" name="name" type="text" required autofocus placeholder="Name" class="form-control" id="serial_number"/>
                       <field-messages name="name" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Role Name is a required field</div>
+                        <div slot="required">Region Name is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
-
+                <!--
                 <div class="col-sm-6">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="description"> Description</label>
-                      <input v-model="role.description" name="description" type="text" required autofocus placeholder="Description" class="form-control" id="serial_number"/>
-                      <field-messages name="description" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Description is a required field</div>
+                      <label for="address"> Address</label>
+                      <input v-model="region.address" name="address" type="text" required autofocus placeholder="Address" class="form-control" id="serial_number"/>
+                      <field-messages name="address" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Address is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
-                <label>Privileges</label>
+                -->
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label for="manager_name">Regional Manager's Name</label>
+                      <input v-model="region.manager_name" name="manager_name" type="text"  autofocus placeholder="Name" class="form-control" id="manager_name"/>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label for="manager_email">Regional Manager's Email</label>
+                      <input v-model="region.manager_email" name="manager_email" type="text"  autofocus placeholder="Email" class="form-control" id="manager_email"/>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                      <label for="address">Regional Manager's Phone</label>
+                      <input v-model="region.manager_phone" name="manager_phone" type="text"  autofocus placeholder="Phone" class="form-control" id="manager_phone"/>
+            
+                  </div>
+                </div>
+                <label>Stations</label>
           
                 <div class="col-sm-12">
                     <div class="form-group">
                      
-                      <b-card v-if="available_privileges.length" header="Available Privileges" header-tag="h4" class="bg-info-card">            
+                      <b-card header="Available Stations" header-tag="h4" class="bg-info-card">            
                         <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllPriv">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllPriv"> Unselect All</span>
                         </div>
-                        <multiselect  v-model="role.selected_privileges" tag-placeholder="Add privilege(s) to role" 
-                        placeholder="Select Privileges"
+                        <multiselect v-if="available_stations.length"  v-model="region.selected_stations" tag-placeholder="Add station(s) to region" 
+                        placeholder="Select Stations"
                         label="name" track-by="id" 
-                        :options="available_privileges" :multiple="true" :hide-selected="true" 
+                        :options="available_stations" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
-                        </multiselect>        
+                        </multiselect>      
+                         <p  style="color: red" v-else>{{this.company_stations_null}}</p>  
                        </b-card>
+                      
                 
                     </div>
                 </div>
-
-                <br>
-                <div class="col-sm-12">
+              <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input type="submit" :value="role.submit_mode" class="btn btn-success" />
+                    <input type="submit" :value="region.submit_mode" class="btn btn-success" />
                   </div>
                 </div>
               </div>
@@ -103,12 +123,11 @@
           
           </div>
           <div class="col-sm-12" v-show="show_setup_form">
-             <br>
             <div class="table-responsive">
-              <div>
-                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>             
+             <div>
+                <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
             </div>
-              <datatable title="Defined Roles" :rows="tableData" :columns="columndata">
+              <datatable title="Registered Regions" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
@@ -118,6 +137,7 @@
               </datatable>
             </div>
           </div>
+
         </div>
       </b-card>
     </div>
@@ -125,8 +145,11 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-  import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import VueForm from "vue-form";    
+   import vueSmoothScroll from 'vue-smoothscroll';  
+      Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
   Vue.use(VueForm, options);
@@ -140,18 +163,36 @@
     },
     data() {
       return {columndata: [{
-          label: 'Role Name',
+          label: 'Region Name',
           field: 'name',
           numeric: false,
           html: false,
         }, {
-          label: 'Description',
-          field: 'description',
+          label: 'Address',
+          field: 'address',
           numeric: false,
           html: false,
-        }, {
-          label: 'Privileges',
-          field: 'permissions',
+        }, 
+         {
+          label: 'Stations',
+          field: 'stations',
+          numeric: false,
+          html: true,
+        },
+        {
+          label: 'Manager\'s Name',
+          field: 'manager_name',
+          numeric: false,
+          html: false,
+        }
+        , {
+          label: 'Manager\'s Email',
+          field: 'manager_email',
+          numeric: false,
+          html: false,
+        },{
+          label: 'Manager\'s Phone',
+          field: 'manager_phone',
           numeric: false,
           html: true,
         },{
@@ -160,21 +201,22 @@
           }],
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/roles',
+        url: this.$store.state.host_url+'/regions',
         formstate: {},
         show_setup_form : false,
         tableData: [],
         fill_form: false,
-        onclick_add_role: false,
+        onclick_add_region: false,
         available_companies: [],
         available_company: [],
         products: "",
+        company_stations_null: "",
         show_selector: true,
-        button_text: "ADD A NEW ROLE",
+        button_text: "ADD A NEW REGION",
         show_multi_company: false,
         show_single_company: false,
         station_pumps:"",
-        available_privileges: [],
+        available_stations: [],
 
         preset : {
           company_id: "",
@@ -182,10 +224,10 @@
         },
         registered_priv_ids:[],
           registered_priv_names:[],
-        role : {
+        region : {
           name: "",
-          description: "",
-          selected_privileges: [],
+          address: "",
+          selected_stations: [],
           
           submit_mode: "CREATE",
 
@@ -194,40 +236,33 @@
       }
     },
     methods: {
-      show_company_stations(company_name){
-        store.commit("activateLoader", "start");
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        //let company_name= this.preset.company_name;
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token
-            }}).then(response => {
-              store.commit("activateLoader", "end");   
-              this.company_stations = response.data.data;
-
-      })
-      .catch(function(error) {
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-        });
-      },
       button_toggle(){
         this.fill_form = !this.fill_form;
-        if(this.button_text == "ADD A NEW ROLE"){
+        if(this.button_text == "ADD A NEW REGION"){
         this.button_text = "HIDE FORM";
         }else if("HIDE FORM"){
-          this.button_text = "ADD A NEW ROLE";
+          this.button_text = "ADD A NEW REGION";
         }
       },
 
-      show_company_roles(company_id){
+      show_company_regions(company_id){
           store.commit("activateLoader", "start");
-          //store.commit("showAlertBox", {'alert_type': 'alert-danger', 'alert_message': 'This is sweet', 'show_alert': true});
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          //let company_id= this.preset.company_id;
-          axios.get(this.$store.state.host_url+"/roles/by_company/"+company_id,
+          //get stations
+          this.company_stations_null= "No stations added yet, please add stations under configuration to proceed with creating regions";
+          console.log(this.company_stations_null);
+          axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
+            {
+              headers : {
+                "Authorization" : "Bearer " + user_details.token
+              }}).then(response => {
+                store.commit("activateLoader", "end");   
+                this.available_stations = response.data.data;
+
+        });
+        //get regions
+          axios.get(this.$store.state.host_url+"/regions/by_company/"+company_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token
@@ -236,15 +271,14 @@
             this.tableData = response.data.data;
             this.tableData.forEach((item, index) => {
             let perm='';
-          this.tableData[index]['selected_privileges']=[];
-          item.role_permissions.forEach(inner_item => {
-          if(inner_item.permission !==undefined){
+          this.tableData[index]['selected_stations']=[];
+          item.region_stations.forEach(inner_item => {
+          if(inner_item.station !==undefined){
             var element = '';
-                      element = inner_item.permission;
+                      element = inner_item.station;
           perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-          this.tableData[index]['selected_privileges'].push(element);
-          
-          this.tableData[index]['permissions']=perm;
+          this.tableData[index]['selected_stations'].push(element);
+          this.tableData[index]['stations']=perm;
           this.tableData[index]['tabledata_index']=index;
           }}
           );
@@ -255,18 +289,7 @@
             store.commit("catch_errors", error); 
           });
         },
-        show_permissions(){
-                     ///get products///
-              let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get(this.$store.state.host_url+"/permissions",
-                {
-                  headers : {
-                    "Authorization" : "Bearer " + user_details.token
-                  }}).then(response => {
-                //
-                this.available_privileges = response.data.data;
-                });
-        },
+      
       show_available_companies(){ 
          this.products = store.state.products;
         if(store.state.show_single_company){
@@ -282,8 +305,8 @@
                 if(action == 'edit'){
                     this.fill_form = true;this.button_text = "HIDE FORM";
                     this.show_selector = false;
-                    this.role = data;
-                    this.role.submit_mode="UPDATE"
+                    this.region = data;
+                    this.region.submit_mode="UPDATE"
                 }else if(action =='delete'){
                     this.$modal.show('dialog', {
                         title: 'Alert!',
@@ -319,34 +342,40 @@
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
-                            message:'Role Deleted Successfully',transition:''});
+                            message:'Region Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
                                 store.commit("activateLoader", "end");   
                                 store.commit("catch_errors", error); 
                     });
             },
-      add_company_roles() {
+      add_company_regions() {
          if (this.formstate.$invalid) {
+          return;
+        }else if (this.region.selected_stations.length == 0) {
+          this.$SmoothScroll(document.getElementById("content-header"));
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Err! No stations selected', 'show_alert': true});
+        
           return;
         } else {
         this.$SmoothScroll(document.getElementById("content-header"));
-       store.commit("activateLoader", "start");
-          this.role.station_id= this.preset.station_id;
-          this.role.company_id= this.preset.company_id;
-          // console.log(this.role);
+        store.commit("activateLoader", "start");
+        this.region.station_id= this.preset.station_id;
+        this.region.company_id= this.preset.company_id;
+          // console.log(this.region);
         //   let new_ids=[];
-        //  this.role.selected_privileges_full.forEach(element => {
+        //  this.region.selected_stations_full.forEach(element => {
        //     new_ids.push(element.id);
        //   });
-         // this.role.selected_privileges= new_ids;
-          let role_detail = {
-            role: this.role
+         // this.region.selected_stations= new_ids;
+          let region_detail = {
+            region: this.region
           };
-          console.log(this.role);
+          console.log(this.region);
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-           if(this.role.submit_mode == 'CREATE'){
-          axios.post(this.url, role_detail, {
+           if(this.region.submit_mode == 'CREATE'){
+          axios.post(this.url, region_detail, {
             headers : {
               "Authorization" : "Bearer " + user_details.token
             }
@@ -354,37 +383,37 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            //console.log(response.data);
+            console.log(response.data.data);
                   this.tableData.push(response.data.data);
                   this.tableData.forEach((item, index) => {
                   let perm='';
-                  this.tableData[index]['selected_privileges']=[];
-                  item.role_permissions.forEach(inner_item => {
-                  if(inner_item.permission !==undefined){
+                  this.tableData[index]['selected_stations']=[];
+                  item.region_stations.forEach(inner_item => {
+                  if(inner_item.station !==undefined){
                     var element = '';
-                              element = inner_item.permission;
+                              element = inner_item.station;
                   perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-                  this.tableData[index]['selected_privileges'].push(element);
+                  this.tableData[index]['selected_stations'].push(element);
                   
-                  this.tableData[index]['permissions']=perm;
+                  this.tableData[index]['stations']=perm;
                   this.tableData[index]['tabledata_index']=index;
                   }}
                   );
                       });
           
                   store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Role added successfully', 'show_alert': true});
+                       'alert_message': 'Region added successfully', 'show_alert': true});
                   this.formstate.$submitted=false;
-                  this.role= {submit_mode: "CREATE"};
+                  this.region= {submit_mode: "CREATE"};
           }
         }).catch(error => {
            store.commit("activateLoader", "end");  
             store.commit("catch_errors", error); 
         })
         }
-        else if(this.role.submit_mode == 'UPDATE'){
+        else if(this.region.submit_mode == 'UPDATE'){
           console.log("here here");
-                    axios.patch(this.url+"/"+this.role.id, role_detail, {
+                    axios.patch(this.url+"/"+this.region.id, region_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token
                         }
@@ -397,23 +426,23 @@
                               this.tableData = response.data.data;
                               this.tableData.forEach((item, index) => {
                               let perm='';
-                              this.tableData[index]['selected_privileges']=[];
-                              item.role_permissions.forEach(inner_item => {
-                              if(inner_item.permission !==undefined){
+                              this.tableData[index]['selected_stations']=[];
+                              item.region_stations.forEach(inner_item => {
+                              if(inner_item.station !==undefined){
                                 var element = '';
-                                          element = inner_item.permission;
+                                          element = inner_item.station;
                               perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
-                              this.tableData[index]['selected_privileges'].push(element);
+                              this.tableData[index]['selected_stations'].push(element);
                               
-                              this.tableData[index]['permissions']=perm;
+                              this.tableData[index]['stations']=perm;
                               this.tableData[index]['tabledata_index']=index;
                               }}
                               );
                                   });
                         this.$alert.success({duration:10000,forceRender:'',
-                        message:'Role Updated Successfully',transition:''});
+                        message:'Region Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
-                        this.role= {submit_mode: "CREATE"};
+                        this.region= {submit_mode: "CREATE"};
                         }
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   
@@ -432,16 +461,15 @@
             this.selected_groups.push(tag)
         },
         selectAllPriv() {
-          this.role.selected_privileges= this.available_privileges;
+          this.region.selected_stations= this.available_stations;
            },
         deselectAllPriv() {
-          this.role.selected_privileges= [];
+          this.region.selected_stations= [];
            },
     },
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
-      this.show_permissions();
     },
     destroyed: function() {
 

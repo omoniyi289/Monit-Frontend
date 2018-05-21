@@ -37,6 +37,14 @@ const layout = [{
             meta: {
             title: "Manage Roles",
         }
+      }
+     ,
+       {
+        path: '/admin/regions/manage',
+            component: resolve => require(['pages/regions/manage'], resolve),
+            meta: {
+            title: "Manage Regions",
+        }
         }
         ,
         {

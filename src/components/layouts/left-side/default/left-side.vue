@@ -71,7 +71,7 @@ export default {
     var permissions =[];
 
         if ( r_p_array == "all" ){
-        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "EPCR","CMRo","APDS",
+        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR","EPCR","CMRo","CMRe","APDS",
                         "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
                         ,"RStk20","CStk20"];
@@ -124,6 +124,13 @@ export default {
                         menu_items[current_index].child.push({
                             name: 'Manage Users',
                             link: '/admin/users/create',
+                     
+                        });}
+                
+                if(permissions.includes('CMRe')){
+                        menu_items[current_index].child.push({
+                            name: 'Manage Regions',
+                            link: '/admin/regions/manage',
                      
                         });}
                 
@@ -257,7 +264,7 @@ export default {
         ///Exp Mgt
         if(permissions.includes('AMEx')){
             menu_items.push({
-                            name: 'Expenses Management',
+                            name: 'Expense Management',
                             icon: 'fa fa-vcard',
                             child: [{
                                 name: 'Manage Expenses',

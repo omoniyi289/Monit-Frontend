@@ -204,7 +204,7 @@
             }}).then(response => {
        if(response.data.data.length > 0){
          ///station has data
-         var d_date = new Date(response.data.data[0].created_at);
+         var d_date = new Date(response.data.data[0].reading_date);
          d_date.setDate(d_date.getDate() + 1);
          this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');
          }else{
@@ -216,7 +216,7 @@
          }
          ///check if next date is tomorrow
          
-         if(response.data.data.length > 0 && response.data.data[0].created_at.includes(moment(new Date()).format('YYYY-MM-DD'))){
+         if(response.data.data.length > 0 && response.data.data[0].reading_date.includes(moment(new Date()).format('YYYY-MM-DD'))){
         
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                       'alert_message': 'Readings already exist for today', 'show_alert': true});
@@ -276,12 +276,12 @@
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.final_stock_info.created_by = user_details.id;
           this.final_stock_info.readings = this.open_tank_reading;
-          this.final_stock_info.created_at = this.set_date;
+          this.final_stock_info.reading_date = this.set_date;
           ////pumps///
           this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
-          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.readings = this.open_pump_reading;
 
           axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {

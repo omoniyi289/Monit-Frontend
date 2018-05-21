@@ -88,21 +88,40 @@
                     </validate>
                   </div>
                 </div>
+                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="status">Status</label>
+                                            <select id="status" name="status" size="1" class="form-control" v-model="user.status" required >
+                                                <option value="0" selected disabled>
+                                                    Please select
+                                                </option>
+                                                <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+
+                                 </select>
+                            <field-messages name="status" show="$invalid && $submitted" class="text-danger">
+                              <div slot="required">Status is required</div>
+                           </field-messages>
+                       </validate>
+                    </div>
+                  </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                      <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
+                      <b-card  header="Select stations for users" header-tag="h4" class="bg-info-card">            
                         <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllStation">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllStation"> Unselect All</span>
                         </div>
-                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
+                        <multiselect v-if="company_stations.length" v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
                         placeholder="Select Stations"
                         label="name" track-by="id" 
                         :options="company_stations" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
-                        </multiselect>        
+                        </multiselect>     
+                        <p style="color: red" v-else>{{this.company_stations_null}}</p>   
                        </b-card>
-                        <p v-else>{{this.company_stations_null}}</p>
+                       
                     </div>
                 </div>
 
@@ -128,19 +147,20 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
-                      <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
+                      <b-card header="Select notifications for user" header-tag="h4" class="bg-info-card">            
                         <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllNotf">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllNotf"> Unselect All</span>
                         </div>
-                        <multiselect v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
+                        <multiselect v-if="company_notifications.length"  v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
                         placeholder="Select Modules"
                         label="name" track-by="id" 
                         :options="company_notifications" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
-                        </multiselect>        
+                        </multiselect>       
+                         <p  style="color: red" v-else>{{this.company_notifications_null}}</p> 
                        </b-card>
-                        <p v-else>{{this.company_notifications_null}}</p>
+                       
                     </div>
                 </div>
 
@@ -211,6 +231,12 @@
         }, {
           label: 'Stations',
           field: 'stations',
+          numeric: true,
+          html: true,
+        }
+        , {
+          label: 'Status',
+          field: 'status',
           numeric: true,
           html: true,
         }, {
@@ -287,8 +313,8 @@
       show_company_stations(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        this.company_stations_null = 'No Station Added Yet';
-        this.company_notifications_null = 'No available notofication modules';
+        this.company_stations_null = 'No stations added yet, please add stations under configuration to proceed';
+        this.company_notifications_null = 'No available notification modules';
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
@@ -385,7 +411,8 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 this.show_selector = false;
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
+                    this.button_text = "HIDE FORM";
                     this.user = data;
                     this.user.submit_mode="UPDATE"
                 }else if(action =='delete'){

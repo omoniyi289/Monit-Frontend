@@ -303,7 +303,7 @@
        ,onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.pump = data;
                     this.pump.submit_mode="UPDATE"
                 }else{

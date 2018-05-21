@@ -5,12 +5,12 @@
                 <div class="row">
                     <div class="col-lg-12 col-12 mt-4">
                         <h2 class="text-center">
-                            <img src="~img/logo_black.png" alt="Logo">
+                            <img src="~img/logo-purple.png" alt="Logo">
                         </h2>
                     </div>
                     <div class="col-lg-12 col-12 mt-4">
                         <h3 class="page-name text-center">
-                            <img src="~img/pages/User-01.png" alt="user" class="rounded-circle img-thumbnail user-img">
+                            <img src="~img/authors/user.jpg" alt="user" class="rounded-circle img-thumbnail user-img">
                         </h3>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-12 mt-3">
                         <h2 class="text-center">
-                            <img src="~img/logo_black.png" alt="Logo">
+                            <img src="~img/logo-purple.png" alt="Logo">
                         </h2>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         <div class="col-sm-12 mt-3 ">
                             <div class="form-group">
                                 <validate tag="div">
-                                    <label for="email"> E-mail/Phone number</label>
+                                    <label for="email"> E-mail</label>
                                     <input v-model="user.email" name="email" id="email" type="email" required autofocus placeholder="E-mail" class="form-control" />
                                     <field-messages name="email" show="$invalid && $submitted" class="text-danger">
                                         <div slot="required">Email is a required field</div>

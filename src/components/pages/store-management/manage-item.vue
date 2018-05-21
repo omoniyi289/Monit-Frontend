@@ -521,7 +521,7 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 console.log('slot action: ' + action, data.fullname, index);
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.item = data;
                     this.item.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -544,7 +544,7 @@
              onItemAction (action, data, index) {
                // this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.item_variant = data;
                     this.item_variant.submit_mode="UPDATE"
                 }else if(action =='delete'){

@@ -13,7 +13,7 @@ let user_detials='';
 try{
     user_detials = JSON.parse(localStorage.getItem('user_details'));
 }catch(e){
-  alert("Please enable the use of third party cookies and site data in your brower\'s settings to continue with the application");
+  alert("Our application just detected that the use of third party cookies and site data are currently disabled on your browser. Please enable it in your brower\'s settings to continue with the application");
 }
 
 let username='';

@@ -188,7 +188,7 @@
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
        }else{
-         this.set_date = response.data.data[0].created_at;
+         this.set_date = response.data.data[0].reading_date;
          if(response.data.data[0].shift_1_totalizer_reading == null){
            this.shift_batch="First Shift";
          }else if(response.data.data[0].shift_2_totalizer_reading == null){
@@ -209,11 +209,11 @@
                 store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
             this.close_pump_reading = [];
-            this.close_pump_reading.created_at= this.set_date;
+            this.close_pump_reading.reading_date= this.set_date;
             this.station_pumps.forEach(element => {
             this.close_pump_reading.push({'pump_id': element.id
             ,'pump_nozzle_code': element.pump_nozzle_code, 'closing_reading': '', 'c_closing_reading': ''
-            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End', 'created_at':this.set_date});
+            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End', 'reading_date':this.set_date});
           });
         })
         .catch(function(error) {
@@ -251,7 +251,7 @@
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.shift_batch = this.shift_batch;
           
           axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
