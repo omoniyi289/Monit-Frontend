@@ -9,7 +9,7 @@ ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChecking=no ubunt
     sudo rm -rf ./backup # Delete previous backup
     sudo mv ./live ./backup # Create new backup
     sudo mv ./temp ./live
-    sudo mv ./node-mods-bk ./live/node_modules # move node modules back
+    #sudo mv ./node-mods-bk ./live/node_modules # move node modules back
     sudo mkdir ./temp # create new temp directory for next deployment
     cd ./live
     #export PATH=/var/lib/jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/recent_node/bin/
@@ -18,5 +18,5 @@ ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChecking=no ubunt
     
     sudo find dist/ -type f -exec sed -i 's#"/images#"images#g' {} \;
     sudo chmod -R 755 .
-    #sudo chown -R www-data:www-data .
+    sudo chown -R www-data:www-data .
 EOF
