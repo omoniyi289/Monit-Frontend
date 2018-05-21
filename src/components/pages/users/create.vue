@@ -88,21 +88,40 @@
                     </validate>
                   </div>
                 </div>
+                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="status">Status</label>
+                                            <select id="status" name="status" size="1" class="form-control" v-model="user.status" required >
+                                                <option value="0" selected disabled>
+                                                    Please select
+                                                </option>
+                                                <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+
+                                 </select>
+                            <field-messages name="status" show="$invalid && $submitted" class="text-danger">
+                              <div slot="required">Status is required</div>
+                           </field-messages>
+                       </validate>
+                    </div>
+                  </div>
                 <div class="col-sm-12">
                     <div class="form-group">
-                      <b-card v-if="company_stations.length" header="Select stations for users" header-tag="h4" class="bg-info-card">            
-                        <div style="margin-bottom: 2%">
+                      <b-card  header="Select stations for users" header-tag="h4" class="bg-info-card">            
+                        <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllStation">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllStation"> Unselect All</span>
                         </div>
-                        <multiselect v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
+                        <multiselect v-if="company_stations.length" v-model="user.selected_stations" tag-placeholder="Add station(s) to user" 
                         placeholder="Select Stations"
                         label="name" track-by="id" 
                         :options="company_stations" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
-                        </multiselect>        
+                        </multiselect>     
+                        <p style="color: red" v-else>{{this.company_stations_null}}</p>   
                        </b-card>
-                        <p v-else>{{this.company_stations_null}}</p>
+                       
                     </div>
                 </div>
 
@@ -128,19 +147,20 @@
 
                 <div class="col-sm-12">
                     <div class="form-group">
-                      <b-card v-if="company_notifications.length" header="Select notifications for user" header-tag="h4" class="bg-info-card">            
-                        <div style="margin-bottom: 2%">
+                      <b-card header="Select notifications for user" header-tag="h4" class="bg-info-card">            
+                        <div v-if="show_selector" style="margin-bottom: 2%">
                           <span class="btn btn-sm btn-info" @click="selectAllNotf">Select All</span>
                           <span class="btn btn-sm btn-warning" @click="deselectAllNotf"> Unselect All</span>
                         </div>
-                        <multiselect v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
+                        <multiselect v-if="company_notifications.length"  v-model="user.selected_notifications" tag-placeholder="Add Notification Module(s) to user" 
                         placeholder="Select Modules"
                         label="name" track-by="id" 
                         :options="company_notifications" :multiple="true" :hide-selected="true" 
                         :taggable="true" @tag="addTag">
-                        </multiselect>        
+                        </multiselect>       
+                         <p  style="color: red" v-else>{{this.company_notifications_null}}</p> 
                        </b-card>
-                        <p v-else>{{this.company_notifications_null}}</p>
+                       
                     </div>
                 </div>
 
@@ -213,6 +233,12 @@
           field: 'stations',
           numeric: true,
           html: true,
+        }
+        , {
+          label: 'Status',
+          field: 'status',
+          numeric: true,
+          html: true,
         }, {
           label: 'Notifications Allowed',
           field: 'notifications',
@@ -234,7 +260,8 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
-       available_companies: [],
+        show_selector: true,
+        available_companies: [],
         available_company: [],
         products: "",
         show_multi_company: false,
@@ -286,19 +313,19 @@
       show_company_stations(company_name){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        this.company_stations_null = 'No Station Added Yet';
-        this.company_notifications_null = 'No available notofication modules';
+        this.company_stations_null = 'No stations added yet, please add stations under configuration to proceed';
+        this.company_notifications_null = 'No available notification modules';
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.company_stations = response.data.data;
           ///get roles///
             axios.get(this.$store.state.host_url+"/roles/by_company/"+company_name,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
             this.available_roles = response.data.data;
           });
@@ -306,7 +333,7 @@
           axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_name,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
@@ -364,7 +391,7 @@
               axios.get(this.$store.state.host_url+"/notifications",
                 {
                   headers : {
-                    "Authorization" : "Bearer " + user_details.token
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
                 //
                 this.company_notifications = response.data.data;
@@ -382,9 +409,10 @@
       }
         , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
-                console.log('slot action: ' + action, data.fullname, index);
+                this.show_selector = false;
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
+                    this.button_text = "HIDE FORM";
                     this.user = data;
                     this.user.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -410,7 +438,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -441,7 +469,7 @@
           if(this.user.submit_mode == 'CREATE'){
           axios.post(this.url, user_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
@@ -496,7 +524,7 @@
         else if(this.user.submit_mode == 'UPDATE'){
                     axios.patch(this.url+"/"+this.user.id, user_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
@@ -527,7 +555,8 @@
                           if(item.user_notifications !==undefined && item.user_notifications !==null){
                           item.user_notifications.forEach((inner_item, inner_index) => {
                                 var element = '';
-                              if(inner_item.module !==undefined && item.module!==null){
+                              if(inner_item.module !=undefined && item.module !=null && 
+                                  inner_item.module !=null && item.module !=undefined){
                                   element = inner_item.module;
                                   notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                                   this.tableData[index]['selected_notifications'].push(element);

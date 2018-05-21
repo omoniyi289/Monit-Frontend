@@ -87,8 +87,7 @@
                             <table class="table">
                               <thead>
                                 <tr>
-                                  <th>Pump Number</th>
-                                  <th>Dispenser</th>
+                                  <th>Pump Nozzle Code</th>
                                   <th>Opening Totalizer Reading</th>
                                   <th>First Shift Reading</th>
                                   <th>Second Shift Reading</th>
@@ -102,7 +101,6 @@
                               </thead>
                               <tbody>
                                 <tr  v-for="(option, index) in close_pump_reading">
-                                  <th>{{option.pump_number}}</th>
                                   <td>{{option.nozzle_code}}</td>
                                   <td>     
                                       <input v-model="close_pump_reading[index].opening_reading" :disabled="isDisabled" type="number"  class="form-control" />
@@ -255,7 +253,7 @@
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(stock_response => {
        if(stock_response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
@@ -268,7 +266,7 @@
             this.close_tank_reading.push({'tank_code': element.tank_code,
             'tank_id': element.tank_id,'opening_reading': element.phy_shift_start_volume_reading, 
             'tank_id' : element.tank_id,'closing_reading': element.phy_shift_end_volume_reading,
-            'created_at': element.created_at,
+            'reading_date': element.reading_date,
             'rtt':element.return_to_tank,'qty_received':element.end_delivery, 'status': 'Modified'});
           });
            
@@ -277,7 +275,7 @@
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(pump_response => {
               store.commit("activateLoader", "end");   
             this.station_pumps = pump_response.data.data;
@@ -294,7 +292,7 @@
             'first_shift_cash_collected': element.shift_1_cash_collected, 
             'second_shift_cash_collected': element.shift_2_cash_collected, 
             'ppv':element.ppv,
-            'created_at': element.created_at,
+            'reading_date': element.reading_date,
             'status': 'Modified'});
             
           });
@@ -331,13 +329,13 @@
           console.log(this.final_pump_info);
           axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
               store.commit("activateLoader", "end");
               axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
             }).then( response => {                        
               store.commit("activateLoader", "end");

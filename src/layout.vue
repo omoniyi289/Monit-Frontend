@@ -123,7 +123,7 @@
         axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           
@@ -139,7 +139,7 @@
         axios.get(store.state.host_url+"/products",
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
                 store.state.products = response.data.data;
       });

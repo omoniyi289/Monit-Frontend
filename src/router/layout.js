@@ -37,6 +37,14 @@ const layout = [{
             meta: {
             title: "Manage Roles",
         }
+      }
+     ,
+       {
+        path: '/admin/regions/manage',
+            component: resolve => require(['pages/regions/manage'], resolve),
+            meta: {
+            title: "Manage Regions",
+        }
         }
         ,
         {
@@ -51,6 +59,14 @@ const layout = [{
               component: resolve => require(['pages/pricing/approve'], resolve),
               meta: {
               title: "Approve Price Change",
+          }
+          }
+          ,
+         {
+          path: '/admin/pricing/execute',
+              component: resolve => require(['pages/pricing/execute'], resolve),
+              meta: {
+              title: "Execute Price Change",
           }
           }
         ,
@@ -168,8 +184,7 @@ const layout = [{
       component: resolve => require(['pages/cash-management/create'], resolve),
       meta: {
       title: "Manage Payments",
-}
-
-}]
+}}
+]
 
 export default layout

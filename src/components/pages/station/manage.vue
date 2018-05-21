@@ -139,6 +139,16 @@
                                     </div>
                                 </div>
 
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                      
+                                            <label for="manager_email">OEM Station ID</label>
+                                            <input v-model="station.oem_stationid" name="oem_stationid" type="oem_stationid"  placeholder="OEM Station ID" class="form-control" id="oem_stationid"/>
+                                            
+                                     
+                                    </div>
+                                </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -194,6 +204,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -212,6 +223,205 @@
                                         </validate>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="hasFCC">has FCC</label>
+                                            <select id="hasFCC" name="hasFCC" size="1" class="form-control" v-model="station.hasFCC" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="hasFCC" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">has FCC is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="hasATG">has ATG</label>
+                                            <select id="hasATG" name="hasATG" size="1" class="form-control" v-model="station.hasATG" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="hasATG" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">has ATG is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="fcc_active">FCC Active</label>
+                                            <select id="fcc_active" name="fcc_active" size="1" class="form-control" v-model="station.fcc_active" required>
+                                               
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="fcc_active" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">FCC Active is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="atg_active">ATG Active</label>
+                                            <select id="atg_active" name="atg_active" size="1" class="form-control" v-model="station.atg_active" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="atg_active" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">ATG Active is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_atg_data">Show ATG Data</label>
+                                            <select id="show_atg_data" name="show_atg_data" size="1" class="form-control" v-model="station.show_atg_data" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_atg_data" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show ATG Data is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_fcc_data">Show FCC Data</label>
+                                            <select id="show_fcc_data" name="show_fcc_data" size="1" class="form-control" v-model="station.show_fcc_data" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_fcc_data" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show FCC Data is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_fcc_pms">Show FCC PMS</label>
+                                            <select id="show_fcc_pms" name="show_fcc_pms" size="1" class="form-control" v-model="station.show_fcc_pms" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_fcc_pms" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show FCC PMS is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_fcc_ago">Show FCC AGO</label>
+                                            <select id="show_fcc_ago" name="show_fcc_ago" size="1" class="form-control" v-model="station.show_fcc_ago" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_fcc_ago" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show FCC AGO is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_fcc_dpk">Show FCC DPK</label>
+                                            <select id="show_fcc_dpk" name="show_fcc_dpk" size="1" class="form-control" v-model="station.show_fcc_dpk" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_fcc_dpk" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show FCC DPK is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_atg_pms">Show ATG PMS</label>
+                                            <select id="show_atg_pms" name="show_atg_pms" size="1" class="form-control" v-model="station.show_atg_pms" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_atg_pms" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show ATG PMS is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_atg_ago">Show ATG AGO</label>
+                                            <select id="show_atg_ago" name="show_atg_ago" size="1" class="form-control" v-model="station.show_atg_ago" required>
+                                               
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_atg_ago" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show ATG AGO is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="show_atg_dpk">Show ATG DPK</label>
+                                            <select id="show_atg_dpk" name="show_atg_dpk" size="1" class="form-control" v-model="station.show_atg_dpk" required>
+                                               
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="show_atg_dpk" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Show ATG PMS is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+
+                                
 
                                 <div class="col-sm-12">
                                     <div class="form-group float-right">
@@ -314,6 +524,19 @@
                     monthly_budget: "",
                     license_type: 0,
                     expense_type: 0,
+                    hasATG:1,
+                    hasFCC:1,
+                    fcc_active: 1,
+                    atg_active:1,
+                    show_fcc_data:1,
+                    show_atg_data:1,
+                    show_fcc_pms:1,
+                    show_fcc_ago:1,
+                    show_fcc_dpk:1,
+                    show_atg_pms:1,
+                    show_atg_ago:1,
+                    show_atg_dpk:1,
+                    oem_stationid:"",
                     opening_time: "",
                     company_id: "",
                     submit_mode: "CREATE"
@@ -341,7 +564,7 @@
                     axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
                         {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }}).then(response => {
                                 store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
@@ -371,7 +594,7 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 console.log('slot action: ' + action, data.name, index);
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.station = data;
                     this.station.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -397,7 +620,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -426,7 +649,7 @@
                     if(this.station.submit_mode == 'CREATE'){
                     axios.post(this.url, station_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");
@@ -452,7 +675,7 @@
                     else if(this.station.submit_mode == 'UPDATE'){
                     axios.patch(this.url+"/"+this.station.id, station_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

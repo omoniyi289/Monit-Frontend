@@ -39,28 +39,10 @@
                   </div>
                 </div>
 
-                <div class="col-lg-8">
-                  <div class="form-group">
-                    <validate tag="div">
-                      <label for="approved_by">Approver</label>
-                      <select id="approved_by" name="approved_by" size="1" class="form-control" v-model="pricing.approved_by" required >
-                        <option
-                          v-for="(option,index) in approvers"
-                          v-bind:value="option.id"
-                         >{{option.fullname}}
-                        </option>
-                      </select>
-                      <field-messages name="approved_by" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Approver is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-
                 <div class="col-sm-8">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="requested_price_tag"> Price</label>
+                      <label for="requested_price_tag">New Price</label>
                       <input v-model="pricing.requested_price_tag" name="requested_price_tag" type="text" required autofocus placeholder="Price Tag" class="form-control" id="serial_number"/>
                       <field-messages name="requested_price_tag" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Price is a required field</div>
@@ -82,7 +64,7 @@
               <datatable title="Product Prices" :rows="tableData" :columns="columndata">
                 <template slot="actions" slot-scope="props">
                   <div >
-                        <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                        <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)">Change Price</i>
                   </div>
                 </template>
               </datatable>
@@ -161,6 +143,11 @@
           field: 'updated_at',
           numeric: false,
           html: false,
+        }, { 
+          label: 'Valid From',
+          field: 'valid_from',
+          numeric: false,
+          html: false,
         }],
         ajaxLoading: true,
         loading: true,
@@ -205,7 +192,6 @@
         if (this.formstate2.$invalid) {
           return;
         } else {
-          this.get_pricing_approver();
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
@@ -217,7 +203,7 @@
           axios.get(this.$store.state.host_url+"/product_price/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
                 this.tableData = response.data.data;
@@ -230,15 +216,18 @@
           axios.get(this.$store.state.host_url+"/product_price_change/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.log_tableData = response.data.data;
             this.log_tableData.forEach(element => {
-              if(element.is_approved == null){
+            if(element.is_executed == 1){
+            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
+             }
+            else if(element.is_approved == null){
             this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-primary btn-sm' >Approved</span>");
           }else if(element.is_approved == 0){
             this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
           }
@@ -288,7 +277,7 @@
           };
           axios.post(this.url, price_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");
@@ -315,21 +304,22 @@
         });}
         else if(this.pricing.submit_mode == 'Request Price Change'){
           this.pricing.mode ="update";
-          console.log(this.pricing);
+      
           //set current price tag value, requested price is still retained
           this.pricing.current_price_tag = this.pricing.new_price_tag;
              let price_detail = {
             product_change_log: this.pricing
           };
-          axios.post(this.url+'/new/', price_detail, {
+          axios.post(this.url+'/request/', price_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");
             
             let station_response = response.data;
           if (station_response.status === true) {
+            this.log_tableData.push(response.data.data);
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Request Made Successfully, Awaiting approval', 'show_alert': true});  
           }
@@ -340,7 +330,7 @@
         }
         }
       },
-       get_pricing_approver(){
+     /*  get_pricing_approver(){
           store.commit("activateLoader", "start"); 
             ///get approvals
           let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -349,7 +339,7 @@
           axios.get(this.$store.state.host_url+"/role_permissions/by_company?"+params,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }
               }).then(response => {
                   store.commit("activateLoader", "end");   
@@ -371,7 +361,7 @@
           store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
         });
-      },
+      },*/
 
     },
     mounted: function() {

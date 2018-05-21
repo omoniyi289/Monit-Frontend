@@ -71,7 +71,7 @@ export default {
     var permissions =[];
 
         if ( r_p_array == "all" ){
-        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR","CMRo","APDS",
+        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR","EPCR","CMRo","CMRe","APDS",
                         "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
                         ,"RStk20","CStk20"];
@@ -111,33 +111,46 @@ export default {
                 menu_items[current_index].child.push({
                     name: 'Company Profile',
                     link: '/admin/company/setup',
-                    icon: 'fa fa-registered'
+                 
                 });}
                
                 if(permissions.includes('CMRo')){
                         menu_items[current_index].child.push({
                         name: 'Manage Roles',
                         link: '/admin/roles/manage',
-                        icon: 'fa fa-user-lock'
+                     
                     });}
                 if(permissions.includes('CMUs')){
                         menu_items[current_index].child.push({
-                            name: 'Users',
+                            name: 'Manage Users',
                             link: '/admin/users/create',
-                            icon: 'fa fa-user-plus'
+                     
+                        });}
+                
+                if(permissions.includes('CMRe')){
+                        menu_items[current_index].child.push({
+                            name: 'Manage Regions',
+                            link: '/admin/regions/manage',
+                     
                         });}
                 
                 if(permissions.includes('CPCR')){
                         menu_items[current_index].child.push({
-                            name: 'Request Product Price',
+                            name: 'Request Price Change',
                             link: '/admin/pricing/setup',
-                            icon: 'fa fa-angle-double-right'
+                         
                         });}
                 if(permissions.includes('APCR')){
                         menu_items[current_index].child.push({
-                            name: 'Approve Product Price',
+                            name: 'Approve Price Change',
                             link: '/admin/pricing/approve',
-                            icon: 'fa fa-angle-double-right'
+                          
+                        });}
+                if(permissions.includes('EPCR')){
+                        menu_items[current_index].child.push({
+                            name: 'Execute Price Change',
+                            link: '/admin/pricing/execute',
+                           
                         });}
 
         ///configuration
@@ -251,7 +264,7 @@ export default {
         ///Exp Mgt
         if(permissions.includes('AMEx')){
             menu_items.push({
-                            name: 'Expenses Management',
+                            name: 'Expense Management',
                             icon: 'fa fa-vcard',
                             child: [{
                                 name: 'Manage Expenses',

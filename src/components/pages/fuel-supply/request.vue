@@ -190,7 +190,7 @@
           axios.get(this.$store.state.host_url+"/fuel-supply/by_station?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             
@@ -250,7 +250,7 @@
           };
           axios.post(this.url, fuel_supply_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");
@@ -300,7 +300,7 @@
           axios.get(this.$store.state.host_url+"/role_permissions/by_company?"+params,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }
               }).then(response => {
                   store.commit("activateLoader", "end");   

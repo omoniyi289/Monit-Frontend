@@ -217,7 +217,7 @@
             let user_details = JSON.parse(localStorage.getItem('user_details'));
           axios.delete(this.url+'/'+data.id, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
@@ -246,7 +246,7 @@
                     if(this.company.submit_mode == 'CREATE'){
                     axios.post(this.url, company_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
@@ -267,7 +267,7 @@
                 });}else if(this.company.submit_mode == 'UPDATE'){
                     axios.patch(this.url+'/'+this.company.id, company_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

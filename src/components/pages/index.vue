@@ -143,6 +143,21 @@
         
         <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
+                <div class="form-inline" style="margin-left: 35%">
+                    START DATE: <span >
+                    <datepicker :format="format" v-model="start_date"  placeholder="Start Date">
+                    </datepicker>
+                    </span>
+                    END DATE: <span>
+                    <datepicker :format="format" v-model="end_date"  placeholder="End Date">
+                    </datepicker>
+                    </span>
+                    <span v-on:click="populate_dashboard()" style="margin-left: 2%" class="btn btn-primary">
+                        PROCEED
+                    </span>
+                   
+                </div>
+
               <datatable title="Sales and Stock Data" :rows="tableData" :columns="columndata">
               </datatable>
             </div>
@@ -159,23 +174,22 @@
 
     import VueAwesomeSwiper from 'vue-awesome-swiper';
     import countTo from 'vue-count-to';
-
-    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+    import datatable from "components/plugins/DataTable/DataTable.vue";
     import vScroll from "components/plugins/scroll/vScroll.vue";
-    import portfolio from "components/widgets/portfolio/portfolio.vue"
-    import VueChartist from 'v-chartist'
+    import Datepicker from 'vuejs-datepicker';
 
     Vue.use(VueAwesomeSwiper);
     var unsub;
     export default {
-        name: "index2",
+        name: "index",
         components: {
             IEcharts,
-            datatable,csview,
+            datatable,
+            Datepicker,
             countTo,
             vScroll,
-            portfolio,
-            VueChartist
+            
+        
         },
         data() {
             return {
@@ -190,6 +204,9 @@
             is_company_regular_user: false,
             is_company_super_user: false,
             is_e360_super_user: false,
+            start_date: 'init',
+            format: 'yyyy-MM-dd',
+            end_date:'init',
             final_data: {
                 total_pump_sales: 0,
                 total_tank_sales: 0,
@@ -269,29 +286,41 @@
         },
         methods: {
           populate_dashboard(){
+            this.tableData= [];
             store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         var company_route = '';
+       // console.log(this.start_date);
+       // return;
+        if(this.start_date != 'init'){
+        this.start_date = new Date(this.start_date).toDateString();
+            }
+        if(this.end_date != 'init'){
+        this.end_date = new Date(this.end_date).toDateString();
+        }
         //console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           this.is_e360_super_user = true;
-          company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id+'company_id=master';
+          company_route = '/dashboard?user=e360_super_user&user_id='+user_details.id
+          +'company_id=master&start_date='+this.start_date+'&end_date='+this.end_date;
           }
           else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
           //first company super user
-          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id+'company_id=super';
+          company_route = '/dashboard?user=first_company_user&user_id='+user_details.id
+          +'company_id=super&start_date='+this.start_date+'&end_date='+this.end_date;
           this.is_company_super_user = true;
           }
           else{
           ///for regular company users
-          company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id+'company_id='+user_details.company_id;
+          company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id
+          +'company_id='+user_details.company_id+'&start_date='+this.start_date+'&end_date='+this.end_date;
           this.is_company_regular_user = true;
           }
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           
             this.final_data = response.data.data;

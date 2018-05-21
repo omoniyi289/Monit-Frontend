@@ -159,7 +159,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
@@ -181,14 +181,15 @@
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
        if(response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
+                        store.commit("activateLoader", "end");   
        }else{
-         this.set_date = response.data.data[0].created_at;
+         this.set_date = response.data.data[0].reading_date;
          if(response.data.data[0].shift_1_totalizer_reading == null){
            this.shift_batch="First Shift";
          }else if(response.data.data[0].shift_2_totalizer_reading == null){
@@ -197,6 +198,7 @@
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'Data already entered for two shifts', 'show_alert': true});
           this.show_setup_form= false;
+           store.commit("activateLoader", "end");   
           return;
          }
           let station_id= this.preset.station_id;
@@ -204,16 +206,16 @@
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
             this.close_pump_reading = [];
-            this.close_pump_reading.created_at= this.set_date;
+            this.close_pump_reading.reading_date= this.set_date;
             this.station_pumps.forEach(element => {
             this.close_pump_reading.push({'pump_id': element.id
             ,'pump_nozzle_code': element.pump_nozzle_code, 'closing_reading': '', 'c_closing_reading': ''
-            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End', 'created_at':this.set_date});
+            , 'cash_collected':'', 'c_cash_collected': '', 'status': 'Shift End', 'reading_date':this.set_date});
           });
         })
         .catch(function(error) {
@@ -251,12 +253,12 @@
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.shift_batch = this.shift_batch;
           
           axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => { 
                     store.commit("activateLoader", "end");

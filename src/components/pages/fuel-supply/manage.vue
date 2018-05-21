@@ -292,7 +292,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
@@ -313,7 +313,7 @@
           axios.get(this.$store.state.host_url+"/fuel-supply/by_station?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");  
        
@@ -397,7 +397,7 @@
           };
           axios.patch(this.url, fuel_supply_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");

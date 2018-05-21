@@ -176,7 +176,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
@@ -200,11 +200,11 @@
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
        if(response.data.data.length > 0){
          ///station has data
-         var d_date = new Date(response.data.data[0].created_at);
+         var d_date = new Date(response.data.data[0].reading_date);
          d_date.setDate(d_date.getDate() + 1);
          this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');
          }else{
@@ -216,11 +216,12 @@
          }
          ///check if next date is tomorrow
          
-         if(response.data.data.length > 0 && response.data.data[0].created_at.includes(moment(new Date()).format('YYYY-MM-DD'))){
+         if(response.data.data.length > 0 && response.data.data[0].reading_date.includes(moment(new Date()).format('YYYY-MM-DD'))){
         
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                       'alert_message': 'Readings already exist for today', 'show_alert': true});
             this.show_setup_form= false;  
+             store.commit("activateLoader", "end");
          return;
          }
          this.show_setup_form= true;    
@@ -228,7 +229,7 @@
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             this.station_pumps = response.data.data;
             this.open_pump_reading = [];
@@ -242,7 +243,7 @@
             axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             this.station_tanks = response.data.data;
             this.open_tank_reading = [];
@@ -276,23 +277,23 @@
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.final_stock_info.created_by = user_details.id;
           this.final_stock_info.readings = this.open_tank_reading;
-          this.final_stock_info.created_at = this.set_date;
+          this.final_stock_info.reading_date = this.set_date;
           ////pumps///
           this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
-          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.readings = this.open_pump_reading;
 
           axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
               axios.post(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }
               }).then( response => {                         
                 store.commit("activateLoader", "end");

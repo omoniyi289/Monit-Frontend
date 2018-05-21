@@ -19,14 +19,14 @@
                             <i class="fa fa-arrows-alt"></i>
                         </a>
                     </div>
-                    <b-dropdown class="notifications-menu bell_bg" right link>
+                    <!-- <b-dropdown class="notifications-menu bell_bg" right link>
                         <span slot="text">
                             <i class="fa fa-bell-o noti-icon"></i>
                             <div class="notifications_badge_top">
                                 <span class="badge badge-danger">e360
                                 </span>
                             </div>
-                        </span>
+                        </span> 
                         <!--<b-dropdown-item class="dropdownheader socio-tabs1" exact>
                             <b-tabs>
                                 <b-tab title="Notifications" class="tabs_cont" active>
@@ -136,8 +136,8 @@
                                 <b-tab title="Updates" disabled>
                                 </b-tab>
                             </b-tabs>
-                        </b-dropdown-item>-->
-                    </b-dropdown>
+                        </b-dropdown-item>
+                    </b-dropdown>-->
                     <!-- User Account: style can be found in dropdown-->
                     <b-dropdown class="user user-menu bell_bg user_btn" right link>
                         <span slot="text">

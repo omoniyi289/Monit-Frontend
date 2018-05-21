@@ -256,7 +256,7 @@ export default {
                 }
                     axios.patch(store.state.host_url+url+this.model.id, user_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
@@ -295,7 +295,7 @@ export default {
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           this.available_companies = response.data.data;;
@@ -303,7 +303,7 @@ export default {
           axios.get(this.$store.state.host_url+"/stations",
                     {
                         headers : {
-                        "Authorization" : "Bearer " + user_details.token
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         this.company_stations = response.data.data;
@@ -322,7 +322,7 @@ export default {
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           this.available_companies = response.data.data;;
@@ -333,7 +333,7 @@ export default {
              axios.get(this.$store.state.host_url+"/stations/by_company/"+this.csu_company.id,
                     {
                         headers : {
-                        "Authorization" : "Bearer " + user_details.token
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         this.csu_stations = response.data.data;
@@ -349,7 +349,7 @@ export default {
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           ///one company
@@ -359,7 +359,7 @@ export default {
             axios.get(this.$store.state.host_url+"/stations/by_user/"+user_details.id,
                     {
                         headers : {
-                        "Authorization" : "Bearer " + user_details.token
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         var stations = response.data.data;
@@ -371,7 +371,7 @@ export default {
                         axios.get(this.$store.state.host_url+"/company_users/"+user_details.id,
                         {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                             this.myrole = response.data.data.role.name;
                         });

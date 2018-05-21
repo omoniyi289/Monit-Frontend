@@ -365,7 +365,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
@@ -391,7 +391,7 @@
           axios.get(this.$store.state.host_url+"/expenses/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
@@ -430,7 +430,7 @@
           };
           axios.post(this.url, expense_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");

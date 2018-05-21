@@ -190,8 +190,11 @@
 </template>
 <script>
     import Vue from 'vue'; import store from 'src/store/store.js';
-    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-    import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import csview from "components/plugins/Company-Station-View/CSView.vue";
+    import VueForm from "vue-form";     
+    import vueSmoothScroll from 'vue-smoothscroll';     
+    Vue.use(vueSmoothScroll);
     import options from "src/validations/validations.js";
     Vue.use(VueForm, options);
     export default {
@@ -297,7 +300,7 @@
                     axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
                         {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }}).then(response => {
                         store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
@@ -320,7 +323,7 @@
             } , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.tank = data;
                     this.tank.submit_mode="UPDATE"
                 }else{
@@ -347,7 +350,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -380,7 +383,7 @@
                     if(this.tank.submit_mode == 'CREATE'){
                     axios.post(this.url, tank_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {
                     store.commit("activateLoader", "end");
@@ -400,7 +403,7 @@
                     console.log("here here");
                                 axios.patch(this.$store.state.host_url+"/tanks/"+this.tank.id, tank_detail, {
                                     headers : {
-                                        "Authorization" : "Bearer " + user_details.token
+                                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                                     }
                                 }).then( response => {                         
                                     store.commit("activateLoader", "end");        

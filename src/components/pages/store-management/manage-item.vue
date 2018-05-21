@@ -472,7 +472,7 @@
         axios.get(this.$store.state.host_url+"/items/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.tableData = response.data.data;
           this.show_setup_form=true;
@@ -494,7 +494,7 @@
         axios.get(this.$store.state.host_url+"/item-variants/by_item/"+item_id,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.tableData_2 = response.data.data;
           store.commit("activateLoader", "end");   
@@ -521,7 +521,7 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 console.log('slot action: ' + action, data.fullname, index);
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.item = data;
                     this.item.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -544,7 +544,7 @@
              onItemAction (action, data, index) {
                // this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
-                    this.fill_form = true;
+                    this.fill_form = true;this.button_text = "HIDE FORM";
                     this.item_variant = data;
                     this.item_variant.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -570,7 +570,8 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.$store.state.host_url+"/item-variants/"+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache",
+                                "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -591,7 +592,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -624,7 +625,7 @@
           };
           axios.post(this.url, item_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
@@ -648,7 +649,7 @@
                       };
                     axios.patch(this.url, item_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
@@ -692,7 +693,7 @@
           };
           axios.post(this.$store.state.host_url+"/item-variants", item_variant_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
@@ -718,7 +719,7 @@
                     };
                     axios.patch(this.$store.state.host_url+"/item-variants", item_variant_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

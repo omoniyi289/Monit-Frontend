@@ -229,7 +229,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
@@ -252,7 +252,7 @@
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(stock_response => {
          
        if(stock_response.data.data.length == 0){
@@ -269,7 +269,7 @@
          }else{
            ///date///
          
-         this.set_date = stock_response.data.data[0].created_at;
+         this.set_date = stock_response.data.data[0].reading_date;
 
            this.station_tanks = stock_response.data.data;
             this.close_tank_reading = [];
@@ -285,7 +285,7 @@
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(pump_response => {
                 store.commit("activateLoader", "end");
             this.station_pumps = pump_response.data.data;
@@ -342,22 +342,22 @@
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.final_stock_info.created_by = user_details.id;
           this.final_stock_info.readings = this.close_tank_reading;
-          this.final_stock_info.created_at = this.set_date;
+          this.final_stock_info.reading_date = this.set_date;
           ////pumps///
           this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-          this.final_pump_info.created_at = this.set_date;
+          this.final_pump_info.reading_date = this.set_date;
           
           axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         store.commit("activateLoader", "end");
               axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
             }).then( response => {                         
               store.commit("activateLoader", "end");

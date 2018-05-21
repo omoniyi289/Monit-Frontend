@@ -176,7 +176,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
@@ -199,7 +199,7 @@
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           this.available_companies = response.data.data;;
@@ -216,7 +216,7 @@
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           this.available_companies = response.data.data;;
@@ -227,7 +227,7 @@
              axios.get(this.$store.state.host_url+"/stations/by_company/"+this.csu_company.id,
                     {
                         headers : {
-                        "Authorization" : "Bearer " + user_details.token
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         this.csu_stations = response.data.data;
@@ -243,7 +243,7 @@
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
           ///one company
@@ -253,7 +253,7 @@
             axios.get(this.$store.state.host_url+"/stations/by_user/"+user_details.id,
                     {
                         headers : {
-                        "Authorization" : "Bearer " + user_details.token
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         var stations = response.data.data;
