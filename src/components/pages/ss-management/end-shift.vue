@@ -159,7 +159,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
@@ -181,7 +181,7 @@
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
        if(response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
@@ -206,7 +206,7 @@
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.station_pumps = response.data.data;
@@ -258,7 +258,7 @@
           
           axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => { 
                     store.commit("activateLoader", "end");

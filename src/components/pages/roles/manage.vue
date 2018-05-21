@@ -201,7 +201,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
@@ -230,7 +230,7 @@
           axios.get(this.$store.state.host_url+"/roles/by_company/"+company_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             store.commit("activateLoader", "end");  
             this.tableData = response.data.data;
@@ -261,7 +261,7 @@
               axios.get(this.$store.state.host_url+"/permissions",
                 {
                   headers : {
-                    "Authorization" : "Bearer " + user_details.token
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
                 //
                 this.available_privileges = response.data.data;
@@ -311,7 +311,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -348,7 +348,7 @@
            if(this.role.submit_mode == 'CREATE'){
           axios.post(this.url, role_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
@@ -386,7 +386,7 @@
           console.log("here here");
                     axios.patch(this.url+"/"+this.role.id, role_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

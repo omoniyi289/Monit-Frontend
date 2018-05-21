@@ -216,7 +216,7 @@
           axios.get(this.$store.state.host_url+"/product_price/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
@@ -229,7 +229,7 @@
           axios.get(this.$store.state.host_url+"/product_price_change/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");   
             this.log_tableData = response.data.data;
@@ -289,7 +289,7 @@
           };
           axios.post(this.url+'/execute/', price_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {
             store.commit("activateLoader", "end");    
@@ -321,7 +321,7 @@
           axios.get(store.state.host_url+"/products",
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
                 this.products = response.data.data;
       });

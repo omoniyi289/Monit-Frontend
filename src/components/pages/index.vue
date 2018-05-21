@@ -320,7 +320,7 @@
           axios.get(store.state.host_url+company_route,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           
             this.final_data = response.data.data;

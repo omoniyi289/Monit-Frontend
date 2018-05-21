@@ -176,7 +176,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
           this.company_stations = response.data.data;
@@ -200,7 +200,7 @@
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
        if(response.data.data.length > 0){
          ///station has data
@@ -229,7 +229,7 @@
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             this.station_pumps = response.data.data;
             this.open_pump_reading = [];
@@ -243,7 +243,7 @@
             axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             this.station_tanks = response.data.data;
             this.open_tank_reading = [];
@@ -287,13 +287,13 @@
 
           axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
               axios.post(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }
               }).then( response => {                         
                 store.commit("activateLoader", "end");

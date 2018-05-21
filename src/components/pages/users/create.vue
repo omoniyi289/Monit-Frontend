@@ -318,14 +318,14 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.company_stations = response.data.data;
           ///get roles///
             axios.get(this.$store.state.host_url+"/roles/by_company/"+company_name,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
             this.available_roles = response.data.data;
           });
@@ -333,7 +333,7 @@
           axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_name,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
@@ -391,7 +391,7 @@
               axios.get(this.$store.state.host_url+"/notifications",
                 {
                   headers : {
-                    "Authorization" : "Bearer " + user_details.token
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
                 //
                 this.company_notifications = response.data.data;
@@ -438,7 +438,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -469,7 +469,7 @@
           if(this.user.submit_mode == 'CREATE'){
           axios.post(this.url, user_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
@@ -524,7 +524,7 @@
         else if(this.user.submit_mode == 'UPDATE'){
                     axios.patch(this.url+"/"+this.user.id, user_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

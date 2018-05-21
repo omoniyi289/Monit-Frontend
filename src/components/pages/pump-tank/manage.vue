@@ -292,7 +292,7 @@
         axios.get(host_url+"/stations/by_company/"+company_id,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.company_stations = response.data.data;
       
@@ -318,7 +318,7 @@
           axios.get(host_url+"/pumps-tanks/by_station/"+station_id,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             store.commit("activateLoader", "end");
             this.pumpgroup_tableData = response.data.data[0].pump_groups;
@@ -388,7 +388,7 @@
             axios.post(this.$store.state.host_url+"/pump_groups",pumpgroup_detail,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
               store.commit("activateLoader", "end");   
        
@@ -435,7 +435,7 @@
             axios.post(this.$store.state.host_url+"/pumps-tanks", {'p_t_group' : this.p_t_group},
               {
                   headers : {
-                    "Authorization" : "Bearer " + user_details.token
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
                 store.commit("activateLoader", "end");
                 this.map_tableData= response.data.data;
@@ -476,7 +476,7 @@
             axios.post(host_url+"/tank_groups", tankgroup_detail,
               {
                 headers : {
-                  "Authorization" : "Bearer " + user_details.token
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
              store.commit("activateLoader", "end");
               this.tankgroup_tableData.push(response.data.data);
@@ -525,7 +525,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(store.state.host_url+url+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        

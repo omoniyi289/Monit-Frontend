@@ -21,14 +21,14 @@ let actions = {
         axios.get(this.$store.state.host_url+"/companies",
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
         this.available_companies = response.data.data;store.commit("activateLoader", "end");   
         ///get products///
         axios.get(this.$store.state.host_url+"/products",
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           console.log(response.data.data);
         this.products = response.data.data;

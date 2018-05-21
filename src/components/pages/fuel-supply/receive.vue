@@ -269,7 +269,7 @@
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
           {
             headers : {
-              "Authorization" : "Bearer " + user_details.token
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
@@ -294,7 +294,7 @@
           axios.get(this.$store.state.host_url+"/stock-received/params?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");                  
               this.tableData = response.data.data;
@@ -335,7 +335,7 @@
           };
           axios.post(this.url, fuel_supply_detail, {
             headers : {
-              "Authorization" : "Bearer " + user_details.token,
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache",
               
             }
           }).then( response => {
@@ -376,7 +376,7 @@
           axios.get(this.$store.state.host_url+"/fuel-supply/by_request_code/params?"+params,
             {
               headers : {
-                "Authorization" : "Bearer " + user_details.token
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
                 store.commit("activateLoader", "end");  
                     this.is_code_valid= true;

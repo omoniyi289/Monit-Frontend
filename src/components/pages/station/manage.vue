@@ -564,7 +564,7 @@
                     axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
                         {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }}).then(response => {
                                 store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
@@ -620,7 +620,7 @@
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
                 axios.delete(this.url+'/'+data.id, {
                             headers : {
-                                "Authorization" : "Bearer " + user_details.token
+                                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
@@ -649,7 +649,7 @@
                     if(this.station.submit_mode == 'CREATE'){
                     axios.post(this.url, station_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");
@@ -675,7 +675,7 @@
                     else if(this.station.submit_mode == 'UPDATE'){
                     axios.patch(this.url+"/"+this.station.id, station_detail, {
                         headers : {
-                            "Authorization" : "Bearer " + user_details.token
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        

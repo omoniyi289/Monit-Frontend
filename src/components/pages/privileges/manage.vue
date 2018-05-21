@@ -72,7 +72,7 @@
               axios.get(this.$store.state.host_url+"/permissions",
                 {
                   headers : {
-                    "Authorization" : "Bearer " + user_details.token
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
                 console.log(response.data.data);
                 this.tableData = response.data.data;
