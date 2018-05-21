@@ -11,6 +11,7 @@ ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChecking=no ubunt
     sudo mv ./temp ./live
     #sudo mv ./node-mods-bk ./live/node_modules # move node modules back
     sudo mkdir ./temp # create new temp directory for next deployment
+    sudo chown -R ubuntu:ubuntu ./temp
     cd ./live
     #export PATH=/var/lib/jenkins/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/recent_node/bin/
     #npm install
