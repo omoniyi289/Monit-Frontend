@@ -17,5 +17,5 @@ ssh -i /var/lib/jenkins/.ssh/e360_prod_kp2.pem -o StrictHostKeyChecking=no ubunt
     #npm run dev
     sudo find dist/ -type f -exec sed -i 's#"/images#"images#g' {} \;
     sudo chmod -R 755 .
-    sudo chown -R www-data:www-data .
+    #sudo chown -R www-data:www-data .
 EOF
