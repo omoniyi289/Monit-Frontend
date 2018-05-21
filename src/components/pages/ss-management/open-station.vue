@@ -221,6 +221,7 @@
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                       'alert_message': 'Readings already exist for today', 'show_alert': true});
             this.show_setup_form= false;  
+             store.commit("activateLoader", "end");
          return;
          }
          this.show_setup_form= true;    

@@ -187,6 +187,7 @@
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
+                        store.commit("activateLoader", "end");   
        }else{
          this.set_date = response.data.data[0].reading_date;
          if(response.data.data[0].shift_1_totalizer_reading == null){
@@ -197,6 +198,7 @@
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'Data already entered for two shifts', 'show_alert': true});
           this.show_setup_form= false;
+           store.commit("activateLoader", "end");   
           return;
          }
           let station_id= this.preset.station_id;
