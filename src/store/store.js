@@ -19,6 +19,8 @@ try{
 let username='';
 let host_url='';
 if(process.env.NODE_ENV == 'production'){
+    host_url = "https://api.e360stationmanager.com/api/v1";
+}else if(process.env.NODE_ENV == 'staging'){
     host_url = "http://sm2.api.energy360africa.com/api/v1";
 }else{
     host_url=  "http://localhost:8000/api/v1";

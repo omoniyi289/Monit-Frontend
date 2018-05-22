@@ -2,16 +2,6 @@ let mix = require('laravel-mix')
 const path = require('path')
 
 /*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your application.
- |
- */
-
-/*
  * npm i jquery --save or yarn add jquery
  * commentout below code to enable juery autoloading
  * this allows you to use $() in all files.
@@ -37,7 +27,8 @@ mix.webpackConfig({
     },
     // https://github.com/JeffreyWay/laravel-mix/issues/936#issuecomment-331418769
     output: {
-        chunkFilename: mix.inProduction() ? 'js/[name].[chunkhash].js' : 'js/[name].js'
+        //chunkFilename: mix.inProduction() ? 'js/[name].[chunkhash].js' : 'js/[name].js'
+        chunkFilename:  'js/[name].[chunkhash].js'
     }
 });
 
