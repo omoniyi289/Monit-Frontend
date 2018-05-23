@@ -232,7 +232,7 @@
         },
      onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data, index);
+      //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
         if(data.status != "<span class='btn btn-warning btn-sm' >Completed</span>"){
             store.commit("showAlertBox", {'alert_type': 'alert-danger',
@@ -242,7 +242,7 @@
         this.item_variant = data;
         this.approve = true;
         }
-        //console.log(data);
+        ////console.log(data);
         
       }
     },
@@ -257,7 +257,7 @@
           this.item_variant.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.item_variant.received_by= user_details.id;
-          console.log(this.item_variant);
+          //console.log(this.item_variant);
              let item_variant = {
             item_variant: this.item_variant
           };

@@ -243,12 +243,12 @@
             this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
           }
             });
-            console.log(response.data.data);
+            //console.log(response.data.data);
         });
         }},
      onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data, index);
+      //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
         if(data.status != "<span class='btn btn-warning btn-sm' >Not yet Approved</span>")
         {

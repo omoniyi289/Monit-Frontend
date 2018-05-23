@@ -321,7 +321,7 @@
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
-          console.log(station_id);
+          //console.log(station_id);
           axios.get(this.$store.state.host_url+"/deposits/by_station/"+station_id,
             {
               headers : {
@@ -376,7 +376,7 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");
-            console.log(response.data);
+            //console.log(response.data);
             let station_response = response.data;
           if (station_response.status === true) {
               this.tableData.push(station_response.data);

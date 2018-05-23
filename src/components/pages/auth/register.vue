@@ -162,10 +162,10 @@ export default {
                 user: this.model
             };
             this.submit_btn = "Registering...";
-            //console.log(JSON.stringify(user_details));
+            ////console.log(JSON.stringify(user_details));
             let host_url = this.$store.state.host_url;
             axios.post(host_url+'/users', user_details).then(response => {
-                console.log(response.data);
+                //console.log(response.data);
             if (response.data.status == true) {
                 //this.model = {};
                 this.success_message = "Thanks for registering with us, " +
@@ -174,7 +174,7 @@ export default {
                 this.show_success = true;
             }
         }).catch(error => {
-                console.log(error);
+                //console.log(error);
                 this.show_error = true;
                 this.error_message = error.response.data.message;
                 this.submit_btn = "Sign up";

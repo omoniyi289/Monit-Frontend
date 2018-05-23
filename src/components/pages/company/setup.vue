@@ -177,7 +177,7 @@
            show_available_companies(){
         this.products = store.state.products;
         if(store.state.show_single_company){
-            console.log(store.state.available_company);
+            //console.log(store.state.available_company);
           this.tableData.push(store.state.available_company);
          /* if(store.state.available_company != null){
             this.company = store.state.available_company;
@@ -190,7 +190,7 @@
       ,
     onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data.name, index);
+      //console.log('slot action: ' + action, data.name, index);
       if(action == 'edit'){
         this.company = data;
         this.company.submit_mode="UPDATE"
@@ -242,7 +242,7 @@
                         company: this.company
                     };
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
-                    //console.log(JSON.stringify(company_detail));
+                    ////console.log(JSON.stringify(company_detail));
                     if(this.company.submit_mode == 'CREATE'){
                     axios.post(this.url, company_detail, {
                         headers : {
@@ -255,7 +255,7 @@
                         if (company_response.status === true) {
                             this.tableData.push(company_response.data);
                             localStorage.setItem('company_details', response.data);
-                            console.log(response.data.data);
+                            //console.log(response.data.data);
                             this.$alert.success({duration:10000,forceRender:'',
                             message:'Company Registered Successfully, please re-login to continue',transition:''});
                             this.formstate.$submitted=false;

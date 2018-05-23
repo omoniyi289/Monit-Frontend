@@ -278,7 +278,7 @@
       this.$refs.vuetable.changePage(page)
     },
     onAction (action, data, index) {
-      console.log('slot action: ' + action, data.name, index)
+      //console.log('slot action: ' + action, data.name, index)
     },
            show_available_companies(){ store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -287,7 +287,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
-          console.log(response.data.data);
+          //console.log(response.data.data);
         this.tableData = response.data.data;
         ///get products///
         axios.get(this.$store.state.host_url+"/products",
@@ -295,7 +295,7 @@
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
-          console.log(response.data.data);
+          //console.log(response.data.data);
         this.products = response.data.data;
       });
       })
@@ -314,7 +314,7 @@
                         company: this.company
                     };
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
-                    console.log(JSON.stringify(company_detail));
+                    //console.log(JSON.stringify(company_detail));
                     axios.post(this.url, company_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -326,7 +326,7 @@
                         if (company_response.status === true) {
                             this.tableData.push(response.data);
                             localStorage.setItem('company_details', response.data);
-                            //console.log(response.data);
+                            ////console.log(response.data);
                             store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Company Registered Successfully', 'show_alert': true});
                         }

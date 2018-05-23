@@ -251,7 +251,7 @@
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           //get stations
           this.company_stations_null= "No stations added yet, please add stations under configuration to proceed with creating regions";
-          console.log(this.company_stations_null);
+          //console.log(this.company_stations_null);
           axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
             {
               headers : {
@@ -325,7 +325,7 @@
                 }
                 },
                 if_part(id){
-                 //  console.log(id);
+                 //  //console.log(id);
                   return this.registered_priv_ids.includes(id);
                 },
             deleteItem(data){
@@ -363,7 +363,7 @@
         store.commit("activateLoader", "start");
         this.region.station_id= this.preset.station_id;
         this.region.company_id= this.preset.company_id;
-          // console.log(this.region);
+          // //console.log(this.region);
         //   let new_ids=[];
         //  this.region.selected_stations_full.forEach(element => {
        //     new_ids.push(element.id);
@@ -372,7 +372,7 @@
           let region_detail = {
             region: this.region
           };
-          console.log(this.region);
+          //console.log(this.region);
           let user_details = JSON.parse(localStorage.getItem('user_details'));
            if(this.region.submit_mode == 'CREATE'){
           axios.post(this.url, region_detail, {
@@ -383,7 +383,7 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            console.log(response.data.data);
+            //console.log(response.data.data);
                   this.tableData.push(response.data.data);
                   this.tableData.forEach((item, index) => {
                   let perm='';
@@ -412,14 +412,14 @@
         })
         }
         else if(this.region.submit_mode == 'UPDATE'){
-          console.log("here here");
+          //console.log("here here");
                     axios.patch(this.url+"/"+this.region.id, region_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         let company_response = response.data;
                         if (company_response.status === true) {
                           //update UI table data, not working yet

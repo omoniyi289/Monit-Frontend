@@ -302,7 +302,7 @@
                 }
                 },
                 if_part(id){
-                 //  console.log(id);
+                 //  //console.log(id);
                   return this.registered_priv_ids.includes(id);
                 },
             deleteItem(data){
@@ -334,7 +334,7 @@
        store.commit("activateLoader", "start");
           this.role.station_id= this.preset.station_id;
           this.role.company_id= this.preset.company_id;
-          // console.log(this.role);
+          // //console.log(this.role);
         //   let new_ids=[];
         //  this.role.selected_privileges_full.forEach(element => {
        //     new_ids.push(element.id);
@@ -343,7 +343,7 @@
           let role_detail = {
             role: this.role
           };
-          console.log(this.role);
+          //console.log(this.role);
           let user_details = JSON.parse(localStorage.getItem('user_details'));
            if(this.role.submit_mode == 'CREATE'){
           axios.post(this.url, role_detail, {
@@ -354,7 +354,7 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            //console.log(response.data);
+            ////console.log(response.data);
                   this.tableData.push(response.data.data);
                   this.tableData.forEach((item, index) => {
                   let perm='';
@@ -383,14 +383,14 @@
         })
         }
         else if(this.role.submit_mode == 'UPDATE'){
-          console.log("here here");
+          //console.log("here here");
                     axios.patch(this.url+"/"+this.role.id, role_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         let company_response = response.data;
                         if (company_response.status === true) {
                           //update UI table data, not working yet

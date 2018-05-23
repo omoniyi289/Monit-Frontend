@@ -296,7 +296,7 @@
                     this.show_setup_form= true;
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
                     let station_id= this.preset.station_id;
-                    console.log(station_id);
+                    //console.log(station_id);
                     axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
                         {
                             headers : {
@@ -304,7 +304,7 @@
                             }}).then(response => {
                         store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
-                        console.log(response);
+                        //console.log(response);
                 })
                 .catch(function(error) {
                     store.commit("activateLoader", "end");
@@ -344,7 +344,7 @@
                 }
                 },
             deleteItem(data){
-                console.log("QSAdtfgyuhj");
+                //console.log("QSAdtfgyuhj");
                 store.commit("activateLoader", "start");
                 this.$modal.hide('dialog');
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -400,7 +400,7 @@
                     store.commit("catch_errors", error); 
                 });}
                     else if(this.tank.submit_mode == 'UPDATE'){
-                    console.log("here here");
+                    //console.log("here here");
                                 axios.patch(this.$store.state.host_url+"/tanks/"+this.tank.id, tank_detail, {
                                     headers : {
                                         "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

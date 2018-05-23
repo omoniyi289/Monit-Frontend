@@ -74,7 +74,7 @@
                   headers : {
                     "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                   }}).then(response => {
-                console.log(response.data.data);
+                //console.log(response.data.data);
                 this.tableData = response.data.data;
                  this.tableData.forEach((item, index) => {
               //this.$set(item, "action", "<a class='btn btn-info' href='#/admin/roles/edit?role=" + item.id + "'></a>");

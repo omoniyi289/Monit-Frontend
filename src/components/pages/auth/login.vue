@@ -110,7 +110,7 @@ export default {
             if (this.formstate.$invalid) {
                 return;
             } else {
-            console.log("loggin in");
+            //console.log("loggin in");
             this.login_submit = "Logging In...";
             let host_url = this.$store.state.host_url;
             axios.post(host_url+'/auth', JSON.stringify(this.user), {
@@ -118,10 +118,10 @@ export default {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
-                console.log('main resp');
+                //console.log('main resp');
             let auth_response = response.data;
             if (auth_response.status === true) {
-                console.log('rwsponse!');
+                //console.log('rwsponse!');
                 this.login_submit = "LOGIN";
                 let user_data = auth_response.data;
                     localStorage.setItem('user_details',JSON.stringify(user_data));
@@ -139,13 +139,13 @@ export default {
             if (error.status === false){
                 this.login_submit = "LOGIN";
                 this.show_error = true;
-                console.log('reset password!');
+                //console.log('reset password!');
                 this.message =  error.message;
             }
             this.show_error = true;
             this.error_message = error.response.data.message;
             this.login_submit = "LOGIN";
-            //console.log(error.message);
+            ////console.log(error.message);
         })}
         }
        }

@@ -237,7 +237,7 @@ export default {
                 return;
             } else {
               // this.$router.push("/edit_users");
-               console.log(this.model);
+               //console.log(this.model);
                 let url='';
                 let user_detail= '';
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -260,7 +260,7 @@ export default {
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         let company_response = response.data;
                         if (company_response.status === true) {
                          let password_message= "";
@@ -287,7 +287,7 @@ export default {
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
         var company_route = '';
-        //console.log(user_details);
+        ////console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           this.myrole = "e360 Super User";
@@ -364,7 +364,7 @@ export default {
                         store.commit("activateLoader", "end");   
                         var stations = response.data.data;
                         stations.forEach((item, index) => {
-                            console.log(item);
+                            //console.log(item);
                             this.cru_stations.push(item.station);
                         });
 

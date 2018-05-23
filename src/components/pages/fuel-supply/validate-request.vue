@@ -65,14 +65,14 @@ export default {
             let fuel_supply = {
                 details: this.fuel_supply
             }
-           // console.log(fuel_supply);
+           // //console.log(fuel_supply);
              axios.post(this.url, fuel_supply,  {
                 headers: {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
             this.loading= false;
-            console.log(response.data.data);
+            //console.log(response.data.data);
           if(response.data.data == 0){
                 this.error_show_message = true;
             this.message = 'Invalid Code Supplied';
@@ -81,14 +81,14 @@ export default {
                 this.message =this.fuel_supply.status;
             }
             
-            //console.log(response);
+            ////console.log(response);
         }).catch(error => { 
             store.commit("activateLoader", "end");  
              this.loading= false;
          store.commit("catch_errors", error);       
              this.error_show_message = true;
             this.message = error.response.data.message;
-            console.log(error.message);
+            //console.log(error.message);
         });
     },
     destroyed: function() {

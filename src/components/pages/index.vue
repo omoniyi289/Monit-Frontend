@@ -274,7 +274,7 @@
             if(url.includes('company_user')){
                 this.$route.query.company_user = undefined;
                 //do a reload to set menu permissions to the newly stored        
-                console.log("here");
+                //console.log("here");
                 //this.$forceUpdate();
                 // vm.$forceUpdate();
                 window.location.href = "/#/index/";
@@ -290,7 +290,7 @@
             store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         var company_route = '';
-       // console.log(this.start_date);
+       // //console.log(this.start_date);
        // return;
         if(this.start_date != 'init'){
         this.start_date = new Date(this.start_date).toDateString();
@@ -298,7 +298,7 @@
         if(this.end_date != 'init'){
         this.end_date = new Date(this.end_date).toDateString();
         }
-        //console.log(user_details);
+        ////console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           this.is_e360_super_user = true;
@@ -336,7 +336,7 @@
          return [key, table_data[key]];
          });
           }catch(error){
-              console.log(error);
+              //console.log(error);
           }
          table_data_by_date= table_data_by_date.reverse();
          ////by date///////
@@ -375,7 +375,7 @@
                 var ppv= 0;
                 let product = element[0];
                 let stock_and_pump_data = element[1];
-                //console.log(stock_and_pump_data);
+                ////console.log(stock_and_pump_data);
                 var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
             return [key, stock_and_pump_data[key]];
             });
@@ -436,7 +436,7 @@
                 //all return readings with real values return station, just pick one
                 
                 //if(station_name !='c'){
-                    //console.log(station_name);
+                    ////console.log(station_name);
                  
                //    }
                 ppv_string = '<span class="'+product+'">'+ppv_string + ppv.toLocaleString() +'</span><br>';

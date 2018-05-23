@@ -1419,7 +1419,7 @@ var jsPDF = (function(global) {
           }
           //curY = f2((pageHeight - (y - this._runningPageHeight)) * k);
           //			if (curY < 0){
-          //				console.log('auto page break');
+          //				//console.log('auto page break');
           //				this.addPage();
           //				this._runningPageHeight = y -  (activeFontSize * 1.7 / k);
           //				curY = f2(pageHeight - activeFontSize * 1.7 /k);

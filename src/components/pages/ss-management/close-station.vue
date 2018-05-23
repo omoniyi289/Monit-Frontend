@@ -301,7 +301,7 @@
             'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
             }
           });
-         // console.log(this.close_tank_reading);
+         // //console.log(this.close_tank_reading);
   
         })
         .catch(function(error) {
@@ -324,7 +324,7 @@
       }
       ,
       update_price_panel(tabledata_id){
-        console.log(tabledata_id);
+        //console.log(tabledata_id);
       },
       onSubmit() {
         this.$SmoothScroll(document.getElementById("content-header"));

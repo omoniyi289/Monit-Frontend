@@ -246,12 +246,12 @@
           }
           
             });
-            console.log(response.data.data);
+            //console.log(response.data.data);
         });
         }},
      onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data, index);
+      //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
         if(data.status != "<span class='btn btn-info btn-sm' >Approved</span>")
         {

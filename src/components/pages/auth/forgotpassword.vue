@@ -77,7 +77,7 @@ export default {
             if (this.formstate.$invalid) {
                 return;
             } else {
-                 console.log(JSON.stringify(this.user));
+                 //console.log(JSON.stringify(this.user));
             this.login_submit = "Please Wait...";
             let host_url = this.$store.state.host_url;
             axios.post(host_url+'/auth/forgotpass/verifyemail', {'email': this.model.email}, {
@@ -96,7 +96,7 @@ export default {
             this.show_success = false;
             this.error_message = error.response.data.message;
             this.login_submit = "Send Confirmation Mail";
-            //console.log(error.message);
+            ////console.log(error.message);
         });
             }
         }
