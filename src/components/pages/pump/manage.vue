@@ -205,7 +205,7 @@
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
-          console.log(station_id);
+          //console.log(station_id);
           axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
             {
               headers : {
@@ -213,7 +213,7 @@
               }}).then(response => {
             store.commit("activateLoader", "end");   
             this.tableData = response.data.data;
-          console.log(response);
+          //console.log(response);
         
         })
         .catch(function(error) {
@@ -255,9 +255,9 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            //console.log(response.data);
+            ////console.log(response.data);
            this.tableData = response.data.data;
-          store.commit("showAlertBox", {'alert_type': 'alert-success',
+           store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Pump Added Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                         this.pump= {submit_mode: "CREATE"};
@@ -268,7 +268,7 @@
            
         });}
         else if(this.pump.submit_mode == 'UPDATE'){
-          console.log("here here");
+          //console.log("here here");
                     axios.patch(this.$store.state.host_url+"/pumps/"+this.pump.id, pump_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

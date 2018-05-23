@@ -42,14 +42,14 @@ let mutations = {
       
       },
     catch_errors(state, payload){
-        console.log(payload);
+        //console.log(payload);
         if(payload.response.status == 401){
             window.location.href='/#/login?message='+payload.response.data.error;
           }
           else if(payload.response.status == 500){
             state.show_alert= true;
             var error = payload.response.data.message+"";
-            console.log(payload.response.data.message);
+            //console.log(payload.response.data.message);
             if(error.includes('Integrity constraint violation')){
             state.alert_message = payload.message+", attempting to delete data already in use";
             }else{

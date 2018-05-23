@@ -387,7 +387,7 @@
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let station_id= this.preset.station_id;
-          console.log(station_id);
+          //console.log(station_id);
           axios.get(this.$store.state.host_url+"/expenses/by_station/"+station_id,
             {
               headers : {
@@ -423,7 +423,7 @@
           this.expense.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.expense.created_by= user_details.id;
-          //console.log(this.expense);
+          ////console.log(this.expense);
           //return;
            let expense_detail = {
             expense_header : this.expense
@@ -480,7 +480,7 @@
               //  this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'view'){
                     this.items_tableData = data.items;
-                    console.log(data.items);
+                    //console.log(data.items);
                     this.add_items= false;
                     this.view_items= true;
                     this.show_setup_form= true;

@@ -238,7 +238,7 @@
       }
       ,
       update_price_panel(tabledata_id){
-        console.log(tabledata_id);
+        //console.log(tabledata_id);
       },
       onSubmit() {
         if (this.formstate.$invalid) {
@@ -275,7 +275,7 @@
                   if(error.response.status == 401){
                   this.$router.push('/login?message='+error.response.data.error);
                 }
-                console.log(error);
+                //console.log(error);
               });
             }
         store.commit("activateLoader", "end");

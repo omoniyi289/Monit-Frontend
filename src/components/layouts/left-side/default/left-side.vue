@@ -50,7 +50,7 @@ export default {
    
     mounted: function() {
         let user_data = JSON.parse(localStorage.getItem('user_details'));
-        console.log(user_data.role_id);
+        //console.log(user_data.role_id);
         if(user_data.role_id == 'master' || user_data.role_id == 'super'){
             this.final_permissions= this.f_menu_items("all");
         }else{
@@ -81,12 +81,12 @@ export default {
         //  var r_p_array = [];
         //  r_p_array = JSON.parse(localStorage.getItem('role_details'));  
             r_p_array.role_permissions.forEach((item, index) => {
-                //console.log(item); 
+                ////console.log(item); 
                 if(item.permission !== null){
                 permissions.push(item.permission.UI_slug);
                 }
             });
-           // console.log(permissions);
+           // //console.log(permissions);
         }
 
        let menu_items=[];
@@ -160,7 +160,7 @@ export default {
                         child: [],
                             });
                         var current_index = menu_items.length-1;    
-                        //console.log(menu_items);   
+                        ////console.log(menu_items);   
                          if(permissions.includes('CMSt')){
                     menu_items[current_index].child.push({
                         name: 'Manage Stations',
@@ -317,7 +317,7 @@ export default {
                     }]
                     }); 
                             }
-        //console.log(menu_items);
+        ////console.log(menu_items);
         return menu_items;
         }
   },

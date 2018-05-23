@@ -68,7 +68,7 @@
             getLocation() {
                 var x = this;
                 geolocator.locate(options, function (err, location) {
-                    if (err) return console.log(err);
+                    if (err) return //console.log(err);
                     x.cords = location;
                     x.showdata();
                 });
@@ -84,7 +84,7 @@
                     "&units=metric&cnt=7").then(response => {
                     this.weather = response.data
                 }).catch(error => {
-                    console.log(error)
+                    //console.log(error)
                 });
             },
             getday(dt) {

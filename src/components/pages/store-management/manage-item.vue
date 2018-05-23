@@ -519,7 +519,7 @@
       }
         , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
-                console.log('slot action: ' + action, data.fullname, index);
+                //console.log('slot action: ' + action, data.fullname, index);
                 if(action == 'edit'){
                     this.fill_form = true;this.button_text = "HIDE FORM";
                     this.item = data;
@@ -631,7 +631,7 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            console.log(response.data.data);
+            //console.log(response.data.data);
              this.tableData.push(response.data.data);  
             this.$alert.success({duration:10000,forceRender:'',
             message:'Item registered successfully',transition:''});
@@ -653,7 +653,7 @@
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         this.$alert.success({duration:10000,forceRender:'',
                         message:'Item Updated Successfully',transition:''});
                         this.formstate.$submitted=false;
@@ -699,7 +699,7 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            console.log(response.data.data);
+            //console.log(response.data.data);
              this.tableData_2.push(response.data.data); 
             this.$SmoothScroll(document.getElementById("content-header")); 
             this.$alert.success({duration:10000,forceRender:'',

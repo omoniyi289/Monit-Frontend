@@ -192,7 +192,7 @@
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
         var company_route = '';
-        //console.log(user_details);
+        ////console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           company_route = '/companies/e360_super_user';
@@ -258,7 +258,7 @@
                         store.commit("activateLoader", "end");   
                         var stations = response.data.data;
                         stations.forEach((item, index) => {
-                            console.log(item);
+                            //console.log(item);
                             this.cru_stations.push(item.station);
                         });
                 });

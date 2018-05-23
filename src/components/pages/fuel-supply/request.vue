@@ -217,7 +217,7 @@
           });
         }},
       show_available_companies(){ 
-       //console.log(store.state.show_multi_company + "multi3");
+       ////console.log(store.state.show_multi_company + "multi3");
        this.products = store.state.products;
         if(store.state.show_single_company){
           this.available_company = store.state.available_company;
@@ -230,7 +230,7 @@
       }
       ,
       update_price_panel(tabledata_id){
-        console.log(tabledata_id);
+        //console.log(tabledata_id);
       },
       onSubmit() {
         this.$SmoothScroll(document.getElementById("content-header"));
@@ -254,7 +254,7 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");
-            console.log(response.data);
+            //console.log(response.data);
             let station_response = response.data;
           if (station_response.status === true) {
       
@@ -296,7 +296,7 @@
             ///get approvals
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let params = 'UI_slug=AFRe&company_id='+this.preset.company_id+'&station_id='+this.preset.station_id; 
-          console.log(params);
+          //console.log(params);
           axios.get(this.$store.state.host_url+"/role_permissions/by_company?"+params,
               {
                 headers : {
@@ -309,7 +309,7 @@
                     element.roles.forEach(inner_element => {
                        
                        inner_element.users_via_permission.forEach(innest_element => {
-                         //console.log(innest_element);
+                         ////console.log(innest_element);
                          if(innest_element !== undefined){
                          this.approvers.push(innest_element);
                          }

@@ -232,11 +232,11 @@
             this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
           }
             });
-            console.log(response.data.data);
+            //console.log(response.data.data);
         });
         }},
       show_available_companies(){ 
-       //console.log(store.state.show_multi_company + "multi3");
+       ////console.log(store.state.show_multi_company + "multi3");
        this.products = store.state.products;
         if(store.state.show_single_company){
           this.available_company = store.state.available_company;
@@ -250,7 +250,7 @@
       ,
      onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data, index);
+      //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
         this.pricing = data;
         this.pricing.requested_price_tag = data.new_price_tag;
@@ -335,7 +335,7 @@
             ///get approvals
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let params = 'UI_slug=APCR&company_id='+this.preset.company_id+'&station_id='+this.preset.station_id; 
-          console.log(params);
+          //console.log(params);
           axios.get(this.$store.state.host_url+"/role_permissions/by_company?"+params,
               {
                 headers : {
@@ -348,7 +348,7 @@
                     element.roles.forEach(inner_element => {
                        
                        inner_element.users_via_permission.forEach(innest_element => {
-                         //console.log(innest_element);
+                         ////console.log(innest_element);
                          if(innest_element !== undefined){
                          this.approvers.push(innest_element);
                          }

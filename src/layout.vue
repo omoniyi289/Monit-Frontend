@@ -108,7 +108,7 @@
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         store.state.menu_items= JSON.parse(localStorage.getItem('role_details'));
         var company_route = '';
-        //console.log(user_details);
+        ////console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
           ///e360 super user
           company_route = '/companies/e360_super_user';
@@ -119,7 +119,7 @@
           ///for regular company users
           company_route = '/companies/company_user/'+user_details.company_id;
         }
-        //console.log(company_route);
+        ////console.log(company_route);
         axios.get(store.state.host_url+company_route,
           {
             headers : {

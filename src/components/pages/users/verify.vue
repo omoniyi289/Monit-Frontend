@@ -54,7 +54,7 @@ export default {
     },
    
     mounted: function() {
-            console.log(this.$route.query);
+            //console.log(this.$route.query);
             let id= this.$route.query.meta;
              axios.get(this.$store.state.host_url+"/users/verify/"+id,  {
                 headers: {
@@ -69,11 +69,11 @@ export default {
             this.message = response.data.message;
             }
             
-            //console.log(response);
+            ////console.log(response);
         }).catch(error => { store.commit("activateLoader", "end");   store.commit("catch_errors", error);       
             this.show_message = true;
             this.message = error.response.data.message;
-            console.log(error.message);
+            //console.log(error.message);
         });
     },
     destroyed: function() {

@@ -318,7 +318,7 @@
                 store.commit("activateLoader", "end");  
        
         this.tableData=response.data.data;
-        console.log(response.data.data);
+        //console.log(response.data.data);
         this.tableData.forEach((element, index) => {
         this.$set(element, "update", 
           "<btn class='btn btn-info' v-on:click="+this.number++ +"'>Edit</btn>");
@@ -361,7 +361,7 @@
               this.fuel_supply.new_seal_quantities=[],
               this.fuel_supply.latest_seal_quantities=[],
               this.fuel_supply.submit_mode="UPDATE REQUEST/GENERATE WAYBILL"
-              console.log(this.fuel_supply.stock_seal_numbers.length);   
+              //console.log(this.fuel_supply.stock_seal_numbers.length);   
             if(this.fuel_supply.stock_seal_numbers.length == 0){
                 this.first_time_seal_input = true;
                 this.return_time_seal_input = false;
@@ -371,7 +371,7 @@
                 this.fuel_supply.latest_seal_numbers.push(element.latest_seal_number);
                 this.fuel_supply.latest_seal_quantities.push(element.latest_seal_quantity);
               });
-              console.log(this.fuel_supply.latest_seal_numbers);
+              //console.log(this.fuel_supply.latest_seal_numbers);
 
 
         }
@@ -421,7 +421,7 @@
                 axios.get(this.url+'/print-waybill-pdf?request_code='+element.request_code, 
               { responseType: 'blob' }
             ).then( response => {
-                console.log(response);
+                //console.log(response);
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement('a');
                 link.href = url;
@@ -429,7 +429,7 @@
                 document.body.appendChild(link);
                 link.click();
             }).catch(error =>{
-              console.log(error);
+              //console.log(error);
             });
               }
 
@@ -454,7 +454,7 @@
       },
     onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
-      console.log('slot action: ' + action, data, index);
+      //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
         this.supply_reset();
         this.fuel_supply.id = data.id;

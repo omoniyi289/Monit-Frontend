@@ -568,7 +568,7 @@
                             }}).then(response => {
                                 store.commit("activateLoader", "end");
                         this.tableData = response.data.data;
-                    console.log(response.data.data);
+                    //console.log(response.data.data);
                     this.tableData.forEach((item, index) => {
                         this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
                 });
@@ -580,7 +580,7 @@
                 });
                 }},
             show_available_companies(){ 
-                     console.log(store.state.show_multi_company + "multi5");
+                     //console.log(store.state.show_multi_company + "multi5");
                     if(store.state.show_single_company){
                         this.available_company = store.state.available_company;
                         this.show_single_company = store.state.show_single_company;
@@ -592,7 +592,7 @@
                     }
             , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));
-                console.log('slot action: ' + action, data.name, index);
+                //console.log('slot action: ' + action, data.name, index);
                 if(action == 'edit'){
                     this.fill_form = true;this.button_text = "HIDE FORM";
                     this.station = data;
@@ -645,7 +645,7 @@
                         station: this.station
                     };
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
-                    console.log(JSON.stringify(station_detail));
+                    //console.log(JSON.stringify(station_detail));
                     if(this.station.submit_mode == 'CREATE'){
                     axios.post(this.url, station_detail, {
                         headers : {
@@ -655,7 +655,7 @@
                         store.commit("activateLoader", "end");
                         let station_response = response.data;
                             if (station_response.status === true) {
-                                console.log(response.data);
+                                //console.log(response.data);
                               this.tableData.push(response.data.data);
                               this.tableData.forEach((item, index) => {
                                 this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
@@ -679,7 +679,7 @@
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         let company_response = response.data;
                         if (company_response.status === true) {
                         

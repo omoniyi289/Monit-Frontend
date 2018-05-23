@@ -241,7 +241,7 @@
         //  table_data.item_variants=response.data.data.item_variants;
           table_data.item_variants=response.data.data.item_variants_by_station;
           ///set current item_variants to db items_variants
-          console.log(response.data.data.item_variants_by_station);
+          //console.log(response.data.data.item_variants_by_station);
           this.item_variants = table_data.item_variants;
           this.item_variants.forEach( (element, index) => {
             var quantity_transferred = 0;

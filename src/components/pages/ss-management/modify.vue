@@ -325,8 +325,8 @@
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.last_modified_by = user_details.id;
           this.final_pump_info.readings = this.close_pump_reading;
-          console.log(this.final_stock_info);
-          console.log(this.final_pump_info);
+          //console.log(this.final_stock_info);
+          //console.log(this.final_pump_info);
           axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

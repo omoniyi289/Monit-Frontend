@@ -332,7 +332,7 @@
                let pump_concat= '';
                item.pumps.forEach(element => {
                  pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
-                  console.log(element.pump_nozzle_code);
+                  //console.log(element.pump_nozzle_code);
                });
             this.$set(item, "registered_indexes", pump_concat);
         });
@@ -451,7 +451,7 @@
                        'alert_message': 'Map Created Successfully', 'show_alert': true});
                   })
                   .catch(function(error) {
-                      console.log(error);
+                      //console.log(error);
                       if(error.response.status == 401){
                         this.$router.push('/login?message='+error.response.data.error);
                       }
@@ -467,7 +467,7 @@
             this.tank_map.station_id = this.preset.station_id;
             this.tank_map.company_id= this.preset.company_id;
             this.tank_map.code= this.tank_map.name;
-            console.log(this.tank_map.selected_tanks);
+            //console.log(this.tank_map.selected_tanks);
             let tankgroup_detail = {
               tank_group: this.tank_map
             };
@@ -486,7 +486,7 @@
                 let tank_concat= '';
                this.tank_map.selected_tanks.forEach(element => {
                  tank_concat = tank_concat+ ' | '+ element.code;
-                 console.log(element.code);
+                 //console.log(element.code);
                });
                 this.$set(item, "registered_indexes", tank_concat);
                 }            
@@ -496,7 +496,7 @@
               })
               .catch(error => {
      
-                console.log(error);
+                //console.log(error);
               });
           }
       },

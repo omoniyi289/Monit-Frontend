@@ -30,7 +30,7 @@ let actions = {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
-          console.log(response.data.data);
+          //console.log(response.data.data);
         this.products = response.data.data;
       });
       })

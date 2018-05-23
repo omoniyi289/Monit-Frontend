@@ -7,7 +7,7 @@ import store from './store/store.js'
 import VueAnalytics from 'vue-analytics'
 import VModal from 'vue-js-modal'
 Vue.use(VModal, { dialog: true });
-console.log("main.js");
+//console.log("main.js");
 
         
 

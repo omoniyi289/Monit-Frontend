@@ -80,8 +80,8 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="serial_number"> Phone Number</label>
-                      <input v-model="user.phone_number" name="phone_number" type="text" required autofocus placeholder="Phone Number" class="form-control" id="serial_number"/>
+                      <label for="phone_number"> Phone Number</label>
+                      <input v-model="user.phone_number" name="phone_number" type="text" required autofocus placeholder="Phone Number" class="form-control" id="phone_number"/>
                       <field-messages name="phone_number" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Phone Number is a required field</div>
                       </field-messages>
@@ -219,16 +219,6 @@
           numeric: false,
           html: false,
         }, {
-          label: 'EMail',
-          field: 'email',
-          numeric: false,
-          html: false,
-        }, {
-          label: 'Phone',
-          field: 'phone_number',
-          numeric: true,
-          html: false,
-        }, {
           label: 'Stations',
           field: 'stations',
           numeric: true,
@@ -357,12 +347,11 @@
                        });
               }
               let notf='';
-              this.tableData[index]['selected_notifications']=[];              
+              this.tableData[index]['selected_notifications']=[];
               if(item.user_notifications !=undefined && item.user_notifications !=null){
               item.user_notifications.forEach((inner_item, inner_index) => {
                     var element = '';
-                  if(inner_item.module !=undefined && item.module !=null && 
-                  inner_item.module !=null && item.module !=undefined){
+                  if(inner_item.module !=undefined && inner_item.module !=null){
                       element = inner_item.module;
                       notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                       this.tableData[index]['selected_notifications'].push(element);
@@ -375,7 +364,7 @@
               
                   });
             this.show_setup_form=true;
-          //console.log(response.data.data);     
+            ////console.log(this.tableData);     
         });
 
       })
@@ -457,10 +446,13 @@
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
-        } else {
+        } 
+         else {
           store.commit("activateLoader", "start");
-          //include station and company_id
-         // this.users.station_id= this.preset.station_id;
+          //for users whose phone number isnt avaialable yet
+          if (this.user.phone_number.split(' ').join('')==""){
+          this.user.phone_number = "08000000000";
+          }
           this.user.company_id= this.preset.company_id;
           let user_detail = {
             user: this.user
@@ -475,9 +467,9 @@
             store.commit("activateLoader", "end");
             let station_response = response.data;
           if (station_response.status === true) {
-            console.log(response.data.data);
+            //console.log(response.data.data);
              this.tableData.push(response.data.data);  
-            //  console.log(inner_item);
+            //  //console.log(inner_item);
              this.tableData.forEach((item, index) => {
               let perm='';
               this.tableData[index]['selected_stations']=[];              
@@ -501,7 +493,7 @@
               if(item.user_notifications !==undefined && item.user_notifications !==null){
               item.user_notifications.forEach((inner_item, inner_index) => {
                     var element = '';
-                  if(inner_item.module !==undefined && item.module!== null){
+                  if(inner_item.module !==undefined && inner_item.module!== null){
                       element = inner_item.module;
                       notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                       this.tableData[index]['selected_notifications'].push(element);
@@ -528,7 +520,7 @@
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        console.log(response);
+                        //console.log(response);
                         let company_response = response.data;
                         if(company_response.status === true) {
                           this.tableData = response.data.data;
@@ -538,7 +530,7 @@
                           if(item.station_users !==undefined && item.station_users !=null){
                           item.station_users.forEach((inner_item, inner_index) => {
                                 var element = '';
-                                console.log(inner_item);
+                                //console.log(inner_item);
                               if(inner_item.station !=undefined && inner_item.station !=null){
                                   element = inner_item.station;
                                   perm=perm+"<span class='col-xs-4 btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
@@ -555,8 +547,7 @@
                           if(item.user_notifications !==undefined && item.user_notifications !==null){
                           item.user_notifications.forEach((inner_item, inner_index) => {
                                 var element = '';
-                              if(inner_item.module !=undefined && item.module !=null && 
-                                  inner_item.module !=null && item.module !=undefined){
+                              if(inner_item.module !=undefined && inner_item.module !=null){
                                   element = inner_item.module;
                                   notf=notf+"<span class='col-xs-4 btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
                                   this.tableData[index]['selected_notifications'].push(element);

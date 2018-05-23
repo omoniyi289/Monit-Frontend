@@ -64,14 +64,14 @@ export default {
             let product_change = {
                 details: this.product_change
             }
-            console.log(product_change);
+            //console.log(product_change);
              axios.post(this.url, product_change,  {
                 headers: {
                     'Content-type': 'application/json'
                          }
             }).then(response => {
             this.loading= false;
-            console.log(response.data.data);
+            //console.log(response.data.data);
           if(response.data.data == 0){
                 this.error_show_message = true;
             this.message = 'Invalid Code';
@@ -80,12 +80,12 @@ export default {
                 this.message =this.fuel_supply.status;
             }
             
-            //console.log(response);
+            ////console.log(response);
         }).catch(error => { store.commit("activateLoader", "end");  
          store.commit("catch_errors", error);       
             this.show_message = true;
             this.message = error.response.data.message;
-            console.log(error.message);
+            //console.log(error.message);
         });
     },
     destroyed: function() {

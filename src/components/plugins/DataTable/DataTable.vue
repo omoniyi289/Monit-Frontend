@@ -149,11 +149,11 @@
 
             erase(row, index) {
                 //this.$emit("rowClick", row, index);
-                console.log("erase");
+                //console.log("erase");
             },
              edit(row, index) {
               //  this.$emit("rowClick", row, index);
-                console.log("edit");
+                //console.log("edit");
             },
 
             exportExcel() {

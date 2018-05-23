@@ -317,7 +317,7 @@
       }
       ,
       update_price_panel(tabledata_id){
-        console.log(tabledata_id);
+        //console.log(tabledata_id);
       },
       onSubmit() {
         this.$SmoothScroll(document.getElementById("content-header"));
@@ -347,7 +347,7 @@
             axios.get(this.url+'/print-delivery-pdf?id='+element.id, 
             { responseType: 'blob' }
           ).then( response => {
-              console.log(response);
+              //console.log(response);
               const url = window.URL.createObjectURL(new Blob([response.data]));
               const link = document.createElement('a');
               link.href = url;
@@ -355,7 +355,7 @@
               document.body.appendChild(link);
               link.click();
           }).catch(error =>{
-            console.log(error);
+            //console.log(error);
           });}
             }
             );
