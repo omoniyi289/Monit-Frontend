@@ -17,7 +17,6 @@ Vue.use(VModal, { dialog: true });
 
 // Google Analytics
 const google_analytics_key = store.state.google_analytics_key
-
 if (google_analytics_key && google_analytics_key.length) {
 
     Vue.use(VueAnalytics, {
