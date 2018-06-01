@@ -3,7 +3,7 @@
                     <div class="col-lg-12">
                         <b-card header=" " header-tag="h4" class="bg-info-card">
                             <div class="row">
-                                <div class="col-lg-4 col-4 mb-3">
+                                <div class="col-12 mb-3">
                                     <b-card class="bg-info-card">
                             
                             <div class="profile_details">
