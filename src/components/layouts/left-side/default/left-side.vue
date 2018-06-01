@@ -134,25 +134,6 @@ export default {
                      
                         });}
                 
-                if(permissions.includes('CPCR')){
-                        menu_items[current_index].child.push({
-                            name: 'Request Price Change',
-                            link: '/admin/pricing/setup',
-                         
-                        });}
-                if(permissions.includes('APCR')){
-                        menu_items[current_index].child.push({
-                            name: 'Approve Price Change',
-                            link: '/admin/pricing/approve',
-                          
-                        });}
-                if(permissions.includes('EPCR')){
-                        menu_items[current_index].child.push({
-                            name: 'Execute Price Change',
-                            link: '/admin/pricing/execute',
-                           
-                        });}
-
         ///configuration
         if(permissions.includes('SSCo') || permissions.includes('MSCo')){
         menu_items.push({ name: 'Configuration',
@@ -184,6 +165,35 @@ export default {
                             icon: 'fa fa-angle-double-right'
                         });
                         }
+
+         ///pricing
+        if(permissions.includes('CPCR') || permissions.includes('APCR')|| permissions.includes('EPCR')){
+        menu_items.push({ name: 'Fuel Pricing',
+                        icon: 'fa fa-money',
+                        child: [],
+                            });
+                        var current_index = menu_items.length-1;    
+                        ////console.log(menu_items);    
+                if(permissions.includes('CPCR')){
+                        menu_items[current_index].child.push({
+                            name: 'Request Price Change',
+                            link: '/admin/pricing/setup',
+                         
+                        });}
+                if(permissions.includes('APCR')){
+                        menu_items[current_index].child.push({
+                            name: 'Approve Price Change',
+                            link: '/admin/pricing/approve',
+                          
+                        });}
+                if(permissions.includes('EPCR')){
+                        menu_items[current_index].child.push({
+                            name: 'Execute Price Change',
+                            link: '/admin/pricing/execute',
+                           
+                        });}
+                    }
+
 
         ///SS Mgt
         if(permissions.includes('CSSt') || permissions.includes('MSSt')){

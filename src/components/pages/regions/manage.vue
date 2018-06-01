@@ -167,11 +167,6 @@
           field: 'name',
           numeric: false,
           html: false,
-        }, {
-          label: 'Address',
-          field: 'address',
-          numeric: false,
-          html: false,
         }, 
          {
           label: 'Stations',

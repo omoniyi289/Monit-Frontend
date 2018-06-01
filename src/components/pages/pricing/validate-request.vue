@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-12 mt-3">
                         <h2 class="text-center">
-                            <img src="~img/logo_black.png" alt="Logo">
+                            <img src="~img/logo-purple.png" alt="Logo">
                         </h2>
                     </div>
                 </div> 

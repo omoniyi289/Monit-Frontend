@@ -217,8 +217,8 @@
                                                 <option value="0" selected disabled>
                                                     Please select
                                                 </option>
-                                                <option value="S.B.E">S.B.E</option>
-                                                <option value="E.E">E.E</option>
+                                                <option value="S.B.E">Small Business Edition</option>
+                                                <option value="E.E">Enterprise Edition</option>
 
                                             </select>
                                             <field-messages name="license_type" show="$invalid && $submitted" class="text-danger">
@@ -231,7 +231,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="hasFCC">has FCC</label>
+                                            <label for="hasFCC">Does this station have a Forecourt Controller (FCC)? </label>
                                             <select id="hasFCC" name="hasFCC" size="1" class="form-control" v-model="station.hasFCC" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -247,7 +247,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="hasATG">has ATG</label>
+                                            <label for="hasATG">Does this station have an Automated Tank Gauge (ATG)?</label>
                                             <select id="hasATG" name="hasATG" size="1" class="form-control" v-model="station.hasATG" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -263,7 +263,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="fcc_active">FCC Active</label>
+                                            <label for="fcc_active">FCC Active?</label>
                                             <select id="fcc_active" name="fcc_active" size="1" class="form-control" v-model="station.fcc_active" required>
                                                
                                                 <option value="1">Yes</option>
@@ -279,7 +279,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="atg_active">ATG Active</label>
+                                            <label for="atg_active">ATG Active?</label>
                                             <select id="atg_active" name="atg_active" size="1" class="form-control" v-model="station.atg_active" required>
                                                 
                                                 <option value="1">Yes</option>
