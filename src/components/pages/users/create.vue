@@ -395,6 +395,8 @@
           this.available_companies = store.state.available_companies;
           this.show_multi_company = store.state.show_multi_company;
         }
+
+        console.log(store.state.show_single_company + ' '+ store.state.show_multi_company);
       }
         , onAction (action, data, index) {
                 this.$SmoothScroll(document.getElementById("content-header"));

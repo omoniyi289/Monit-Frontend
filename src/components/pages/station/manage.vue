@@ -636,7 +636,7 @@
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
-                            message:'Company Deleted Successfully',transition:''});
+                            message:'Station Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
                                 store.commit("activateLoader", "end");   

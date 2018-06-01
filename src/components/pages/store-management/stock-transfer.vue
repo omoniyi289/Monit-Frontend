@@ -38,7 +38,7 @@
                   
                   <div class="form-group" >
                     <validate tag="div">
-                      Select Item
+                     <b>  Select Item</b>
                       <select  name="company" size="1" class="form-control" v-on:change="show_item_variants(item_variant.item_id)" v-model="item_variant.item_id" >
                        <option
                             v-for="(option, index) in tableData"

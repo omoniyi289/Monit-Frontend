@@ -51,9 +51,9 @@ let mutations = {
             var error = payload.response.data.message+"";
             //console.log(payload.response.data.message);
             if(error.includes('Integrity constraint violation')){
-            state.alert_message = payload.message+", data already in use";
+            state.alert_message = "An error occured!";
             }else{
-                state.alert_message = payload.message;
+                state.alert_message = "An error occured!";
             }
             state.alert_type = 'alert-danger';
             setTimeout(function(){
@@ -62,7 +62,7 @@ let mutations = {
           }
           else if(payload.response.status == 422){
             state.show_alert= true;
-            state.alert_message = payload.message+", please fill all necessary fields";
+            state.alert_message = "omission error, please fill all necessary fields";
             state.alert_type = 'alert-danger';
             setTimeout(function(){
                 state.show_alert = false;
