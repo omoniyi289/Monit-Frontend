@@ -26,7 +26,7 @@
                   <div class="form-group" v-if="show_single_company">
                     <validate tag="div">
                       Select Company
-                      <select  name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
+                      <select  name="company" size="1" class="form-control" v-on:change="show_company_items(preset.company_id)" v-model="preset.company_id" >
                         <option :value="available_company.id"
                           >{{ available_company.name }}
                         </option>
