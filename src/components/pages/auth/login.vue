@@ -49,14 +49,14 @@
                                 </validate>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6">
+                        <!--<div class="col-lg-6 col-md-6">
                             <validate tag="label">
                                 <b-form-checkbox id="remember" v-model="user.remember">Remember Me</b-form-checkbox>
                                 <field-messages name="remember" show="$invalid && $submitted" class="text-danger">
                                     <div slot="check-box">Terms must be accepted</div>
                                 </field-messages>
                             </validate>
-                        </div>
+                        </div> -->
                         <div class="col-lg-6 col-md-6 text-right">
                             <div class="form-group">
                                 <input type="submit" :value="login_submit" class="btn btn-success" />
