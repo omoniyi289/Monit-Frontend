@@ -60,7 +60,7 @@ export default {
              
              this.product_change.log_id= this.$route.query.log_id;
              this.product_change.is_approved= this.$route.query.is_approved;
-             this.product_change.updated_by= this.$route.query.user_id;
+             this.product_change.approved_by= this.$route.query.user_id;
             let product_change = {
                 details: this.product_change
             }

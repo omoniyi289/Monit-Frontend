@@ -305,6 +305,7 @@
               }).then(response => {
                   store.commit("activateLoader", "end");   
                   let list = response.data.data;
+                  this.approvers = [] ;
                   list.forEach(element => {
                     element.roles.forEach(inner_element => {
                        

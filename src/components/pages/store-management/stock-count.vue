@@ -23,7 +23,7 @@
                   
                   <div class="form-group" >
                     <validate tag="div">
-                      Select Item
+                    <b>  Select Item</b>
                       <select  name="company" size="1" class="form-control" v-on:change="show_item_variants(item_variant.item_id)" v-model="item_variant.item_id" >
                        <option
                             v-for="(option, index) in tableData"
@@ -328,7 +328,7 @@
           if (station_response.status === true) {
             this.update_view(response);
             this.$alert.success({duration:10000,forceRender:'',
-            message:'Stock Counted Updated successfully',transition:''});
+            message:'Stock Count Updated successfully',transition:''});
             this.formstate.$submitted=false;
           }
         }).catch(error => { 

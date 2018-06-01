@@ -124,7 +124,7 @@
                                         <div class="form-group">
                                             <validate tag="div">
                                                 <label for="mobile"> Mobile</label>
-                                                <input v-model="model.phone_number" id="mobile" name="mobile" type="text" required placeholder="Mobile Number(10 Digits)" class="form-control" />
+                                                <input v-model="model.phone_number" id="mobile" name="mobile" type="text" required placeholder="Mobile Number" class="form-control" />
                                                 <field-messages name="mobile" show="$invalid && $submitted" class="text-danger">
                                                     <div slot="required">Mobile number is a required field</div>
                                                 </field-messages>
@@ -241,6 +241,11 @@ export default {
                 let url='';
                 let user_detail= '';
                 let user_details = JSON.parse(localStorage.getItem('user_details'));
+                //for users whose phone number isnt avaialable yet
+                  if (this.model.phone_number.split(' ').join('')==""){
+                  this.model.phone_number = "08000000000";
+                  }
+                  
                 if(this.model.is_verified == undefined){
                     ///company regular user
                     url ='/company_users/profile/';

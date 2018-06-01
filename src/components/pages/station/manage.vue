@@ -174,6 +174,10 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
+                                    <i><b>Start Date</b></i>
+                                        <datepicker :format="format" v-model="station.start_date"  placeholder="Start Date"></datepicker>     
+                                </div>
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
                                             <label for="opening_time">Opening Time</label>
@@ -453,6 +457,7 @@
     </div>
 </template>
 <script>
+    import Datepicker from 'vuejs-datepicker';
     import Vue from 'vue'; import store from 'src/store/store.js';
     import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
     import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
@@ -462,7 +467,8 @@
     export default {
         name: "formfeatures",
         components: {
-            datatable
+            datatable,
+            Datepicker
         },
         data() {
             return {columndata: [ {
@@ -496,6 +502,7 @@
                 }],
                 ajaxLoading: true,
                 loading: true,
+                format: 'yyyy-MM-dd',
                 url: this.$store.state.host_url+'/stations',
                 formstate: {},
                 formstate2: {},
@@ -530,6 +537,7 @@
                     atg_active:1,
                     show_fcc_data:1,
                     show_atg_data:1,
+                    start_date:'',
                     show_fcc_pms:1,
                     show_fcc_ago:1,
                     show_fcc_dpk:1,
@@ -628,7 +636,7 @@
                             if (company_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
-                            message:'Company Deleted Successfully',transition:''});
+                            message:'Station Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
                                 store.commit("activateLoader", "end");   
