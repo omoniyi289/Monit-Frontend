@@ -104,7 +104,7 @@ export default {
                 icon: 'fa fa-server',
                 child: [],
                     });
-                    }
+                    
             var current_index = menu_items.length-1;    
                 if(permissions.includes('CMCo')){
                 menu_items[current_index].child.push({
@@ -132,6 +132,7 @@ export default {
                             link: '/admin/regions/manage',
                      
                         });}
+                    }
                 
         ///configuration
         if(permissions.includes('SSCo') || permissions.includes('MSCo')){
