@@ -602,7 +602,8 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 //console.log('slot action: ' + action, data.name, index);
                 if(action == 'edit'){
-                    this.fill_form = true;this.button_text = "HIDE FORM";
+                    this.fill_form = true;
+                    this.button_text = "HIDE FORM";
                     this.station = data;
                     this.station.submit_mode="UPDATE"
                 }else if(action =='delete'){

@@ -253,7 +253,7 @@
         if(data.status != "<span class='btn btn-warning btn-sm' >Not yet Approved</span>")
         {
             store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Stock Already Updated', 'show_alert': true});
+                       'alert_message': 'Oops! Price Request Already Updated', 'show_alert': true});
            return;
           }else{
         this.pricing = data;

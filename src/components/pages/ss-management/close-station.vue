@@ -291,7 +291,12 @@
             this.station_pumps = pump_response.data.data;
             this.close_pump_reading = [];
             this.station_pumps.forEach(element => {
-              if(element.shift_1_totalizer_reading != null){
+              if(element.shift_2_totalizer_reading != null){
+            this.close_pump_reading.push({'pump_id': element.pump_id,
+            'pump_nozzle_code': element.nozzle_code, 'opening_reading' : element.shift_2_totalizer_reading , 
+            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
+            }
+             else if(element.shift_1_totalizer_reading != null){
             this.close_pump_reading.push({'pump_id': element.pump_id,
             'pump_nozzle_code': element.nozzle_code, 'opening_reading' : element.shift_1_totalizer_reading , 
             'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
