@@ -185,7 +185,7 @@
             }}).then(response => {
        if(response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'No opened Shift', 'show_alert': true});
+                       'alert_message': 'No opened shift for the last entry date', 'show_alert': true});
                        this.show_setup_form= false;
                         store.commit("activateLoader", "end");   
        }else{
@@ -196,7 +196,7 @@
            this.shift_batch="Second Shift";
          }else{
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Data already entered for two shifts', 'show_alert': true});
+                       'alert_message': 'Oops! data already entered for two shifts', 'show_alert': true});
           this.show_setup_form= false;
            store.commit("activateLoader", "end");   
           return;
@@ -265,7 +265,7 @@
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings updated', 'show_alert': true});
+                       'alert_message': 'Readings Updated Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                        this.close_pump_reading= {};
                     }

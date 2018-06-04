@@ -193,7 +193,8 @@
             this.products = store.state.products;
             if(store.state.show_single_company){
               this.tableData.push(store.state.available_company);
-              if(user_details.company_id == 'super' && user_details.is_company_setup == null){
+             // console.log(user_details);
+              if(user_details.company_id == 'super' && user_details.is_company_set_up == null){
                 this.activate_create_button = true;
               }
             }else if(store.state.show_multi_company == true){

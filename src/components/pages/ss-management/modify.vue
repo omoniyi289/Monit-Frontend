@@ -257,7 +257,7 @@
             }}).then(stock_response => {
        if(stock_response.data.data.length == 0){
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'No opened Shift', 'show_alert': true});
+                       'alert_message': 'No opened shift', 'show_alert': true});
                        this.show_setup_form= false;
                         store.commit("activateLoader", "end");   
        }else{
@@ -343,7 +343,7 @@
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings updated', 'show_alert': true});
+                       'alert_message': 'Readings Updated Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                         this.close_pump_reading= {};
                         this.close_tank_reading= {};
