@@ -142,7 +142,7 @@
                             </table> 
                             <div class="col-sm-12">
                               <div class="form-group float-right">
-                                <input type="submit" value="UPLOAD READINGS" class="btn btn-success"></input>
+                                <input type="submit" value="UPDATE READINGS" class="btn btn-success"></input>
                               </div>
                             </div>
                         </b-tab>
@@ -259,6 +259,7 @@
          store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'No opened Shift', 'show_alert': true});
                        this.show_setup_form= false;
+                        store.commit("activateLoader", "end");   
        }else{
            this.station_tanks = stock_response.data.data;
             this.close_tank_reading = [];

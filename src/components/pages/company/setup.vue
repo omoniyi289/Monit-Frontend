@@ -6,7 +6,7 @@
                     <div class="col-md-3">
                     </div>
                     <div class="col-md-6">
-                        <vue-form :state="formstate" @submit.prevent="onSubmit">
+                        <vue-form :state="formstate" @submit.prevent="onSubmit"  v-show=" fill_form">
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -96,8 +96,11 @@
                     <div class="col-md-3">
                 -    </div>
                     <div class="col-sm-12">
+                        <div>
+                             <span v-if="activate_create_button" v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>   
+                        </div>
                         <div class="table-responsive">
-                            <datatable title="Company"  :rows="tableData" :columns="columndata">
+                            <datatable title="Company Account"  :rows="tableData" :columns="columndata">
                             <template slot="actions" slot-scope="props">
                                 <div >
                                 <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
@@ -158,7 +161,10 @@
                ],
                 tableData: [],
                 ajaxLoading: true,
+                fill_form: false,
+                button_text: "CREATE COMPANY ACCOUNT",
                 loading: true,
+                activate_create_button: false,
                 url: this.$store.state.host_url+'/companies',
                 formstate: {},
                 company: {
@@ -174,18 +180,27 @@
             }
         },
         methods: {
-           show_available_companies(){
-        this.products = store.state.products;
-        if(store.state.show_single_company){
-            //console.log(store.state.available_company);
-          this.tableData.push(store.state.available_company);
-         /* if(store.state.available_company != null){
-            this.company = store.state.available_company;
-            this.company.submit_mode = "CREATE";
-          }*/
-        }else if(store.state.show_multi_company == true){
-          this.tableData = store.state.available_companies;
+        button_toggle(){
+        this.fill_form = !this.fill_form;
+        if(this.button_text == "CREATE COMPANY ACCOUNT"){
+        this.button_text = "HIDE FORM";
+        }else if("HIDE FORM"){
+          this.button_text = "CREATE COMPANY ACCOUNT";
         }
+      },
+        show_available_companies(){
+            let user_details = JSON.parse(localStorage.getItem('user_details'));
+            this.products = store.state.products;
+            if(store.state.show_single_company){
+              this.tableData.push(store.state.available_company);
+              if(user_details.company_id == 'super' && user_details.is_company_setup == null){
+                this.activate_create_button = true;
+              }
+            }else if(store.state.show_multi_company == true){
+                ///e360 super user
+              this.tableData = store.state.available_companies;
+              this.activate_create_button = true;
+            }
       }
       ,
     onAction (action, data, index) {
@@ -193,6 +208,8 @@
       //console.log('slot action: ' + action, data.name, index);
       if(action == 'edit'){
         this.company = data;
+        this.fill_form = true;
+        this.button_text = "HIDE FORM";
         this.company.submit_mode="UPDATE"
       }else if(action =='delete'){
           this.$modal.show('dialog', {
@@ -244,6 +261,14 @@
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
                     ////console.log(JSON.stringify(company_detail));
                     if(this.company.submit_mode == 'CREATE'){
+                        if(user_details.role_id != 'master' && parseInt(user_details.company_id) > 0){
+                            ///not an e360 super user
+                            store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Invalid Request, company already created', 'show_alert': true});
+                            store.commit("activateLoader", "end");
+                            this.formstate.$submitted=false;
+                            return;
+                        }
                     axios.post(this.url, company_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -259,6 +284,7 @@
                             this.$alert.success({duration:10000,forceRender:'',
                             message:'Company Registered Successfully, please re-login to continue',transition:''});
                             this.formstate.$submitted=false;
+                            this.fill_form = false;
                             this.company= {submit_mode: "CREATE"};
                         }
                         }).catch(error => { 
@@ -277,6 +303,7 @@
                             this.company='';
                         this.$alert.success({duration:10000,forceRender:'',
                         message:'Company Updated Successfully',transition:''});
+                        this.fill_form = false;
                         this.formstate.$submitted=false;
                         this.company= {submit_mode: "CREATE"};
                         }

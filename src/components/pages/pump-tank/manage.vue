@@ -230,7 +230,7 @@
           label: 'Registered Indexes',
           field: 'registered_indexes',
           numeric: true,
-          html: false,
+          html: true,
         },{
           field: '__slot:actions',
           label: 'Actions',
@@ -331,7 +331,7 @@
              this.pumpgroup_tableData.forEach((item, index) => {
                let pump_concat= '';
                item.pumps.forEach(element => {
-                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
+                 pump_concat = pump_concat+ ' <span class="btn btn-success btn-sm"> '+ element.pump_nozzle_code+ '</span>';
                   //console.log(element.pump_nozzle_code);
                });
             this.$set(item, "registered_indexes", pump_concat);
@@ -340,7 +340,7 @@
         this.tankgroup_tableData.forEach((item, index) => {
                let tank_concat= '';
                item.tanks.forEach(element => {
-                 tank_concat = tank_concat+ ' | '+ element.code
+                 tank_concat = tank_concat+  ' <span class="btn btn-success btn-sm"> '+  element.code + '</span>';
                });
             this.$set(item, "registered_indexes", tank_concat);
         });
@@ -348,8 +348,8 @@
         this.map_tableData.forEach((item, index) => {
                let p_t_concat= '';
                //item.get.forEach(element => {
-                 p_t_concat = item.get_pump_group.name;
-                 p_t_concat = p_t_concat+ ' | '+item.get_tank_group.name;
+                 p_t_concat = '<span class="btn btn-success btn-sm"> '+ item.get_pump_group.name + '</span>';
+                 p_t_concat = p_t_concat + ' <span class="btn btn-success btn-sm"> '+ item.get_tank_group.name+ '</span>';
               // });
             this.$set(item, "registered_indexes", p_t_concat);
         });
@@ -398,7 +398,7 @@
                 if(this.pumpgroup_tableData.length-1 == index){
                 let pump_concat= '';
                this.pump_map.selected_pumps.forEach(element => {
-                 pump_concat = pump_concat+ ' | '+ element.pump_nozzle_code;
+                 pump_concat = pump_concat + ' <span class="btn btn-success btn-sm"> '+  element.pump_nozzle_code+ '</span>';
                 
                });
                 this.$set(item, "registered_indexes", pump_concat);
@@ -442,8 +442,8 @@
                 this.map_tableData.forEach((item, index) => {
                 let p_t_concat= '';
                //item.get.forEach(element => {
-                 p_t_concat = item.get_pump_group.name;
-                 p_t_concat = p_t_concat+ ' | '+item.get_tank_group.name;
+                 p_t_concat = ' <span class="btn btn-success btn-sm"> '+ item.get_pump_group.name + '</span>';
+                 p_t_concat = p_t_concat+  ' <span class="btn btn-success btn-sm"> '+ item.get_tank_group.name + '</span>';
               // });
                 this.$set(item, "registered_indexes", p_t_concat);
                  });
@@ -485,7 +485,7 @@
                 if(this.tankgroup_tableData.length-1 == index){
                 let tank_concat= '';
                this.tank_map.selected_tanks.forEach(element => {
-                 tank_concat = tank_concat+ ' | '+ element.code;
+                 tank_concat = tank_concat+  ' <span class="btn btn-success btn-sm"> '+  element.code + '</span>';
                  //console.log(element.code);
                });
                 this.$set(item, "registered_indexes", tank_concat);

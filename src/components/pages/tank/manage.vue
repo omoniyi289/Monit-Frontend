@@ -204,11 +204,6 @@
         },
         data() {
             return {columndata: [{
-                    label: 'ID',
-                    field: 'id',
-                    numeric: true,
-                    html: false,
-                }, {
                     label: 'Tank Code',
                     field: 'code',
                     numeric: false,
