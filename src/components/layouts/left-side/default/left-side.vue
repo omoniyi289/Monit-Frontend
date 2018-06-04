@@ -98,8 +98,7 @@ export default {
                     icon: ' fa fa-home'
                 });
        if(permissions.includes('CMCo') || permissions.includes('CMSt') || 
-       permissions.includes('CMRo') || permissions.includes('CMUs') ||
-       permissions.includes('APCR') || permissions.includes('CPCR')){
+       permissions.includes('CMRo') || permissions.includes('CMUs') ){
        menu_items.push(
                 {name: 'Admin',
                 icon: 'fa fa-server',
@@ -228,7 +227,7 @@ export default {
                                 }
                             }
         ///Store Mng
-        if( true){
+        if( permissions.includes('AMIs20') || permissions.includes('FRSk20')|| permissions.includes('CStk20')|| permissions.includes('TStk20')|| permissions.includes('RStk20')){
             menu_items.push({ name: 'Store Management',
                             icon: 'fa fa-pencil',
                             child: [],
