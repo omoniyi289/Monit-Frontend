@@ -97,7 +97,7 @@ export default {
                     link: '/',
                     icon: ' fa fa-home'
                 });
-       if(permissions.includes('CMCo') || permissions.includes('CMSt') || 
+       if(permissions.includes('CMCo') || permissions.includes('CMRe') || 
        permissions.includes('CMRo') || permissions.includes('CMUs') ){
        menu_items.push(
                 {name: 'Admin',
