@@ -209,7 +209,7 @@
          this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');
          }else{
            ///new station
-           this.set_date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+           this.set_date = moment(new Date() - 1).format('YYYY-MM-DD HH:mm:ss');
            store.commit("showAlertBox", {'alert_type': 'alert-warning',
                       'alert_message': 'new station alert! make sure you have pumps and tanks configured before proceeding', 'show_alert': true});
          this.show_setup_form= true;  

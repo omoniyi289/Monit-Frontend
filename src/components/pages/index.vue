@@ -778,7 +778,7 @@ a.prfl-link {
     background-color: #1760a0;
 }
 .number_size{
-    font-size: 20px;
+    font-size: 15px;
     color: #646567;
     margin-bottom: 0 !important;
 }

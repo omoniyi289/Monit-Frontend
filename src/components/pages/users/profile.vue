@@ -31,7 +31,7 @@
                                                 
                                             </b-tabs>
                                             <b-tabs v-if="is_company_super_user">
-                                                <b-tab title="Company">
+                                                <b-tab title="Company Details">
                                                     <div class="row">
                                                         <div class="col-12 mt-3">
                                                             <div class="row">
@@ -52,7 +52,7 @@
                                                 
                                             </b-tabs>
                                             <b-tabs v-if="is_company_regular_user">
-                                                <b-tab title="Company">
+                                                <b-tab title="Company Details">
                                                     <div class="row">
                                                         <div class="col-12 mt-3">
                                                             <div class="row">
