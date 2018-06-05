@@ -80,7 +80,10 @@
 </template>
 <script>
 import Vue from 'vue'
-import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+import VueForm from "vue-form";     
+import vueSmoothScroll from 'vue-smoothscroll';     
+Vue.use(vueSmoothScroll);
+const { detect } = require('detect-browser');
 import options from "src/validations/validations.js";
 import store from 'src/store/store.js';
 
@@ -113,6 +116,17 @@ export default {
             //console.log("loggin in");
             this.login_submit = "Logging In...";
             let host_url = this.$store.state.host_url;
+
+            
+            const browser = detect();
+             
+            // handle the case where we don't detect the browser
+            if (browser) {
+              this.user.browser_name = browser.name;
+              this.user.browser_version = browser.version;
+              this.user.os_version = browser.os;
+            }
+
             axios.post(host_url+'/auth', JSON.stringify(this.user), {
                 headers: {
                     'Content-type': 'application/json'
