@@ -219,9 +219,14 @@ export default {
                                 link: '/ss-management/close-station',
                                 icon: 'fa fa-angle-double-right'
                             });
+                            menu_items[current_index].child.push({
+                                name: 'View Readings',
+                                link: '/ss-management/view',
+                                icon: 'fa fa-angle-double-right'
+                            });
                             if(permissions.includes('MSSt')){
                             menu_items[current_index].child.push({
-                                name: 'Modify Data',
+                                name: 'Modify Readings',
                                 link: '/ss-management/modify',
                                 icon: 'fa fa-angle-double-right'
                             });

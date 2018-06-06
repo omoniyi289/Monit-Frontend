@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Stations</p>
-                                   <p class="number_size">{{parseFloat(this.final_data.total_stations).toLocaleString()}}</p>
+                                   <p class="number_size"><b>{{parseFloat(this.final_data.total_stations).toLocaleString()}}</b></p>
                                     
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Tanks</p>
-                                    <p class="number_size">{{parseFloat(this.final_data.total_tanks).toLocaleString()}}</p>
+                                    <p class="number_size"><b>{{parseFloat(this.final_data.total_tanks).toLocaleString()}}</b></p>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Pumps</p>
-                                    <p class="number_size">{{parseFloat(this.final_data.total_pumps).toLocaleString()}} </p>
+                                    <p class="number_size"><b>{{parseFloat(this.final_data.total_pumps).toLocaleString()}}</b> </p>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                                </div>
                                <div class="col-8 m-t-10">
                                    <p class="user_font">Total Vol Supplied</p>
-                                    <p class="number_size">{{parseFloat(this.final_data.total_vol_supplied).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size"><b>{{parseFloat(this.final_data.total_vol_supplied).toLocaleString()}} Ltrs.</b></p>
                                    
                                </div>
                            </div>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Total Pump Sales</p>
-                                    <p class="number_size">{{parseFloat(this.final_data.total_pump_sales).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size"><b>{{parseFloat(this.final_data.total_pump_sales).toLocaleString()}} Ltrs.</b></p>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-8 m-t-10">
                                     <p class="user_font">Total Tank Sales</p>
-                                    <p class="number_size">{{parseFloat(this.final_data.total_tank_sales).toLocaleString()}} Ltrs.</p>
+                                    <p class="number_size"><b>{{parseFloat(this.final_data.total_tank_sales).toLocaleString()}} Ltrs.</b></p>
                                 </div>
                             </div>
                         </div>
@@ -390,6 +390,16 @@
                 var tot_rtt = 0.00;
 
                 ii_result[0][1].forEach(element =>{
+                    // if(element.open_shift_totalizer_reading == null){
+                    //     element.open_shift_totalizer_reading = 0;
+                    //     }
+                    // if(element.close_shift_totalizer_reading == null){
+                    //     element.close_shift_totalizer_reading = 0;
+                    //     }
+                    // if(element.ppv == null){
+                    //     element.ppv = 0;
+                    //     }
+
                     tot_open_pump_reading = tot_open_pump_reading + parseFloat(element.open_shift_totalizer_reading);
                     tot_close_pump_reading = tot_close_pump_reading + parseFloat(element.close_shift_totalizer_reading);
                     ppv = parseFloat(element.ppv);
@@ -403,6 +413,19 @@
             if(ii_result[1] !== undefined){
             if(ii_result[1][0]=="tank_data"){
                 ii_result[1][1].forEach(element =>{
+                  // if(element.phy_shift_start_volume_reading == null){
+                  //   element.phy_shift_start_volume_reading = 0;
+                  // }
+                  // if(element.phy_shift_end_volume_reading == null){
+                  //   element.phy_shift_end_volume_reading = 0;
+                  // }
+                  // if(element.end_delivery == null){
+                  //   element.end_delivery = 0;
+                  // }
+                  // if(element.return_to_tank == null){
+                  //   element.return_to_tank = 0;
+                  // }
+
                   tot_shift_start_tank_reading = tot_shift_start_tank_reading + parseFloat(element.phy_shift_start_volume_reading);
                   tot_shift_end_tank_reading = tot_shift_end_tank_reading + parseFloat(element.phy_shift_end_volume_reading);
                   tot_delivery = tot_delivery + parseFloat(element.end_delivery);
@@ -417,7 +440,7 @@
                 if(total_tank_sales !=0){
                     tolerance = (total_pump_sales/total_tank_sales*20).toFixed(2).toLocaleString();      
                 }else{
-                    tolerance ='Invalid';
+                    tolerance ='-----';
                 }
                 //consider rtt for pump sales
                 
@@ -444,7 +467,7 @@
                  }
              
                  );
-                  this.tableData.push({'date': main_date, 'product': product_string, 
+                this.tableData.push({'date': main_date, 'product': product_string, 
                 'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
                 total_pump_sales_string, 'station': station_name_string, 'tolerance': 
                 tolerance_string, 'expected_pump_sales': expected_pump_sales_string });

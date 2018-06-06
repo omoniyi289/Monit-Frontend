@@ -253,6 +253,7 @@
         }
       },
       validate_payment_amount(){
+          store.commit("activateLoader", "start");
            if(this.selected_reading_date == ''){
              this.$SmoothScroll(document.getElementById("content-header"));
               store.commit("showAlertBox", {'alert_type': 'alert-danger',
@@ -326,11 +327,11 @@
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-              }}).then(response => {
+                        }
+             }).then(response => {
                 store.commit("activateLoader", "end");   
-            this.tableData = response.data.data;
-          // this.loader
-        })
+                 this.tableData = response.data.data;
+                                  })
         .catch(function(error) {
            store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 

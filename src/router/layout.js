@@ -138,10 +138,16 @@ const layout = [{
       title: "Close Station",
 }
 }, {
+    path: '/ss-management/view',
+      component: resolve => require(['pages/ss-management/view'], resolve),
+      meta: {
+      title: "View Readings",
+}
+}, {
     path: '/ss-management/modify',
       component: resolve => require(['pages/ss-management/modify'], resolve),
       meta: {
-      title: "Modify Recording",
+      title: "Modify Readings",
 }
 }, {
     path: '/store-management/stock-transfer',

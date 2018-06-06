@@ -204,7 +204,14 @@
             }}).then(response => {
        if(response.data.data.length > 0){
          ///station has data
-         var d_date = new Date(response.data.data[0].reading_date);
+         let last_transaction = response.data.data[0];
+         if(last_transaction.phy_shift_start_volume_reading > 0 && last_transaction.phy_shift_end_volume_reading == null){
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                      'alert_message': 'Oops! please close previous day readings to proceed', 'show_alert': true});
+          store.commit("activateLoader", "end");
+          return;
+         }
+         var d_date = new Date(last_transaction.reading_date);
          d_date.setDate(d_date.getDate() + 1);
          this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');
          }else{
