@@ -81,12 +81,11 @@
 <script>
 import Vue from 'vue'
 import VueForm from "vue-form";     
-import vueSmoothScroll from 'vue-smoothscroll';     
+import vueSmoothScroll from 'vue-smoothscroll';   
 Vue.use(vueSmoothScroll);
 const { detect } = require('detect-browser');
 import options from "src/validations/validations.js";
 import store from 'src/store/store.js';
-
 Vue.use(VueForm, options);
 export default {
     name: "login2",
@@ -100,6 +99,8 @@ export default {
             show_error: false,
             show_success: false,
             success_message: '',
+            lat: '',
+            long:'',
             error_message: '',
             message: '',
            localStorge: {},
@@ -126,7 +127,7 @@ export default {
               this.user.browser_version = browser.version;
               this.user.os_version = browser.os;
             }
-
+            this.user.location_cordinate= this.lat +" "+ this.long;
             axios.post(host_url+'/auth', JSON.stringify(this.user), {
                 headers: {
                     'Content-type': 'application/json'
@@ -162,17 +163,32 @@ export default {
             ////console.log(error.message);
         })}
         }
-       }
+}
     ,
     mounted: function() {
-        //unset user data
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+        this.long = position.coords.longitude;
+        this.lat = position.coords.latitude;
+        },
+        // Optional error callback
+        function(error){
+            console.log(error);
+            }
+        );
+        } 
+    else {
+        console.log(2)
+        }
+     //unset user data
         localStorage.setItem('user_details', null);
         localStorage.setItem('company_details', null);
         if(this.$route.params.message == "token_expired"){
             this.show_error = true;
             this.error_message = "session expired, please re-login";
         }
-    
+
     },
     destroyed: function() {
 
