@@ -377,6 +377,8 @@
             } else {
               this.$SmoothScroll(document.getElementById("content-header"));
               store.commit("activateLoader", "start");
+              store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
                 //include station and company_id
             this.pump_map.station_id = this.preset.station_id;
             this.pump_map.company_id= this.preset.company_id;
@@ -427,6 +429,8 @@
           return;
             } else {
               store.commit("activateLoader", "start");
+              store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
               this.$SmoothScroll(document.getElementById("content-header"));
               this.p_t_group.station_id = this.preset.station_id;
               this.p_t_group.company_id= this.preset.company_id;
@@ -461,7 +465,10 @@
       add_tank_group(){
         if (this.formstate4.$invalid) {
           return;
-            } else {store.commit("activateLoader", "start");
+            } else {
+              store.commit("activateLoader", "start");
+              store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
               this.$SmoothScroll(document.getElementById("content-header"));
                 //include station and company_id
             this.tank_map.station_id = this.preset.station_id;

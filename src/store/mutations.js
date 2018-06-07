@@ -89,6 +89,11 @@ let mutations = {
             state.show_alert = false;
         }, 10000);
     },
+    showPermAlertBox(state, details) {
+        state.show_alert= details.show_alert;
+        state.alert_message = details.alert_message;
+        state.alert_type = details.alert_type;
+    },
     addevent(state, event) {
         let id = state.cal_events[state.cal_events.length - 1] ? state.cal_events[state.cal_events.length - 1].id + 1 : 0;
         state.cal_events.push({ id: id, title: event.evtname, start: event.date.from, end: event.date.to })

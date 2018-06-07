@@ -206,6 +206,7 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+
           this.show_setup_form= true;
           this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
           updated_by: "",approved_by: 0,requested_price_tag:"",submit_mode: "Add Price",  
@@ -277,6 +278,8 @@
               return;
             }
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           //include station and company_id
           this.pricing.station_id= this.preset.station_id;
           this.pricing.company_id= this.preset.company_id;

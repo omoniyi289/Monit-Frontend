@@ -648,7 +648,10 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if (this.formstate.$invalid) {
                     return;
-                } else {store.commit("activateLoader", "start");
+                } else {
+                    store.commit("activateLoader", "start");
+                    store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
                     this.station.company_id = this.preset.company_id;
                     let station_detail = {
                         station: this.station
@@ -669,8 +672,9 @@
                               this.tableData.forEach((item, index) => {
                                 this.$set(item, "action", "<a class='btn btn-info' href='#/configuration/station/edit?station=" + item.id + "'>Edit</a>");
                             });
-                             this.$alert.success({duration:10000,forceRender:'',
-                        message:'Station Registered Successfully',transition:''});
+                             
+                             store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Station Registered Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.station= {submit_mode: "CREATE"};
                         
@@ -691,9 +695,8 @@
                         //console.log(response);
                         let company_response = response.data;
                         if (company_response.status === true) {
-                        
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Station Updated Successfully',transition:''});
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Station Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.station= {submit_mode: "CREATE"};
                         }

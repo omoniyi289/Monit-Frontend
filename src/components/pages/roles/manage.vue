@@ -332,6 +332,8 @@
         } else {
         this.$SmoothScroll(document.getElementById("content-header"));
        store.commit("activateLoader", "start");
+       store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           this.role.station_id= this.preset.station_id;
           this.role.company_id= this.preset.company_id;
           // //console.log(this.role);
@@ -410,8 +412,9 @@
                               }}
                               );
                                   });
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Role Updated Successfully',transition:''});
+                
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Role Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.role= {submit_mode: "CREATE"};
                         }

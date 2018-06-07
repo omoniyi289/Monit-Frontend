@@ -279,6 +279,8 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
             ////stock//
           this.final_stock_info.station_id= this.preset.station_id;
           this.final_stock_info.company_id= this.preset.company_id;
@@ -292,7 +294,7 @@
           this.final_pump_info.created_by = user_details.id;
           this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.readings = this.open_pump_reading;
-
+          this.show_setup_form= false; 
           axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -304,13 +306,13 @@
                   "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }
               }).then( response => {                         
-                store.commit("activateLoader", "end");
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings Saved Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                         this.open_pump_reading= {};
+                        store.commit("activateLoader", "end");
                     }
                   }).catch(error => { store.commit("activateLoader", "end");   
                     store.commit("catch_errors", error); 

@@ -143,7 +143,7 @@
         
         <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
-                <div class="form-inline" style="margin-left: 50%">
+                <div class="form-inline" style="margin-left: 40%">
                     START DATE: <span >
                     <datepicker :format="format" v-model="start_date"  placeholder="Start Date">
                     </datepicker>
@@ -289,7 +289,7 @@
             store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         var company_route = '';
-       
+       ///initially, i display 
         if(this.end_date == 'init'){
             var new_date = new Date();
             this.end_date = moment(new_date.setDate(new_date.getDate()-1)).format('YYYY-MM-DD');

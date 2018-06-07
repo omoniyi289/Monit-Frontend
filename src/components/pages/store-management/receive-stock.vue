@@ -252,6 +252,8 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           //include station and company_id
           this.item_variant.station_id= this.preset.station_id;
           this.item_variant.company_id= this.preset.company_id;

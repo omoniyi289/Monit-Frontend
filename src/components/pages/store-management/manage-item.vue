@@ -613,6 +613,8 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           //include station and company_id
          // this.users.station_id= this.preset.station_id;
           this.item.company_id= this.preset.company_id;
@@ -654,8 +656,9 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
                         //console.log(response);
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Item Updated Successfully',transition:''});
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Item Updated Successfully', 'show_alert': true});
+
                         this.formstate.$submitted=false;
                         this.item= {submit_mode: "CREATE"};
                         this.form_reset();
@@ -682,7 +685,8 @@
 
         }else {
           store.commit("activateLoader", "start");
-         
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           this.item_variant.company_id= this.preset.company_id;
          
           let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -702,8 +706,9 @@
             //console.log(response.data.data);
              this.tableData_2.push(response.data.data); 
             this.$SmoothScroll(document.getElementById("content-header")); 
-            this.$alert.success({duration:10000,forceRender:'',
-            message:'Item Variant registered successfully',transition:''});
+            
+            store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Item Variant Added Successfully', 'show_alert': true});
             this.formstate2.$submitted=false;
             this.item_variant = {submit_mode: "CREATE"};
           }
@@ -724,8 +729,9 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
                        this.$SmoothScroll(document.getElementById("content-header"));
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Item Variant Updated Successfully',transition:''});
+                      
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Item Variant Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.item_variant_detail= {submit_mode: "CREATE"};
                         this.form_reset();

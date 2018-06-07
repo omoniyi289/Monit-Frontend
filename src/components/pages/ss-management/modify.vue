@@ -278,11 +278,9 @@
               headers : {
                 "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(pump_response => {
-              store.commit("activateLoader", "end");   
             this.station_pumps = pump_response.data.data;
             this.close_pump_reading = [];
-            this.station_pumps.forEach(element => {
-            
+            this.station_pumps.forEach(element => {   
             this.close_pump_reading.push({
             'pump_id': element.pump_id,'nozzle_code': element.nozzle_code, 
             'first_shift_reading' : element.shift_1_totalizer_reading , 
@@ -297,6 +295,7 @@
             'status': 'Modified'});
             
           });
+              store.commit("activateLoader", "end"); 
   
         })
         .catch(function(error) {
@@ -312,6 +311,8 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           this.$SmoothScroll(document.getElementById("content-header"));
           
           ////stock//
@@ -328,6 +329,7 @@
           this.final_pump_info.readings = this.close_pump_reading;
           //console.log(this.final_stock_info);
           //console.log(this.final_pump_info);
+          this.show_setup_form= false;
           axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -339,7 +341,6 @@
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
             }).then( response => {                        
-              store.commit("activateLoader", "end");
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
@@ -348,6 +349,7 @@
                         this.close_pump_reading= {};
                         this.close_tank_reading= {};
                     }
+                     store.commit("activateLoader", "end");
                   }).catch(error => { 
                   store.commit("activateLoader", "end");   
                   store.commit("catch_errors", error);

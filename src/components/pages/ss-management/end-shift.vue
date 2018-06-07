@@ -245,6 +245,8 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           this.$SmoothScroll(document.getElementById("content-header"));
           
           ////pumps///
@@ -255,19 +257,19 @@
           this.final_pump_info.readings = this.close_pump_reading;
           this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.shift_batch = this.shift_batch;
-          
+          this.show_setup_form= false; 
           axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => { 
-                    store.commit("activateLoader", "end");
                     let station_response = response.data;
                     if (station_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings Updated Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                        this.close_pump_reading= {};
+                       store.commit("activateLoader", "end");
                     }
                   }).catch(error => { 
                     store.commit("activateLoader", "end");   

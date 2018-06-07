@@ -239,6 +239,8 @@
         } else {
            this.$SmoothScroll(document.getElementById("content-header"));
            store.commit("activateLoader", "start");
+           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           //include station and company_id
           this.pump.station_id= this.preset.station_id;
           this.pump.company_id= this.preset.company_id;
@@ -278,8 +280,9 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                           this.tableData = response.data.data;
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Pump Updated Successfully',transition:''});
+                       
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Pump Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.pump = {submit_mode: "CREATE"};
                         }

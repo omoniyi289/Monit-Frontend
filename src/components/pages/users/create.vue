@@ -300,19 +300,19 @@
           this.button_text = "ADD A NEW USER";
         }
       },
-      show_company_stations(company_name){
+      show_company_stations(company_id){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         this.company_stations_null = 'No stations added yet, please add stations under configuration to proceed';
         this.company_notifications_null = 'No available notification modules';
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           this.company_stations = response.data.data;
           ///get roles///
-            axios.get(this.$store.state.host_url+"/roles/by_company/"+company_name,
+            axios.get(this.$store.state.host_url+"/roles/by_company/"+company_id,
               {
                 headers : {
                   "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -320,7 +320,7 @@
             this.available_roles = response.data.data;
           });
         ///get users
-          axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_name,
+          axios.get(this.$store.state.host_url+"/company_users/by_company/"+company_id,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -451,6 +451,8 @@
         } 
          else {
           store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
           //for users whose phone number isnt avaialable yet
           if (this.user.phone_number.split(' ').join('')==""){
           this.user.phone_number = "08000000000";
@@ -506,8 +508,8 @@
                        });
               }
                   });        
-            this.$alert.success({duration:10000,forceRender:'',
-            message:'User registered successfully, default password is 123456',transition:''});
+            store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'User registered successfully, default password is 123456', 'show_alert': true});
             this.formstate.$submitted=false;
             this.user= {submit_mode: "CREATE"};
           }
@@ -561,8 +563,8 @@
                           }
 
                               });
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'User Updated Successfully',transition:''});
+                       store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'User Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.user= {submit_mode: "CREATE"};
                         this.form_reset();

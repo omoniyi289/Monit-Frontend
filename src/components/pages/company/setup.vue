@@ -254,8 +254,10 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if (this.formstate.$invalid) {
                     return;
-                } else {store.commit("activateLoader", "start");
+                } else {
                     store.commit("activateLoader", "start");
+                    store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
                     let company_detail = {
                         company: this.company
                     };
@@ -282,8 +284,9 @@
                             this.tableData.push(company_response.data);
                             localStorage.setItem('company_details', response.data);
                             //console.log(response.data.data);
-                            this.$alert.success({duration:10000,forceRender:'',
-                            message:'Company Registered Successfully, please re-login to continue',transition:''});
+                           
+                             store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Company Registered Successfully, please re-login to continue', 'show_alert': true});
                             this.formstate.$submitted=false;
                             this.fill_form = false;
                             this.company= {submit_mode: "CREATE"};
@@ -302,8 +305,8 @@
                         let company_response = response.data;
                         if (company_response.status === true) {
                             this.company='';
-                        this.$alert.success({duration:10000,forceRender:'',
-                        message:'Company Updated Successfully',transition:''});
+                        store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'Company Updated Successfully', 'show_alert': true});
                         this.fill_form = false;
                         this.formstate.$submitted=false;
                         this.company= {submit_mode: "CREATE"};

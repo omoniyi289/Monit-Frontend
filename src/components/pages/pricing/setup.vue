@@ -193,6 +193,7 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+          
           this.show_setup_form= true;
           this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
           updated_by: "",approved_by: 0,requested_price_tag:"",submit_mode: "Add Price",  
