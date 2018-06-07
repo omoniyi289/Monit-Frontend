@@ -263,7 +263,7 @@
        }else{
          if(stock_response.data.data[0]['phy_shift_end_volume_reading'] != null){
            store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Station already closed for the day', 'show_alert': true});
+                       'alert_message': 'Station already closed for the last input date', 'show_alert': true});
                        this.show_setup_form= false;
                        store.commit("activateLoader", "end");
          }else{

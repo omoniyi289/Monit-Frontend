@@ -143,7 +143,7 @@
         
         <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
-                <div class="form-inline" style="margin-left: 35%">
+                <div class="form-inline" style="margin-left: 50%">
                     START DATE: <span >
                     <datepicker :format="format" v-model="start_date"  placeholder="Start Date">
                     </datepicker>
@@ -174,6 +174,7 @@
 
     import VueAwesomeSwiper from 'vue-awesome-swiper';
     import countTo from 'vue-count-to';
+    import moment from 'moment';
     import datatable from "components/plugins/DataTable/DataTable.vue";
     import vScroll from "components/plugins/scroll/vScroll.vue";
     import Datepicker from 'vuejs-datepicker';
@@ -275,8 +276,6 @@
                 this.$route.query.company_user = undefined;
                 //do a reload to set menu permissions to the newly stored        
                 //console.log("here");
-                //this.$forceUpdate();
-                // vm.$forceUpdate();
                 window.location.href = "/#/index/";
                 location.reload();         
             }
@@ -290,13 +289,18 @@
             store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         var company_route = '';
-       // //console.log(this.start_date);
-       // return;
-        if(this.start_date != 'init'){
-        this.start_date = new Date(this.start_date).toDateString();
-            }
-        if(this.end_date != 'init'){
-        this.end_date = new Date(this.end_date).toDateString();
+       
+        if(this.end_date == 'init'){
+            var new_date = new Date();
+            this.end_date = moment(new_date.setDate(new_date.getDate()-1)).format('YYYY-MM-DD');
+        }else{
+            this.end_date = new Date(this.end_date).toDateString();
+        }
+        if(this.start_date == 'init'){
+            var new_date = new Date();
+            this.start_date = moment(new_date.setDate(new_date.getDate()-3)).format('YYYY-MM-DD');
+        }else{
+            this.start_date = new Date(this.start_date).toDateString();
         }
         ////console.log(user_details);
         if(user_details.role_id == 'master' && user_details.company_id == 'master'){
@@ -379,6 +383,7 @@
                 var ii_result = Object.keys(stock_and_pump_data).map(function(key) {
             return [key, stock_and_pump_data[key]];
             });
+
             if(ii_result[0] !== undefined){
             if(ii_result[0][0]=="pump_data"){
                 var tot_open_pump_reading= 0.00;
