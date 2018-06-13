@@ -86,7 +86,7 @@
                 <datatable title="Product Price Changes Log" :rows="log_tableData" :columns="log_columndata">
                     <template slot="actions" slot-scope="props">
                         <div >
-                            <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                            <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)">Execute</i>
                         </div>
                     </template>
                 </datatable>
@@ -235,15 +235,23 @@
                 store.commit("activateLoader", "end");   
             this.log_tableData = response.data.data;
             this.log_tableData.forEach(element => {
-            if(element.is_executed == 1){
+           if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-            else if(element.is_approved == null){
-            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
           }else if(element.is_approved == 0){
-            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }
           
             });
@@ -254,15 +262,37 @@
       this.$SmoothScroll(document.getElementById("content-header"));
       //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
-        if(data.status != "<span class='btn btn-info btn-sm' >Approved</span>")
+        if(data.is_executed == 1 || data.is_approved == 0|| data.is_approved_level_2 == 0|| data.is_approved_level_3 == 0)
         {
             store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Oops! Only requests with Approved Status can be executed', 'show_alert': true});
+                       'alert_message': 'Oops! Request Already Updated', 'show_alert': true});
            return;
-          }else{
-        this.pricing = data;
-        this.approve = true;
-        }
+          }
+
+        store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
+       
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        var request_detail="user_id="+user_details.id+"&request_id="+data.id+'&verify_executable=1';
+        axios.get(this.url+'/verify_approval/details?'+request_detail, {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+            }
+          }).then( response => {
+            store.commit("activateLoader", "end");
+             let result=response.data.data;
+              this.pricing = data;
+              this.approve = true;
+
+               store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'please proceed with execution below', 'show_alert': true});
+
+          }).catch(error => {
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+        });
+
       }
     },
       onSubmit() {
@@ -305,13 +335,21 @@
           if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-          else if(element.is_approved == null){
-            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
           }else if(element.is_approved == 0){
-            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
-          }  
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          } 
           }
         }).catch(error => {
           store.commit("activateLoader", "end");   

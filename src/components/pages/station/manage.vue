@@ -152,6 +152,18 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
+                                            <label for="pc_approval_levels">Fuel Price Change Approval Stages</label>
+                                            <input v-model="station.pc_approval_levels" name="pc_approval_levels" max=3 type="number" required autofocus placeholder="Fuel Price Change Approval Stages" class="form-control" id="pc_approval_levels"/>
+                                            <field-messages name="pc_approval_levels" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Fuel Price Change Approval Stages is a required field</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
                                             <label for="daily_budget"> Daily Budget</label>
                                             <input v-model="station.daily_budget" name="daily_budget" type="text" required autofocus placeholder="Daily Budget" class="form-control" id="daily_budget"/>
                                             <field-messages name="daily_budget" show="$invalid && $submitted" class="text-danger">
@@ -544,6 +556,7 @@
                     show_atg_pms:1,
                     show_atg_ago:1,
                     show_atg_dpk:1,
+                    pc_approval_levels: 1,
                     oem_stationid:"",
                     opening_time: "",
                     company_id: "",

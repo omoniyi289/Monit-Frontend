@@ -16,8 +16,11 @@
             <hr>
           </div>
           
-          <div class="col-sm-3">
+          <div class="col-sm-3" v-if="!show_approval_pane">
+          </div>
+          <div class="col-sm-3"  v-if="show_approval_pane">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
+              <b-card header="Approval Pane" header-tag="h5" class="bg-info-card">
               <div class="row">
                 <div class="col-lg-12">
                   <div class="form-group">
@@ -38,12 +41,42 @@
                     </validate>
                   </div>
                 </div>
-
-                <div class="col-lg-12">
+                <!--depending on the current level of approval -->
+                <div class="col-lg-12" v-if="is_level_one_approval">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="is_approved">Approve/Disapprove</label>
+                      <label for="is_approved">Approve/Disapprove (Level 1)</label>
                       <select id="is_approved" name="is_approved" size="1" class="form-control" v-model="pricing.is_approved" required >
+                            <option value="1">Approve</option>
+                            <option value="0">Disapprove</option>
+                      </select>
+                      <field-messages name="is_approved" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Approval Choice is required</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+
+                <div class="col-lg-12" v-if="is_level_two_approval">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="is_approved_level">Approve/Disapprove (Level 2)</label>
+                      <select id="is_approved" name="is_approved" size="1" class="form-control" v-model="pricing.is_approved_level_2" required >
+                            <option value="1">Approve</option>
+                            <option value="0">Disapprove</option>
+                      </select>
+                      <field-messages name="is_approved" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">Approval Choice is required</div>
+                      </field-messages>
+                    </validate>
+                  </div>
+                </div>
+
+                <div class="col-lg-12" v-if="is_level_three_approval">
+                  <div class="form-group">
+                    <validate tag="div">
+                      <label for="is_approved">Approve/Disapprove (Level 3)</label>
+                      <select id="is_approved" name="is_approved" size="1" class="form-control" v-model="pricing.is_approved_level_3" required >
                             <option value="1">Approve</option>
                             <option value="0">Disapprove</option>
                       </select>
@@ -83,6 +116,7 @@
                   </div>
                 </div>
               </div>
+             </b-card>
             </vue-form>
           </div>
           <div class="col-sm-9"  v-show="show_setup_form">
@@ -90,7 +124,7 @@
                 <datatable title="Product Price Changes Log" :rows="log_tableData" :columns="log_columndata">
                     <template slot="actions" slot-scope="props">
                         <div >
-                            <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                            <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)">Update</i>
                         </div>
                     </template>
                 </datatable>
@@ -172,8 +206,12 @@
         available_companies: [],
         available_company: [],
         products: "",
+        show_approval_pane: false,
         show_multi_company: false,
         show_single_company: false,
+        is_level_one_approval: false,
+        is_level_two_approval: false,
+        is_level_three_approval: false,
         station_pumps:"",
         company_stations: "",
         added_product_name: "",
@@ -235,12 +273,20 @@
             if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-            else if(element.is_approved == null){
-            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
           }else if(element.is_approved == 0){
-            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }
             });
             //console.log(response.data.data);
@@ -250,15 +296,58 @@
       this.$SmoothScroll(document.getElementById("content-header"));
       //console.log('slot action: ' + action, data, index);
       if(action == 'update'){
-        if(data.status != "<span class='btn btn-warning btn-sm' >Not yet Approved</span>")
+
+        if(data.is_executed == 1 || data.is_approved == 0|| data.is_approved_level_2 == 0|| data.is_approved_level_3 == 0)
         {
             store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Oops! Price Request Already Updated', 'show_alert': true});
+                       'alert_message': 'Oops! Request Already Updated', 'show_alert': true});
            return;
-          }else{
-        this.pricing = data;
-        this.approve = true;
-        }
+          }
+        store.commit("activateLoader", "start");
+          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+                       'alert_message': '...Processing Request...', 'show_alert': true});
+       
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        var request_detail="user_id="+user_details.id+"&request_id="+data.id;
+        axios.get(this.url+'/verify_approval/details?'+request_detail, {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+            }
+          }).then( response => {
+            store.commit("activateLoader", "end");
+             let result=response.data.data;
+              this.pricing = data;
+              this.approve = true;
+              this.show_approval_pane = true;
+              if(result.current_approval_level == 0){
+                this.is_level_one_approval = true;
+                this.is_level_two_approval = false;
+                this.is_level_three_approval = false;
+              }else if(result.current_approval_level == 1){
+                this.is_level_one_approval = false;
+                this.is_level_two_approval = true;
+                this.is_level_three_approval = false;
+
+              } else if(result.current_approval_level == 2){
+                this.is_level_one_approval = false;
+                this.is_level_two_approval = false;
+                this.is_level_three_approval = true;
+
+              }else{
+                ///an exception
+                this.approve = false;
+                this.show_approval_pane = false;
+              }
+
+               store.commit("showAlertBox", {'alert_type': 'alert-success',
+                       'alert_message': 'please proceed with approval below', 'show_alert': true});
+
+          }).catch(error => {
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+        });
+
+      
       }
     },
       onSubmit() {
@@ -294,13 +383,22 @@
           if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-            else if(element.is_approved == null){
-            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
           }else if(element.is_approved == 0){
-            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
-          }  
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          }
+
           }
         }).catch(error => {
           store.commit("activateLoader", "end");   

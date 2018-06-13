@@ -157,7 +157,7 @@
               <datatable title="Fuel Requests"  :rows="tableData" :columns="columndata">
                 <template slot="actions" slot-scope="props">
                   <div >
-                        <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)"></i>
+                        <i class='fa fa-pencil text-info mr-3' @click="onAction('update', props.rowData, props.rowIndex)">Update</i>
                   </div>
                 </template>
               </datatable>

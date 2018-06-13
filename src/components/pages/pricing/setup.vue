@@ -43,7 +43,7 @@
                   <div class="form-group">
                     <validate tag="div">
                       <label for="requested_price_tag">New Price</label>
-                      <input v-model="pricing.requested_price_tag" name="requested_price_tag" type="text" required autofocus placeholder="Price Tag" class="form-control" id="serial_number"/>
+                      <input v-model="pricing.requested_price_tag" name="requested_price_tag" type="text" required autofocus placeholder="Price Tag" maxlength="3" class="form-control" id="serial_number"/>
                       <field-messages name="requested_price_tag" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Price is a required field</div>
                       </field-messages>
@@ -193,7 +193,7 @@
           return;
         } else {
           store.commit("activateLoader", "start");
-          
+
           this.show_setup_form= true;
           this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
           updated_by: "",approved_by: 0,requested_price_tag:"",submit_mode: "Add Price",  
@@ -222,15 +222,23 @@
                 store.commit("activateLoader", "end");   
             this.log_tableData = response.data.data;
             this.log_tableData.forEach(element => {
-            if(element.is_executed == 1){
+           if(element.is_executed == 1){
             this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
              }
-            else if(element.is_approved == null){
-            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
           }else if(element.is_approved == 1){
-            this.$set(element, "status", "<span class='btn btn-primary btn-sm' >Approved</span>");
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
           }else if(element.is_approved == 0){
-            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved</span>");
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
           }
             });
             //console.log(response.data.data);

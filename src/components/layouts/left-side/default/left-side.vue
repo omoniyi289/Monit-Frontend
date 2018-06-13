@@ -17,6 +17,7 @@
                         </vsub-menu>
                         <vmenu-item v-if="item.link" :link="item.link" :icon="item.icon">{{ item.name}}
                         </vmenu-item>
+
                     </template>
                 </vmenu>
                 <!-- / .navigation -->
@@ -71,7 +72,7 @@ export default {
     var permissions =[];
 
         if ( r_p_array == "all" ){
-        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR","EPCR","CMRo","CMRe","APDS",
+        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS",
                         "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
                         ,"RStk20","CStk20"];
@@ -180,7 +181,7 @@ export default {
                             link: '/admin/pricing/setup',
                          
                         });}
-                if(permissions.includes('APCR')){
+                if(permissions.includes('APCR') || permissions.includes('APCRL2') || permissions.includes('APCRL3')){
                         menu_items[current_index].child.push({
                             name: 'Approve Price Change',
                             link: '/admin/pricing/approve',
@@ -332,6 +333,7 @@ export default {
                     }]
                     }); 
                             }
+             
         ////console.log(menu_items);
         return menu_items;
         }

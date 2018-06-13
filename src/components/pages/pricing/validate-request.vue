@@ -59,7 +59,16 @@ export default {
     mounted: function() {
              
              this.product_change.log_id= this.$route.query.log_id;
+             if(this.$route.query.is_approved != undefined){
              this.product_change.is_approved= this.$route.query.is_approved;
+                }
+            if(this.$route.query.is_approved_level_2 != undefined){
+             this.product_change.is_approved_level_2= this.$route.query.is_approved_level_2;
+                }
+            if(this.$route.query.is_approved_level_3 != undefined){
+             this.product_change.is_approved_level_3= this.$route.query.is_approved_level_3;
+            }
+            
              this.product_change.approved_by= this.$route.query.user_id;
             let product_change = {
                 details: this.product_change

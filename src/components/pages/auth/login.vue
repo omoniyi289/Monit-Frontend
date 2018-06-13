@@ -151,26 +151,34 @@ export default {
                 }
             }
         }).catch(error => {
-            if (error.status === false){
-                this.login_submit = "LOGIN";
-                this.show_error = true;
-                //console.log('reset password!');
-                this.message =  error.message;
+                    if(error.response.status == 500){
+                        this.login_submit = "LOGIN";
+                        this.show_error = true;
+                        this.error_message =  "An error occurred!";
+                        }
+                    else{
+                        this.login_submit = "LOGIN";
+                        this.show_error = true;
+                        this.error_message =  error.response.data.message;
+                    }
+           
+            
+
+        })
             }
-            this.show_error = true;
-            this.error_message = error.response.data.message;
-            this.login_submit = "LOGIN";
-            ////console.log(error.message);
-        })}
         }
+, show_position(position) {
+this.long = position.coords.longitude;
+this.lat = position.coords.latitude;
+}
 }
     ,
     mounted: function() {
     
     if (navigator.geolocation) {
+        var self = this;
         navigator.geolocation.getCurrentPosition(function(position) {
-        this.long = position.coords.longitude;
-        this.lat = position.coords.latitude;
+            self.show_position(position);
         },
         // Optional error callback
         function(error){

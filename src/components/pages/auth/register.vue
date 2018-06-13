@@ -174,10 +174,16 @@ export default {
                 this.show_success = true;
             }
         }).catch(error => {
-                //console.log(error);
-                this.show_error = true;
-                this.error_message = error.response.data.message;
-                this.submit_btn = "Sign up";
+               if(error.response.status == 500){
+                        this.login_submit = "LOGIN";
+                        this.show_error = true;
+                        this.error_message =  "An error occurred!";
+                        }
+                    else{
+                        this.login_submit = "LOGIN";
+                        this.show_error = true;
+                        this.error_message =  error.response.data.message;
+                    }
 
         })
             }
