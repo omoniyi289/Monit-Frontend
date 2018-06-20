@@ -16,10 +16,12 @@
             <hr>
           </div>
 
-          <div class="col-sm-6">
-            <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
+          <div class="col-sm-4">
+
+            <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_approval_pane && show_setup_form">
+             <b-card header="Add/Request Price" header-tag="h5" class="bg-info-card">
               <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="product_id">Product</label>
@@ -39,7 +41,7 @@
                   </div>
                 </div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="requested_price_tag">New Price</label>
@@ -51,15 +53,16 @@
                   </div>
                 </div>
 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
                   <div class="form-group float-left">
                     <input type="submit" :value="pricing.submit_mode" class="btn btn-success" />
                   </div>
                 </div>
               </div>
+            </b-card>
             </vue-form>
           </div>
-          <div class="col-sm-6"  v-show="show_setup_form">
+          <div class="col-sm-8"  v-show="show_setup_form">
             <div class="table-responsive">
               <datatable title="Product Prices" :rows="tableData" :columns="columndata">
                 <template slot="actions" slot-scope="props">
@@ -163,6 +166,7 @@
         products: "",
         show_multi_company: false,
         show_single_company: false,
+        show_approval_pane: true,
         station_pumps:"",
         company_stations: "",
         added_product_name: "",
@@ -263,6 +267,7 @@
       if(action == 'update'){
         this.pricing = data;
         this.pricing.requested_price_tag = data.new_price_tag;
+        this.show_approval_pane=true;
          this.pricing.submit_mode="Request Price Change";
       }
     },
@@ -272,6 +277,7 @@
           return;
         } else {
           store.commit("activateLoader", "start");
+           this.show_approval_pane=false;
           //include station and company_id
           this.pricing.station_id= this.preset.station_id;
           this.pricing.company_id= this.preset.company_id;
@@ -306,6 +312,7 @@
               
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Product Price Added Successfully', 'show_alert': true});  
+               this.show_approval_pane=true;
           }
         }).catch(error => {
           store.commit("activateLoader", "end");   
@@ -330,7 +337,9 @@
           if (station_response.status === true) {
             this.log_tableData.push(response.data.data);
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Request Made Successfully, Awaiting approval', 'show_alert': true});  
+                       'alert_message': 'Request Made Successfully, Awaiting approval', 'show_alert': true}); 
+              this.formstate.$submitted=false;
+                this.pricing= {submit_mode: "Add Price"}; 
           }
         }).catch(error => {
           store.commit("activateLoader", "end");   

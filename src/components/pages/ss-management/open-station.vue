@@ -19,9 +19,12 @@
           <div class="col-md-12">
            
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
+              <div>
               <br>
-               <b>Date : {{this.set_date}}</b>
-              
+               <b>Date : {{this.set_date}}</b><br><br>
+              <i>Please note that opening readings are pre-loaded based on readings from the previous day and can be edited in case of mismatch</i>
+              <br>
+              </div>
               <b-card header-tag="h4" class="bg-info-card" header="Open the Station">
                 <div class="row ">
                   <div class="col-lg-12">               
@@ -41,7 +44,7 @@
                                   <td>
                   
                                     <validate tag="div">
-                                      <input v-model="open_tank_reading[index].opening_reading" id="rd" :name="trd+index" type="number" required placeholder="Opening Reading" class="form-control" />
+                                      <input id="rd" :name="trd+index" type="number" v-model="open_tank_reading[index].opening_reading" required placeholder="Opening Reading" class="form-control" />
                                       <field-messages :name="trd+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Opening Reading is required</div>
                                       </field-messages>
@@ -77,7 +80,7 @@
                                   <td>
                   
                                     <validate tag="div">
-                                      <input v-model="open_pump_reading[index].opening_reading" id="rd" :name="prd+index" type="number" required placeholder="Opening Reading" class="form-control" />
+                                      <input  id="rd" :name="prd+index" type="number" v-model="open_pump_reading[index].opening_reading" required placeholder="Opening Reading" class="form-control" />
                                       <field-messages :name="prd+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Opening Reading is required</div>
                                       </field-messages>
@@ -233,8 +236,8 @@
          return;
          }
          this.show_setup_form= true;    
-         let station_id= this.preset.station_id;
-          axios.get(this.$store.state.host_url+"/pumps/by_station/"+station_id,
+         let params = 'station_id='+this.preset.station_id+'&opening_station=1';  
+         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -244,24 +247,30 @@
             //if(){
             this.show_setup_form= true;
             this.station_pumps.forEach(element => {
-            this.open_pump_reading.push({'pump_nozzle_code': element.pump_nozzle_code,'pump_id': element.id,
-           'opening_reading': '', 'c_opening_reading': '' , 'status': 'Opened', 'product': element.product.code});
+             this.open_pump_reading.push({'pump_nozzle_code': element.pump_nozzle_code,'pump_id': element.id,
+           'opening_reading': parseFloat(element.last_closing_reading), 'c_opening_reading': '', 'status': 'Opened', 'product': element.product.code, 'last_closing_reading': parseFloat(element.last_closing_reading)});
+            
           });
             ///  }
-            axios.get(this.$store.state.host_url+"/tanks/by_station/"+station_id,
+            let params = 'station_id='+this.preset.station_id+'&opening_station=1'; 
+            axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
             {
               headers : {
                 "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
               }}).then(response => {
             this.station_tanks = response.data.data;
+            console.log(this.station_tanks);
             this.open_tank_reading = [];
             this.station_tanks.forEach(element => {
-            this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': '', 'c_opening_reading': ''
-            , 'status': 'Opened', 'product': element.product.code});
+            this.open_tank_reading.push({'tank_code': element.code, 'tank_id' : element.id,'opening_reading': parseFloat(element.last_closing_reading), 'c_opening_reading': ''
+            , 'status': 'Opened', 'product': element.product.code, 'last_closing_reading': parseFloat(element.last_closing_reading)});
           });
             store.commit("activateLoader", "end"); 
           
-                  });
+                  }).catch(function(error) {
+          store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+          });
         })
         .catch(function(error) {
           store.commit("activateLoader", "end");   
@@ -281,7 +290,20 @@
           store.commit("activateLoader", "start");
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
-            ////stock//
+          let invalid_monitor = false;
+              this.open_pump_reading.forEach(element => {
+                if(parseFloat(element.opening_reading) < parseFloat(element.last_closing_reading)){
+                     invalid_monitor = true;
+                     store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                           'alert_message': 'invalid input for '+element.pump_nozzle_code+'. Opening reading cannot be less than previous day\'s closing reading', 'show_alert': true});
+                     store.commit("activateLoader", "end");                
+                }
+              });
+          if (invalid_monitor) {
+              //stop script eecution if true
+              return;
+           }
+
           this.final_stock_info.station_id= this.preset.station_id;
           this.final_stock_info.company_id= this.preset.company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));

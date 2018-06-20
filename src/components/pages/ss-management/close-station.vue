@@ -342,6 +342,31 @@
           store.commit("activateLoader", "start");
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
+          let pump_invalid_monitor = false;
+          let tank_invalid_monitor = false;
+           this.close_pump_reading.forEach(element => {
+            if(parseFloat(element.opening_reading) > parseFloat(element.closing_reading)){
+                  pump_invalid_monitor = true;
+                 store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'invalid input for '+element.pump_nozzle_code+'. Closing reading cannot be less than opening reading', 'show_alert': true});
+                 store.commit("activateLoader", "end");
+            }
+          });
+          //  //100L varianace
+          //  this.close_tank_reading.forEach(element => {
+          //   if( parseFloat(element.closing_reading) > (parseFloat(element.opening_reading) + parseFloat(element.rtt) + parseFloat(element.qty_recieved) + 100) ){
+          //     tank_invalid_monitor = true;
+          //        store.commit("showAlertBox", {'alert_type': 'alert-danger',
+          //              'alert_message': 'Oops! Too much variation detected on '+element.tank_code+' between opening and closing readings, please cross-check', 'show_alert': true});
+          //        store.commit("activateLoader", "end");
+             
+          //   }
+          // });
+
+        if (pump_invalid_monitor) {
+              //stop script eecution if true
+              return;
+           }
           ////stock//
           this.final_stock_info.station_id= this.preset.station_id;
           this.final_stock_info.company_id= this.preset.company_id;

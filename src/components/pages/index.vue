@@ -266,6 +266,11 @@
                     field: 'tolerance',
                     numeric: false,
                     html: true,
+                }, {
+                    label: 'Enter Time',
+                    field: 'created_at',
+                    numeric: false,
+                    html: true,
                 }]
 
             }
@@ -318,7 +323,7 @@
           else{
           ///for regular company users
           company_route = '/dashboard?user=company_regular_user&user_id='+user_details.id
-          +'company_id='+user_details.company_id+'&start_date='+this.start_date+'&end_date='+this.end_date;
+          +'&company_id='+user_details.company_id+'&start_date='+this.start_date+'&end_date='+this.end_date;
           this.is_company_regular_user = true;
           }
           axios.get(store.state.host_url+company_route,
@@ -361,7 +366,7 @@
                 var expected_pump_sales_string='';
                 var station_name_string = '';
                 let product_string='';
-
+                let enter_time='';
 
 
 
@@ -435,7 +440,7 @@
                   tot_shift_end_tank_reading = tot_shift_end_tank_reading + parseFloat(element.phy_shift_end_volume_reading);
                   tot_delivery = tot_delivery + parseFloat(element.end_delivery);
                   tot_rtt = tot_rtt + parseFloat(element.return_to_tank);
-                
+                   enter_time = element.created_at;
                 }
                 );
                 total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading + tot_delivery;
@@ -449,8 +454,9 @@
                 }
                 //consider rtt for pump sales
                 
-                 station_name_string = station;
+                station_name_string = station;
                 station_name_string='<span >'+station_name_string + '</span><br>';
+                enter_time='<span >'+enter_time + '</span><br>';
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
                 total_pump_sales.toFixed(2).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
@@ -475,7 +481,7 @@
                 this.tableData.push({'date': main_date, 'product': product_string, 
                 'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
                 total_pump_sales_string, 'station': station_name_string, 'tolerance': 
-                tolerance_string, 'expected_pump_sales': expected_pump_sales_string });
+                tolerance_string, 'expected_pump_sales': expected_pump_sales_string, 'created_at': enter_time });
                   
                   }
                   

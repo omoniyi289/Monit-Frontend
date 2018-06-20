@@ -139,13 +139,29 @@
                                     </div>
                                 </div>
 
-                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                      
-                                            <label for="manager_email">OEM Station ID</label>
-                                            <input v-model="station.oem_stationid" name="oem_stationid" type="oem_stationid"  placeholder="OEM Station ID" class="form-control" id="oem_stationid"/>
-                                            
-                                     
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="oem_stationid">OEM Station ID</label>
+                                        <input v-model="station.oem_stationid" name="oem_stationid" type="oem_stationid"  placeholder="OEM Station ID" class="form-control" id="oem_stationid"/>          
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="daily_pms_target">Daily PMS Target</label>
+                                        <input v-model="station.daily_pms_target" name="daily_pms_target" type="number"  placeholder="Daily PMS Target" class="form-control" id="daily_pms_target"/>          
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="daily_ago_target">Daily AGO Target</label>
+                                        <input v-model="station.daily_ago_target" name="daily_ago_target" type="number"  placeholder="Daily AGO Target" class="form-control" id="daily_ago_target"/>          
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="daily_dpk_target">Daily DPK Target</label>
+                                        <input v-model="station.daily_dpk_target" name="daily_dpk_target" type="number"  placeholder="Daily DPK Target" class="form-control" id="daily_dpk_target"/>          
                                     </div>
                                 </div>
 
