@@ -72,7 +72,7 @@
         "vue-template-compiler": "^2.5.13",
         "vue2-animate": "^1.0.4",
         "vue2-dropzone": "^3.0.6",
-        "vue2-google-maps": "^0.8.11",
+        "vue2-google-maps": "^0.8.12",
         "vueisotope": "^3.1.2",
         "vuejs-datatable": "^1.5.3",
         "vuejs-datepicker": "^0.9.29",

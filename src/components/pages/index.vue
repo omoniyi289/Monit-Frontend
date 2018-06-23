@@ -158,6 +158,23 @@
                    
                 </div>
 
+                <!-- <div class="col-sm-6">
+                    <div class="form-inline" style="float: right">
+                                From : <span >
+                                <datepicker :format="format" v-model="start_date"  placeholder="Start Date">
+                                </datepicker>
+                                </span>
+                                To: <span>
+                                <datepicker :format="format" v-model="end_date"  placeholder="End Date">
+                                </datepicker>
+                                </span>..
+                                <span v-on:click="populate_dashboard()" style="margn-left: 2%" class="btn btn-primary">
+                                    PROCEED
+                                </span>
+                               
+                    </div>
+                </div> -->
+
               <datatable title="Sales and Stock Data" :rows="tableData" :columns="columndata">
               </datatable>
             </div>
@@ -268,7 +285,7 @@
                     html: true,
                 }, {
                     label: 'Enter Time',
-                    field: 'created_at',
+                    field: 'updated_at',
                     numeric: false,
                     html: true,
                 }]
@@ -366,7 +383,7 @@
                 var expected_pump_sales_string='';
                 var station_name_string = '';
                 let product_string='';
-                let enter_time='';
+                let updated_at='';
 
 
 
@@ -440,7 +457,7 @@
                   tot_shift_end_tank_reading = tot_shift_end_tank_reading + parseFloat(element.phy_shift_end_volume_reading);
                   tot_delivery = tot_delivery + parseFloat(element.end_delivery);
                   tot_rtt = tot_rtt + parseFloat(element.return_to_tank);
-                   enter_time = element.created_at;
+                   updated_at = element.updated_at;
                 }
                 );
                 total_tank_sales = tot_shift_start_tank_reading - tot_shift_end_tank_reading + tot_delivery;
@@ -456,7 +473,7 @@
                 
                 station_name_string = station;
                 station_name_string='<span >'+station_name_string + '</span><br>';
-                enter_time='<span >'+enter_time + '</span><br>';
+                updated_at='<span >'+updated_at + '</span><br>';
                 total_pump_sales_string='<span class="'+product+'">'+total_pump_sales_string + 
                 total_pump_sales.toFixed(2).toLocaleString()+'</span><br>';
                 total_tank_sales_string='<span class="'+product+'">'+total_tank_sales_string + 
@@ -481,7 +498,7 @@
                 this.tableData.push({'date': main_date, 'product': product_string, 
                 'ppv': ppv_string, 'tank_sales': total_tank_sales_string, 'pump_sales': 
                 total_pump_sales_string, 'station': station_name_string, 'tolerance': 
-                tolerance_string, 'expected_pump_sales': expected_pump_sales_string, 'created_at': enter_time });
+                tolerance_string, 'expected_pump_sales': expected_pump_sales_string, 'updated_at': updated_at });
                   
                   }
                   

@@ -78,6 +78,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import Vue from 'vue'
 import VueForm from "vue-form";     
@@ -86,7 +87,14 @@ Vue.use(vueSmoothScroll);
 const { detect } = require('detect-browser');
 import options from "src/validations/validations.js";
 import store from 'src/store/store.js';
+import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueForm, options);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyCsOSpDDT7YdvWwTmwBrXQEl3S4dN3AwIw',
+    libraries: 'places', // This is required if you use the Autocomplete plugin
+  },
+});
 export default {
     name: "login2",
     data() {
@@ -101,6 +109,7 @@ export default {
             success_message: '',
             lat: '',
             long:'',
+            location_address:'',
             error_message: '',
             message: '',
            localStorge: {},
@@ -128,6 +137,8 @@ export default {
               this.user.os_version = browser.os;
             }
             this.user.location_cordinate= this.lat +" "+ this.long;
+            this.user.location_address = this.location_address;
+            
             axios.post(host_url+'/auth', JSON.stringify(this.user), {
                 headers: {
                     'Content-type': 'application/json'
@@ -170,6 +181,25 @@ export default {
 , show_position(position) {
 this.long = position.coords.longitude;
 this.lat = position.coords.latitude;
+
+    var geocoder = new google.maps.Geocoder();
+    var latLng = new google.maps.LatLng(this.lat, this.long);
+
+ if (geocoder) {
+     var self = this;
+    geocoder.geocode({ 'latLng': latLng}, function (results, status) {
+       if (status == google.maps.GeocoderStatus.OK) {
+         self.getAddressString(results[0].formatted_address);
+       }
+       else {
+        console.log("Geocoding failed: " + status);
+       }
+    }); //geocoder.geocode()
+  }   
+   
+}
+, getAddressString(address){
+ this.location_address = address;
 }
 }
     ,

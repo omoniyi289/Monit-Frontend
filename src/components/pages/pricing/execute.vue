@@ -18,10 +18,12 @@
           
           <div class="col-sm-3">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
+              <b-card header="Execution Pane" header-tag="h5" class="bg-info-card">
               <div class="row">
                 <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
+                      <div class="alert alert-warning">DISCLAIMER: Please note that if the station FCC is <b>offline</b>, a successfully-executed price change will not take effect at the station until the FCC is <b>online</b>.</div>
                       <label for="product_id">Product</label>
                       <select readonly id="product_id" name="product_id" size="1" class="form-control" v-model="pricing.product_id" required checkbox>
 
@@ -79,6 +81,7 @@
                   </div>
                 </div>
               </div>
+            </b-card>
             </vue-form>
           </div>
           <div class="col-sm-9"  v-show="show_setup_form">
