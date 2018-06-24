@@ -23,7 +23,7 @@
                 <div class="col-lg-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <div class="alert alert-warning">Please note that if the station FCC is <b>offline</b>, a successfully-executed price change will not take effect at the station until the FCC is back<b>online</b>.</div>
+                      <div class="alert alert-warning">Please note that if the station FCC is <b>offline</b>, a successfully-executed price change will not take effect at the station until the FCC is back <b>online</b>.</div>
                       <label for="product_id">Product</label>
                       <select readonly id="product_id" name="product_id" size="1" class="form-control" v-model="pricing.product_id" required checkbox>
 
