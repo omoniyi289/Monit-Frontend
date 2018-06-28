@@ -25,7 +25,7 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form" >
                <input readonly type="text"  :value="selected_date" placeholder=""/>
               
-              <b-card header-tag="h4" class="bg-info-card" header="Modify Station Data">
+              <b-card header-tag="h4" class="bg-info-card" header="View Station Data">
                 <div class="row ">
                   <div class="col-lg-12">               
                     <b-tabs>

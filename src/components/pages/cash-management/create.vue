@@ -20,7 +20,8 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form && fill_form">
               <div class="row">
                 
-                <div class="col-sm-8">
+                <div class="col-sm-12">
+                    <label for="date">Transaction Date</label>
                     <datepicker :format="format" v-model="selected_reading_date"  placeholder="Sales Transaction Date">
                     </datepicker>
                     <br>

@@ -75,7 +75,7 @@ export default {
         permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS",
                         "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
-                        ,"RStk20","CStk20"];
+                        ,"RStk20","CStk20", "AMPS30"];
         }
         else
         {   ///company user
@@ -321,7 +321,7 @@ export default {
 
                             }
 
-        ///Exp Mgt
+        ///Cash Mgt
         if(permissions.includes('AMPa')){
             menu_items.push({
                     name: 'Cash Management',
@@ -333,6 +333,24 @@ export default {
                     }]
                     }); 
                             }
+
+         ///ROPS Mgt
+        if(permissions.includes('AMPS30')){
+            menu_items.push({
+                    name: 'Retail Price Survey',
+                    icon: 'fa fa-money',
+                    child: [{
+                        name: 'Submit Survey',
+                        link: '/rops/create',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'View Past Surveys',
+                        link: '/rops/view',
+                        icon: 'fa fa-angle-double-right'
+                    }]
+                    }); 
+                            }
+
              
         ////console.log(menu_items);
         return menu_items;

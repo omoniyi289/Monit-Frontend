@@ -33,6 +33,7 @@
                 </div>
 
                 <div class="col-sm-12">
+                    <label for="date">Expense Date</label>
                     <datepicker required :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
                     <br>
                 </div>

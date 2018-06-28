@@ -57,7 +57,7 @@
                                 </field-messages>
                             </validate>
                         </div> -->
-                        <div class="col-lg-6 col-md-6 text-right">
+                        <div class="col-lg-12 col-md-12 text-right">
                             <div class="form-group">
                                 <input type="submit" :value="login_submit" class="btn btn-success" />
                             </div>
