@@ -32,8 +32,9 @@
                 </div>
                    
                
-                  <div class="col-sm-12" style="margin-bottom: 2%" > 
-                  </div>   
+                  <div class="col-sm-12" style="margin-top: 2%" > 
+                    <div class="alert-info" style="font-size: 17px; ">Primary Competition(PC) within 600m radius, in order of proximity </div><br>
+                  </div>    
                   <div class="col-sm-12 col-md-3" >
                     <div class="form-group form-inline">
                       <validate tag="div">
@@ -129,6 +130,7 @@
 
                   <div class="col-sm-12" style="" > 
                       <hr>
+                      <div class="alert-info" style="font-size: 17px; ">Secondary Competition(SC) within 600m-2.5km radius, in order of proximity </div><br>
                   </div> 
                   <div class="col-sm-12 col-md-3" >
                     <div class="form-group form-inline">
@@ -500,5 +502,8 @@
 <style>
   .form-control{
     transition: initial;
+  }
+   .col-md-2{
+    margin-right: 3%;
   }
 </style>

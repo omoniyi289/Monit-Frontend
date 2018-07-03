@@ -195,12 +195,12 @@ const layout = [{
     path: '/rops/create',
       component: resolve => require(['pages/rops/create'], resolve),
       meta: {
-      title: "Create Retail Price Survey",
+      title: "Create Fuel Price Survey",
 }}, {
     path: '/rops/view',
       component: resolve => require(['pages/rops/view'], resolve),
       meta: {
-      title: "View Retail Price Survey",
+      title: "View Fuel Price Survey",
 }}
 ]
 

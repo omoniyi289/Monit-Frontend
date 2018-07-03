@@ -28,7 +28,8 @@
                 </div>
                    
                
-                  <div class="col-sm-12" style="margin-bottom: 2%" > 
+                  <div class="col-sm-12" style="margin-top: 2%" > 
+                    <div class="alert-info" style="font-size: 17px; ">Primary Competition(PC) within 600m radius, in order of proximity </div><br>
                   </div>   
                   <div class="col-sm-12 col-md-3" >
                     <div class="form-group form-inline">
@@ -41,7 +42,7 @@
                     </div>
                   </div>
 
-                    <div class="col-sm-12 col-md-2"> 
+                    <div class="col-sm-12 col-md-2" > 
                       <div class="form-group form-inline">
                         <validate tag="div">
                           PMS: <input v-model="rops.pc1_price_pms" name="pc1_price_pms" type="number" required autofocus placeholder="" class="form-control" id="pc1_price_pms"/>
@@ -125,6 +126,7 @@
 
                   <div class="col-sm-12" style="" > 
                       <hr>
+                      <div class="alert-info" style="font-size: 17px; ">Secondary Competition(SC) within 600m-2.5km radius, in order of proximity </div><br>
                   </div> 
                   <div class="col-sm-12 col-md-3" >
                     <div class="form-group form-inline">
@@ -545,5 +547,8 @@
 <style>
   .form-control{
     transition: initial;
+  }
+  .col-md-2{
+    margin-right: 3%;
   }
 </style>

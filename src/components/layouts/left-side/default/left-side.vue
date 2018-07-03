@@ -337,7 +337,7 @@ export default {
          ///ROPS Mgt
         if(permissions.includes('AMPS30')){
             menu_items.push({
-                    name: 'Retail Price Survey',
+                    name: 'Fuel Price Survey',
                     icon: 'fa fa-money',
                     child: [{
                         name: 'Submit Survey',
