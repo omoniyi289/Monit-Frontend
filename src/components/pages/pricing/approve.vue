@@ -374,8 +374,8 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");    
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Product  Change Updated Successfully', 'show_alert': true});
                 let element = this.pricing;

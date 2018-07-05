@@ -297,8 +297,8 @@
           }).then( response => {
             store.commit("activateLoader", "end");
             
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             
               for( var i = 0, len = this.products.length; i < len; i++ ) {
                   if( this.products[i]['id'] === this.pricing.product_id ) {
@@ -333,8 +333,8 @@
           }).then( response => {
             store.commit("activateLoader", "end");
             
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             this.log_tableData.push(response.data.data);
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Request Made Successfully, Awaiting approval', 'show_alert': true}); 

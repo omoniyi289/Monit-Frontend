@@ -257,8 +257,8 @@
           }).then( response => {
             store.commit("activateLoader", "end");
             //console.log(response.data);
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
       
               for( var i = 0, len = this.products.length; i < len; i++ ) {
                   if( this.products[i]['id'] === this.fuel_supply.product_id ) {
@@ -267,22 +267,22 @@
                       break;
                   }
               }
-             /* if(station_response.data.approver  != null){
+             /* if(api_response.data.approver  != null){
               this.tableData.push({'product':{'code': this.added_product_name}, 
-              'request_code': station_response.data.request_code,
-              'quantity_requested': station_response.data.quantity_requested,
-              'approver': {'fullname': station_response.data.approver.fullname},
-               'created_at':station_response.data.created_at,
-               'updated_at':station_response.data.updated_at
-              , 'status': station_response.data.status});*/
+              'request_code': api_response.data.request_code,
+              'quantity_requested': api_response.data.quantity_requested,
+              'approver': {'fullname': api_response.data.approver.fullname},
+               'created_at':api_response.data.created_at,
+               'updated_at':api_response.data.updated_at
+              , 'status': api_response.data.status});*/
             
              // }
              this.tableData.push({'product':{'code': this.added_product_name}, 
-              'request_code': station_response.data.request_code,
-              'quantity_requested': station_response.data.quantity_requested,
-               'created_at':station_response.data.created_at,
-               'updated_at':station_response.data.updated_at
-              , 'status': station_response.data.status});
+              'request_code': api_response.data.request_code,
+              'quantity_requested': api_response.data.quantity_requested,
+               'created_at':api_response.data.created_at,
+               'updated_at':api_response.data.updated_at
+              , 'status': api_response.data.status});
         
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Request Added Successfully', 'show_alert': true});

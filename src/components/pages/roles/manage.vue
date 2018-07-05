@@ -315,8 +315,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'Role Deleted Successfully',transition:''});
@@ -354,8 +354,8 @@
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             ////console.log(response.data);
                   this.tableData.push(response.data.data);
                   this.tableData.forEach((item, index) => {
@@ -393,8 +393,8 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
                         //console.log(response);
-                        let company_response = response.data;
-                        if (company_response.status === true) {
+                        let api_response = response.data;
+                        if (api_response.status === true) {
                           //update UI table data, not working yet
                               this.tableData = response.data.data;
                               this.tableData.forEach((item, index) => {

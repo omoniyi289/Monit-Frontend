@@ -329,10 +329,10 @@
             }
           }).then( response => {
             store.commit("activateLoader", "end");    
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': station_response.data.description, 'show_alert': true});
+                       'alert_message': api_response.data.description, 'show_alert': true});
                 let element = this.pricing;
                 this.approve = false;
           if(element.is_executed == 1){

@@ -266,8 +266,8 @@ export default {
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
                         //console.log(response);
-                        let company_response = response.data;
-                        if (company_response.status === true) {
+                        let api_response = response.data;
+                        if (api_response.status === true) {
                          let password_message= "";
                         if(this.model.password !== undefined){
                         password_message = ", password changed";

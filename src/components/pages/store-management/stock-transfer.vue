@@ -280,8 +280,8 @@
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             this.update_view(response);
             this.$alert.success({duration:10000,forceRender:'',
             message:'Stock Transfered successfully',transition:''});

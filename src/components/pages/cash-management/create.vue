@@ -381,9 +381,9 @@
           }).then( response => {
             store.commit("activateLoader", "end");
             //console.log(response.data);
-            let station_response = response.data;
-          if (station_response.status === true) {
-              this.tableData.push(station_response.data);
+            let api_response = response.data;
+          if (api_response.status === true) {
+              this.tableData.push(api_response.data);
              
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Payment Added Successfully', 'show_alert': true});

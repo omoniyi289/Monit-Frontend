@@ -349,8 +349,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'Tank Deleted Successfully',transition:''});
@@ -382,8 +382,8 @@
                         }
                     }).then( response => {
                     store.commit("activateLoader", "end");
-                        let station_response = response.data;
-                    if (station_response.status === true) {
+                        let api_response = response.data;
+                    if (api_response.status === true) {
                         this.tableData = response.data.data;
                         store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Tank Added Successfully', 'show_alert': true});
@@ -402,8 +402,8 @@
                                     }
                                 }).then( response => {                         
                                     store.commit("activateLoader", "end");        
-                                    let company_response = response.data;
-                                    if (company_response.status === true) {
+                                    let api_response = response.data;
+                                    if (api_response.status === true) {
                                     this.tableData = response.data.data;
                                     this.$alert.success({duration:10000,forceRender:'',
                                     message:'Tank Updated Successfully',transition:''});

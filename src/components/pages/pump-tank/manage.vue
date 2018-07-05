@@ -536,8 +536,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 if(url == '/pumps-tanks/'){
                                   this.map_tableData.splice(this.map_tableData.indexOf(data), 1);
                                     }

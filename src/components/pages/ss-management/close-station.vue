@@ -391,8 +391,8 @@
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
             }).then( response => {                         
-                    let station_response = response.data;
-                    if (station_response.status === true) {
+                    let api_response = response.data;
+                    if (api_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings Updated Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;

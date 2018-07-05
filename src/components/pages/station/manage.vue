@@ -259,6 +259,23 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
+                                            <label for="hasFCC">Is Station Active? </label>
+                                            <select id="is_station_enabled" name="is_station_enabled" size="1" class="form-control" v-model="station.is_station_enabled" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="hasFCC" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Is Station Active is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
                                             <label for="hasFCC">Does this station have a Forecourt Controller (FCC)? </label>
                                             <select id="hasFCC" name="hasFCC" size="1" class="form-control" v-model="station.hasFCC" required>
                                                 
@@ -569,6 +586,7 @@
                     show_fcc_pms:1,
                     show_fcc_ago:1,
                     show_fcc_dpk:1,
+                    is_station_enabled: 1,
                     show_atg_pms:1,
                     show_atg_ago:1,
                     show_atg_dpk:1,
@@ -662,8 +680,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'Station Deleted Successfully',transition:''});
@@ -694,8 +712,8 @@
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");
-                        let station_response = response.data;
-                            if (station_response.status === true) {
+                        let api_response = response.data;
+                            if (api_response.status === true) {
                                 //console.log(response.data);
                               this.tableData.push(response.data.data);
                               this.tableData.forEach((item, index) => {
@@ -722,8 +740,8 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
                         //console.log(response);
-                        let company_response = response.data;
-                        if (company_response.status === true) {
+                        let api_response = response.data;
+                        if (api_response.status === true) {
                         store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Station Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;

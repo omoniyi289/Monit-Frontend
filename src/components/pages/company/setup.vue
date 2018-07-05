@@ -239,8 +239,8 @@
                         }
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
-                        let company_response = response.data;
-                        if (company_response.status === true) {
+                        let api_response = response.data;
+                        if (api_response.status === true) {
                             this.tableData.splice(this.tableData.indexOf(data), 1);
                             this.$alert.success({duration:10000,forceRender:'',
                         message:'Company Deleted Successfully',transition:''});
@@ -279,9 +279,9 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
         
-                        let company_response = response.data;
-                        if (company_response.status === true) {
-                            this.tableData.push(company_response.data);
+                        let api_response = response.data;
+                        if (api_response.status === true) {
+                            this.tableData.push(api_response.data);
                             localStorage.setItem('company_details', response.data);
                             //console.log(response.data.data);
                            
@@ -302,8 +302,8 @@
                     }).then( response => {                         
                         store.commit("activateLoader", "end");        
         
-                        let company_response = response.data;
-                        if (company_response.status === true) {
+                        let api_response = response.data;
+                        if (api_response.status === true) {
                             this.company='';
                         store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Company Updated Successfully', 'show_alert': true});

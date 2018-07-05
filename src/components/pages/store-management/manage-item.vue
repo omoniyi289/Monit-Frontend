@@ -575,8 +575,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'Item Variant Deleted Successfully',transition:''});
@@ -596,8 +596,8 @@
                             }
                         }).then( response => {                         
                             store.commit("activateLoader", "end");        
-                            let company_response = response.data;
-                            if (company_response.status === true) {
+                            let api_response = response.data;
+                            if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'Item Deleted Successfully',transition:''});
@@ -631,8 +631,8 @@
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             //console.log(response.data.data);
              this.tableData.push(response.data.data);  
             this.$alert.success({duration:10000,forceRender:'',
@@ -701,8 +701,8 @@
             }
           }).then( response => {                         
             store.commit("activateLoader", "end");
-            let station_response = response.data;
-          if (station_response.status === true) {
+            let api_response = response.data;
+          if (api_response.status === true) {
             //console.log(response.data.data);
              this.tableData_2.push(response.data.data); 
             this.$SmoothScroll(document.getElementById("content-header")); 
