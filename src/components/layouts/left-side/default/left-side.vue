@@ -126,6 +126,7 @@ export default {
                             link: '/admin/users/create',
                      
                         });}
+             
                 
                 if(permissions.includes('CMRe')){
                         menu_items[current_index].child.push({
@@ -134,7 +135,13 @@ export default {
                      
                         });}
                     }
-                
+                   //intentionally allowed user privilege to control notifications as well
+                if(permissions.includes('CMUs')){
+                        menu_items[current_index].child.push({
+                            name: 'Notifications Settings',
+                            link: '/admin/notifications/manage',
+                     
+                        });}
         ///configuration
         if(permissions.includes('SSCo') || permissions.includes('MSCo')){
         menu_items.push({ name: 'Configuration',

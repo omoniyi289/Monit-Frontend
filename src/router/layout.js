@@ -19,6 +19,12 @@ const layout = [{
     }
     }
     , {
+        path: '/admin/notifications/manage',
+            component: resolve => require(['pages/notifications/manage'], resolve),
+            meta: {
+            title: "Manage Notifications",
+    }
+    } , {
         path: '/admin/users/create',
             component: resolve => require(['pages/users/create'], resolve),
             meta: {

@@ -142,21 +142,24 @@
         </div>
         
         <div class="col-sm-12" v-show="show_setup_form">
-            <div class="table-responsive">
-                <div class="form-inline" style="margin-left: 40%">
-                    START DATE: <span >
+            <div class="form-inline" style="float: right">
+                START DATE: 
+                <span >
                     <datepicker :format="format" v-model="start_date"  placeholder="Start Date">
                     </datepicker>
-                    </span>
-                    END DATE: <span>
+                </span>
+                END DATE: 
+                <span>
                     <datepicker :format="format" v-model="end_date"  placeholder="End Date">
                     </datepicker>
-                    </span>
-                    <span v-on:click="populate_dashboard()" style="margin-left: 2%" class="btn btn-primary">
-                        PROCEED
-                    </span>
-                   
-                </div>
+                </span>
+                <span v-on:click="populate_dashboard()"  class="btn btn-primary">
+                PROCEED
+                </span>
+                       
+            </div>
+            <div class="table-responsive">
+                
 
                 <!-- <div class="col-sm-6">
                     <div class="form-inline" style="float: right">
