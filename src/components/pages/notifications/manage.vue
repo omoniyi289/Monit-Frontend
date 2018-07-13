@@ -59,9 +59,9 @@
                                   <label for="number"> Weekly Station Operations Report </label>
                               </div>
                             </div>
-                            <div class="col-sm-3 ">
+                            <div class="col-sm-6">
                               <div class="form-group">
-                                  Colation Week Day
+                                  Colation Day of the week
                                   <select id="weekday" name="weekday" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_weekday" required checkbox>
 
                                         <option
@@ -74,7 +74,7 @@
                               </div>
                             </div>
 
-                            <div class="col-sm-3 ">
+                            <div class="col-sm-3 " v-if='false'>
                               <div class="form-group">
                                   Colation Day Time
                                   <select id="daytime" name="daytime" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_daytime" required checkbox>
