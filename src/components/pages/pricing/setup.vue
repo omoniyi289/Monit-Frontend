@@ -111,9 +111,9 @@
           html: false,
         },
         {
-                field: '__slot:actions',
-                label: 'Actions',
-                }],
+          field: '__slot:actions',
+          label: 'Actions',
+          }],
             log_columndata: [
         {
           label: 'Requested On',

@@ -175,12 +175,12 @@ export default {
             }
         }).catch(error => {
                if(error.response.status == 500){
-                        this.login_submit = "LOGIN";
+                        this.submit_btn = "Sign up";
                         this.show_error = true;
                         this.error_message =  "An error occurred!";
                         }
                     else{
-                        this.login_submit = "LOGIN";
+                        this.submit_btn = "Sign up";
                         this.show_error = true;
                         this.error_message =  error.response.data.message;
                     }

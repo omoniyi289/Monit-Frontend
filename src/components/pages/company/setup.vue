@@ -33,16 +33,22 @@
 
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <validate tag="div">
-                                            <label for="email_input">Company E-mail</label>
-                                            <input v-model="company.email" name="email" type="email" required autofocus placeholder="Company E-mail" class="form-control" id="email_input"/>
-                                            <field-messages name="email" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Company Email is a required field</div>
-                                                <div slot="email">Email is not valid</div>
-                                            </field-messages>
-                                        </validate>
+                                        <div class="form-group">
+                                        
+                                            <input v-model="company.email" name="email" type="email"  autofocus placeholder="Company E-mail" class="form-control" id="email_input"/>
+                                           
+                                    </div>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        
+                                            <input v-model="company.sms_sender_id" name="sms_sender_id" type="text"  autofocus placeholder="SMS Sender ID" class="form-control" id="email_input"/>
+                                           
+                                    </div>
+                                </div>
+
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -118,8 +124,11 @@
 <script>
     import Vue from 'vue';
     import store from 'src/store/store.js';
-    import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
-    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+    import VueForm from "vue-form";     
+    import vueSmoothScroll from 'vue-smoothscroll';     
+    Vue.use(vueSmoothScroll);
+    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import csview from "components/plugins/Company-Station-View/CSView.vue";
     import options from "src/validations/validations.js";
     Vue.use(VueForm, options);
     import api_states from "src/assets/json/states.json";
@@ -172,6 +181,7 @@
                     email: "",
                     state:0,
                     address: "",
+                    sms_sender_id:"",
                     city: "",
                     registration_number: "",
                     submit_mode: "CREATE"

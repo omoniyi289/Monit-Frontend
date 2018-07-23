@@ -16,7 +16,7 @@
         methods: {
             do_verify(){
                 let host_url = this.$store.state.host_url;
-                axios.get(host_url+'/users/vefify/' +  this.$route.params.token).then(response => {
+                axios.get(host_url+'/users/verify/' +  this.$route.params.token).then(response => {
                     let verify_res = response.data;
                     if (verify_res.status === true){
                         this.message = "Thanks for taking your time to verify your email," +
