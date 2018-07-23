@@ -33,17 +33,15 @@
 
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        <div class="form-group">
-                                        
+                                            <label for="email_input">Contact Email</label>
                                             <input v-model="company.email" name="email" type="email"  autofocus placeholder="Company E-mail" class="form-control" id="email_input"/>
                                            
-                                    </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        
+                                            <label for="registration_number">Preferred SMS ID</label>
                                             <input v-model="company.sms_sender_id" name="sms_sender_id" type="text"  autofocus placeholder="SMS Sender ID" class="form-control" id="email_input"/>
                                            
                                     </div>
