@@ -42,7 +42,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                             <label for="registration_number">Preferred SMS ID</label>
-                                            <input v-model="company.sms_sender_id" name="sms_sender_id" type="text"  autofocus placeholder="SMS Sender ID" class="form-control" id="email_input"/>
+                                            <input v-model="company.sms_sender_id" name="sms_sender_id" type="text" maxlength="9" autofocus placeholder="SMS Sender ID" class="form-control" id="email_input"/>
                                            
                                     </div>
                                 </div>
