@@ -89,6 +89,46 @@
                                         </validate>
                                     </div>
                                 </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="active">Is Company Active? </label>
+                                            <select id="active" name="active" size="1" class="form-control" v-model="company.active" required>
+                                                
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+
+                                            </select>
+                                            <field-messages name="active" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Is Company Active is required</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
+
+                                 <div class="col-sm-12">
+                                        <div class="form-group">
+                                          <b-card  header="Select permissions for Company" header-tag="h4" class="bg-info-card">            
+                                            <multiselect  v-model="company.selected_privileges" tag-placeholder="Add privilege(s) to company" 
+                                            placeholder="Select privileges"
+                                            label="name" track-by="id" 
+                                            :options="available_privileges" :multiple="true" :hide-selected="true"  :taggable="true" :close-on-select="false" >
+                                            </multiselect>                                 
+                                           </b-card>     
+                                        </div> 
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                          <b-card  header="Select notifications for Company" header-tag="h4" class="bg-info-card">            
+                                            <multiselect  v-model="company.selected_notifications" tag-placeholder="Add notifications(s) to company" 
+                                            placeholder="Select notifications"
+                                            label="name" track-by="id" 
+                                            :options="available_notifications" :multiple="true" :hide-selected="true"  :close-on-select="false">
+                                            </multiselect>                                 
+                                           </b-card>     
+                                        </div>
+                                    </div>
                                 <div class="col-sm-12">
                                     <div class="form-group float-right">
                                         <input type="submit" :value="company.submit_mode" class="btn btn-success" />
@@ -98,12 +138,11 @@
                         </vue-form>
                     </div>
                     <div class="col-md-3">
-                -    </div>
+                -   </div>
                     <div class="col-sm-12">
-                       <!--  <div>
-                             Companies should be CREATED from super admin section not here any longer
+                        <div>
                              <span v-if="activate_create_button" v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-primary ">{{this.button_text}}</span>   
-                        </div> -->
+                        </div>
                         <div class="table-responsive">
                             <datatable title="Company Account"  :rows="tableData" :columns="columndata">
                             <template slot="actions" slot-scope="props">
@@ -130,11 +169,14 @@
     import csview from "components/plugins/Company-Station-View/CSView.vue";
     import options from "src/validations/validations.js";
     Vue.use(VueForm, options);
+    import Multiselect from 'vue-multiselect';
+    Vue.component(Multiselect);
     import api_states from "src/assets/json/states.json";
     export default {
         name: "formfeatures",
          components: {
-        datatable,csview,
+        datatable,csview, Multiselect
+
         },
          props:['data'],
         data() {
@@ -145,17 +187,16 @@
                 field: 'name',
                 numeric: false,
                 html: false,
-                }
-                , {
-                label: 'Address',
-                field: 'address',
-                numeric: false,
-                html: false,
                 }, {
-                label: 'Email',
-                field: 'email',
+                label: ' subscribed permissions',
+                field: 'permissions',
                 numeric: false,
-                html: false,
+                html: true,
+                }, {
+                label: 'subscribed notifications',
+                field: 'notifications',
+                numeric: false,
+                html: true,
                 }, {
                 label: 'Registered On',
                 field: 'created_at',
@@ -175,6 +216,8 @@
                 activate_create_button: false,
                 url: this.$store.state.host_url+'/companies',
                 formstate: {},
+                available_notifications:[],
+                available_privileges:[],
                 company: {
                     name: "",
                     email: "",
@@ -199,19 +242,47 @@
       },
         show_available_companies(){
             let user_details = JSON.parse(localStorage.getItem('user_details'));
-            this.products = store.state.products;
-            if(store.state.show_single_company){
-              this.tableData.push(store.state.available_company);
-             // console.log(user_details);
-              if(user_details.company_id == 'super' && user_details.is_company_set_up == null){
-                this.activate_create_button = true;
-              }
-            }else if(store.state.show_multi_company == true){
-                ///e360 super user
-              this.tableData = store.state.available_companies;
+            axios.get(store.state.host_url+"/companies/all",
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                }}).then(response => {
+              store.commit("activateLoader", "end");
+              this.tableData = response.data.data;
               this.activate_create_button = true;
-            }
-      }
+              this.tableData.forEach((item, index) => {
+              let perm='';
+              let notf='';
+              this.tableData[index]['selected_privileges']=[];
+              this.tableData[index]['selected_notifications']=[];
+              ///permissions arrangement in table
+              item.company_permissions.forEach(inner_item => {
+                  if(inner_item.permission !==undefined){
+                        var element = '';
+                        element = inner_item.permission;
+                        perm=perm+"<span class='btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
+                        this.tableData[index]['selected_privileges'].push(element);  
+                        this.tableData[index]['permissions']=perm;
+                              }}
+                              );
+
+               ///notifications arrangement in table
+              item.company_notifications.forEach(inner_item => {
+                  
+                  if(inner_item.notification !==undefined){
+                        var element = '';
+                        element = inner_item.notification;
+                        notf=notf+"<span class=' btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
+                        this.tableData[index]['selected_notifications'].push(element);  
+                        this.tableData[index]['notifications']=notf;
+
+                              }}
+                              );
+
+                                  });
+            
+      });
+    }
       ,
     onAction (action, data, index) {
       this.$SmoothScroll(document.getElementById("content-header"));
@@ -221,10 +292,84 @@
         this.fill_form = true;
         this.button_text = "HIDE FORM";
         this.company.submit_mode="UPDATE"
+      }else if(action =='delete'){
+          this.$modal.show('dialog', {
+            title: 'Alert!',
+            text: 'Click Okay to confirm DELETE',
+            buttons: [
+                {
+                title: 'OKAY',       // Button title
+                default: true,    // Will be triggered by default if 'Enter' pressed.
+                handler: () => {this.deleteItem(data)} // Button click handler
+                },
+                {
+                title: 'CLOSE'
+                }
+            ]
+            });
       }
     },
-     
-    onSubmit() {
+    load_platfrom_privileges(){
+        store.commit("activateLoader", "start");
+        this.show_table= true;
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        axios.get(this.$store.state.host_url+"/permissions",
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                }}).then(response => {
+              store.commit("activateLoader", "end");
+              this.available_privileges = response.data.data;
+              // response.data.data.forEach( inner_item => {
+              //     this.available_privileges.push(inner_item.name);
+              // });
+
+                })
+              .catch(function(error) {
+                  store.commit("activateLoader", "end");   
+                  store.commit("catch_errors", error); 
+                });
+        },
+
+        load_platfrom_notifications(){
+        store.commit("activateLoader", "start");
+        this.show_table= true;
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        axios.get(this.$store.state.host_url+"/notifications",
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                }}).then(response => {
+              store.commit("activateLoader", "end");
+              this.available_notifications = response.data.data;
+                })
+              .catch(function(error) {
+                  store.commit("activateLoader", "end");   
+                  store.commit("catch_errors", error); 
+                });
+        },
+        deleteItem(data){
+            store.commit("activateLoader", "start");
+            this.$modal.hide('dialog');
+            let user_details = JSON.parse(localStorage.getItem('user_details'));
+          axios.delete(this.url+'/'+data.id, {
+                        headers : {
+                            "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                        }
+                    }).then( response => {                         
+                        store.commit("activateLoader", "end");        
+                        let api_response = response.data;
+                        if (api_response.status === true) {
+                            this.tableData.splice(this.tableData.indexOf(data), 1);
+                            this.$alert.success({duration:10000,forceRender:'',
+                        message:'Company Deleted Successfully',transition:''});
+                        }
+                        }).catch(error => { 
+                            store.commit("activateLoader", "end");   
+                            store.commit("catch_errors", error); 
+                });
+        },
+            onSubmit() {
                 this.$SmoothScroll(document.getElementById("content-header"));
                 if (this.formstate.$invalid) {
                     return;
@@ -260,7 +405,7 @@
                             //console.log(response.data.data);
                            
                              store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Company Registered Successfully, please re-login to continue', 'show_alert': true});
+                       'alert_message': 'Company Registered Successfully, please re-load page to continue', 'show_alert': true});
                             this.formstate.$submitted=false;
                             this.fill_form = false;
                             this.company= {submit_mode: "CREATE"};
@@ -278,10 +423,41 @@
         
                         let api_response = response.data;
                         if (api_response.status === true) {
-                            this.company='';
+                          this.company='';
+                          this.tableData = response.data.data;
+                          this.activate_create_button = true;
+                          this.tableData.forEach((item, index) => {
+                          let perm='';
+                          let notf='';
+                          this.tableData[index]['selected_privileges']=[];
+                          this.tableData[index]['selected_notifications']=[];
+                          ///permissions arrangement in table
+                          item.company_permissions.forEach(inner_item => {
+                              if(inner_item.permission !==undefined){
+                                    var element = '';
+                                    element = inner_item.permission;
+                                    perm=perm+"<span class='btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
+                                    this.tableData[index]['selected_privileges'].push(element);  
+                                    this.tableData[index]['permissions']=perm;
+                                          }}
+                                          );
+
+                           ///notifications arrangement in table
+                          item.company_notifications.forEach(inner_item => {
+                              
+                              if(inner_item.notification !==undefined){
+                                    var element = '';
+                                    element = inner_item.notification;
+                                    notf=notf+"<span class=' btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
+                                    this.tableData[index]['selected_notifications'].push(element);  
+                                    this.tableData[index]['notifications']=notf;
+
+                                          }}
+                                          );
+
+                                              });
                         store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Company Updated Successfully', 'show_alert': true});
-                        this.fill_form = false;
                         this.formstate.$submitted=false;
                         this.company= {submit_mode: "CREATE"};
                         }
@@ -297,6 +473,8 @@
         mounted: function() {          
             store.commit("check_login_details");
             this.show_available_companies();
+            this.load_platfrom_privileges();
+            this.load_platfrom_notifications();
             this.available_states = api_states;
         },
         destroyed: function() {
@@ -309,3 +487,5 @@
         transition: initial;
     }
 </style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+

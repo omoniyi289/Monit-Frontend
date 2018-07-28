@@ -10,7 +10,7 @@
                   <div class="form-group" v-if="show_multi_company">
                     <validate tag="div">
                       Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_users(preset.company_id)" v-model="preset.company_id" >
+                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
                           <option
                             v-for="(option, index) in available_companies"
                             v-bind:value="option.id"
@@ -107,6 +107,21 @@
                     </div>
                   </div>
 
+                  <div class="col-sm-12">
+                                    <div class="form-group">
+
+                                            <label for="make_super_admin">Make User E360 Super Admin</label>
+                                            <br>
+                                            <b style="color: red"> Strictly for E360 Super Admin, plese dont make the mistake of giving this access to the wrong user</b>
+                                              <select id="make_super_admin" name="make_super_admin" size="1" class="form-control" v-model="user.make_super_admin" required >
+                                                
+                                                <option value="Yes">Yes</option>
+                                              
+                                              </select>
+                                            
+                                    </div>
+                  </div>
+    
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card  header="Select stations for users" header-tag="h4" class="bg-info-card">            
@@ -118,7 +133,7 @@
                         placeholder="Select Stations"
                         label="name" track-by="id" 
                         :options="company_stations" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag"  :close-on-select="false">
+                        :taggable="true" @tag="addTag">
                         </multiselect>     
                         <p style="color: red" v-else>{{this.company_stations_null}}</p>   
                        </b-card>
@@ -157,7 +172,7 @@
                         placeholder="Select Modules"
                         label="name" track-by="id" 
                         :options="company_notifications" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag"  :close-on-select="false">
+                        :taggable="true" @tag="addTag">
                         </multiselect>       
                          <p  style="color: red" v-else>{{this.company_notifications_null}}</p> 
                        </b-card>
@@ -182,7 +197,7 @@
              <div>
                 <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
             </div>
-              <datatable title="Registered Users" :rows="tableData" :columns="columndata">
+              <datatable title="Registered Company Users" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
@@ -192,6 +207,21 @@
               </datatable>
             </div>
           </div>
+
+          <div class="col-sm-12" v-show="show_setup_form">
+            <div class="table-responsive">
+              <datatable title="Cuurent E360 Super Users" :rows="superadmin_tableData" :columns="               superadmin_columndata">
+                  <template slot="actions" slot-scope="props">
+                    <div >
+                      
+                      <i class='fa fa-trash text-danger' @click="onAction('delete', props.rowData, props.rowIndex)"></i>
+                    </div>
+                  </template>
+              </datatable>
+            </div>
+          </div>
+
+
         </div>
       </b-card>
     </div>
@@ -214,7 +244,8 @@
       Multiselect,
     },
     data() {
-      return {columndata: [{
+      return {
+        columndata: [{
           label: 'Full Name',
           field: 'fullname',
           numeric: false,
@@ -244,6 +275,25 @@
           field: '__slot:actions',
           label: 'Actions',
           }],
+        superadmin_columndata: [{
+          label: 'Full Name',
+          field: 'fullname',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Email',
+          field: 'email',
+          numeric: true,
+          html: true,
+        }, {
+          label: 'Status',
+          field: 'status',
+          numeric: true,
+          html: true,
+        },{
+          field: '__slot:actions',
+          label: 'Actions',
+          }],
         ajaxLoading: true,
         loading: true,
         url: this.$store.state.host_url+'/company_users',
@@ -251,6 +301,7 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        superadmin_tableData:[],
         show_selector: true,
         available_companies: [],
         available_company: [],
@@ -301,12 +352,11 @@
           this.button_text = "ADD A NEW USER";
         }
       },
-      show_company_users(company_id){
+      show_company_stations(company_id){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         this.company_stations_null = 'No stations added yet, please add stations under configuration to proceed';
         this.company_notifications_null = 'No available notification modules';
-        this.load_company_notifications();
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
           {
             headers : {
@@ -376,28 +426,30 @@
         });
         
       },
-       
-        load_company_notifications(){
-        store.commit("activateLoader", "start");
+      show_e360_super_user(){
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params= 'company_id='+this.preset.company_id;
-        this.company_notifications=[];
-        axios.get(this.$store.state.host_url+"/company_notifications?"+params,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+        let params = 'company_id=master';
+        axios.get(this.$store.state.host_url+"/users?"+params,
+              {
+                headers : {
+                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
-              store.commit("activateLoader", "end");
-              response.data.data.forEach(item => {
-                this.company_notifications.push(item.notification);
-              });
-                })
-              .catch(function(error) {
-                  store.commit("activateLoader", "end");   
-                  store.commit("catch_errors", error); 
+            this.superadmin_tableData = response.data.data;
+          });
+      },
+
+       show_notification_modules(){
+                     ///get products///
+              let user_details = JSON.parse(localStorage.getItem('user_details'));
+              axios.get(this.$store.state.host_url+"/notifications",
+                {
+                  headers : {
+                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                  }}).then(response => {
+                //
+                this.company_notifications = response.data.data;
                 });
         },
-      
         show_available_companies(){
           this.products = store.state.products;
         if(store.state.show_single_company){
@@ -447,7 +499,12 @@
                             store.commit("activateLoader", "end");        
                             let api_response = response.data;
                             if (api_response.status === true) {
+                                if(data.company_id == 'master'){
+                                  this.superadmin_tableData.splice(this.superadmin_tableData.indexOf(data), 1);
+                                }else{
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
+                                  }
+
                                 this.$alert.success({duration:10000,forceRender:'',
                             message:'User Deleted Successfully',transition:''});
                             }
@@ -483,7 +540,8 @@
             store.commit("activateLoader", "end");
             let api_response = response.data;
           if (api_response.status === true) {
-            //console.log(response.data.data);
+             //reload e360 super users
+             this.show_e360_super_user();
              this.tableData.push(response.data.data);  
             //  //console.log(inner_item);
              this.tableData.forEach((item, index) => {
@@ -540,6 +598,8 @@
                         let api_response = response.data;
                         if(api_response.status === true) {
                           this.tableData = response.data.data;
+                          //reload e360 super users
+                          this.show_e360_super_user();
                           this.tableData.forEach((item, index) => {
                           let perm='';
                           this.tableData[index]['selected_stations']=[];              
@@ -626,6 +686,8 @@
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
+      this.show_notification_modules();
+      this.show_e360_super_user();
     },
     destroyed: function() {
 

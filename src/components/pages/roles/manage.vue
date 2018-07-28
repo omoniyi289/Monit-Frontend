@@ -83,7 +83,7 @@
                         placeholder="Select Privileges"
                         label="name" track-by="id" 
                         :options="available_privileges" :multiple="true" :hide-selected="true" 
-                        :taggable="true" @tag="addTag">
+                        :taggable="true" @tag="addTag"  :close-on-select="false">
                         </multiselect>        
                        </b-card>
                 
@@ -221,6 +221,27 @@
         }
       },
 
+      load_company_privileges(){
+        store.commit("activateLoader", "start");
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        let params= 'company_id='+this.preset.company_id;
+         this.available_privileges = [];
+        axios.get(this.$store.state.host_url+"/company_permissions?"+params,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                }}).then(response => {
+              store.commit("activateLoader", "end");
+               response.data.data.forEach(item => {
+                this.available_privileges.push(item.permission);
+              });
+                })
+              .catch(function(error) {
+                  store.commit("activateLoader", "end");   
+                  store.commit("catch_errors", error); 
+                });
+        },
+
       show_company_roles(company_id){
           store.commit("activateLoader", "start");
           //store.commit("showAlertBox", {'alert_type': 'alert-danger', 'alert_message': 'This is sweet', 'show_alert': true});
@@ -234,6 +255,7 @@
               }}).then(response => {
             store.commit("activateLoader", "end");  
             this.tableData = response.data.data;
+            this.load_company_privileges();
             this.tableData.forEach((item, index) => {
             let perm='';
           this.tableData[index]['selected_privileges']=[];
@@ -255,18 +277,7 @@
             store.commit("catch_errors", error); 
           });
         },
-        show_permissions(){
-                     ///get products///
-              let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get(this.$store.state.host_url+"/permissions",
-                {
-                  headers : {
-                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-                  }}).then(response => {
-                //
-                this.available_privileges = response.data.data;
-                });
-        },
+    
       show_available_companies(){ 
          this.products = store.state.products;
         if(store.state.show_single_company){

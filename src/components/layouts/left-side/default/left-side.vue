@@ -52,8 +52,11 @@ export default {
     mounted: function() {
         let user_data = JSON.parse(localStorage.getItem('user_details'));
         //console.log(user_data.role_id);
-        if(user_data.role_id == 'master' || user_data.role_id == 'super'){
-            this.final_permissions= this.f_menu_items("all");
+        if(user_data.role_id == 'master' ){
+            this.final_permissions= this.f_menu_items("master");
+        }
+        else if(user_data.role_id == 'super'){
+            this.final_permissions= this.f_menu_items("super");
         }else{
             var r_p_array=[];
             var permissions= [];
@@ -71,9 +74,8 @@ export default {
      f_menu_items(r_p_array){
     var permissions =[];
 
-        if ( r_p_array == "all" ){
-        permissions = [ "CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS",
-                        "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
+        if ( r_p_array == "master" ){
+            permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
                         ,"RStk20","CStk20", "AMPS30"];
         }
@@ -353,6 +355,22 @@ export default {
                     },{
                         name: 'View Past Surveys',
                         link: '/rops/view',
+                        icon: 'fa fa-angle-double-right'
+                    }]
+                    }); 
+                            }
+        ///ROPS Mgt
+        if(permissions.includes('SU-MAN')){
+            menu_items.push({
+                    name: 'E360 Super Admin',
+                    icon: 'fa fa-money',
+                    child: [{
+                        name: 'Manage Companies',
+                        link: '/superadmin/company/manage',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'Manage All Users',
+                        link: '/superadmin/user/manage',
                         icon: 'fa fa-angle-double-right'
                     }]
                     }); 

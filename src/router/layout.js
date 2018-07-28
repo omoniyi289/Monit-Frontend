@@ -208,6 +208,17 @@ const layout = [{
       meta: {
       title: "View Fuel Price Survey",
 }}
+, {
+    path: '/superadmin/company/manage',
+      component: resolve => require(['pages/superadmin-company/manage'], resolve),
+      meta: {
+      title: "Manage Companies",
+}}, {
+    path: '/superadmin/user/manage',
+      component: resolve => require(['pages/superadmin-user/manage'], resolve),
+      meta: {
+      title: "Manage Users",
+}}
 ]
 
 export default layout

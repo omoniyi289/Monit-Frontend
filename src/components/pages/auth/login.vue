@@ -68,8 +68,8 @@
                                 <p>
                                     <router-link tag="a" to="/forgotpassword" class="">Forgot Your Password ?</router-link>
                                 </p>
-                                <router-link tag="a" to="/register" class="btn btn-primary btn-block ">New User? Sign Up Now
-                                </router-link>
+                                <!-- <router-link tag="a" to="/register" class="btn btn-primary btn-block ">New User? Sign Up Now
+                                </router-link> -->
                             </div>
                         </div>
                     </div>

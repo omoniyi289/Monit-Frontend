@@ -219,14 +219,14 @@
             }}).then(response => {
           this.company_stations = response.data.data;
           ///get roles///
-            axios.get(this.$store.state.host_url+"/notification_settings/"+company_id,
+            axios.get(this.$store.state.host_url+"/notification_settings",
               {
                 headers : {
                   "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
             this.show_setup_form = true;
-            let settings = response.data.data;
-            
+            this.load_company_notifications();
+            let settings = response.data.data;        
             this.weekly_stations_operations_report = [];
             settings.forEach((item, index) => {
                      if(item['notification_UI_Slug'] == 'WORe'){
@@ -246,22 +246,24 @@
         });
         
       },
-       show_notification_modules(){
-                     ///get products///
-              let user_details = JSON.parse(localStorage.getItem('user_details'));
-              axios.get(this.$store.state.host_url+"/notifications",
-                {
-                  headers : {
-                    "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-                  }}).then(response => {
-                //
-                this.tableData = response.data.data;
-                this.tableData.forEach((item, index) => {
-                      this.tableData[index]['index']= index;
-                      this.tableData[index]['name']=item.name;    
-              
-                  });
-                store.commit("activateLoader", "end");   
+       load_company_notifications(){
+      store.commit("activateLoader", "start");
+        let user_details = JSON.parse(localStorage.getItem('user_details'));
+        let params= 'company_id='+this.preset.company_id;
+        this.tableData=[];
+        axios.get(this.$store.state.host_url+"/company_notifications?"+params,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                }}).then(response => {
+              store.commit("activateLoader", "end");
+              response.data.data.forEach(item => {
+                this.tableData.push(item.notification);
+              });
+                })
+              .catch(function(error) {
+                  store.commit("activateLoader", "end");   
+                  store.commit("catch_errors", error); 
                 });
         },
         show_available_companies(){
@@ -330,7 +332,6 @@
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
-      this.show_notification_modules();
     },
     destroyed: function() {
 
