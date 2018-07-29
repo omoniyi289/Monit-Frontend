@@ -5,7 +5,7 @@
 .cssload-aim {
     position: fixed;
     z-index: 1500;
-    left: calc(100% - 42px);
+    left: 50%;
     top: 60px;
     border-radius: 20px;
     background-color: transparent;

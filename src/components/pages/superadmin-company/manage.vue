@@ -257,7 +257,7 @@
               this.tableData[index]['selected_notifications']=[];
               ///permissions arrangement in table
               item.company_permissions.forEach(inner_item => {
-                  if(inner_item.permission !==undefined){
+                  if(inner_item.permission !==undefined && inner_item.permission !== null){
                         var element = '';
                         element = inner_item.permission;
                         perm=perm+"<span class='btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
@@ -269,7 +269,7 @@
                ///notifications arrangement in table
               item.company_notifications.forEach(inner_item => {
                   
-                  if(inner_item.notification !==undefined){
+                  if(inner_item.notification !==undefined && inner_item.notification !== null){
                         var element = '';
                         element = inner_item.notification;
                         notf=notf+"<span class=' btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
@@ -433,7 +433,7 @@
                           this.tableData[index]['selected_notifications']=[];
                           ///permissions arrangement in table
                           item.company_permissions.forEach(inner_item => {
-                              if(inner_item.permission !==undefined){
+                              if(inner_item.permission !==undefined && inner_item.permission !== null){
                                     var element = '';
                                     element = inner_item.permission;
                                     perm=perm+"<span class='btn btn-sm btn-success' style='margin-left:10px'>"+ element.name+"</span>";
@@ -445,7 +445,7 @@
                            ///notifications arrangement in table
                           item.company_notifications.forEach(inner_item => {
                               
-                              if(inner_item.notification !==undefined){
+                              if(inner_item.notification !==undefined && inner_item.notification !== null){
                                     var element = '';
                                     element = inner_item.notification;
                                     notf=notf+"<span class=' btn btn-sm btn-warning' style='margin-left:10px'>"+ element.name+"</span>";
