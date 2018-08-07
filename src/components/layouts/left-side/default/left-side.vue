@@ -77,7 +77,7 @@ export default {
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
-                        ,"RStk20","CStk20", "AMPS30"];
+                        ,"RStk20","CStk20", "AMPS30", "EVCM50"];
         }
         else
         {   ///company user
@@ -359,7 +359,29 @@ export default {
                     }]
                     }); 
                             }
-        ///ROPS Mgt
+
+          ///EVCM Mgt
+        if(permissions.includes('EVCM50')){
+            menu_items.push({
+                    name: 'Velox Customer Management',
+                    icon: 'fa fa-money',
+                    child: [{
+                        name: 'Customer Accounts',
+                        link: '/evcm/customer_account',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'Manage Payments',
+                        link: '/evcm/manage_payment',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'Manage Purchases',
+                        link: '/evcm/manage_purchase',
+                        icon: 'fa fa-angle-double-right'
+                    }]
+                    }); 
+                            }
+
+        ///SUPERADMIN Mgt
         if(permissions.includes('SU-MAN')){
             menu_items.push({
                     name: 'E360 Super Admin',

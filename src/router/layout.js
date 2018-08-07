@@ -214,6 +214,30 @@ const layout = [{
       meta: {
       title: "Manage Companies",
 }}, {
+    path: '/evcm/customer_account',
+      component: resolve => require(['pages/velox-customer-management/customer_account'], resolve),
+      meta: {
+      title: "Customer Accounts",
+}}
+// , {
+//     path: '/velox-customer-management/customer_balance',
+//       component: resolve => require(['pages/velox-customer-management/customer_balance'], resolve),
+//       meta: {
+//       title: "",
+// }}
+
+, {
+    path: '/evcm/manage_payment',
+      component: resolve => require(['pages/velox-customer-management/manage_payment'], resolve),
+      meta: {
+      title: "Manage Payments"
+}}
+, {
+    path: '/evcm/manage_purchase',
+      component: resolve => require(['pages/velox-customer-management/manage_purchase'], resolve),
+      meta: {
+      title: "Manage Purchases",
+}}, {
     path: '/superadmin/user/manage',
       component: resolve => require(['pages/superadmin-user/manage'], resolve),
       meta: {

@@ -455,7 +455,7 @@
     mounted: function() {
       store.commit("check_login_details");
       this.show_available_companies();
-      this.show_permissions();
+      //this.show_permissions();
     },
     destroyed: function() {
 
