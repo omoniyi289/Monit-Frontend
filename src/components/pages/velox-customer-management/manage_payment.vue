@@ -190,7 +190,7 @@
         
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/velox_manage_payment',
+        url: this.$store.state.host_url+'/velox_manage_payments',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -234,7 +234,7 @@
         this.company_customers = [];
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params='vendor_id='+company_id+'&status=In Partnership';
-        axios.get(this.$store.state.host_url+"/velox_customer_account?"+params,
+        axios.get(this.$store.state.host_url+"/velox_customer_accounts?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -256,7 +256,7 @@
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params='customer_id='+selected_customer.company_id+'&vendor_id='+this.preset.company_id;
-        axios.get(this.$store.state.host_url+"/velox_manage_payment?"+params,
+        axios.get(this.$store.state.host_url+"/velox_manage_payments?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

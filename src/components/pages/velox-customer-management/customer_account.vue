@@ -214,7 +214,7 @@
           }],
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/velox_customer_account',
+        url: this.$store.state.host_url+'/velox_customer_accounts',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -260,7 +260,7 @@
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params='vendor_id='+company_id;
-        axios.get(this.$store.state.host_url+"/velox_customer_account?"+params,
+        axios.get(this.$store.state.host_url+"/velox_customer_accounts?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

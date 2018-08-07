@@ -374,7 +374,7 @@ export default {
                         link: '/evcm/manage_payment',
                         icon: 'fa fa-angle-double-right'
                     },{
-                        name: 'Manage Purchases',
+                        name: 'Purchase History',
                         link: '/evcm/manage_purchase',
                         icon: 'fa fa-angle-double-right'
                     }]

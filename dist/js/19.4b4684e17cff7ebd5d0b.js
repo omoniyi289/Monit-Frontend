@@ -1,22 +1,22 @@
-webpackJsonp([20],{
+webpackJsonp([19],{
 
-/***/ 1030:
+/***/ 1094:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1031);
+var content = __webpack_require__(1095);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(24)("63fd0176", content, false, {});
+var update = __webpack_require__(24)("bae72dde", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-46fe1467\",\"scoped\":false,\"hasInlineConfig\":true}!./vue-multiselect.min.css", function() {
-     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-46fe1467\",\"scoped\":false,\"hasInlineConfig\":true}!./vue-multiselect.min.css");
+   module.hot.accept("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7ce3c740\",\"scoped\":false,\"hasInlineConfig\":true}!./vue-multiselect.min.css", function() {
+     var newContent = require("!!../../css-loader/index.js!../../vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7ce3c740\",\"scoped\":false,\"hasInlineConfig\":true}!./vue-multiselect.min.css");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -27,7 +27,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 1031:
+/***/ 1095:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(13)(false);
@@ -42,23 +42,23 @@ exports.push([module.i, "\nfieldset[disabled] .multiselect{pointer-events:none\n
 
 /***/ }),
 
-/***/ 1032:
+/***/ 1096:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(1033);
+var content = __webpack_require__(1097);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(24)("384ec006", content, false, {});
+var update = __webpack_require__(24)("289175e4", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-46fe1467\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./manage.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-46fe1467\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./manage.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7ce3c740\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./manage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7ce3c740\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./manage.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -69,7 +69,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 1033:
+/***/ 1097:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(13)(false);
@@ -84,25 +84,99 @@ exports.push([module.i, "\n.form-control{\n  -webkit-transition: initial;\n  tra
 
 /***/ }),
 
-/***/ 1034:
+/***/ 1098:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_components_plugins_DataTable_DataTable_vue__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_components_plugins_DataTable_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_components_plugins_DataTable_DataTable_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_components_plugins_Company_Station_View_CSView_vue__ = __webpack_require__(301);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_components_plugins_Company_Station_View_CSView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_components_plugins_Company_Station_View_CSView_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_form__ = __webpack_require__(292);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_form__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll__ = __webpack_require__(293);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_src_validations_validations_js__ = __webpack_require__(294);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_multiselect__ = __webpack_require__(310);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vue_multiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_components_plugins_DataTable_DataTable_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_components_plugins_DataTable_DataTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_components_plugins_DataTable_DataTable_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_components_plugins_Company_Station_View_CSView_vue__ = __webpack_require__(301);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_components_plugins_Company_Station_View_CSView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_components_plugins_Company_Station_View_CSView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_form__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_smoothscroll__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue_smoothscroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue_smoothscroll__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_src_validations_validations_js__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue_multiselect__ = __webpack_require__(311);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_vue_multiselect__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__ = __webpack_require__(25);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -238,197 +312,353 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_smoothscroll___default.a);
 
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll___default.a);
 
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_form___default.a, __WEBPACK_IMPORTED_MODULE_6_src_validations_validations_js__["a" /* default */]);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_7_vue_multiselect___default.a);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_form___default.a, __WEBPACK_IMPORTED_MODULE_5_src_validations_validations_js__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_6_vue_multiselect___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "formfeatures",
   components: {
-    datatable: __WEBPACK_IMPORTED_MODULE_2_components_plugins_DataTable_DataTable_vue___default.a, csview: __WEBPACK_IMPORTED_MODULE_3_components_plugins_Company_Station_View_CSView_vue___default.a,
-    Multiselect: __WEBPACK_IMPORTED_MODULE_7_vue_multiselect___default.a
+    datatable: __WEBPACK_IMPORTED_MODULE_1_components_plugins_DataTable_DataTable_vue___default.a, csview: __WEBPACK_IMPORTED_MODULE_2_components_plugins_Company_Station_View_CSView_vue___default.a,
+    Multiselect: __WEBPACK_IMPORTED_MODULE_6_vue_multiselect___default.a
   },
   data: function data() {
-    return { columndata: [{
-        label: '',
-        field: '',
-        numeric: false,
-        html: false,
-        sortable: false
-      }, {
+    return {
+      columndata: [{
         label: 'Name',
         field: 'name',
+        numeric: false,
+        html: false
+      }, {
+        label: 'Registered Indexes',
+        field: 'registered_indexes',
         numeric: true,
         html: true
+      }, {
+        field: '__slot:actions',
+        label: 'Actions'
       }],
       ajaxLoading: true,
       loading: true,
-      url: this.$store.state.host_url + '/notification_settings',
       formstate: {},
+      formstate3: {},
+      formstate4: {},
       formstate2: {},
       show_setup_form: false,
-      tableData: [],
-      show_selector: true,
+      pumpgroup_tableData: [],
+      tankgroup_tableData: [],
+      map_tableData: [],
+      available_pumps: {},
+      available_tanks: {},
+      p_t_group: {},
       available_companies: [],
       available_company: [],
       products: "",
       show_multi_company: false,
       show_single_company: false,
-      available_roles: "",
-      station_pumps: "",
-      button_text: "ADD A NEW USER",
-      fill_form: false,
-      company_stations: "",
-      company_stations_null: "",
-      company_notifications_null: "",
-      company_notifications: [],
+      all_groups: [],
+      station_tanks: [],
+      company_stations: [],
+      input: "",
+      pump_map: {
+        name: "",
+        selected_pumps: []
+      },
+      tank_map: {
+        name: "",
+        selected_tanks: []
+      },
+
       preset: {
         company_id: "",
         station_id: ""
       },
-      phone_number: "",
-      selected_stations: [],
-      email: "",
-      username: "",
-      fullname: "",
-      role_id: 0,
-
-      company_notification: {
+      pump: {
         company_id: "",
-        submit_mode: 'SAVE CHANGES'
-      },
-      weekly_stations_operations_report: [],
-      weekdays: [{ 'name': 'Monday' }, { 'name': 'Tuesday' }, { 'name': 'Wednesday' }, { 'name': 'Thursday' }, { 'name': 'Friday' }, { 'name': 'Saturday' }, { 'name': 'Sunday' }],
-      daytimes: [{ 'name': '10:00 AM' }, { 'name': '12:00 PM' }, { 'name': '04:00 PM' }, { 'name': '06:00 PM' }]
+        station_id: 0,
+        number: "",
+        brand: "",
+        nozzle_code: "",
+        product: "",
+        type: "",
+        serial_number: ""
+
+      }
 
     };
   },
 
   methods: {
-    show_notification_settings: function show_notification_settings(company_id) {
+    show_company_stations: function show_company_stations(company_id) {
       var _this = this;
 
-      __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
       var user_details = JSON.parse(localStorage.getItem('user_details'));
-
-      axios.get(this.$store.state.host_url + "/stations/by_company/" + company_id, {
+      var host_url = this.$store.state.host_url;
+      axios.get(host_url + "/stations/by_company/" + company_id, {
         headers: {
           "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
         } }).then(function (response) {
         _this.company_stations = response.data.data;
-        ///get roles///
-        axios.get(_this.$store.state.host_url + "/notification_settings", {
+      }).catch(function (error) {
+        if (error.response.status == 401) {
+          this.$router.push('/login?message=' + error.response.data.error);
+        }
+      });
+    },
+    show_station_pumps_to_tanks: function show_station_pumps_to_tanks(station_id, company_id) {
+      var _this2 = this;
+
+      this.preset.company_id = company_id;
+      this.preset.station_id = station_id;
+      if (this.formstate2.$invalid) {
+        return;
+      } else {
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
+        this.show_setup_form = true;
+        var user_details = JSON.parse(localStorage.getItem('user_details'));
+        var _station_id = this.preset.station_id;
+        var host_url = this.$store.state.host_url;
+        axios.get(host_url + "/pumps-tanks/by_station/" + _station_id, {
           headers: {
             "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
           } }).then(function (response) {
-          _this.show_setup_form = true;
-          _this.load_company_notifications();
-          var settings = response.data.data;
-          _this.weekly_stations_operations_report = [];
-          settings.forEach(function (item, index) {
-            if (item['notification_UI_Slug'] == 'WORe') {
-              _this.weekly_stations_operations_report.notification_weekday = item['notification_weekday'];
-              _this.weekly_stations_operations_report.notification_daytime = item['notification_daytime'];
-            }
-          });
-          console.log(_this.weekly_stations_operations_report);
-          __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-        });
-      }).catch(function (error) {
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("catch_errors", error);
-      });
-    },
-    load_company_notifications: function load_company_notifications() {
-      var _this2 = this;
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+          _this2.pumpgroup_tableData = response.data.data[0].pump_groups;
+          _this2.tankgroup_tableData = response.data.data[0].tank_groups;
+          _this2.map_tableData = response.data.data[0].pump_groups_to_tank_groups;
+          //this.pumpgroup_tableData = response.data.data[0].pump_groups;
+          _this2.available_pumps = response.data.data[0].pumps;
+          _this2.available_tanks = response.data.data[0].tanks;
 
-      __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
-      var user_details = JSON.parse(localStorage.getItem('user_details'));
-      var params = 'company_id=' + this.preset.company_id;
-      this.tableData = [];
-      axios.get(this.$store.state.host_url + "/company_notifications?" + params, {
-        headers: {
-          "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
-        } }).then(function (response) {
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-        response.data.data.forEach(function (item) {
-          _this2.tableData.push(item.notification);
+          _this2.pumpgroup_tableData.forEach(function (item, index) {
+            var pump_concat = '';
+            item.pumps.forEach(function (element) {
+              pump_concat = pump_concat + ' <span class="btn btn-success btn-sm"> ' + element.pump_nozzle_code + '</span>';
+              //console.log(element.pump_nozzle_code);
+            });
+            _this2.$set(item, "registered_indexes", pump_concat);
+          });
+
+          _this2.tankgroup_tableData.forEach(function (item, index) {
+            var tank_concat = '';
+            item.tanks.forEach(function (element) {
+              tank_concat = tank_concat + ' <span class="btn btn-success btn-sm"> ' + element.code + '</span>';
+            });
+            _this2.$set(item, "registered_indexes", tank_concat);
+          });
+
+          _this2.map_tableData.forEach(function (item, index) {
+            var p_t_concat = '';
+            //item.get.forEach(element => {
+            p_t_concat = '<span class="btn btn-success btn-sm"> ' + item.get_pump_group.name + '</span>';
+            p_t_concat = p_t_concat + ' <span class="btn btn-success btn-sm"> ' + item.get_tank_group.name + '</span>';
+            // });
+            _this2.$set(item, "registered_indexes", p_t_concat);
+          });
+        }).catch(function (error) {
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
         });
-      }).catch(function (error) {
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("catch_errors", error);
-      });
-    },
-    show_available_companies: function show_available_companies() {
-      this.products = __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.products;
-      if (__WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.show_single_company) {
-        this.available_company = __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.available_company;
-        this.show_single_company = __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.show_single_company;
-      } else if (__WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.show_multi_company == true) {
-        this.available_companies = __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.available_companies;
-        this.show_multi_company = __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].state.show_multi_company;
       }
     },
-    onSubmit: function onSubmit() {
+    show_available_companies: function show_available_companies() {
+      this.products = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.products;
+      if (__WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.show_single_company) {
+        this.available_company = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.available_company;
+        this.show_single_company = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.show_single_company;
+      } else if (__WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.show_multi_company == true) {
+        this.available_companies = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.available_companies;
+        this.show_multi_company = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.show_multi_company;
+      }
+    },
+    add_pump_group: function add_pump_group() {
       var _this3 = this;
 
-      this.$SmoothScroll(document.getElementById("content-header"));
+      if (this.formstate3.$invalid) {
+        return;
+      } else {
+        this.$SmoothScroll(document.getElementById("content-header"));
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showPermAlertBox", { 'alert_type': 'alert-warning',
+          'alert_message': '...Processing Request...', 'show_alert': true });
+        //include station and company_id
+        this.pump_map.station_id = this.preset.station_id;
+        this.pump_map.company_id = this.preset.company_id;
+        this.pump_map.code = this.pump_map.name;
+        var pumpgroup_detail = {
+          pump_group: this.pump_map
+        };
+        var user_details = JSON.parse(localStorage.getItem('user_details'));
+        axios.post(this.$store.state.host_url + "/pump_groups", pumpgroup_detail, {
+          headers: {
+            "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
+          } }).then(function (response) {
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+
+          _this3.pumpgroup_tableData.push(response.data.data);
+          _this3.pumpgroup_tableData.forEach(function (item, index) {
+            ///last element
+            if (_this3.pumpgroup_tableData.length - 1 == index) {
+              var pump_concat = '';
+              _this3.pump_map.selected_pumps.forEach(function (element) {
+                pump_concat = pump_concat + ' <span class="btn btn-success btn-sm"> ' + element.pump_nozzle_code + '</span>';
+              });
+              _this3.$set(item, "registered_indexes", pump_concat);
+            }
+          });
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
+            'alert_message': 'Pump Group Added Successfully', 'show_alert': true });
+        }).catch(function (error) {
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
+        });
+      }
+    },
+    addTag: function addTag(newTag) {
+      var tag = {
+        id: newTag,
+        name: newTag.substring(0, 2) + Math.floor(Math.random() * 10000000)
+      };
+      this.all_groups.push(tag);
+      this.selected_groups.push(tag);
+    },
+    add_new_map: function add_new_map() {
+      var _this4 = this;
+
       if (this.formstate.$invalid) {
         return;
       } else {
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
-        __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("showPermAlertBox", { 'alert_type': 'alert-warning',
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showPermAlertBox", { 'alert_type': 'alert-warning',
           'alert_message': '...Processing Request...', 'show_alert': true });
-        //for users whose phone number isnt avaialable yet          
+        this.$SmoothScroll(document.getElementById("content-header"));
+        this.p_t_group.station_id = this.preset.station_id;
+        this.p_t_group.company_id = this.preset.company_id;
+
         var user_details = JSON.parse(localStorage.getItem('user_details'));
-        var notification_settings = Array();
-        notification_settings.push({ 'company_id': this.preset.company_id, 'notification_name': 'Weekly Station Operations Report', 'notification_UI_slug': 'WORe', 'notification_weekday': this.weekly_stations_operations_report.notification_weekday, 'notification_daytime': this.weekly_stations_operations_report.notification_daytime });
-        var settings_detail = {
-          notification_settings: notification_settings
-        };
-        console.log(settings_detail);
-        if (this.company_notification.submit_mode == 'SAVE CHANGES') {
-          axios.post(this.url, settings_detail, {
-            headers: {
-              "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
-            }
-          }).then(function (response) {
-            __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-            var api_response = response.data;
-            if (api_response.status === true) {
-              console.log(response.data.data);
-              __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
-                'alert_message': 'Changes Saved Successfully', 'show_alert': true });
-              _this3.formstate.$submitted = false;
-              _this3.company_notification = { submit_mode: "SAVE CHANGES" };
-            }
-          }).catch(function (error) {
-            __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-            __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("catch_errors", error);
+        axios.post(this.$store.state.host_url + "/pumps-tanks", { 'p_t_group': this.p_t_group }, {
+          headers: {
+            "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
+          } }).then(function (response) {
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+          _this4.map_tableData = response.data.data;
+          _this4.map_tableData.forEach(function (item, index) {
+            var p_t_concat = '';
+            //item.get.forEach(element => {
+            p_t_concat = ' <span class="btn btn-success btn-sm"> ' + item.get_pump_group.name + '</span>';
+            p_t_concat = p_t_concat + ' <span class="btn btn-success btn-sm"> ' + item.get_tank_group.name + '</span>';
+            // });
+            _this4.$set(item, "registered_indexes", p_t_concat);
           });
-        }
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
+            'alert_message': 'Map Created Successfully', 'show_alert': true });
+        }).catch(function (error) {
+          //console.log(error);
+          if (error.response.status == 401) {
+            this.$router.push('/login?message=' + error.response.data.error);
+          }
+        });
       }
     },
-    form_reset: function form_reset() {
-      this.company_notification = {
-        company_id: "",
-        station_id: "",
-        phone_number: "",
-        selected_stations: [],
-        email: "",
-        username: "",
-        fullname: "",
-        role_id: 0,
-        privilege: "",
-        submit_mode: 'SAVE CHANGES'
-      };
+    add_tank_group: function add_tank_group() {
+      var _this5 = this;
+
+      if (this.formstate4.$invalid) {
+        return;
+      } else {
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showPermAlertBox", { 'alert_type': 'alert-warning',
+          'alert_message': '...Processing Request...', 'show_alert': true });
+        this.$SmoothScroll(document.getElementById("content-header"));
+        //include station and company_id
+        this.tank_map.station_id = this.preset.station_id;
+        this.tank_map.company_id = this.preset.company_id;
+        this.tank_map.code = this.tank_map.name;
+        //console.log(this.tank_map.selected_tanks);
+        var tankgroup_detail = {
+          tank_group: this.tank_map
+        };
+        var user_details = JSON.parse(localStorage.getItem('user_details'));
+        var host_url = this.$store.state.host_url;
+        axios.post(host_url + "/tank_groups", tankgroup_detail, {
+          headers: {
+            "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
+          } }).then(function (response) {
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+          _this5.tankgroup_tableData.push(response.data.data);
+          _this5.tankgroup_tableData.forEach(function (item, index) {
+            ///last element
+            if (_this5.tankgroup_tableData.length - 1 == index) {
+              var tank_concat = '';
+              _this5.tank_map.selected_tanks.forEach(function (element) {
+                tank_concat = tank_concat + ' <span class="btn btn-success btn-sm"> ' + element.code + '</span>';
+                //console.log(element.code);
+              });
+              _this5.$set(item, "registered_indexes", tank_concat);
+            }
+          });
+          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
+            'alert_message': 'Tank Group Created Successfully', 'show_alert': true });
+        }).catch(function (error) {
+
+          //console.log(error);
+        });
+      }
+    },
+    onAction: function onAction(action, url, data, index) {
+      var _this6 = this;
+
+      this.$SmoothScroll(document.getElementById("content-header"));
+      if (action == 'delete') {
+        this.$modal.show('dialog', {
+          title: 'Alert!',
+          text: 'Click Okay to confirm DELETE',
+          buttons: [{
+            title: 'OKAY', // Button title
+            default: true, // Will be triggered by default if 'Enter' pressed.
+            handler: function handler() {
+              _this6.deleteItem(data, url);
+            } // Button click handler
+          }, {
+            title: 'CLOSE'
+          }]
+        });
+      }
+    },
+    deleteItem: function deleteItem(data, url) {
+      var _this7 = this;
+
+      __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
+      this.$modal.hide('dialog');
+      var user_details = JSON.parse(localStorage.getItem('user_details'));
+      axios.delete(__WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.host_url + url + data.id, {
+        headers: {
+          "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
+        }
+      }).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+        var api_response = response.data;
+        if (api_response.status === true) {
+          if (url == '/pumps-tanks/') {
+            _this7.map_tableData.splice(_this7.map_tableData.indexOf(data), 1);
+          } else if (url == '/pump_groups/') {
+            _this7.pumpgroup_tableData.splice(_this7.pumpgroup_tableData.indexOf(data), 1);
+          } else if (url == '/tank_groups/') {
+            _this7.tankgroup_tableData.splice(_this7.tankgroup_tableData.indexOf(data), 1);
+          }
+          _this7.$alert.success({ duration: 10000, forceRender: '',
+            message: 'Item Deleted Successfully', transition: '' });
+        }
+      }).catch(function (error) {
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
+        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
+      });
     }
   },
   mounted: function mounted() {
-    __WEBPACK_IMPORTED_MODULE_1_src_store_store_js__["a" /* default */].commit("check_login_details");
+    __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("check_login_details");
     this.show_available_companies();
   },
   destroyed: function destroyed() {}
@@ -436,7 +666,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component(__WEBPACK_IMPORTED_MODULE_
 
 /***/ }),
 
-/***/ 1035:
+/***/ 1099:
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -456,528 +686,374 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _c("csview", {
+                      attrs: {
+                        title: "Custom Table",
+                        companies: _vm.available_companies,
+                        stations: _vm.company_stations
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "actions",
+                          fn: function(props) {
+                            return [
+                              _c("div", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.show_station_pumps_to_tanks(
+                                          props.rowData,
+                                          props.rowIndex
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Proceed")]
+                                )
+                              ])
+                            ]
+                          }
+                        }
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("hr")
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "col-md-12" },
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_setup_form,
+                      expression: "show_setup_form"
+                    }
+                  ],
+                  staticClass: "col-sm-5"
+                },
                 [
                   _c(
                     "vue-form",
                     {
-                      attrs: { state: _vm.formstate },
+                      attrs: { state: _vm.formstate3 },
                       on: {
                         submit: function($event) {
                           $event.preventDefault()
-                          return _vm.onSubmit($event)
+                          return _vm.add_pump_group($event)
                         }
                       }
                     },
                     [
                       _c("div", { staticClass: "row" }, [
-                        _c("div", { staticClass: "col-lg-6" }, [
-                          _c("div", { staticClass: "col-lg-12" }, [
-                            _vm.show_multi_company
-                              ? _c(
-                                  "div",
-                                  { staticClass: "form-group" },
-                                  [
-                                    _c(
-                                      "validate",
-                                      { attrs: { tag: "div" } },
-                                      [
-                                        _vm._v(
-                                          "\n                    Select Company\n                    "
-                                        ),
-                                        _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.preset.company_id,
-                                                expression: "preset.company_id"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              name: "company",
-                                              size: "1"
-                                            },
-                                            on: {
-                                              change: [
-                                                function($event) {
-                                                  var $$selectedVal = Array.prototype.filter
-                                                    .call(
-                                                      $event.target.options,
-                                                      function(o) {
-                                                        return o.selected
-                                                      }
-                                                    )
-                                                    .map(function(o) {
-                                                      var val =
-                                                        "_value" in o
-                                                          ? o._value
-                                                          : o.value
-                                                      return val
-                                                    })
-                                                  _vm.$set(
-                                                    _vm.preset,
-                                                    "company_id",
-                                                    $event.target.multiple
-                                                      ? $$selectedVal
-                                                      : $$selectedVal[0]
-                                                  )
-                                                },
-                                                function($event) {
-                                                  _vm.show_notification_settings(
-                                                    _vm.preset.company_id
-                                                  )
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          _vm._l(
-                                            _vm.available_companies,
-                                            function(option, index) {
-                                              return _c(
-                                                "option",
-                                                {
-                                                  domProps: { value: option.id }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(option.name) +
-                                                      "\n                        "
-                                                  )
-                                                ]
-                                              )
-                                            }
-                                          )
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "field-messages",
-                                          {
-                                            staticClass: "text-danger",
-                                            attrs: {
-                                              name: "company",
-                                              show: "$invalid && $submitted"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                attrs: { slot: "requred" },
-                                                slot: "requred"
-                                              },
-                                              [_vm._v("Company is required")]
-                                            )
-                                          ]
+                        _c("div", { staticClass: "col-lg-12" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            [
+                              _c(
+                                "validate",
+                                { attrs: { tag: "div" } },
+                                [
+                                  _c("label", { attrs: { for: "name" } }, [
+                                    _vm._v("Pump Group Name")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.pump_map.name,
+                                        expression: "pump_map.name"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "name",
+                                      type: "text",
+                                      required: "",
+                                      autofocus: "",
+                                      placeholder: "Pump Group Name",
+                                      id: "name"
+                                    },
+                                    domProps: { value: _vm.pump_map.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.pump_map,
+                                          "name",
+                                          $event.target.value
                                         )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.show_single_company
-                              ? _c(
-                                  "div",
-                                  { staticClass: "form-group" },
-                                  [
-                                    _c(
-                                      "validate",
-                                      { attrs: { tag: "div" } },
-                                      [
-                                        _vm._v(
-                                          "\n                    Select Company\n                    "
-                                        ),
-                                        _c(
-                                          "select",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.preset.company_id,
-                                                expression: "preset.company_id"
-                                              }
-                                            ],
-                                            staticClass: "form-control",
-                                            attrs: {
-                                              name: "company",
-                                              size: "1"
-                                            },
-                                            on: {
-                                              change: [
-                                                function($event) {
-                                                  var $$selectedVal = Array.prototype.filter
-                                                    .call(
-                                                      $event.target.options,
-                                                      function(o) {
-                                                        return o.selected
-                                                      }
-                                                    )
-                                                    .map(function(o) {
-                                                      var val =
-                                                        "_value" in o
-                                                          ? o._value
-                                                          : o.value
-                                                      return val
-                                                    })
-                                                  _vm.$set(
-                                                    _vm.preset,
-                                                    "company_id",
-                                                    $event.target.multiple
-                                                      ? $$selectedVal
-                                                      : $$selectedVal[0]
-                                                  )
-                                                },
-                                                function($event) {
-                                                  _vm.show_notification_settings(
-                                                    _vm.preset.company_id
-                                                  )
-                                                }
-                                              ]
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "option",
-                                              {
-                                                domProps: {
-                                                  value:
-                                                    _vm.available_company.id
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm.available_company.name
-                                                  ) + "\n                      "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "field-messages",
-                                          {
-                                            staticClass: "text-danger",
-                                            attrs: {
-                                              name: "company",
-                                              show: "$invalid && $submitted"
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                attrs: { slot: "requred" },
-                                                slot: "requred"
-                                              },
-                                              [_vm._v("Company is required")]
-                                            )
-                                          ]
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e()
-                          ])
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "field-messages",
+                                    {
+                                      staticClass: "text-danger",
+                                      attrs: {
+                                        name: "name",
+                                        show: "$invalid && $submitted"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: { slot: "checkbox" },
+                                          slot: "checkbox"
+                                        },
+                                        [_vm._v("Pump Group Name is required")]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "col-lg-6" }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "col-lg-12" }, [_c("hr")]),
-                        _vm._v(" "),
-                        _vm.show_setup_form
-                          ? _c("div", { staticClass: "col-lg-6" }, [
-                              _c("div", { staticClass: "col-sm-12" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group" },
-                                  [
-                                    _c(
-                                      "b-card",
-                                      {
-                                        staticClass: "bg-info-card ",
-                                        attrs: {
-                                          header:
-                                            "Notifications Settings (Beta)",
-                                          "header-tag": "h4"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "col-sm-12 row" },
-                                          [
-                                            _c(
-                                              "div",
-                                              { staticClass: "col-sm-6 " },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "form-group" },
-                                                  [
-                                                    _c(
-                                                      "label",
-                                                      {
-                                                        attrs: { for: "number" }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          " Weekly Station Operations Report "
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              { staticClass: "col-sm-6" },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "form-group" },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                Colation Day of the week\n                                "
-                                                    ),
-                                                    _c(
-                                                      "select",
-                                                      {
-                                                        directives: [
-                                                          {
-                                                            name: "model",
-                                                            rawName: "v-model",
-                                                            value:
-                                                              _vm
-                                                                .weekly_stations_operations_report
-                                                                .notification_weekday,
-                                                            expression:
-                                                              "weekly_stations_operations_report.notification_weekday"
-                                                          }
-                                                        ],
-                                                        staticClass:
-                                                          "form-control",
-                                                        attrs: {
-                                                          id: "weekday",
-                                                          name: "weekday",
-                                                          size: "1",
-                                                          required: "",
-                                                          checkbox: ""
-                                                        },
-                                                        on: {
-                                                          change: function(
-                                                            $event
-                                                          ) {
-                                                            var $$selectedVal = Array.prototype.filter
-                                                              .call(
-                                                                $event.target
-                                                                  .options,
-                                                                function(o) {
-                                                                  return o.selected
-                                                                }
-                                                              )
-                                                              .map(function(o) {
-                                                                var val =
-                                                                  "_value" in o
-                                                                    ? o._value
-                                                                    : o.value
-                                                                return val
-                                                              })
-                                                            _vm.$set(
-                                                              _vm.weekly_stations_operations_report,
-                                                              "notification_weekday",
-                                                              $event.target
-                                                                .multiple
-                                                                ? $$selectedVal
-                                                                : $$selectedVal[0]
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      _vm._l(
-                                                        _vm.weekdays,
-                                                        function(option) {
-                                                          return _c(
-                                                            "option",
-                                                            {
-                                                              domProps: {
-                                                                value:
-                                                                  option.name,
-                                                                selected:
-                                                                  option.name ==
-                                                                  _vm
-                                                                    .weekly_stations_operations_report
-                                                                    .notification_weekday
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  option.name
-                                                                ) +
-                                                                  "\n                                      "
-                                                              )
-                                                            ]
-                                                          )
-                                                        }
-                                                      )
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            false
-                                              ? _c(
-                                                  "div",
-                                                  { staticClass: "col-sm-3 " },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "form-group"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                Colation Day Time\n                                "
-                                                        ),
-                                                        _c(
-                                                          "select",
-                                                          {
-                                                            directives: [
-                                                              {
-                                                                name: "model",
-                                                                rawName:
-                                                                  "v-model",
-                                                                value:
-                                                                  _vm
-                                                                    .weekly_stations_operations_report
-                                                                    .notification_daytime,
-                                                                expression:
-                                                                  "weekly_stations_operations_report.notification_daytime"
-                                                              }
-                                                            ],
-                                                            staticClass:
-                                                              "form-control",
-                                                            attrs: {
-                                                              id: "daytime",
-                                                              name: "daytime",
-                                                              size: "1",
-                                                              required: "",
-                                                              checkbox: ""
-                                                            },
-                                                            on: {
-                                                              change: function(
-                                                                $event
-                                                              ) {
-                                                                var $$selectedVal = Array.prototype.filter
-                                                                  .call(
-                                                                    $event
-                                                                      .target
-                                                                      .options,
-                                                                    function(
-                                                                      o
-                                                                    ) {
-                                                                      return o.selected
-                                                                    }
-                                                                  )
-                                                                  .map(function(
-                                                                    o
-                                                                  ) {
-                                                                    var val =
-                                                                      "_value" in
-                                                                      o
-                                                                        ? o._value
-                                                                        : o.value
-                                                                    return val
-                                                                  })
-                                                                _vm.$set(
-                                                                  _vm.weekly_stations_operations_report,
-                                                                  "notification_daytime",
-                                                                  $event.target
-                                                                    .multiple
-                                                                    ? $$selectedVal
-                                                                    : $$selectedVal[0]
-                                                                )
-                                                              }
-                                                            }
-                                                          },
-                                                          _vm._l(
-                                                            _vm.daytimes,
-                                                            function(option) {
-                                                              return _c(
-                                                                "option",
-                                                                {
-                                                                  domProps: {
-                                                                    value:
-                                                                      option.name,
-                                                                    selected:
-                                                                      option.name ==
-                                                                      _vm
-                                                                        .weekly_stations_operations_report
-                                                                        .notification_daytime
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    _vm._s(
-                                                                      option.name
-                                                                    ) +
-                                                                      "\n                                      "
-                                                                  )
-                                                                ]
-                                                              )
-                                                            }
-                                                          )
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              : _vm._e()
-                                          ]
+                        _c("div", { staticClass: "col-lg-12" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            [
+                              _c(
+                                "b-card",
+                                {
+                                  staticClass: "bg-info-card",
+                                  attrs: {
+                                    header: "Select Pumps Here",
+                                    "header-tag": "h4"
+                                  }
+                                },
+                                [
+                                  _c("multiselect", {
+                                    attrs: {
+                                      "tag-placeholder":
+                                        "Add this as new Pump Group",
+                                      placeholder: "Select Pumps",
+                                      label: "pump_nozzle_code",
+                                      "track-by": "pump_nozzle_code",
+                                      options: _vm.available_pumps,
+                                      multiple: true,
+                                      "hide-selected": true,
+                                      taggable: true
+                                    },
+                                    on: { tag: _vm.addTag },
+                                    model: {
+                                      value: _vm.pump_map.selected_pumps,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.pump_map,
+                                          "selected_pumps",
+                                          $$v
                                         )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-sm-12" }, [
-                                _c(
-                                  "div",
-                                  { staticClass: "form-group form-inline" },
-                                  [
-                                    _c("input", {
-                                      staticClass: "btn btn-success",
-                                      attrs: { type: "submit" },
-                                      domProps: {
-                                        value:
-                                          _vm.company_notification.submit_mode
+                                      },
+                                      expression: "pump_map.selected_pumps"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-12" }, [
+                          _c("div", { staticClass: "form-group float-left" }, [
+                            _c("input", {
+                              staticClass: "btn btn-success",
+                              attrs: { type: "submit", value: "Add Pump Group" }
+                            })
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-sm-2" }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_setup_form,
+                      expression: "show_setup_form"
+                    }
+                  ],
+                  staticClass: "col-sm-5"
+                },
+                [
+                  _c(
+                    "vue-form",
+                    {
+                      attrs: { state: _vm.formstate4 },
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.add_tank_group($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-lg-12" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            [
+                              _c(
+                                "validate",
+                                { attrs: { tag: "div" } },
+                                [
+                                  _c("label", { attrs: { for: "name" } }, [
+                                    _vm._v("Tank Group Name")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.tank_map.name,
+                                        expression: "tank_map.name"
                                       }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ])
-                          : _vm._e()
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "name",
+                                      type: "text",
+                                      required: "",
+                                      autofocus: "",
+                                      placeholder: "Tank Group Name",
+                                      id: "name"
+                                    },
+                                    domProps: { value: _vm.tank_map.name },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.tank_map,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "field-messages",
+                                    {
+                                      staticClass: "text-danger",
+                                      attrs: {
+                                        name: "name",
+                                        show: "$invalid && $submitted"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: { slot: "checkbox" },
+                                          slot: "checkbox"
+                                        },
+                                        [_vm._v("Tank Group Name is required")]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-lg-12" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            [
+                              _c(
+                                "b-card",
+                                {
+                                  staticClass: "bg-info-card",
+                                  attrs: {
+                                    header: "Select Tanks Here",
+                                    "header-tag": "h4"
+                                  }
+                                },
+                                [
+                                  _c("multiselect", {
+                                    attrs: {
+                                      "tag-placeholder":
+                                        "Add this as new Tank Group",
+                                      placeholder: "Select Tanks",
+                                      label: "code",
+                                      "track-by": "code",
+                                      options: _vm.available_tanks,
+                                      multiple: true,
+                                      "hide-selected": true,
+                                      taggable: true
+                                    },
+                                    on: { tag: _vm.addTag },
+                                    model: {
+                                      value: _vm.tank_map.selected_tanks,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.tank_map,
+                                          "selected_tanks",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "tank_map.selected_tanks"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-12" }, [
+                          _c("div", { staticClass: "form-group float-left" }, [
+                            _c("input", {
+                              staticClass: "btn btn-success",
+                              attrs: { type: "submit", value: "Add Tank Group" }
+                            })
+                          ])
+                        ])
                       ])
                     ]
                   )
@@ -996,7 +1072,7 @@ var render = function() {
                       expression: "show_setup_form"
                     }
                   ],
-                  staticClass: "col-sm-12"
+                  staticClass: "col-sm-6"
                 },
                 [
                   _c(
@@ -1005,8 +1081,8 @@ var render = function() {
                     [
                       _c("datatable", {
                         attrs: {
-                          title: "Currently Available Notifications",
-                          rows: _vm.tableData,
+                          title: "Pump Groups",
+                          rows: _vm.pumpgroup_tableData,
                           columns: _vm.columndata
                         },
                         scopedSlots: _vm._u([
@@ -1016,24 +1092,485 @@ var render = function() {
                               return [
                                 _c("div", [
                                   _c("i", {
-                                    staticClass: "fa fa-pencil text-info mr-3",
+                                    staticClass: "fa fa-trash text-danger",
                                     on: {
                                       click: function($event) {
                                         _vm.onAction(
-                                          "edit",
+                                          "delete",
+                                          "/pump_groups/",
                                           props.rowData,
                                           props.rowIndex
                                         )
                                       }
                                     }
-                                  }),
-                                  _vm._v(" "),
+                                  })
+                                ])
+                              ]
+                            }
+                          }
+                        ])
+                      })
+                    ],
+                    1
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_setup_form,
+                      expression: "show_setup_form"
+                    }
+                  ],
+                  staticClass: "col-sm-6"
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "table-responsive" },
+                    [
+                      _c("datatable", {
+                        attrs: {
+                          title: "Tanks Groups",
+                          rows: _vm.tankgroup_tableData,
+                          columns: _vm.columndata
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "actions",
+                            fn: function(props) {
+                              return [
+                                _c("div", [
                                   _c("i", {
                                     staticClass: "fa fa-trash text-danger",
                                     on: {
                                       click: function($event) {
                                         _vm.onAction(
                                           "delete",
+                                          "/tank_groups/",
+                                          props.rowData,
+                                          props.rowIndex
+                                        )
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]
+                            }
+                          }
+                        ])
+                      })
+                    ],
+                    1
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_setup_form,
+                      expression: "show_setup_form"
+                    }
+                  ],
+                  staticClass: "col-sm-4"
+                },
+                [
+                  _c(
+                    "b-card",
+                    {
+                      staticClass: "bg-info-card",
+                      attrs: {
+                        header: "Select respective Groups",
+                        "header-tag": "h4"
+                      }
+                    },
+                    [
+                      _c(
+                        "vue-form",
+                        {
+                          attrs: { state: _vm.formstate },
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              return _vm.add_new_map($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "col-sm-12 " }, [
+                            _c("div", { staticClass: "col-lg-12" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c(
+                                    "validate",
+                                    { attrs: { tag: "div" } },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.p_t_group.name,
+                                            expression: "p_t_group.name"
+                                          }
+                                        ],
+                                        staticClass: "form-control",
+                                        attrs: {
+                                          name: "name",
+                                          type: "text",
+                                          required: "",
+                                          autofocus: "",
+                                          placeholder: "Map Group Name",
+                                          id: "name"
+                                        },
+                                        domProps: { value: _vm.p_t_group.name },
+                                        on: {
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.p_t_group,
+                                              "name",
+                                              $event.target.value
+                                            )
+                                          }
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "field-messages",
+                                        {
+                                          staticClass: "text-danger",
+                                          attrs: {
+                                            name: "name",
+                                            show: "$invalid && $submitted"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              attrs: { slot: "checkbox" },
+                                              slot: "checkbox"
+                                            },
+                                            [_vm._v("Map Name is required")]
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-lg-12" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c(
+                                    "validate",
+                                    { attrs: { tag: "div" } },
+                                    [
+                                      _c(
+                                        "label",
+                                        { attrs: { for: "station" } },
+                                        [_vm._v("Pump Group")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.p_t_group.pump_group_id,
+                                              expression:
+                                                "p_t_group.pump_group_id"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            id: "station",
+                                            name: "station",
+                                            size: "1",
+                                            required: "",
+                                            checkbox: ""
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.$set(
+                                                _vm.p_t_group,
+                                                "pump_group_id",
+                                                $event.target.multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              )
+                                            }
+                                          }
+                                        },
+                                        _vm._l(
+                                          _vm.pumpgroup_tableData,
+                                          function(option) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                domProps: {
+                                                  value: option.id,
+                                                  selected:
+                                                    option.name ==
+                                                    _vm.preset.station_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(option.name) +
+                                                    "\n                          "
+                                                )
+                                              ]
+                                            )
+                                          }
+                                        )
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "field-messages",
+                                        {
+                                          staticClass: "text-danger",
+                                          attrs: {
+                                            name: "station",
+                                            show: "$invalid && $submitted"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              attrs: { slot: "checkbox" },
+                                              slot: "checkbox"
+                                            },
+                                            [_vm._v("Pump Group is required")]
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-lg-12" }, [
+                              _c(
+                                "div",
+                                { staticClass: "form-group" },
+                                [
+                                  _c(
+                                    "validate",
+                                    { attrs: { tag: "div" } },
+                                    [
+                                      _c(
+                                        "label",
+                                        { attrs: { for: "station" } },
+                                        [_vm._v("Tank Group")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "select",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "model",
+                                              rawName: "v-model",
+                                              value:
+                                                _vm.p_t_group.tank_group_id,
+                                              expression:
+                                                "p_t_group.tank_group_id"
+                                            }
+                                          ],
+                                          staticClass: "form-control",
+                                          attrs: {
+                                            id: "station",
+                                            name: "station",
+                                            size: "1",
+                                            required: "",
+                                            checkbox: ""
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              var $$selectedVal = Array.prototype.filter
+                                                .call(
+                                                  $event.target.options,
+                                                  function(o) {
+                                                    return o.selected
+                                                  }
+                                                )
+                                                .map(function(o) {
+                                                  var val =
+                                                    "_value" in o
+                                                      ? o._value
+                                                      : o.value
+                                                  return val
+                                                })
+                                              _vm.$set(
+                                                _vm.p_t_group,
+                                                "tank_group_id",
+                                                $event.target.multiple
+                                                  ? $$selectedVal
+                                                  : $$selectedVal[0]
+                                              )
+                                            }
+                                          }
+                                        },
+                                        _vm._l(
+                                          _vm.tankgroup_tableData,
+                                          function(option) {
+                                            return _c(
+                                              "option",
+                                              {
+                                                domProps: {
+                                                  value: option.id,
+                                                  selected:
+                                                    option.name ==
+                                                    _vm.preset.station_id
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(option.name) +
+                                                    "\n                          "
+                                                )
+                                              ]
+                                            )
+                                          }
+                                        )
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "field-messages",
+                                        {
+                                          staticClass: "text-danger",
+                                          attrs: {
+                                            name: "station",
+                                            show: "$invalid && $submitted"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              attrs: { slot: "checkbox" },
+                                              slot: "checkbox"
+                                            },
+                                            [_vm._v("Tank Group is required")]
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("br"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-12" }, [
+                            _c(
+                              "div",
+                              { staticClass: "form-group float-left" },
+                              [
+                                _c("input", {
+                                  staticClass: "btn btn-success",
+                                  attrs: {
+                                    type: "submit",
+                                    value: "Add New Mapping"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.show_setup_form,
+                      expression: "show_setup_form"
+                    }
+                  ],
+                  staticClass: "col-sm-8"
+                },
+                [
+                  _c(
+                    "div",
+                    { staticClass: "table-responsive" },
+                    [
+                      _c("datatable", {
+                        attrs: {
+                          title: "Pump to Tank Mapping",
+                          rows: _vm.map_tableData,
+                          columns: _vm.columndata
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "actions",
+                            fn: function(props) {
+                              return [
+                                _c("div", [
+                                  _c("i", {
+                                    staticClass: "fa fa-trash text-danger",
+                                    on: {
+                                      click: function($event) {
+                                        _vm.onAction(
+                                          "delete",
+                                          "/pumps-tanks/",
                                           props.rowData,
                                           props.rowIndex
                                         )
@@ -1065,26 +1602,26 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-46fe1467", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7ce3c740", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 242:
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(1030)
-  __webpack_require__(1032)
+  __webpack_require__(1094)
+  __webpack_require__(1096)
 }
 var normalizeComponent = __webpack_require__(78)
 /* script */
-var __vue_script__ = __webpack_require__(1034)
+var __vue_script__ = __webpack_require__(1098)
 /* template */
-var __vue_template__ = __webpack_require__(1035)
+var __vue_template__ = __webpack_require__(1099)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -1101,7 +1638,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/components/pages/notifications/manage.vue"
+Component.options.__file = "src/components/pages/pump-tank/manage.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -1110,9 +1647,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-46fe1467", Component.options)
+    hotAPI.createRecord("data-v-7ce3c740", Component.options)
   } else {
-    hotAPI.reload("data-v-46fe1467", Component.options)
+    hotAPI.reload("data-v-7ce3c740", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -4985,7 +5522,7 @@ if (false) {
 
 /***/ }),
 
-/***/ 310:
+/***/ 311:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.VueMultiselect=t():e.VueMultiselect=t()}(this,function(){return function(e){function t(n){if(i[n])return i[n].exports;var s=i[n]={i:n,l:!1,exports:{}};return e[n].call(s.exports,s,s.exports,t),s.l=!0,s.exports}var i={};return t.m=e,t.c=i,t.i=function(e){return e},t.d=function(e,i,n){t.o(e,i)||Object.defineProperty(e,i,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var i=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(i,"a",i),i},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="/",t(t.s=4)}([function(e,t,i){"use strict";function n(e,t,i){return t in e?Object.defineProperty(e,t,{value:i,enumerable:!0,configurable:!0,writable:!0}):e[t]=i,e}function s(e){return 0!==e&&(!(!Array.isArray(e)||0!==e.length)||!e)}function o(e,t){return void 0===e&&(e="undefined"),null===e&&(e="null"),!1===e&&(e="false"),-1!==e.toString().toLowerCase().indexOf(t.trim())}function l(e,t,i,n){return e.filter(function(e){return o(n(e,i),t)})}function r(e){return e.filter(function(e){return!e.$isLabel})}function a(e,t){return function(i){return i.reduce(function(i,n){return n[e]&&n[e].length?(i.push({$groupLabel:n[t],$isLabel:!0}),i.concat(n[e])):i},[])}}function u(e,t,i,s,o){return function(r){return r.map(function(r){var a;if(!r[i])return console.warn("Options passed to vue-multiselect do not contain groups, despite the config."),[];var u=l(r[i],e,t,o);return u.length?(a={},n(a,s,r[s]),n(a,i,u),a):[]})}}Object.defineProperty(t,"__esModule",{value:!0});var c="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},h=i(2),p=function(e){return e&&e.__esModule?e:{default:e}}(h),d=function(){for(var e=arguments.length,t=Array(e),i=0;i<e;i++)t[i]=arguments[i];return function(e){return t.reduce(function(e,t){return t(e)},e)}};t.default={data:function(){return{search:"",isOpen:!1,prefferedOpenDirection:"below",optimizedHeight:this.maxHeight,internalValue:this.value||0===this.value?(0,p.default)(Array.isArray(this.value)?this.value:[this.value]):[]}},props:{internalSearch:{type:Boolean,default:!0},options:{type:Array,required:!0},multiple:{type:Boolean,default:!1},value:{type:null,default:function(){return[]}},trackBy:{type:String},label:{type:String},searchable:{type:Boolean,default:!0},clearOnSelect:{type:Boolean,default:!0},hideSelected:{type:Boolean,default:!1},placeholder:{type:String,default:"Select option"},allowEmpty:{type:Boolean,default:!0},resetAfter:{type:Boolean,default:!1},closeOnSelect:{type:Boolean,default:!0},customLabel:{type:Function,default:function(e,t){return s(e)?"":t?e[t]:e}},taggable:{type:Boolean,default:!1},tagPlaceholder:{type:String,default:"Press enter to create a tag"},tagPosition:{type:String,default:"top"},max:{type:[Number,Boolean],default:!1},id:{default:null},optionsLimit:{type:Number,default:1e3},groupValues:{type:String},groupLabel:{type:String},blockKeys:{type:Array,default:function(){return[]}},preserveSearch:{type:Boolean,default:!1}},mounted:function(){this.multiple||this.clearOnSelect||console.warn("[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false."),!this.multiple&&this.max&&console.warn("[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.")},computed:{filteredOptions:function(){var e=this.search||"",t=e.toLowerCase().trim(),i=this.options.concat();return i=this.internalSearch?this.groupValues?this.filterAndFlat(i,t,this.label):l(i,t,this.label,this.customLabel):this.groupValues?a(this.groupValues,this.groupLabel)(i):i,i=this.hideSelected?i.filter(this.isNotSelected):i,this.taggable&&t.length&&!this.isExistingOption(t)&&("bottom"===this.tagPosition?i.push({isTag:!0,label:e}):i.unshift({isTag:!0,label:e})),i.slice(0,this.optionsLimit)},valueKeys:function(){var e=this;return this.trackBy?this.internalValue.map(function(t){return t[e.trackBy]}):this.internalValue},optionKeys:function(){var e=this;return(this.groupValues?this.flatAndStrip(this.options):this.options).map(function(t){return e.customLabel(t,e.label).toString().toLowerCase()})},currentOptionLabel:function(){return this.multiple?this.searchable?"":this.placeholder:this.internalValue.length?this.getOptionLabel(this.internalValue[0]):this.searchable?"":this.placeholder}},watch:{internalValue:function(e,t){this.resetAfter&&this.internalValue.length&&(this.search="",this.internalValue=[])},search:function(){this.$emit("search-change",this.search,this.id)},value:function(e){this.internalValue=this.getInternalValue(e)}},methods:{getValue:function(){return this.multiple?(0,p.default)(this.internalValue):0===this.internalValue.length?null:(0,p.default)(this.internalValue[0])},getInternalValue:function(e){return null===e||void 0===e?[]:this.multiple?(0,p.default)(e):(0,p.default)([e])},filterAndFlat:function(e,t,i){return d(u(t,i,this.groupValues,this.groupLabel,this.customLabel),a(this.groupValues,this.groupLabel))(e)},flatAndStrip:function(e){return d(a(this.groupValues,this.groupLabel),r)(e)},updateSearch:function(e){this.search=e},isExistingOption:function(e){return!!this.options&&this.optionKeys.indexOf(e)>-1},isSelected:function(e){var t=this.trackBy?e[this.trackBy]:e;return this.valueKeys.indexOf(t)>-1},isNotSelected:function(e){return!this.isSelected(e)},getOptionLabel:function(e){if(s(e))return"";if(e.isTag)return e.label;if(e.$isLabel)return e.$groupLabel;var t=this.customLabel(e,this.label);return s(t)?"":t},select:function(e,t){if(!(-1!==this.blockKeys.indexOf(t)||this.disabled||e.$isLabel||e.$isDisabled)&&(!this.max||!this.multiple||this.internalValue.length!==this.max)&&("Tab"!==t||this.pointerDirty)){if(e.isTag)this.$emit("tag",e.label,this.id),this.search="",this.closeOnSelect&&!this.multiple&&this.deactivate();else{if(this.isSelected(e))return void("Tab"!==t&&this.removeElement(e));this.multiple?this.internalValue.push(e):this.internalValue=[e],this.$emit("select",(0,p.default)(e),this.id),this.$emit("input",this.getValue(),this.id),this.clearOnSelect&&(this.search="")}this.closeOnSelect&&this.deactivate()}},removeElement:function(e){var t=!(arguments.length>1&&void 0!==arguments[1])||arguments[1];if(!this.disabled){if(!this.allowEmpty&&this.internalValue.length<=1)return void this.deactivate();var i="object"===(void 0===e?"undefined":c(e))?this.valueKeys.indexOf(e[this.trackBy]):this.valueKeys.indexOf(e);this.internalValue.splice(i,1),this.$emit("input",this.getValue(),this.id),this.$emit("remove",(0,p.default)(e),this.id),this.closeOnSelect&&t&&this.deactivate()}},removeLastElement:function(){-1===this.blockKeys.indexOf("Delete")&&0===this.search.length&&Array.isArray(this.internalValue)&&this.removeElement(this.internalValue[this.internalValue.length-1],!1)},activate:function(){var e=this;this.isOpen||this.disabled||(this.adjustPosition(),this.groupValues&&0===this.pointer&&this.filteredOptions.length&&(this.pointer=1),this.isOpen=!0,this.searchable?(this.preserveSearch||(this.search=""),this.$nextTick(function(){return e.$refs.search.focus()})):this.$el.focus(),this.$emit("open",this.id))},deactivate:function(){this.isOpen&&(this.isOpen=!1,this.searchable?this.$refs.search.blur():this.$el.blur(),this.preserveSearch||(this.search=""),this.$emit("close",this.getValue(),this.id))},toggle:function(){this.isOpen?this.deactivate():this.activate()},adjustPosition:function(){if("undefined"!=typeof window){var e=this.$el.getBoundingClientRect().top,t=window.innerHeight-this.$el.getBoundingClientRect().bottom;t>this.maxHeight||t>e||"below"===this.openDirection||"bottom"===this.openDirection?(this.prefferedOpenDirection="below",this.optimizedHeight=Math.min(t-40,this.maxHeight)):(this.prefferedOpenDirection="above",this.optimizedHeight=Math.min(e-40,this.maxHeight))}}}}},function(e,t,i){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={data:function(){return{pointer:0,pointerDirty:!1}},props:{showPointer:{type:Boolean,default:!0},optionHeight:{type:Number,default:40}},computed:{pointerPosition:function(){return this.pointer*this.optionHeight},visibleElements:function(){return this.optimizedHeight/this.optionHeight}},watch:{filteredOptions:function(){this.pointerAdjust()},isOpen:function(){this.pointerDirty=!1}},methods:{optionHighlight:function(e,t){return{"multiselect__option--highlight":e===this.pointer&&this.showPointer,"multiselect__option--selected":this.isSelected(t)}},addPointerElement:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"Enter",t=e.key;this.filteredOptions.length>0&&this.select(this.filteredOptions[this.pointer],t),this.pointerReset()},pointerForward:function(){this.pointer<this.filteredOptions.length-1&&(this.pointer++,this.$refs.list.scrollTop<=this.pointerPosition-(this.visibleElements-1)*this.optionHeight&&(this.$refs.list.scrollTop=this.pointerPosition-(this.visibleElements-1)*this.optionHeight),this.filteredOptions[this.pointer].$isLabel&&this.pointerForward()),this.pointerDirty=!0},pointerBackward:function(){this.pointer>0?(this.pointer--,this.$refs.list.scrollTop>=this.pointerPosition&&(this.$refs.list.scrollTop=this.pointerPosition),this.filteredOptions[this.pointer].$isLabel&&this.pointerBackward()):this.filteredOptions[0].$isLabel&&this.pointerForward(),this.pointerDirty=!0},pointerReset:function(){this.closeOnSelect&&(this.pointer=0,this.$refs.list&&(this.$refs.list.scrollTop=0))},pointerAdjust:function(){this.pointer>=this.filteredOptions.length-1&&(this.pointer=this.filteredOptions.length?this.filteredOptions.length-1:0)},pointerSet:function(e){this.pointer=e,this.pointerDirty=!0}}}},function(e,t,i){"use strict";function n(e){if(Array.isArray(e))return e.map(n);if(e&&"object"===(void 0===e?"undefined":s(e))){for(var t={},i=Object.keys(e),o=0,l=i.length;o<l;o++){var r=i[o];t[r]=n(e[r])}return t}return e}Object.defineProperty(t,"__esModule",{value:!0});var s="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};t.default=n},function(e,t,i){"use strict";function n(e){i(6)}Object.defineProperty(t,"__esModule",{value:!0});var s=i(5),o=i.n(s),l=i(8),r=i(7),a=n,u=r(o.a,l.a,!1,a,null,null);t.default=u.exports},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0}),t.deepClone=t.pointerMixin=t.multiselectMixin=t.Multiselect=void 0;var s=i(3),o=n(s),l=i(0),r=n(l),a=i(1),u=n(a),c=i(2),h=n(c);t.default=o.default,t.Multiselect=o.default,t.multiselectMixin=r.default,t.pointerMixin=u.default,t.deepClone=h.default},function(e,t,i){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}Object.defineProperty(t,"__esModule",{value:!0});var s=i(0),o=n(s),l=i(1),r=n(l);t.default={name:"vue-multiselect",mixins:[o.default,r.default],props:{name:{type:String,default:""},selectLabel:{type:String,default:"Press enter to select"},selectedLabel:{type:String,default:"Selected"},deselectLabel:{type:String,default:"Press enter to remove"},showLabels:{type:Boolean,default:!0},limit:{type:Number,default:99999},maxHeight:{type:Number,default:300},limitText:{type:Function,default:function(e){return"and "+e+" more"}},loading:{type:Boolean,default:!1},disabled:{type:Boolean,default:!1},openDirection:{type:String,default:""},showNoResults:{type:Boolean,default:!0},tabindex:{type:Number,default:0}},computed:{visibleValue:function(){return this.multiple?this.internalValue.slice(0,this.limit):[]},deselectLabelText:function(){return this.showLabels?this.deselectLabel:""},selectLabelText:function(){return this.showLabels?this.selectLabel:""},selectedLabelText:function(){return this.showLabels?this.selectedLabel:""},inputStyle:function(){if(this.multiple&&this.value&&this.value.length)return this.isOpen?{width:"auto"}:{width:"0",position:"absolute"}},contentStyle:function(){return this.options.length?{display:"inline-block"}:{display:"block"}},isAbove:function(){return"above"===this.openDirection||"top"===this.openDirection||"below"!==this.openDirection&&"bottom"!==this.openDirection&&"above"===this.prefferedOpenDirection}}}},function(e,t){},function(e,t){e.exports=function(e,t,i,n,s,o){var l,r=e=e||{},a=typeof e.default;"object"!==a&&"function"!==a||(l=e,r=e.default);var u="function"==typeof r?r.options:r;t&&(u.render=t.render,u.staticRenderFns=t.staticRenderFns,u._compiled=!0),i&&(u.functional=!0),s&&(u._scopeId=s);var c;if(o?(c=function(e){e=e||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,e||"undefined"==typeof __VUE_SSR_CONTEXT__||(e=__VUE_SSR_CONTEXT__),n&&n.call(this,e),e&&e._registeredComponents&&e._registeredComponents.add(o)},u._ssrRegister=c):n&&(c=n),c){var h=u.functional,p=h?u.render:u.beforeCreate;h?(u._injectStyles=c,u.render=function(e,t){return c.call(t),p(e,t)}):u.beforeCreate=p?[].concat(p,c):[c]}return{esModule:l,exports:r,options:u}}},function(e,t,i){"use strict";var n=function(){var e=this,t=e.$createElement,i=e._self._c||t;return i("div",{staticClass:"multiselect",class:{"multiselect--active":e.isOpen,"multiselect--disabled":e.disabled,"multiselect--above":e.isAbove},attrs:{tabindex:e.searchable?-1:e.tabindex},on:{focus:function(t){e.activate()},blur:function(t){!e.searchable&&e.deactivate()},keydown:[function(t){return"button"in t||!e._k(t.keyCode,"down",40,t.key)?t.target!==t.currentTarget?null:(t.preventDefault(),void e.pointerForward()):null},function(t){return"button"in t||!e._k(t.keyCode,"up",38,t.key)?t.target!==t.currentTarget?null:(t.preventDefault(),void e.pointerBackward()):null},function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key)||!e._k(t.keyCode,"tab",9,t.key)?(t.stopPropagation(),t.target!==t.currentTarget?null:void e.addPointerElement(t)):null}],keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"esc",27,t.key))return null;e.deactivate()}}},[e._t("caret",[i("div",{staticClass:"multiselect__select",on:{mousedown:function(t){t.preventDefault(),t.stopPropagation(),e.toggle()}}})],{toggle:e.toggle}),e._v(" "),e._t("clear",null,{search:e.search}),e._v(" "),i("div",{ref:"tags",staticClass:"multiselect__tags"},[i("div",{directives:[{name:"show",rawName:"v-show",value:e.visibleValue.length>0,expression:"visibleValue.length > 0"}],staticClass:"multiselect__tags-wrap"},[e._l(e.visibleValue,function(t){return[e._t("tag",[i("span",{staticClass:"multiselect__tag"},[i("span",{domProps:{textContent:e._s(e.getOptionLabel(t))}}),e._v(" "),i("i",{staticClass:"multiselect__tag-icon",attrs:{"aria-hidden":"true",tabindex:"1"},on:{keydown:function(i){if(!("button"in i)&&e._k(i.keyCode,"enter",13,i.key))return null;i.preventDefault(),e.removeElement(t)},mousedown:function(i){i.preventDefault(),e.removeElement(t)}}})])],{option:t,search:e.search,remove:e.removeElement})]})],2),e._v(" "),e.internalValue&&e.internalValue.length>e.limit?[i("strong",{staticClass:"multiselect__strong",domProps:{textContent:e._s(e.limitText(e.internalValue.length-e.limit))}})]:e._e(),e._v(" "),i("transition",{attrs:{name:"multiselect__loading"}},[e._t("loading",[i("div",{directives:[{name:"show",rawName:"v-show",value:e.loading,expression:"loading"}],staticClass:"multiselect__spinner"})])],2),e._v(" "),e.searchable?i("input",{ref:"search",staticClass:"multiselect__input",style:e.inputStyle,attrs:{name:e.name,id:e.id,type:"text",autocomplete:"off",placeholder:e.placeholder,disabled:e.disabled,tabindex:e.tabindex},domProps:{value:e.isOpen?e.search:e.currentOptionLabel},on:{input:function(t){e.updateSearch(t.target.value)},focus:function(t){t.preventDefault(),e.activate()},blur:function(t){t.preventDefault(),e.deactivate()},keyup:function(t){if(!("button"in t)&&e._k(t.keyCode,"esc",27,t.key))return null;e.deactivate()},keydown:[function(t){if(!("button"in t)&&e._k(t.keyCode,"down",40,t.key))return null;t.preventDefault(),e.pointerForward()},function(t){if(!("button"in t)&&e._k(t.keyCode,"up",38,t.key))return null;t.preventDefault(),e.pointerBackward()},function(t){return"button"in t||!e._k(t.keyCode,"enter",13,t.key)?(t.preventDefault(),t.stopPropagation(),t.target!==t.currentTarget?null:void e.addPointerElement(t)):null},function(t){if(!("button"in t)&&e._k(t.keyCode,"delete",[8,46],t.key))return null;t.stopPropagation(),e.removeLastElement()}]}}):e._e(),e._v(" "),e.searchable?e._e():i("span",{staticClass:"multiselect__single",domProps:{textContent:e._s(e.currentOptionLabel)},on:{mousedown:function(t){t.preventDefault(),e.toggle(t)}}})],2),e._v(" "),i("transition",{attrs:{name:"multiselect"}},[i("div",{directives:[{name:"show",rawName:"v-show",value:e.isOpen,expression:"isOpen"}],ref:"list",staticClass:"multiselect__content-wrapper",style:{maxHeight:e.optimizedHeight+"px"},on:{focus:e.activate,mousedown:function(e){e.preventDefault()}}},[i("ul",{staticClass:"multiselect__content",style:e.contentStyle},[e._t("beforeList"),e._v(" "),e.multiple&&e.max===e.internalValue.length?i("li",[i("span",{staticClass:"multiselect__option"},[e._t("maxElements",[e._v("Maximum of "+e._s(e.max)+" options selected. First remove a selected option to select another.")])],2)]):e._e(),e._v(" "),!e.max||e.internalValue.length<e.max?e._l(e.filteredOptions,function(t,n){return i("li",{key:n,staticClass:"multiselect__element"},[t&&(t.$isLabel||t.$isDisabled)?e._e():i("span",{staticClass:"multiselect__option",class:e.optionHighlight(n,t),attrs:{"data-select":t&&t.isTag?e.tagPlaceholder:e.selectLabelText,"data-selected":e.selectedLabelText,"data-deselect":e.deselectLabelText},on:{click:function(i){i.stopPropagation(),e.select(t)},mouseenter:function(t){if(t.target!==t.currentTarget)return null;e.pointerSet(n)}}},[e._t("option",[i("span",[e._v(e._s(e.getOptionLabel(t)))])],{option:t,search:e.search})],2),e._v(" "),t&&(t.$isLabel||t.$isDisabled)?i("span",{staticClass:"multiselect__option multiselect__option--disabled",class:e.optionHighlight(n,t)},[e._t("option",[i("span",[e._v(e._s(e.getOptionLabel(t)))])],{option:t,search:e.search})],2):e._e()])}):e._e(),e._v(" "),i("li",{directives:[{name:"show",rawName:"v-show",value:e.showNoResults&&0===e.filteredOptions.length&&e.search&&!e.loading,expression:"showNoResults && (filteredOptions.length === 0 && search && !loading)"}]},[i("span",{staticClass:"multiselect__option"},[e._t("noResult",[e._v("No elements found. Consider changing the search query.")])],2)]),e._v(" "),e._t("afterList")],2)])])],2)},s=[],o={render:n,staticRenderFns:s};t.a=o}])});
