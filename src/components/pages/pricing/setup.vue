@@ -301,8 +301,7 @@
           if (api_response.status === true) {
             
               for( var i = 0, len = this.products.length; i < len; i++ ) {
-                  if( this.products[i]['id'] === this.pricing.product_id ) {
-                    
+                  if( this.products[i]['id'] === this.pricing.product_id ) {                    
                       this.added_product_name = this.products[i]['code'];
                       break;
                   }
@@ -310,6 +309,7 @@
               this.tableData.push({'product':{'code': this.added_product_name}, 
               'new_price_tag': this.pricing.requested_price_tag});
               
+
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Product Price Added Successfully', 'show_alert': true});  
                this.show_approval_pane=true;
@@ -336,6 +336,28 @@
             let api_response = response.data;
           if (api_response.status === true) {
             this.log_tableData.push(response.data.data);
+            
+            this.log_tableData.forEach(element => {
+           if(element.is_executed == 1){
+            this.$set(element, "status", "<span class='btn btn-success btn-sm' >Executed</span>");
+             }
+          else if(element.is_approved_level_3 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 3</span>");
+          }else if(element.is_approved_level_3 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 3</span>");
+          }else if(element.is_approved_level_2 == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 2</span>");
+          }else if(element.is_approved_level_2 == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 2</span>");
+          }else if(element.is_approved == 1){
+            this.$set(element, "status", "<span class='btn btn-info btn-sm' >Approved- Level 1</span>");
+          }else if(element.is_approved == 0){
+            this.$set(element, "status", "<span class='btn btn-danger btn-sm' >Disapproved- Level 1</span>");
+          } else if(element.is_approved == null){
+            this.$set(element, "status", "<span class='btn btn-warning btn-sm' >Not yet Approved</span>");
+          }
+            });
+
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Request Made Successfully, Awaiting approval', 'show_alert': true}); 
               this.formstate.$submitted=false;

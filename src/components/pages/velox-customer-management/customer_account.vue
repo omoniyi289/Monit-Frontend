@@ -68,7 +68,7 @@
                 <div class="col-sm-8">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="current_credit_limit"> Set Credit Limit </label>
+                      <label for="current_credit_limit"> Set Credit Limit (in Naira)</label>
                       <input v-model="model.current_credit_limit" name="current_credit_limit" type="number" min="0" required autofocus placeholder="Set Credit Limit" class="form-control" id="current_credit_limit"/>
                       <field-messages name="current_credit_limit" show="$invalid && $submitted" class="text-danger">
                         <div slot="required">Set Credit Limit</div>
@@ -87,7 +87,7 @@
                                                 </option>
                                                 <option value="Request Pending">Request Pending</option>
                                                 <option value="Partnership Declined">Partnership Declined</option>
-                                                <option value="In Partnership">In Partnership</option>
+                                                <option value="Partnership Approved">Partnership Approved</option>
                                                 
 
                                  </select>
@@ -126,7 +126,7 @@
           <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
              
-              <datatable title="New Customers" :rows="newCustomerTableData" :columns="new_customer_columndata">
+              <datatable title="Pending Partnership Requests" :rows="newCustomerTableData" :columns="new_customer_columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)">EDIT</i>

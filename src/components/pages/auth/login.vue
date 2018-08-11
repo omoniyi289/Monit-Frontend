@@ -63,6 +63,8 @@
                             </div>
                         </div>
                         <br>
+                        <br>
+                        
                         <div class="col-sm-12 text-center">
                             <div class="form-group">
                                 <p>
@@ -72,10 +74,12 @@
                                 </router-link> -->
                             </div>
                         </div>
+
                     </div>
-                </vue-form>
+                </vue-form>                
             </div>
         </div>
+
     </div>
 </template>
 

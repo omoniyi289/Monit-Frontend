@@ -10,7 +10,7 @@
                     </div>
                     <div class="col-lg-12 col-12 mt-4">
                         <h3 class="page-name text-center">
-                            <img src="~img/authors/user.jpg" alt="user" class="rounded-circle img-thumbnail user-img">
+                            <img src="~img/authors/users.png" alt="user" class="rounded-circle img-thumbnail user-img">
                         </h3>
                     </div>
                 </div>

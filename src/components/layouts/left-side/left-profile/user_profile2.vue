@@ -3,7 +3,7 @@
         <div class="user_section">
             <div class="row">
                 <div class="col-12">
-                    <div class="img-wrapper"><img :src='require("img/authors/user.jpg")'
+                    <div class="img-wrapper"><img :src='require("img/authors/users.png")'
                      alt="user" class="rounded-circle"></div>
                     <p class="mt-2 mb-1 user_name_max text-center">{{this.$store.state.user.fullname}}</p>
                 </div>
