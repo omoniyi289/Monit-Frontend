@@ -11,7 +11,7 @@
                   <div class="form-group" v-if="show_multi_company">
                     <validate tag="div">
                       Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_notification_settings(preset.company_id)" v-model="preset.company_id" >
+                      <select  name="company"  size="1" class="form-control" v-on:change="load_company_notifications(preset.company_id)" v-model="preset.company_id" >
                           <option
                             v-for="(option, index) in available_companies"
                             v-bind:value="option.id"
@@ -27,7 +27,7 @@
                   <div class="form-group" v-if="show_single_company">
                     <validate tag="div">
                       Select Company
-                      <select  name="company" size="1" class="form-control" v-on:change="show_notification_settings(preset.company_id)" v-model="preset.company_id" >
+                      <select  name="company" size="1" class="form-control" v-on:change="load_company_notifications(preset.company_id)" v-model="preset.company_id" >
                         <option :value="available_company.id"
                           >{{ available_company.name }}
                         </option>
@@ -53,7 +53,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                       <b-card  header="Notifications Settings (Beta)" header-tag="h4" class="bg-info-card ">            
-                          <div class="col-sm-12 row">
+                          <div class="col-sm-12 row" v-if='has_WORe'>
                             <div class="col-sm-6 ">
                               <div class="form-group">
                                   <label for="number"> Weekly Station Operations Report </label>
@@ -62,7 +62,7 @@
                             <div class="col-sm-6">
                               <div class="form-group">
                                   Colation Day of the week
-                                  <select id="weekday" name="weekday" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_weekday" required checkbox>
+                                  <select id="weekday" name="weekday" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_weekday" required >
 
                                         <option
                                           v-for="option in weekdays"
@@ -77,12 +77,38 @@
                             <div class="col-sm-3 " v-if='false'>
                               <div class="form-group">
                                   Colation Day Time
-                                  <select id="daytime" name="daytime" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_daytime" required checkbox>
+                                  <select id="daytime" name="daytime" size="1" class="form-control" v-model="weekly_stations_operations_report.notification_daytime" required >
 
                                         <option
                                           v-for="option in daytimes"
                                           v-bind:value="option.name"
-                                          :selected="option.name == weekly_stations_operations_report.notification_daytime" >{{ option.name }}
+                                           >{{ option.name }}
+                                        </option>
+
+                                  </select>
+                              </div>
+                            </div>
+
+
+                    
+                          </div>
+
+                          <div class="col-sm-12 row" v-if='has_SLTR'>
+                            <div class="col-sm-6 ">
+                              <div class="form-group">
+                                  <label for="number">Station League Table Report </label>
+                              </div>
+                            </div>
+                           
+                            <div class="col-sm-6">
+                              <div class="form-group">
+                                  Colation Day Time
+                                  <select id="daytime" name="daytime" size="1" class="form-control" v-model="station_league_table_report.notification_daytime" required >
+
+                                        <option
+                                          v-for="option in daytimes"
+                                          v-bind:value="option.name"
+                                           >{{ option.name }}
                                         </option>
 
                                   </select>
@@ -115,7 +141,7 @@
           <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
             
-              <datatable title="Currently Available Notifications" :rows="tableData" :columns="columndata">
+              <datatable title="Company Notifications based on Subscription" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)"></i>
@@ -155,7 +181,7 @@
           sortable: false,
         }
         , {
-          label: 'Name',
+          label: 'Notificaton Name',
           field: 'name',
           numeric: true,
           html: true,
@@ -175,6 +201,8 @@
         show_single_company: false,
         available_roles: "",
         station_pumps:"",
+        has_WORe: false,
+        has_SLTR: false,
         button_text: "ADD A NEW USER",
         fill_form: false,
         company_stations: "",
@@ -197,56 +225,29 @@
           submit_mode: 'SAVE CHANGES',
         },
         weekly_stations_operations_report:[],
+        station_league_table_report:[],
         weekdays:[{'name': 'Monday'}, {'name': 'Tuesday'}, 
                   {'name': 'Wednesday'}, {'name': 'Thursday'},
                   {'name': 'Friday'}, {'name': 'Saturday'}, {'name': 'Sunday'}],
-        daytimes:[{'name': '10:00 AM'}, {'name': '12:00 PM'},
-                  {'name': '04:00 PM'}, {'name': '06:00 PM'}]
+        daytimes:[{'name': '12:00 AM'}, {'name': '01:00 AM'},
+                  {'name': '02:00 AM'}, {'name': '03:00 AM'},
+                  {'name': '04:00 AM'}, {'name': '05:00 AM'},
+                  {'name': '06:00 AM'}, {'name': '07:00 AM'},
+                  {'name': '08:00 AM'}, {'name': '09:00 AM'},
+                  {'name': '10:00 AM'}, {'name': '11:00 AM'},
+
+                  {'name': '12:00 PM'}, {'name': '01:00 PM'},
+                  {'name': '02:00 PM'}, {'name': '03:00 PM'},
+                  {'name': '04:00 PM'}, {'name': '05:00 PM'},
+                  {'name': '06:00 PM'}, {'name': '07:00 PM'},
+                  {'name': '08:00 PM'}, {'name': '09:00 PM'},
+                  {'name': '10:00 PM'}, {'name': '11:00 PM'} ]
 
 
       }
     },
     methods: {
-      
-      show_notification_settings(company_id){
-        store.commit("activateLoader", "start");
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
-          {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-            }}).then(response => {
-          this.company_stations = response.data.data;
-          ///get roles///
-            axios.get(this.$store.state.host_url+"/notification_settings",
-              {
-                headers : {
-                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-                }}).then(response => {
-            this.show_setup_form = true;
-            this.load_company_notifications();
-            let settings = response.data.data;        
-            this.weekly_stations_operations_report = [];
-            settings.forEach((item, index) => {
-                     if(item['notification_UI_Slug'] == 'WORe'){
-                           this.weekly_stations_operations_report.notification_weekday = item['notification_weekday'];
-                          this.weekly_stations_operations_report.notification_daytime = item['notification_daytime'];
-                     } 
-              
-                  });
-            console.log(this.weekly_stations_operations_report);
-            store.commit("activateLoader", "end");   
-          });
-       
-      })
-      .catch(function(error) {
-        store.commit("activateLoader", "end");   
-        store.commit("catch_errors", error); 
-        });
-        
-      },
-       load_company_notifications(){
+       load_company_notifications(company_id){
       store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params= 'company_id='+this.preset.company_id;
@@ -257,8 +258,23 @@
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                 }}).then(response => {
               store.commit("activateLoader", "end");
+              this.show_setup_form = true;
+              this.weekly_stations_operations_report=[];
+              this.station_league_table_report=[];
+              this.has_SLTR = false;
+              this.has_WORe = false;
+
               response.data.data.forEach(item => {
                 this.tableData.push(item.notification);
+                 if(item['notification_UI_Slug'] == 'WORe'){
+                           this.has_WORe= true;
+                           this.weekly_stations_operations_report.notification_weekday = item['notification_weekday'];
+                     } 
+                 if(item['notification_UI_Slug'] == 'SLTR'){
+                           this.has_SLTR = true;
+                           this.station_league_table_report.notification_daytime = item['notification_daytime'];
+              
+                     } 
               });
                 })
               .catch(function(error) {
@@ -288,11 +304,13 @@
           //for users whose phone number isnt avaialable yet          
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let notification_settings = Array();
-          notification_settings.push({'company_id': this.preset.company_id, 'notification_name': 'Weekly Station Operations Report', 'notification_UI_slug': 'WORe', 'notification_weekday': this.weekly_stations_operations_report.notification_weekday, 'notification_daytime': this.weekly_stations_operations_report.notification_daytime});
+          notification_settings.push({'company_id': this.preset.company_id, 'notification_name': 'Weekly Station Operations Report', 'notification_UI_slug': 'WORe', 'notification_weekday': this.weekly_stations_operations_report.notification_weekday});
+
+          notification_settings.push({'company_id': this.preset.company_id, 'notification_name': 'Station League Table Report', 'notification_UI_slug': 'SLTR', 'notification_daytime': this.station_league_table_report.notification_daytime});
+
           let settings_detail = {
             notification_settings: notification_settings
           };
-          console.log(settings_detail);
           if(this.company_notification.submit_mode == 'SAVE CHANGES'){
           axios.post(this.url, settings_detail, {
             headers : {
@@ -302,7 +320,6 @@
             store.commit("activateLoader", "end");
             let api_response = response.data;
           if (api_response.status === true) {
-              console.log(response.data.data);
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                          'alert_message': 'Changes Saved Successfully', 'show_alert': true});
               this.formstate.$submitted=false;
