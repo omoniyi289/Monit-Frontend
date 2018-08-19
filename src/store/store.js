@@ -18,12 +18,18 @@ try{
 
 let username='';
 let host_url='';
+//let velox_api_url='';
+
 if(process.env.NODE_ENV == 'production'){
     host_url = "https://api.e360stationmanager.com/api/v1";
+    //velox_api_url = "https://api.e360velox.com/api/v1";
+
 }else if(process.env.NODE_ENV == 'staging'){
     host_url = "http://sm2.api.energy360africa.com/api/v1";
+    //velox_api_url = "http://velox.api.energy360africa.com/api/v1";
 }else{
     host_url=  "http://localhost:8000/api/v1";
+   // velox_api_url=  "http://localhost:3000/api/v1";
 }
 process.env.NODE_ENV;
 const store = new Vuex.Store({
@@ -41,6 +47,7 @@ const store = new Vuex.Store({
         show_multi_company: false,
         //host_url: "http://localhost:8000/api/v1",
         host_url: host_url,
+       // velox_api_url: velox_api_url,
         site_name: "Station Manager",
         page_title: null,
         /*user: {

@@ -210,7 +210,7 @@
 
           <div class="col-sm-12" v-show="show_setup_form">
             <div class="table-responsive">
-              <datatable title="Cuurent E360 Super Users" :rows="superadmin_tableData" :columns="               superadmin_columndata">
+              <datatable title="Current E360 Super Users" :rows="superadmin_tableData" :columns="               superadmin_columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                       

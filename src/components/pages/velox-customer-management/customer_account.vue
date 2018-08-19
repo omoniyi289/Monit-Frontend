@@ -86,10 +86,10 @@
                                                     Please select
                                                 </option>
                                                 <option value="Request Pending">Request Pending</option>
+                                                <option value="In Partnership">In Partnership/Approved</option>
                                                 <option value="Partnership Declined">Partnership Declined</option>
-                                                <option value="Partnership Approved">Partnership Approved</option>
-                                                
-
+                                                <option value="Partnership Suspended">Partnership Suspended</option>
+                                              
                                  </select>
                             <field-messages name="status" show="$invalid && $submitted" class="text-danger">
                               <div slot="required">Status is required</div>
@@ -331,7 +331,7 @@
             velox_customer: this.model
           };
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-        
+        console.log(customer_detail);
          if(this.model.submit_mode == 'UPDATE'){
                     axios.patch(this.url+"/"+this.model.id, customer_detail, {
                         headers : {
