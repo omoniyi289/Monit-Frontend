@@ -30,7 +30,11 @@
                 <div class="row ">
                   <div class="col-lg-12">               
                     <b-tabs>
-                        <b-tab title="Stock Readings" v-if="show_stock_pane">
+                        <b-tab title="STOCK READINGS" v-if="show_stock_pane">
+                          <br>
+                          <a target= "_blank" href="              http://www.sharecsv.com/s/c347d14767a9d66cbffa738d018a52de/stock.csv
+"><span  class="btn btn-info btn-sm">DOWNLOAD STOCK EXCEL TEMPLATE</span></a>
+                          <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
                               <label>Stock Input CSV File: 
@@ -115,10 +119,14 @@
                               </div>
                             </div>
                         </b-tab>
-                        <b-tab title="Totalizer Readings" v-if="show_sales_pane">
+                        <b-tab title="TOTALIZER READINGS" v-if="show_sales_pane">
+                          <br>
+                           <a target= "_blank" href="http://www.sharecsv.com/s/a1232c0c695141a0d959dcaffc4ddede/sales.csv
+"><span  class="btn btn-info btn-sm">DOWNLOAD SALES EXCEL TEMPLATE</span></a>
+                          <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
-                              <label>Stock Input CSV File: 
+                              <label>Sales Input CSV File: 
                                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                               </label>
                                 <span  class="btn btn-primary btn-md" v-on:click="submitSalesFile()">Upload File</span>
@@ -147,7 +155,7 @@
                                    <th>PPV </th>
                                   <!-- <th>First Shift Cash Collected</th>
                                   <th>Second Shift Cash Collected</th> -->
-                                  <th>Closing Cash Collected </th>
+                                  <th>Cash Collected </th>
                                   
                                 </tr>
                               </thead>
@@ -273,6 +281,24 @@
     methods: {
       to_totalizer(){
         
+      },
+      download_sales_template(){
+       
+        axios.get(this.$store.state.host_url+'/totalizer-readings/get-template-csv', 
+            { responseType: 'blob' ,
+            headers: {'Access-Control-Allow-Origin': '*'}
+          }
+          ).then( response => {
+              //console.log(response);
+              // const url = window.URL.createObjectURL(new Blob([response.data]));
+              // const link = document.createElement('a');
+              // link.href = url;
+              // link.setAttribute('download', 'sales.csv');
+              // document.body.appendChild(link);
+              // link.click();
+          }).catch(error =>{
+           // console.log(error);
+          });
       },
       on_sales_pane_click(){
         this.show_stock_pane = false;

@@ -271,6 +271,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -338,6 +346,22 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
 
   methods: {
     to_totalizer: function to_totalizer() {},
+    download_sales_template: function download_sales_template() {
+
+      axios.get(this.$store.state.host_url + '/totalizer-readings/get-template-csv', { responseType: 'blob',
+        headers: { 'Access-Control-Allow-Origin': '*' }
+      }).then(function (response) {
+        //console.log(response);
+        // const url = window.URL.createObjectURL(new Blob([response.data]));
+        // const link = document.createElement('a');
+        // link.href = url;
+        // link.setAttribute('download', 'sales.csv');
+        // document.body.appendChild(link);
+        // link.click();
+      }).catch(function (error) {
+        // console.log(error);
+      });
+    },
     on_sales_pane_click: function on_sales_pane_click() {
       this.show_stock_pane = false;
       this.show_sales_pane = true;
@@ -705,10 +729,40 @@ var render = function() {
                                               "b-tab",
                                               {
                                                 attrs: {
-                                                  title: "Stock Readings"
+                                                  title: "STOCK READINGS"
                                                 }
                                               },
                                               [
+                                                _c("br"),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      target: "_blank",
+                                                      href:
+                                                        "              http://www.sharecsv.com/s/c347d14767a9d66cbffa738d018a52de/stock.csv\n"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-info btn-sm"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "DOWNLOAD STOCK EXCEL TEMPLATE"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("br"),
+                                                _c("br"),
+                                                _vm._v(" "),
                                                 _c(
                                                   "div",
                                                   { staticClass: "container" },
@@ -722,7 +776,7 @@ var render = function() {
                                                       [
                                                         _c("label", [
                                                           _vm._v(
-                                                            "Stock Input CSV File: \n                              "
+                                                            "Stock Input CSV File: \n                                "
                                                           ),
                                                           _c("input", {
                                                             ref: "file",
@@ -781,7 +835,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                            Error " +
+                                                                "\n                              Error " +
                                                                   _vm._s(
                                                                     index + 1
                                                                   ) +
@@ -789,7 +843,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     value.message
                                                                   ) +
-                                                                  "\n                          "
+                                                                  "\n                            "
                                                               )
                                                             ]
                                                           )
@@ -1474,10 +1528,40 @@ var render = function() {
                                               "b-tab",
                                               {
                                                 attrs: {
-                                                  title: "Totalizer Readings"
+                                                  title: "TOTALIZER READINGS"
                                                 }
                                               },
                                               [
+                                                _c("br"),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "a",
+                                                  {
+                                                    attrs: {
+                                                      target: "_blank",
+                                                      href:
+                                                        "http://www.sharecsv.com/s/a1232c0c695141a0d959dcaffc4ddede/sales.csv\n"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "btn btn-info btn-sm"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "DOWNLOAD SALES EXCEL TEMPLATE"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("br"),
+                                                _c("br"),
+                                                _vm._v(" "),
                                                 _c(
                                                   "div",
                                                   { staticClass: "container" },
@@ -1491,7 +1575,7 @@ var render = function() {
                                                       [
                                                         _c("label", [
                                                           _vm._v(
-                                                            "Stock Input CSV File: \n                              "
+                                                            "Sales Input CSV File: \n                                "
                                                           ),
                                                           _c("input", {
                                                             ref: "file",
@@ -1550,7 +1634,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                            Error " +
+                                                                "\n                              Error " +
                                                                   _vm._s(
                                                                     index + 1
                                                                   ) +
@@ -1558,7 +1642,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     value.message
                                                                   ) +
-                                                                  "\n                          "
+                                                                  "\n                            "
                                                               )
                                                             ]
                                                           )
@@ -1620,7 +1704,7 @@ var render = function() {
                                                         _vm._v(" "),
                                                         _c("th", [
                                                           _vm._v(
-                                                            "Closing Cash Collected "
+                                                            "Cash Collected "
                                                           )
                                                         ])
                                                       ])
