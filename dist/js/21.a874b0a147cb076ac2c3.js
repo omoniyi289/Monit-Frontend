@@ -566,6 +566,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
 
 
 
@@ -584,6 +599,11 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_5_vue_
         return { columndata: [{
                 label: 'Name',
                 field: 'name',
+                numeric: false,
+                html: false
+            }, {
+                label: 'Code',
+                field: 'code',
                 numeric: false,
                 html: false
             }, {
@@ -1181,6 +1201,84 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "Station name is a required field"
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-6" }, [
+                          _c(
+                            "div",
+                            { staticClass: "form-group" },
+                            [
+                              _c(
+                                "validate",
+                                { attrs: { tag: "div" } },
+                                [
+                                  _c("label", { attrs: { for: "code" } }, [
+                                    _vm._v(" Station Code")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.station.code,
+                                        expression: "station.code"
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      name: "code",
+                                      type: "text",
+                                      required: "",
+                                      autofocus: "",
+                                      placeholder: "Station Code",
+                                      id: "code"
+                                    },
+                                    domProps: { value: _vm.station.code },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.station,
+                                          "code",
+                                          $event.target.value
+                                        )
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "field-messages",
+                                    {
+                                      staticClass: "text-danger",
+                                      attrs: {
+                                        name: "code",
+                                        show: "$invalid && $submitted"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          attrs: { slot: "required" },
+                                          slot: "required"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "Station code is a required field"
                                           )
                                         ]
                                       )

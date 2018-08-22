@@ -60,6 +60,17 @@
                                     </div>
                                 </div>
 
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <validate tag="div">
+                                            <label for="code"> Station Code</label>
+                                            <input v-model="station.code" name="code" type="text" required autofocus placeholder="Station Code" class="form-control" id="code"/>
+                                            <field-messages name="code" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Station code is a required field</div>
+                                            </field-messages>
+                                        </validate>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -503,9 +514,13 @@
 </template>
 <script>
     import Datepicker from 'vuejs-datepicker';
-    import Vue from 'vue'; import store from 'src/store/store.js';
-    import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
-    import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
+    import Vue from 'vue'; 
+    import store from 'src/store/store.js';
+    import datatable from "components/plugins/DataTable/DataTable.vue";
+    import csview from "components/plugins/Company-Station-View/CSView.vue";
+    import VueForm from "vue-form";     
+    import vueSmoothScroll from 'vue-smoothscroll';     
+    Vue.use(vueSmoothScroll);
     import options from "src/validations/validations.js";
     import api_states from "src/assets/json/states.json";
     Vue.use(VueForm, options);
@@ -519,6 +534,11 @@
             return {columndata: [ {
                     label: 'Name',
                     field: 'name',
+                    numeric: false,
+                    html: false,
+                }, {
+                    label: 'Code',
+                    field: 'code',
                     numeric: false,
                     html: false,
                 }, {

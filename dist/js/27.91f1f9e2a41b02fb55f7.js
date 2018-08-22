@@ -277,8 +277,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 
@@ -741,7 +739,7 @@ var render = function() {
                                                     attrs: {
                                                       target: "_blank",
                                                       href:
-                                                        "              http://www.sharecsv.com/s/c347d14767a9d66cbffa738d018a52de/stock.csv\n"
+                                                        "http://www.sharecsv.com/s/134a22ffd40068e25c13f7365db04580/stock.csv"
                                                     }
                                                   },
                                                   [
@@ -776,7 +774,7 @@ var render = function() {
                                                       [
                                                         _c("label", [
                                                           _vm._v(
-                                                            "Stock Input CSV File: \n                                "
+                                                            "Stock Input CSV File: \n                              "
                                                           ),
                                                           _c("input", {
                                                             ref: "file",
@@ -835,7 +833,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                              Error " +
+                                                                "\n                            Error " +
                                                                   _vm._s(
                                                                     index + 1
                                                                   ) +
@@ -843,7 +841,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     value.message
                                                                   ) +
-                                                                  "\n                            "
+                                                                  "\n                          "
                                                               )
                                                             ]
                                                           )
@@ -861,7 +859,7 @@ var render = function() {
                                                   [
                                                     _c("b", [
                                                       _vm._v(
-                                                        "Please ensure your column header is formatted as shown below. (Station name, Date, and Tank code are compulsory)"
+                                                        "Please ensure your column header is formatted as shown below. (Station code, Date, and Tank code are compulsory)"
                                                       )
                                                     ])
                                                   ]
@@ -874,7 +872,7 @@ var render = function() {
                                                     _c("thead", [
                                                       _c("tr", [
                                                         _c("th", [
-                                                          _vm._v("Station Name")
+                                                          _vm._v("Station Code")
                                                         ]),
                                                         _vm._v(" "),
                                                         _c("th", [
@@ -919,7 +917,7 @@ var render = function() {
                                                             _c("th", [
                                                               _vm._v(
                                                                 _vm._s(
-                                                                  option.station_name
+                                                                  option.station_code
                                                                 )
                                                               )
                                                             ]),
@@ -1540,7 +1538,7 @@ var render = function() {
                                                     attrs: {
                                                       target: "_blank",
                                                       href:
-                                                        "http://www.sharecsv.com/s/a1232c0c695141a0d959dcaffc4ddede/sales.csv\n"
+                                                        "http://www.sharecsv.com/s/2b8e37ac676925dde9b3754422168b3f/sales.csv"
                                                     }
                                                   },
                                                   [
@@ -1575,7 +1573,7 @@ var render = function() {
                                                       [
                                                         _c("label", [
                                                           _vm._v(
-                                                            "Sales Input CSV File: \n                                "
+                                                            "Sales Input CSV File: \n                              "
                                                           ),
                                                           _c("input", {
                                                             ref: "file",
@@ -1634,7 +1632,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\n                              Error " +
+                                                                "\n                            Error " +
                                                                   _vm._s(
                                                                     index + 1
                                                                   ) +
@@ -1642,7 +1640,7 @@ var render = function() {
                                                                   _vm._s(
                                                                     value.message
                                                                   ) +
-                                                                  "\n                            "
+                                                                  "\n                          "
                                                               )
                                                             ]
                                                           )
@@ -1660,7 +1658,7 @@ var render = function() {
                                                   [
                                                     _c("b", [
                                                       _vm._v(
-                                                        "Please ensure your column header is formatted as shown below. (Station name, Date, and pump nozzle code are compulsory)"
+                                                        "Please ensure your column header is formatted as shown below. (Station code, Date, and pump nozzle code are compulsory)"
                                                       )
                                                     ])
                                                   ]
@@ -1673,7 +1671,7 @@ var render = function() {
                                                     _c("thead", [
                                                       _c("tr", [
                                                         _c("th", [
-                                                          _vm._v("Station Name")
+                                                          _vm._v("Station Code")
                                                         ]),
                                                         _vm._v(" "),
                                                         _c("th", [
@@ -1722,7 +1720,7 @@ var render = function() {
                                                             _c("td", [
                                                               _vm._v(
                                                                 _vm._s(
-                                                                  option.station_name
+                                                                  option.station_code
                                                                 )
                                                               )
                                                             ]),

@@ -32,8 +32,7 @@
                     <b-tabs>
                         <b-tab title="STOCK READINGS" v-if="show_stock_pane">
                           <br>
-                          <a target= "_blank" href="              http://www.sharecsv.com/s/c347d14767a9d66cbffa738d018a52de/stock.csv
-"><span  class="btn btn-info btn-sm">DOWNLOAD STOCK EXCEL TEMPLATE</span></a>
+                          <a target= "_blank" href="http://www.sharecsv.com/s/134a22ffd40068e25c13f7365db04580/stock.csv"><span  class="btn btn-info btn-sm">DOWNLOAD STOCK EXCEL TEMPLATE</span></a>
                           <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
@@ -50,12 +49,12 @@
                             </div>
                           </div>
                           <div class="alert alert-warning alert-md" >
-                              <b>Please ensure your column header is formatted as shown below. (Station name, Date, and Tank code are compulsory)</b>
+                              <b>Please ensure your column header is formatted as shown below. (Station code, Date, and Tank code are compulsory)</b>
                             </div>
                            <table class="table">
                               <thead>
                                 <tr>
-                                  <th>Station Name</th>
+                                  <th>Station Code</th>
                                   <th>Date</th>
                                   <th>Tank Code</th>
                                   <th>Opening Dip</th>
@@ -67,7 +66,7 @@
                               </thead>
                               <tbody>
                                 <tr v-for ="(option, index) in close_tank_reading">
-                                  <th>{{option.station_name}}</th>
+                                  <th>{{option.station_code}}</th>
                                   <th>{{option.date}}</th>
                                   <th>{{option.tank_code}}</th>
                                   <td>     
@@ -121,8 +120,7 @@
                         </b-tab>
                         <b-tab title="TOTALIZER READINGS" v-if="show_sales_pane">
                           <br>
-                           <a target= "_blank" href="http://www.sharecsv.com/s/a1232c0c695141a0d959dcaffc4ddede/sales.csv
-"><span  class="btn btn-info btn-sm">DOWNLOAD SALES EXCEL TEMPLATE</span></a>
+                           <a target= "_blank" href="http://www.sharecsv.com/s/2b8e37ac676925dde9b3754422168b3f/sales.csv"><span  class="btn btn-info btn-sm">DOWNLOAD SALES EXCEL TEMPLATE</span></a>
                           <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
@@ -139,13 +137,13 @@
                             </div>
                           </div>
                           <div class="alert alert-warning alert-md" >
-                              <b>Please ensure your column header is formatted as shown below. (Station name, Date, and pump nozzle code are compulsory)</b>
+                              <b>Please ensure your column header is formatted as shown below. (Station code, Date, and pump nozzle code are compulsory)</b>
                           </div>
                         
                             <table class="table">
                               <thead>
                                 <tr>
-                                  <th>Station Name</th>
+                                  <th>Station Code</th>
                                   <th>Date</th>
                                   <th>Pump Nozzle Code</th>
                                   <th>Opening Totalizer Reading</th>
@@ -161,7 +159,7 @@
                               </thead>
                               <tbody>
                                 <tr  v-for="(option, index) in close_pump_reading">
-                                  <td>{{option.station_name}}</td>
+                                  <td>{{option.station_code}}</td>
                                   <td>{{option.date}}</td>
                                   <td>{{option.pump_nozzle_code}}</td>
                                   <td>     
