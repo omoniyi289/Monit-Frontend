@@ -154,6 +154,17 @@
     data() {
       return {columndata: [
         {
+          label: 'Payment Date',
+          field: 'payment_date',
+          numeric: true,
+          html: true,
+        },{
+          label: 'Uploaded On',
+          field: 'updated_at',
+          numeric: true,
+          html: true,
+        },
+        {
           label: 'Amount Paid',
           field: 'amount_paid',
           numeric: true,
@@ -323,7 +334,7 @@
          
           this.model.payment_date = new Date(this.selected_date).toDateString();
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.model.uploaded_by = user_details.id;
+          this.model.uploaded_by = user_details.fullname;
           let customer_detail = {
             customer_payment : this.model
           };

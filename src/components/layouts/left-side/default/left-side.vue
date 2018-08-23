@@ -229,6 +229,12 @@ export default {
                                 link: '/ss-management/close-station',
                                 icon: 'fa fa-angle-double-right'
                             });
+                             menu_items[current_index].child.push({
+                                name: 'Bulk Sales and Stock Upload (Beta)',
+                                link: '/ss-management/bulk-upload',
+                                icon: 'fa fa-angle-double-right'
+                            });
+
                             menu_items[current_index].child.push({
                                 name: 'View Readings',
                                 link: '/ss-management/view',
