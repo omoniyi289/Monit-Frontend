@@ -32,7 +32,7 @@
                     <b-tabs>
                         <b-tab title="STOCK READINGS" v-if="show_stock_pane">
                           <br>
-                          <a target= "_blank" href="http://www.sharecsv.com/s/134a22ffd40068e25c13f7365db04580/stock.csv"><span  class="btn btn-info btn-sm">DOWNLOAD STOCK EXCEL TEMPLATE</span></a>
+                          <a target= "_blank" href="http://www.sharecsv.com/s/10da5464ccfbecf1fdafe17dac7fc310/stock.csv"><span  class="btn btn-info btn-sm">DOWNLOAD STOCK EXCEL TEMPLATE</span></a>
                           <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
