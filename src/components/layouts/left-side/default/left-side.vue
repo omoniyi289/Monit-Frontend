@@ -73,6 +73,7 @@ export default {
      methods: {
      f_menu_items(r_p_array){
     var permissions =[];
+    let user_details = JSON.parse(localStorage.getItem('user_details'));
 
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
@@ -136,14 +137,17 @@ export default {
                             link: '/admin/regions/manage',
                      
                         });}
-                    }
-                   //intentionally allowed user privilege to control notifications as well
+
+                    //intentionally allowed user privilege to control notifications as well
                 if(permissions.includes('CMUs')){
                         menu_items[current_index].child.push({
                             name: 'Notifications Settings',
                             link: '/admin/notifications/manage',
                      
                         });}
+                        
+                    }
+               
         ///configuration
         if(permissions.includes('SSCo') || permissions.includes('MSCo')){
         menu_items.push({ name: 'Configuration',
@@ -229,11 +233,14 @@ export default {
                                 link: '/ss-management/close-station',
                                 icon: 'fa fa-angle-double-right'
                             });
+                            ///hardcode for bovas, and super admin
+                            if(user_details.company_id == 25 || user_details.company_id == 'master'){
                              menu_items[current_index].child.push({
-                                name: 'Bulk Sales and Stock Upload (Beta)',
-                                link: '/ss-management/bulk-upload',
+                                name: 'Bulk Sales and Stock Upload',
+                                link: '/ss-management/bovas-bulk-upload',
                                 icon: 'fa fa-angle-double-right'
                             });
+                            }
 
                             menu_items[current_index].child.push({
                                 name: 'View Readings',

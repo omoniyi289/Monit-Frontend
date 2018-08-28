@@ -10,13 +10,13 @@ var content = __webpack_require__(1287);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(24)("308e84a0", content, false, {});
+var update = __webpack_require__(24)("723d7d44", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a533281c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./bulk-upload.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a533281c\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./bulk-upload.vue");
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-36eb2b60\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./bovas-bulk-upload.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-36eb2b60\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./bovas-bulk-upload.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -61,27 +61,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_vue_smoothscroll__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_src_validations_validations_js__ = __webpack_require__(295);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__ = __webpack_require__(25);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -378,80 +357,8 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
         this.show_multi_company = __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].state.show_multi_company;
       }
     },
-    show_open_station_info: function show_open_station_info(station_id, company_id) {
-      var _this = this;
-
-      this.preset.company_id = company_id;
-      this.preset.station_id = station_id;
-      if (this.formstate2.$invalid) {
-        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-danger',
-          'alert_message': 'input error, please cross-check stock and totalizer readings', 'show_alert': true });
-        return;
-      } else {
-        if (this.selected_date == '') {
-          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-danger',
-            'alert_message': 'Please select date to continue', 'show_alert': true });
-          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-          return;
-        }
-        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
-        this.selected_date = new Date(this.selected_date).toDateString();
-        this.show_setup_form = true;
-        var user_details = JSON.parse(localStorage.getItem('user_details'));
-        var params = 'station_id=' + this.preset.station_id + '&date=' + this.selected_date;
-        axios.get(this.$store.state.host_url + "/stock-readings/by_station?" + params, {
-          headers: {
-            "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
-          } }).then(function (stock_response) {
-          if (stock_response.data.data.length == 0) {
-            __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-danger',
-              'alert_message': 'No opened shift', 'show_alert': true });
-            _this.show_setup_form = false;
-            __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-          } else {
-            _this.station_tanks = stock_response.data.data;
-            _this.close_tank_reading = [];
-            _this.station_tanks.forEach(function (element) {
-              var _this$close_tank_read;
-
-              _this.close_tank_reading.push((_this$close_tank_read = { 'tank_code': element.tank_code,
-                'tank_id': element.tank_id, 'opening_reading': element.phy_shift_start_volume_reading
-              }, _defineProperty(_this$close_tank_read, 'tank_id', element.tank_id), _defineProperty(_this$close_tank_read, 'closing_reading', element.phy_shift_end_volume_reading), _defineProperty(_this$close_tank_read, 'reading_date', element.reading_date), _defineProperty(_this$close_tank_read, 'rtt', element.return_to_tank), _defineProperty(_this$close_tank_read, 'qty_received', element.end_delivery), _defineProperty(_this$close_tank_read, 'status', 'Modified'), _this$close_tank_read));
-            });
-
-            ///pumps//
-            var _params = 'station_id=' + _this.preset.station_id + '&date=' + _this.selected_date;
-            axios.get(_this.$store.state.host_url + "/pump-readings/by_station?" + _params, {
-              headers: {
-                "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
-              } }).then(function (pump_response) {
-              _this.station_pumps = pump_response.data.data;
-              _this.close_pump_reading = [];
-              _this.station_pumps.forEach(function (element) {
-                _this.close_pump_reading.push({
-                  'pump_id': element.pump_id, 'nozzle_code': element.nozzle_code,
-                  'first_shift_reading': element.shift_1_totalizer_reading,
-                  'second_shift_reading': element.shift_2_totalizer_reading,
-                  'opening_reading': element.open_shift_totalizer_reading,
-                  'closing_reading': element.close_shift_totalizer_reading,
-                  'cash_collected': element.cash_collected,
-                  'first_shift_cash_collected': element.shift_1_cash_collected,
-                  'second_shift_cash_collected': element.shift_2_cash_collected,
-                  'ppv': element.ppv,
-                  'reading_date': element.reading_date,
-                  'status': 'Modified' });
-              });
-              __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-            }).catch(function (error) {
-              __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-              __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
-            });
-          }
-        });
-      }
-    },
     onParsedStockSubmit: function onParsedStockSubmit() {
-      var _this2 = this;
+      var _this = this;
 
       if (false) {
         return;
@@ -468,7 +375,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
         this.final_stock_info.last_modified_by = user_details.id;
         this.final_stock_info.readings = this.close_tank_reading;
         this.show_setup_form = false;
-        axios.post(this.$store.state.host_url + "/stock-readings/parsed_csv_data", { 'stocks': this.final_stock_info }, {
+        axios.post(this.$store.state.host_url + "/stock-readings/bovas_parsed_csv_data", { 'stocks': this.final_stock_info }, {
           headers: {
             "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
           }
@@ -478,11 +385,11 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
           if (api_response.status === true) {
             __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
               'alert_message': 'Readings Uploaded Successfully', 'show_alert': true });
-            _this2.close_tank_reading = [];
-            _this2.error_pane = false;
-            _this2.error_messages = [];
-            _this2.show_setup_form = false;
-            _this2.show_stock_upload_button = false;
+            _this.close_tank_reading = [];
+            _this.error_pane = false;
+            _this.error_messages = [];
+            _this.show_setup_form = false;
+            _this.show_stock_upload_button = false;
           }
           __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
         }).catch(function (error) {
@@ -492,7 +399,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
       }
     },
     onParsedSalesSubmit: function onParsedSalesSubmit() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (false) {
         return;
@@ -509,7 +416,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
         this.final_pump_info.last_modified_by = user_details.id;
         this.final_pump_info.readings = this.close_pump_reading;
         this.show_setup_form = false;
-        axios.post(this.$store.state.host_url + "/pump-readings/parsed_csv_data", { 'pumps': this.final_pump_info }, {
+        axios.post(this.$store.state.host_url + "/pump-readings/bovas_parsed_csv_data", { 'pumps': this.final_pump_info }, {
           headers: {
             "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
           }
@@ -519,11 +426,11 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
           if (api_response.status === true) {
             __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-success',
               'alert_message': 'Readings Uploaded Successfully', 'show_alert': true });
-            _this3.close_pump_reading = [];
-            _this3.error_pane = false;
-            _this3.error_messages = [];
-            _this3.show_setup_form = false;
-            _this3.show_sales_upload_button = false;
+            _this2.close_pump_reading = [];
+            _this2.error_pane = false;
+            _this2.error_messages = [];
+            _this2.show_setup_form = false;
+            _this2.show_sales_upload_button = false;
           }
           __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
         }).catch(function (error) {
@@ -533,7 +440,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
       }
     },
     submitStockFile: function submitStockFile() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.close_tank_reading = [];
       this.error_pane = false;
@@ -548,7 +455,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
       var formData = new FormData();
       formData.append('file', this.file);
       var user_details = JSON.parse(localStorage.getItem('user_details'));
-      axios.post(this.$store.state.host_url + "/stock-readings/file_upload", formData, {
+      axios.post(this.$store.state.host_url + "/stock-readings/bovas_file_upload", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
@@ -556,14 +463,14 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
       }).then(function (response) {
         var result = response.data.data;
         if (result[0].error.length > 0) {
-          _this4.error_pane = true;
-          _this4.error_messages = result[0].error;
+          _this3.error_pane = true;
+          _this3.error_messages = result[0].error;
           __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-primary',
             'alert_message': 'File-Read Successful', 'show_alert': true });
         } else if (result[0].error.length == 0 && result[0].success.length > 0) {
-          _this4.close_tank_reading = result[0].success;
-          _this4.show_setup_form = true;
-          _this4.show_stock_upload_button = true;
+          _this3.close_tank_reading = result[0].success;
+          _this3.show_setup_form = true;
+          _this3.show_stock_upload_button = true;
           __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-primary',
             'alert_message': 'File-Read Successful', 'show_alert': true });
         } else if (result[0].error.length == 0 && result[0].success.length == 0) {
@@ -576,50 +483,54 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_
         __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
       });
     },
-    submitSalesFile: function submitSalesFile() {
-      var _this5 = this;
 
-      this.close_pump_reading = [];
-      this.error_pane = false;
-      this.error_messages = [];
-      this.show_setup_form = false;
-      this.show_sales_upload_button = false;
+    //  submitSalesFile(){
+    //       this.close_pump_reading = [];
+    //       this.error_pane = false;
+    //       this.error_messages = [];
+    //       this.show_setup_form = false;
+    //       this.show_sales_upload_button = false;
 
-      __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "start");
-      __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showPermAlertBox", { 'alert_type': 'alert-warning',
-        'alert_message': '...Processing Request...', 'show_alert': true });
-      this.$SmoothScroll(document.getElementById("content-header"));
-      var formData = new FormData();
-      formData.append('file', this.file);
-      var user_details = JSON.parse(localStorage.getItem('user_details'));
-      axios.post(this.$store.state.host_url + "/pump-readings/file_upload", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          "Authorization": "Bearer " + user_details.token, "Cache-Control": "no-cache"
-        }
-      }).then(function (response) {
-        var result = response.data.data;
-        if (result[0].error.length > 0) {
-          _this5.error_pane = true;
-          _this5.error_messages = result[0].error;
-          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-primary',
-            'alert_message': 'File-Read Successful', 'show_alert': true });
-        } else if (result[0].error.length == 0 && result[0].success.length > 0) {
-          _this5.close_pump_reading = result[0].success;
-          _this5.show_setup_form = true;
-          _this5.show_sales_upload_button = true;
-          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-primary',
-            'alert_message': 'File-Read Successful', 'show_alert': true });
-        } else if (result[0].error.length == 0 && result[0].success.length == 0) {
-          __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("showAlertBox", { 'alert_type': 'alert-danger',
-            'alert_message': 'No entries found', 'show_alert': true });
-        }
-        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-      }).catch(function (error) {
-        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("activateLoader", "end");
-        __WEBPACK_IMPORTED_MODULE_7_src_store_store_js__["a" /* default */].commit("catch_errors", error);
-      });
-    },
+    //       store.commit("activateLoader", "start");
+    //       store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
+    //                  'alert_message': '...Processing Request...', 'show_alert': true});
+    //       this.$SmoothScroll(document.getElementById("content-header"));
+    //       let formData = new FormData();
+    //       formData.append('file', this.file);
+    //       let user_details = JSON.parse(localStorage.getItem('user_details'));
+    //       axios.post( this.$store.state.host_url+"/pump-readings/bovas_file_upload",
+    //           formData,
+    //           {
+    //           headers: {
+    //               'Content-Type': 'multipart/form-data',
+    //                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+    //           }
+    //         }
+    //       ).then( response => {      
+    //           let result = response.data.data;
+    //          if(result[0].error.length > 0){
+    //              this.error_pane = true;
+    //              this.error_messages = result[0].error;
+    //              store.commit("showAlertBox", {'alert_type': 'alert-primary',
+    //                  'alert_message': 'File-Read Successful', 'show_alert': true});
+    //         }
+    //          else if(result[0].error.length == 0 && result[0].success.length > 0){
+    //               this.close_pump_reading= result[0].success;
+    //               this.show_setup_form = true;
+    //               this.show_sales_upload_button = true;
+    //               store.commit("showAlertBox", {'alert_type': 'alert-primary',
+    //                  'alert_message': 'File-Read Successful', 'show_alert': true});
+    //         }else if(result[0].error.length == 0 && result[0].success.length == 0){
+    //               store.commit("showAlertBox", {'alert_type': 'alert-danger',
+    //                  'alert_message': 'No entries found', 'show_alert': true});
+    //         }
+    //           store.commit("activateLoader", "end");           
+    //   })
+    //   .catch(error => { 
+    //    store.commit("activateLoader", "end");   
+    //     store.commit("catch_errors", error);
+    //   });
+    // },
     handleFileUpload: function handleFileUpload() {
       this.file = this.$refs.file.files[0];
     }
@@ -670,23 +581,6 @@ var render = function() {
                           on: { click: _vm.on_stock_pane_click }
                         },
                         [_vm._v(" CLICK TO UPLOAD STOCK DIPPINGS")]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "col-lg-4" }, [
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("b", [_vm._v(" FOR SALES READINGS")]),
-                      _c("br"),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success btn-lg",
-                          on: { click: _vm.on_sales_pane_click }
-                        },
-                        [_vm._v(" CLICK TO UPLOAD SALES READINGS")]
                       )
                     ])
                   ])
@@ -859,7 +753,7 @@ var render = function() {
                                                   [
                                                     _c("b", [
                                                       _vm._v(
-                                                        "Please ensure your column header is formatted as shown below. (Station code, Date, and Tank code are compulsory)"
+                                                        "Please ensure your column header is formatted as shown below. (Station code, Date, and Product are compulsory)"
                                                       )
                                                     ])
                                                   ]
@@ -880,11 +774,19 @@ var render = function() {
                                                         ]),
                                                         _vm._v(" "),
                                                         _c("th", [
-                                                          _vm._v("Tank Code")
+                                                          _vm._v("Product")
                                                         ]),
                                                         _vm._v(" "),
                                                         _c("th", [
                                                           _vm._v("Opening Dip")
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("th", [
+                                                          _vm._v("Closing Dip")
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c("th", [
+                                                          _vm._v("PPV")
                                                         ]),
                                                         _vm._v(" "),
                                                         _c("th", [
@@ -897,10 +799,6 @@ var render = function() {
                                                         _vm._v(" "),
                                                         _c("th", [
                                                           _vm._v("GIT Loss")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v("Closing Dip")
                                                         ])
                                                       ])
                                                     ]),
@@ -933,7 +831,7 @@ var render = function() {
                                                             _c("th", [
                                                               _vm._v(
                                                                 _vm._s(
-                                                                  option.tank_code
+                                                                  option.product
                                                                 )
                                                               )
                                                             ]),
@@ -998,485 +896,334 @@ var render = function() {
                                                               })
                                                             ]),
                                                             _vm._v(" "),
-                                                            _c(
-                                                              "td",
-                                                              [
-                                                                _c(
-                                                                  "validate",
+                                                            _c("td", [
+                                                              _c("input", {
+                                                                directives: [
                                                                   {
-                                                                    attrs: {
-                                                                      tag: "div"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "input",
-                                                                      {
-                                                                        directives: [
-                                                                          {
-                                                                            name:
-                                                                              "model",
-                                                                            rawName:
-                                                                              "v-model",
-                                                                            value:
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ]
-                                                                                .delivery,
-                                                                            expression:
-                                                                              "close_tank_reading[index].delivery"
-                                                                          }
-                                                                        ],
-                                                                        staticClass:
-                                                                          "form-control",
-                                                                        attrs: {
-                                                                          id:
-                                                                            "qr",
-                                                                          disabled:
-                                                                            _vm.isDisabled,
-                                                                          name:
-                                                                            _vm.qr +
-                                                                            index,
-                                                                          type:
-                                                                            "number",
-                                                                          required:
-                                                                            "",
-                                                                          placeholder:
-                                                                            ""
-                                                                        },
-                                                                        domProps: {
-                                                                          value:
-                                                                            _vm
-                                                                              .close_tank_reading[
-                                                                              index
-                                                                            ]
-                                                                              .delivery
-                                                                        },
-                                                                        on: {
-                                                                          input: function(
-                                                                            $event
-                                                                          ) {
-                                                                            if (
-                                                                              $event
-                                                                                .target
-                                                                                .composing
-                                                                            ) {
-                                                                              return
-                                                                            }
-                                                                            _vm.$set(
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ],
-                                                                              "delivery",
-                                                                              $event
-                                                                                .target
-                                                                                .value
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    ),
-                                                                    _vm._v(" "),
-                                                                    _c(
-                                                                      "field-messages",
-                                                                      {
-                                                                        staticClass:
-                                                                          "text-danger",
-                                                                        attrs: {
-                                                                          name:
-                                                                            _vm.qr +
-                                                                            index,
-                                                                          show:
-                                                                            "$invalid && $submitted"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "div",
-                                                                          {
-                                                                            attrs: {
-                                                                              slot:
-                                                                                "required"
-                                                                            },
-                                                                            slot:
-                                                                              "required"
-                                                                          },
-                                                                          [
-                                                                            _vm._v(
-                                                                              "Quantity Recieved is required"
-                                                                            )
-                                                                          ]
-                                                                        )
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
                                                                       ]
+                                                                        .closing_dip,
+                                                                    expression:
+                                                                      "close_tank_reading[index].closing_dip"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "form-control",
+                                                                attrs: {
+                                                                  id: "rd",
+                                                                  disabled:
+                                                                    _vm.isDisabled,
+                                                                  name:
+                                                                    _vm.trd +
+                                                                    index,
+                                                                  type:
+                                                                    "number",
+                                                                  required: "",
+                                                                  placeholder:
+                                                                    "Closing Reading"
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    _vm
+                                                                      .close_tank_reading[
+                                                                      index
+                                                                    ]
+                                                                      .closing_dip
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
+                                                                    }
+                                                                    _vm.$set(
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ],
+                                                                      "closing_dip",
+                                                                      $event
+                                                                        .target
+                                                                        .value
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ],
-                                                              1
-                                                            ),
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]),
                                                             _vm._v(" "),
-                                                            _c(
-                                                              "td",
-                                                              [
-                                                                _c(
-                                                                  "validate",
+                                                            _c("td", [
+                                                              _c("input", {
+                                                                directives: [
                                                                   {
-                                                                    attrs: {
-                                                                      tag: "div"
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ].ppv,
+                                                                    expression:
+                                                                      "close_tank_reading[index].ppv"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "form-control",
+                                                                attrs: {
+                                                                  id: "rd",
+                                                                  disabled:
+                                                                    _vm.isDisabled,
+                                                                  name:
+                                                                    _vm.trd +
+                                                                    index,
+                                                                  type:
+                                                                    "number",
+                                                                  required: "",
+                                                                  placeholder:
+                                                                    "PPV"
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    _vm
+                                                                      .close_tank_reading[
+                                                                      index
+                                                                    ].ppv
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
                                                                     }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "input",
-                                                                      {
-                                                                        directives: [
-                                                                          {
-                                                                            name:
-                                                                              "model",
-                                                                            rawName:
-                                                                              "v-model",
-                                                                            value:
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ]
-                                                                                .rtt,
-                                                                            expression:
-                                                                              "close_tank_reading[index].rtt"
-                                                                          }
-                                                                        ],
-                                                                        staticClass:
-                                                                          "form-control",
-                                                                        attrs: {
-                                                                          id:
-                                                                            "qr",
-                                                                          disabled:
-                                                                            _vm.isDisabled,
-                                                                          name:
-                                                                            _vm.rtt +
-                                                                            index,
-                                                                          type:
-                                                                            "number",
-                                                                          required:
-                                                                            "",
-                                                                          placeholder:
-                                                                            ""
-                                                                        },
-                                                                        domProps: {
-                                                                          value:
-                                                                            _vm
-                                                                              .close_tank_reading[
-                                                                              index
-                                                                            ]
-                                                                              .rtt
-                                                                        },
-                                                                        on: {
-                                                                          input: function(
-                                                                            $event
-                                                                          ) {
-                                                                            if (
-                                                                              $event
-                                                                                .target
-                                                                                .composing
-                                                                            ) {
-                                                                              return
-                                                                            }
-                                                                            _vm.$set(
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ],
-                                                                              "rtt",
-                                                                              $event
-                                                                                .target
-                                                                                .value
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    ),
-                                                                    _vm._v(" "),
-                                                                    _c(
-                                                                      "field-messages",
-                                                                      {
-                                                                        staticClass:
-                                                                          "text-danger",
-                                                                        attrs: {
-                                                                          name:
-                                                                            _vm.rtt +
-                                                                            index,
-                                                                          show:
-                                                                            "$invalid && $submitted"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "div",
-                                                                          {
-                                                                            attrs: {
-                                                                              slot:
-                                                                                "required"
-                                                                            },
-                                                                            slot:
-                                                                              "required"
-                                                                          },
-                                                                          [
-                                                                            _vm._v(
-                                                                              "Retun to Tank is required"
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ]
+                                                                    _vm.$set(
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ],
+                                                                      "ppv",
+                                                                      $event
+                                                                        .target
+                                                                        .value
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ],
-                                                              1
-                                                            ),
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]),
                                                             _vm._v(" "),
-                                                            _c(
-                                                              "td",
-                                                              [
-                                                                _c(
-                                                                  "validate",
+                                                            _c("td", [
+                                                              _c("input", {
+                                                                directives: [
                                                                   {
-                                                                    attrs: {
-                                                                      tag: "div"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "input",
-                                                                      {
-                                                                        directives: [
-                                                                          {
-                                                                            name:
-                                                                              "model",
-                                                                            rawName:
-                                                                              "v-model",
-                                                                            value:
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ]
-                                                                                .git_loss,
-                                                                            expression:
-                                                                              "close_tank_reading[index].git_loss"
-                                                                          }
-                                                                        ],
-                                                                        staticClass:
-                                                                          "form-control",
-                                                                        attrs: {
-                                                                          id:
-                                                                            "qr",
-                                                                          disabled:
-                                                                            _vm.isDisabled,
-                                                                          name:
-                                                                            _vm.rtt +
-                                                                            index,
-                                                                          type:
-                                                                            "number",
-                                                                          required:
-                                                                            "",
-                                                                          placeholder:
-                                                                            ""
-                                                                        },
-                                                                        domProps: {
-                                                                          value:
-                                                                            _vm
-                                                                              .close_tank_reading[
-                                                                              index
-                                                                            ]
-                                                                              .git_loss
-                                                                        },
-                                                                        on: {
-                                                                          input: function(
-                                                                            $event
-                                                                          ) {
-                                                                            if (
-                                                                              $event
-                                                                                .target
-                                                                                .composing
-                                                                            ) {
-                                                                              return
-                                                                            }
-                                                                            _vm.$set(
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ],
-                                                                              "git_loss",
-                                                                              $event
-                                                                                .target
-                                                                                .value
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    ),
-                                                                    _vm._v(" "),
-                                                                    _c(
-                                                                      "field-messages",
-                                                                      {
-                                                                        staticClass:
-                                                                          "text-danger",
-                                                                        attrs: {
-                                                                          name:
-                                                                            _vm.rtt +
-                                                                            index,
-                                                                          show:
-                                                                            "$invalid && $submitted"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "div",
-                                                                          {
-                                                                            attrs: {
-                                                                              slot:
-                                                                                "required"
-                                                                            },
-                                                                            slot:
-                                                                              "required"
-                                                                          },
-                                                                          [
-                                                                            _vm._v(
-                                                                              "GIT Loss is required"
-                                                                            )
-                                                                          ]
-                                                                        )
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
                                                                       ]
+                                                                        .delivery,
+                                                                    expression:
+                                                                      "close_tank_reading[index].delivery"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "form-control",
+                                                                attrs: {
+                                                                  id: "qr",
+                                                                  disabled:
+                                                                    _vm.isDisabled,
+                                                                  name:
+                                                                    _vm.qr +
+                                                                    index,
+                                                                  type:
+                                                                    "number",
+                                                                  required: "",
+                                                                  placeholder:
+                                                                    ""
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    _vm
+                                                                      .close_tank_reading[
+                                                                      index
+                                                                    ].delivery
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
+                                                                    }
+                                                                    _vm.$set(
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ],
+                                                                      "delivery",
+                                                                      $event
+                                                                        .target
+                                                                        .value
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ],
-                                                              1
-                                                            ),
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]),
                                                             _vm._v(" "),
-                                                            _c(
-                                                              "td",
-                                                              [
-                                                                _c(
-                                                                  "validate",
+                                                            _c("td", [
+                                                              _c("input", {
+                                                                directives: [
                                                                   {
-                                                                    attrs: {
-                                                                      tag: "div"
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ].rtt,
+                                                                    expression:
+                                                                      "close_tank_reading[index].rtt"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "form-control",
+                                                                attrs: {
+                                                                  id: "qr",
+                                                                  disabled:
+                                                                    _vm.isDisabled,
+                                                                  name:
+                                                                    _vm.rtt +
+                                                                    index,
+                                                                  type:
+                                                                    "number",
+                                                                  required: "",
+                                                                  placeholder:
+                                                                    ""
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    _vm
+                                                                      .close_tank_reading[
+                                                                      index
+                                                                    ].rtt
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
                                                                     }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "input",
-                                                                      {
-                                                                        directives: [
-                                                                          {
-                                                                            name:
-                                                                              "model",
-                                                                            rawName:
-                                                                              "v-model",
-                                                                            value:
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ]
-                                                                                .closing_dip,
-                                                                            expression:
-                                                                              "close_tank_reading[index].closing_dip"
-                                                                          }
-                                                                        ],
-                                                                        staticClass:
-                                                                          "form-control",
-                                                                        attrs: {
-                                                                          id:
-                                                                            "rd",
-                                                                          disabled:
-                                                                            _vm.isDisabled,
-                                                                          name:
-                                                                            _vm.trd +
-                                                                            index,
-                                                                          type:
-                                                                            "number",
-                                                                          required:
-                                                                            "",
-                                                                          placeholder:
-                                                                            "Closing Reading"
-                                                                        },
-                                                                        domProps: {
-                                                                          value:
-                                                                            _vm
-                                                                              .close_tank_reading[
-                                                                              index
-                                                                            ]
-                                                                              .closing_dip
-                                                                        },
-                                                                        on: {
-                                                                          input: function(
-                                                                            $event
-                                                                          ) {
-                                                                            if (
-                                                                              $event
-                                                                                .target
-                                                                                .composing
-                                                                            ) {
-                                                                              return
-                                                                            }
-                                                                            _vm.$set(
-                                                                              _vm
-                                                                                .close_tank_reading[
-                                                                                index
-                                                                              ],
-                                                                              "closing_dip",
-                                                                              $event
-                                                                                .target
-                                                                                .value
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      }
-                                                                    ),
-                                                                    _vm._v(" "),
-                                                                    _c(
-                                                                      "field-messages",
-                                                                      {
-                                                                        staticClass:
-                                                                          "text-danger",
-                                                                        attrs: {
-                                                                          name:
-                                                                            _vm.trd +
-                                                                            index,
-                                                                          show:
-                                                                            "$invalid && $submitted"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "div",
-                                                                          {
-                                                                            attrs: {
-                                                                              slot:
-                                                                                "required"
-                                                                            },
-                                                                            slot:
-                                                                              "required"
-                                                                          },
-                                                                          [
-                                                                            _vm._v(
-                                                                              "Closing Reading is required"
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ]
+                                                                    _vm.$set(
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ],
+                                                                      "rtt",
+                                                                      $event
+                                                                        .target
+                                                                        .value
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ],
-                                                              1
-                                                            )
+                                                                  }
+                                                                }
+                                                              })
+                                                            ]),
+                                                            _vm._v(" "),
+                                                            _c("td", [
+                                                              _c("input", {
+                                                                directives: [
+                                                                  {
+                                                                    name:
+                                                                      "model",
+                                                                    rawName:
+                                                                      "v-model",
+                                                                    value:
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ]
+                                                                        .git_loss,
+                                                                    expression:
+                                                                      "close_tank_reading[index].git_loss"
+                                                                  }
+                                                                ],
+                                                                staticClass:
+                                                                  "form-control",
+                                                                attrs: {
+                                                                  id: "qr",
+                                                                  disabled:
+                                                                    _vm.isDisabled,
+                                                                  name:
+                                                                    _vm.rtt +
+                                                                    index,
+                                                                  type:
+                                                                    "number",
+                                                                  required: "",
+                                                                  placeholder:
+                                                                    ""
+                                                                },
+                                                                domProps: {
+                                                                  value:
+                                                                    _vm
+                                                                      .close_tank_reading[
+                                                                      index
+                                                                    ].git_loss
+                                                                },
+                                                                on: {
+                                                                  input: function(
+                                                                    $event
+                                                                  ) {
+                                                                    if (
+                                                                      $event
+                                                                        .target
+                                                                        .composing
+                                                                    ) {
+                                                                      return
+                                                                    }
+                                                                    _vm.$set(
+                                                                      _vm
+                                                                        .close_tank_reading[
+                                                                        index
+                                                                      ],
+                                                                      "git_loss",
+                                                                      $event
+                                                                        .target
+                                                                        .value
+                                                                    )
+                                                                  }
+                                                                }
+                                                              })
+                                                            ])
                                                           ])
                                                         }
                                                       )
@@ -1519,524 +1266,6 @@ var render = function() {
                                                 )
                                               ]
                                             )
-                                          : _vm._e(),
-                                        _vm._v(" "),
-                                        _vm.show_sales_pane
-                                          ? _c(
-                                              "b-tab",
-                                              {
-                                                attrs: {
-                                                  title: "TOTALIZER READINGS"
-                                                }
-                                              },
-                                              [
-                                                _c("br"),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "a",
-                                                  {
-                                                    attrs: {
-                                                      target: "_blank",
-                                                      href:
-                                                        "http://www.sharecsv.com/s/2b8e37ac676925dde9b3754422168b3f/sales.csv"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "btn btn-info btn-sm"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "DOWNLOAD SALES EXCEL TEMPLATE"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("br"),
-                                                _c("br"),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "container" },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "large-12 medium-12 small-12 cell"
-                                                      },
-                                                      [
-                                                        _c("label", [
-                                                          _vm._v(
-                                                            "Sales Input CSV File: \n                              "
-                                                          ),
-                                                          _c("input", {
-                                                            ref: "file",
-                                                            attrs: {
-                                                              type: "file",
-                                                              id: "file"
-                                                            },
-                                                            on: {
-                                                              change: function(
-                                                                $event
-                                                              ) {
-                                                                _vm.handleFileUpload()
-                                                              }
-                                                            }
-                                                          })
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticClass:
-                                                              "btn btn-primary btn-md",
-                                                            on: {
-                                                              click: function(
-                                                                $event
-                                                              ) {
-                                                                _vm.submitSalesFile()
-                                                              }
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "Upload File"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm.error_pane
-                                                  ? _c(
-                                                      "div",
-                                                      {
-                                                        staticClass: "container"
-                                                      },
-                                                      _vm._l(
-                                                        _vm.error_messages,
-                                                        function(value, index) {
-                                                          return _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "alert alert-danger alert-sm"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                            Error " +
-                                                                  _vm._s(
-                                                                    index + 1
-                                                                  ) +
-                                                                  ": " +
-                                                                  _vm._s(
-                                                                    value.message
-                                                                  ) +
-                                                                  "\n                          "
-                                                              )
-                                                            ]
-                                                          )
-                                                        }
-                                                      )
-                                                    )
-                                                  : _vm._e(),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "alert alert-warning alert-md"
-                                                  },
-                                                  [
-                                                    _c("b", [
-                                                      _vm._v(
-                                                        "Please ensure your column header is formatted as shown below. (Station code, Date, and pump nozzle code are compulsory)"
-                                                      )
-                                                    ])
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "table",
-                                                  { staticClass: "table" },
-                                                  [
-                                                    _c("thead", [
-                                                      _c("tr", [
-                                                        _c("th", [
-                                                          _vm._v("Station Code")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v("Date")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v(
-                                                            "Pump Nozzle Code"
-                                                          )
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v(
-                                                            "Opening Totalizer Reading"
-                                                          )
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v(
-                                                            "Closing Totalizer Reading"
-                                                          )
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v("PPV ")
-                                                        ]),
-                                                        _vm._v(" "),
-                                                        _c("th", [
-                                                          _vm._v(
-                                                            "Cash Collected "
-                                                          )
-                                                        ])
-                                                      ])
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "tbody",
-                                                      _vm._l(
-                                                        _vm.close_pump_reading,
-                                                        function(
-                                                          option,
-                                                          index
-                                                        ) {
-                                                          return _c("tr", [
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  option.station_code
-                                                                )
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  option.date
-                                                                )
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _vm._v(
-                                                                _vm._s(
-                                                                  option.pump_nozzle_code
-                                                                )
-                                                              )
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _c("input", {
-                                                                directives: [
-                                                                  {
-                                                                    name:
-                                                                      "model",
-                                                                    rawName:
-                                                                      "v-model",
-                                                                    value:
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ]
-                                                                        .opening_totalizer,
-                                                                    expression:
-                                                                      "close_pump_reading[index].opening_totalizer"
-                                                                  }
-                                                                ],
-                                                                staticClass:
-                                                                  "form-control",
-                                                                attrs: {
-                                                                  disabled:
-                                                                    _vm.isDisabled,
-                                                                  type: "number"
-                                                                },
-                                                                domProps: {
-                                                                  value:
-                                                                    _vm
-                                                                      .close_pump_reading[
-                                                                      index
-                                                                    ]
-                                                                      .opening_totalizer
-                                                                },
-                                                                on: {
-                                                                  input: function(
-                                                                    $event
-                                                                  ) {
-                                                                    if (
-                                                                      $event
-                                                                        .target
-                                                                        .composing
-                                                                    ) {
-                                                                      return
-                                                                    }
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ],
-                                                                      "opening_totalizer",
-                                                                      $event
-                                                                        .target
-                                                                        .value
-                                                                    )
-                                                                  }
-                                                                }
-                                                              })
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _c("input", {
-                                                                directives: [
-                                                                  {
-                                                                    name:
-                                                                      "model",
-                                                                    rawName:
-                                                                      "v-model",
-                                                                    value:
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ]
-                                                                        .closing_totalizer,
-                                                                    expression:
-                                                                      "close_pump_reading[index].closing_totalizer"
-                                                                  }
-                                                                ],
-                                                                staticClass:
-                                                                  "form-control",
-                                                                attrs: {
-                                                                  id: "rd",
-                                                                  disabled:
-                                                                    _vm.isDisabled,
-                                                                  name:
-                                                                    _vm.prd +
-                                                                    index,
-                                                                  type:
-                                                                    "number",
-                                                                  placeholder:
-                                                                    ""
-                                                                },
-                                                                domProps: {
-                                                                  value:
-                                                                    _vm
-                                                                      .close_pump_reading[
-                                                                      index
-                                                                    ]
-                                                                      .closing_totalizer
-                                                                },
-                                                                on: {
-                                                                  input: function(
-                                                                    $event
-                                                                  ) {
-                                                                    if (
-                                                                      $event
-                                                                        .target
-                                                                        .composing
-                                                                    ) {
-                                                                      return
-                                                                    }
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ],
-                                                                      "closing_totalizer",
-                                                                      $event
-                                                                        .target
-                                                                        .value
-                                                                    )
-                                                                  }
-                                                                }
-                                                              })
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _c("input", {
-                                                                directives: [
-                                                                  {
-                                                                    name:
-                                                                      "model",
-                                                                    rawName:
-                                                                      "v-model",
-                                                                    value:
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ].ppv,
-                                                                    expression:
-                                                                      "close_pump_reading[index].ppv"
-                                                                  }
-                                                                ],
-                                                                staticClass:
-                                                                  "form-control",
-                                                                attrs: {
-                                                                  id: "rd",
-                                                                  disabled:
-                                                                    _vm.isDisabled,
-                                                                  name:
-                                                                    _vm.ppv +
-                                                                    index,
-                                                                  type:
-                                                                    "number",
-                                                                  placeholder:
-                                                                    ""
-                                                                },
-                                                                domProps: {
-                                                                  value:
-                                                                    _vm
-                                                                      .close_pump_reading[
-                                                                      index
-                                                                    ].ppv
-                                                                },
-                                                                on: {
-                                                                  input: function(
-                                                                    $event
-                                                                  ) {
-                                                                    if (
-                                                                      $event
-                                                                        .target
-                                                                        .composing
-                                                                    ) {
-                                                                      return
-                                                                    }
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ],
-                                                                      "ppv",
-                                                                      $event
-                                                                        .target
-                                                                        .value
-                                                                    )
-                                                                  }
-                                                                }
-                                                              })
-                                                            ]),
-                                                            _vm._v(" "),
-                                                            _c("td", [
-                                                              _c("input", {
-                                                                directives: [
-                                                                  {
-                                                                    name:
-                                                                      "model",
-                                                                    rawName:
-                                                                      "v-model",
-                                                                    value:
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ]
-                                                                        .cash_collected,
-                                                                    expression:
-                                                                      "close_pump_reading[index].cash_collected"
-                                                                  }
-                                                                ],
-                                                                staticClass:
-                                                                  "form-control",
-                                                                attrs: {
-                                                                  id: "cc",
-                                                                  disabled:
-                                                                    _vm.isDisabled,
-                                                                  name:
-                                                                    _vm.cc +
-                                                                    index,
-                                                                  type:
-                                                                    "number",
-                                                                  placeholder:
-                                                                    ""
-                                                                },
-                                                                domProps: {
-                                                                  value:
-                                                                    _vm
-                                                                      .close_pump_reading[
-                                                                      index
-                                                                    ]
-                                                                      .cash_collected
-                                                                },
-                                                                on: {
-                                                                  input: function(
-                                                                    $event
-                                                                  ) {
-                                                                    if (
-                                                                      $event
-                                                                        .target
-                                                                        .composing
-                                                                    ) {
-                                                                      return
-                                                                    }
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .close_pump_reading[
-                                                                        index
-                                                                      ],
-                                                                      "cash_collected",
-                                                                      $event
-                                                                        .target
-                                                                        .value
-                                                                    )
-                                                                  }
-                                                                }
-                                                              })
-                                                            ])
-                                                          ])
-                                                        }
-                                                      )
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "col-sm-12" },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "form-group float-right"
-                                                      },
-                                                      [
-                                                        _vm.show_sales_upload_button
-                                                          ? _c(
-                                                              "span",
-                                                              {
-                                                                staticClass:
-                                                                  "btn btn-success",
-                                                                on: {
-                                                                  click:
-                                                                    _vm.onParsedSalesSubmit
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  "UPLOAD SALES READINGS"
-                                                                )
-                                                              ]
-                                                            )
-                                                          : _vm._e()
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ]
-                                            )
                                           : _vm._e()
                                       ],
                                       1
@@ -2068,7 +1297,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-a533281c", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-36eb2b60", module.exports)
   }
 }
 
@@ -2103,7 +1332,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "src/components/pages/ss-management/bulk-upload.vue"
+Component.options.__file = "src/components/pages/ss-management/bovas-bulk-upload.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -2112,9 +1341,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a533281c", Component.options)
+    hotAPI.createRecord("data-v-36eb2b60", Component.options)
   } else {
-    hotAPI.reload("data-v-a533281c", Component.options)
+    hotAPI.reload("data-v-36eb2b60", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
