@@ -237,6 +237,12 @@ const layout = [{
       component: resolve => require(['pages/velox-customer-management/manage_payment'], resolve),
       meta: {
       title: "Manage Payments"
+}},
+ {
+    path: '/evcm/manage_creditlimit',
+      component: resolve => require(['pages/velox-customer-management/manage_credit_limit'], resolve),
+      meta: {
+      title: "Manage Credit Limits"
 }}
 , {
     path: '/evcm/manage_purchase',

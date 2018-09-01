@@ -49,6 +49,7 @@ const store = new Vuex.Store({
         host_url: host_url,
        // velox_api_url: velox_api_url,
         site_name: "Station Manager",
+        user_permission_slugs : [],
         page_title: null,
         /*user: {
             name: username,
