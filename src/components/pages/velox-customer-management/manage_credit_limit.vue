@@ -48,7 +48,7 @@
                   <div class="form-group" >
                     <validate tag="div">
                       Select Customer
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_customer_payment_history(model.selected_customer)" v-model="model.selected_customer" >
+                      <select  name="company"  size="1" class="form-control" v-on:change="show_customer_creditlimit_history(model.selected_customer)" v-model="model.selected_customer" >
                           <option
                             v-for="(option, index) in company_customers"
                             v-bind:value="option"
@@ -70,10 +70,10 @@
                 <div class="col-sm-8">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="amount"> Amount Paid </label>
-                      <input v-model="model.amount_paid" name="amount" type="number" min="0" required autofocus placeholder="Amount Paid" class="form-control" id="amount"/>
-                      <field-messages name="amount" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Amount Paid</div>
+                      <label for="requested_creditlimit"> New Credit Limit </label>
+                      <input v-model="model.requested_creditlimit" name="requested_creditlimit" type="number" min="0" required autofocus placeholder="New Credit Limit" class="form-control" id="requested_creditlimit"/>
+                      <field-messages name="requested_creditlimit" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">New Credit Limit</div>
                       </field-messages>
                     </validate>
                   </div>
@@ -82,22 +82,15 @@
                 <div class="col-sm-8">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="c_amount_paid">Confirm Amount Paid </label>
-                      <input v-model="model.c_amount_paid" name="c_amount_paid" type="number" min="0" required autofocus placeholder="Amount Paid" class="form-control" id="c_amount_paid"/>
-                      <field-messages name="c_amount_paid" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">Amount Paid</div>
+                      <label for="c_requested_creditlimit">Confirm New Credit Limit </label>
+                      <input v-model="model.c_requested_creditlimit" name="c_requested_creditlimit" type="number" min="0" required autofocus placeholder="New Credit Limit" class="form-control" id="c_requested_creditlimit"/>
+                      <field-messages name="c_requested_creditlimit" show="$invalid && $submitted" class="text-danger">
+                        <div slot="required">New Credit Limit</div>
                       </field-messages>
                     </validate>
                   </div>
                 </div>
 
-                <div class="col-sm-8">
-                  <div class="form-group">
-                      <label for="payment_date">Payment Date </label>
-                      <datepicker required :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>
-                      <br>
-                  </div>
-                </div>
                 
                 <div class="col-sm-5">
                   <div class="form-group float-right">
@@ -111,24 +104,16 @@
             <div class="col-sm-8 col-md-offset-3" v-show="show_setup_form && fill_form_2" >
                 <div class="col-sm-8">
                   <div class="form-group">
-                      <label for="amount"> Amount Paid </label>
-                      <input readonly v-model="model_2.amount_paid" name="amount" type="number" min="0" required autofocus placeholder="Amount Paid" class="form-control" id="amount"/>
+                      <label for="requested_creditlimit">Request Credit Limit </label>
+                      <input readonly v-model="model_2.requested_creditlimit" name="requested_creditlimit" type="number" min="0" required autofocus placeholder="Request Credit Limit" class="form-control" id="requested_creditlimit"/>
                       
                   </div>
                 </div>
 
                 <div class="col-sm-8">
                   <div class="form-group">
-                      <label for="payment_date">Payment Date </label>
-                      <input readonly v-model="model_2.payment_date" name="amount" type="text" required  placeholder="Payment Date" class="form-control" id="amount"/>
-                      <br>
-                  </div>
-                </div>
-
-                <div class="col-sm-8">
-                  <div class="form-group">
-                      <label for="status">Payment Status</label>
-                            <select id="status" name="payment_status" class="form-control" v-model="model_2.payment_status" required >
+                      <label for="status">Credit Limit Status</label>
+                            <select id="status" name="status" class="form-control" v-model="model_2.status" required >
                                     <option value="Pending">Pending</option>
                                     <option value="Approved">Approved</option>
                                     <option value="Disapproved">Disapproved</option>
@@ -142,7 +127,7 @@
                 
                 <div class="col-sm-5">
                   <div class="form-group float-right">
-                    <input type="submit" :value="model_2.submit_mode" @click="onPaymentUpdate" class="btn btn-success" />
+                    <input type="submit" :value="model_2.submit_mode" @click="onCreditLimitUpdate" class="btn btn-success" />
                   </div>
                 </div>
               </div>
@@ -155,7 +140,7 @@
               <div>
                 <span v-on:click="button_toggle" style=" margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
               </div>
-              <datatable title="Velox Customers Payment Log" :rows="tableData" :columns="columndata">
+              <datatable title="Credit Limit Change Log" :rows="tableData" :columns="columndata">
                   <template slot="actions" slot-scope="props">
                     <div >
                        <i style="cursor: pointer" class='fa fa-pencil text-info mr-3' @click="onAction('edit', props.rowData, props.rowIndex)">UPDATE STATUS</i> 
@@ -192,36 +177,25 @@
     data() {
       return {columndata: [
         {
-          label: 'Payment Date',
-          field: 'payment_date',
+          label: 'Request Date',
+          field: 'created_at',
           numeric: false,
           html: false,
-        },{
-          label: 'Uploaded On',
-          field: 'updated_at',
-          numeric: true,
-          html: true,
         },
         {
-          label: 'Amount Paid',
-          field: 'amount_paid',
-          numeric: true,
-          html: true,
-        },
-        {
-          label: 'Payment Status',
-          field: 'payment_status',
+          label: 'Approval Status',
+          field: 'status',
           numeric: true,
           html: true,
         }, {
-          label: 'Balance Before',
-          field: 'start_company_balance',
+          label: 'Current Credit Limit',
+          field: 'current_creditlimit',
           numeric: true,
           html: true,
         }
         , {
-          label: 'Balance After',
-          field: 'end_company_balance',
+          label: 'Requested Credit Limit',
+          field: 'requested_creditlimit',
           numeric: true,
           html: true,
         }
@@ -229,27 +203,27 @@
             field: '__slot:actions',
             label: 'Actions',
         }
+        
         , {
-          label: 'Payment Made By',
-          field: 'payment_made_by',
-          numeric: true,
-          html: true,
-        }
-        , {
-          label: 'Payment Uploaded By',
-          field: 'payment_uploaded_by',
+          label: 'Credit Limit Uploaded By',
+          field: 'limit_requested_by',
           numeric: true,
           html: true,
         } , {
-          label: 'Payment Validated By',
-          field: 'payment_approved_by',
+          label: 'Credit Limit Validated By',
+          field: 'limit_approved_by',
+          numeric: true,
+          html: true,
+        },{
+          label: 'Last Updated At',
+          field: 'updated_at',
           numeric: true,
           html: true,
         }],
         
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/velox_manage_payments',
+        url: this.$store.state.host_url+'/velox_manage_creditlimits',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -264,7 +238,7 @@
         station_pumps:"",
         format: 'yyyy-MM-dd',
         selected_date:'',
-        button_text: "ADD A NEW PAYMENT",
+        button_text: "ADD A NEW CREDIT LIMIT",
         fill_form: false,
         fill_form_2: false,
         company_customers: [],
@@ -272,10 +246,10 @@
           company_id: "",
         },
         model : {
-          submit_mode: 'UPLOAD PAYMENT',
+          submit_mode: 'UPLOAD CREDIT LIMIT',
         },
          model_2 : {
-          submit_mode: 'UPDATE PAYMENT STATUS',
+          submit_mode: 'UPDATE CREDIT LIMIT STATUS',
         }
 
       }
@@ -284,16 +258,16 @@
        button_toggle(){
         this.fill_form = !this.fill_form;
         this.fill_form_2 = false;
-        if(this.button_text == "ADD A NEW PAYMENT"){
+        if(this.button_text == "ADD A NEW CREDIT LIMIT"){
         this.button_text = "HIDE FORM";
         }else if("HIDE FORM"){
-          this.button_text = "ADD A NEW PAYMENT";
+          this.button_text = "ADD A NEW CREDIT LIMIT";
         }
       },
       show_company_customers(company_id){
         store.commit("activateLoader", "start");
         this.model = {
-          submit_mode: 'UPLOAD PAYMENT'
+          submit_mode: 'UPLOAD CREDIT LIMIT'
         };
         this.company_customers = [];
         let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -316,11 +290,11 @@
         });
         
       },
-    show_customer_payment_history(selected_customer){
+    show_customer_creditlimit_history(selected_customer){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         let params='customer_id='+selected_customer.company_id+'&vendor_id='+this.preset.company_id;
-        axios.get(this.$store.state.host_url+"/velox_manage_payments?"+params,
+        axios.get(this.$store.state.host_url+"/velox_manage_creditlimits?"+params,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -361,10 +335,10 @@
         this.$SmoothScroll(document.getElementById("content-header"));
         this.show_selector = false;
         if(action == 'edit'){
-          if(data.payment_status == 'Approved' || data.payment_status == 'Disapproved')
+          if(data.status == 'Approved' || data.status == 'Disapproved')
            {
               store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                         'alert_message': 'Oops! Payment Already Updated', 'show_alert': true});
+                         'alert_message': 'Oops! Credit Limit Already Updated', 'show_alert': true});
              return;
             }
             let permissions =  store.user_permission_slugs;
@@ -372,11 +346,11 @@
               this.fill_form_2 = true;
               this.fill_form = false;
               this.model_2 = data;
-              this.model_2.submit_mode= 'UPDATE PAYMENT STATUS';            
+              this.model_2.submit_mode= 'UPDATE CREDIT LIMIT STATUS';            
               }
               else{
                 store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                         'alert_message': 'Oops! You do not have the permission to approve or disapprove customer\'s payment', 'show_alert': true});
+                         'alert_message': 'Oops! You do not have the permission to approve or disapprove customer\'s credit limit', 'show_alert': true});
                  return;
                 }
       }},
@@ -386,26 +360,22 @@
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
-        }else if (this.model.amount_paid != this .model.c_amount_paid) {
+        }else if (this.model.requested_creditlimit != this .model.requested_creditlimit) {
           store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Oops! amount paid fields do not match', 'show_alert': true});
-        }else if(this.selected_date == '') {
-          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Oops! please select payment date', 'show_alert': true});
+                       'alert_message': 'Oops! credit limit fields do not match', 'show_alert': true});
         }
          else {
           store.commit("activateLoader", "start");
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
          
-          this.model.payment_date = new Date(this.selected_date).toDateString();
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.model.company_id = this.preset.company_id;
-          this.model.uploaded_by = user_details.fullname;
+          this.model.limit_requested_by = user_details.fullname;
           let customer_detail = {
-            customer_payment : this.model
+            customer_creditlimit : this.model
           };
-           if(this.model.submit_mode == 'UPLOAD PAYMENT'){
+           if(this.model.submit_mode == 'UPLOAD CREDIT LIMIT'){
                     axios.post(this.url, customer_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
@@ -417,7 +387,7 @@
                         if(api_response.status === true) {
                             this.tableData.push(response.data.data);
                             store.commit("showAlertBox", {'alert_type': 'alert-success',
-                           'alert_message': 'Payment Uploaded Successfully', 'show_alert': true});
+                           'alert_message': 'Credit Limit Uploaded Successfully', 'show_alert': true});
                             this.formstate.$submitted=false;
                             this.form_reset();
                         }
@@ -428,19 +398,19 @@
                     
                 }
           }},
-      onPaymentUpdate(){
-                       //this.model.payment_date = new Date(this.selected_date).toDateString();
+      onCreditLimitUpdate(){
+                       //this.model.creditlimit_date = new Date(this.selected_date).toDateString();
                       this.$SmoothScroll(document.getElementById("content-header"));
                       store.commit("activateLoader", "start");   
                       let user_details = JSON.parse(localStorage.getItem('user_details'));
                       this.model_2.company_id = this.preset.company_id;
-                      let payment_details = this.model_2;
-                      payment_details.payment_approved_by = user_details.fullname;
-                      payment_details.selected_customer = this.model.selected_customer;
+                      let creditlimit_details = this.model_2;
+                      creditlimit_details.limit_approved_by = user_details.fullname;
+                      creditlimit_details.selected_customer = this.model.selected_customer;
                       let customer_detail = {
-                        customer_payment : payment_details
+                        customer_creditlimit : creditlimit_details
                       };
-                   axios.patch(this.url+"/"+payment_details.id, customer_detail, {
+                   axios.patch(this.url+"/"+creditlimit_details.id, customer_detail, {
                         headers : {
                             "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
                         }
@@ -452,9 +422,9 @@
                             this.tableData.splice(this.tableData.indexOf(this.model_2), 1);
                             this.tableData.push(response.data.data);
                             store.commit("showAlertBox", {'alert_type': 'alert-success',
-                           'alert_message': 'Payment Updated Successfully', 'show_alert': true});
+                           'alert_message': 'Credit Limit Updated Successfully', 'show_alert': true});
                             this.formstate.$submitted=false;
-                            this.payment_update_form_reset();
+                            this.creditlimit_update_form_reset();
                         }
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   
@@ -478,7 +448,7 @@
         // }
         this.button_toggle();
         },
-         payment_update_form_reset(){
+         creditlimit_update_form_reset(){
           this.model_2 = {};
           this.fill_form_2 = false;
         }

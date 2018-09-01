@@ -51,7 +51,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="name"> Station Name</label>
+                                            <label for="name"> Station Name *</label>
                                             <input v-model="station.name" name="name" type="text" required autofocus placeholder="Station Name" class="form-control" id="name"/>
                                             <field-messages name="name" show="$invalid && $submitted" class="text-danger">
                                                 <div slot="required">Station name is a required field</div>
@@ -62,19 +62,15 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="code"> Station Code</label>
-                                            <input v-model="station.code" name="code" type="text" required autofocus placeholder="Station Code" class="form-control" id="code"/>
-                                            <field-messages name="code" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Station code is a required field</div>
-                                            </field-messages>
-                                        </validate>
+                                            <input v-model="station.code" name="code" type="text"  autofocus placeholder="Station Code" class="form-control" id="code"/>
+                                            
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="state">State</label>
+                                            <label for="state">State *</label>
                                             <select id="state" name="state" class="form-control" v-model="station.state" required autofocus >
 
                                                 <option
@@ -92,7 +88,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="city">City</label>
+                                            <label for="city">City *</label>
                                             <input v-model="station.city" rows="5" class="form-control resize_vertical" name="city" id="city" placeholder="Enter your Station City" required />
                                             <field-messages name="city" show="$invalid && $submitted" class="text-danger">
                                                 <div slot="required">Station City is required</div>
@@ -103,7 +99,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="address"> Station Address</label>
+                                            <label for="address"> Station Address *</label>
                                             <input v-model="station.address" name="address" type="text" required autofocus placeholder="Station Address" class="form-control" id="address"/>
                                             <field-messages name="address" show="$invalid && $submitted" class="text-danger">
                                                 <div slot="required">Station Address is a required field</div>
@@ -114,39 +110,25 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="manager_name"> Station Manager's Name</label>
-                                            <input v-model="station.manager_name" name="manager_name" type="text" required autofocus placeholder="Station Manager's Name" class="form-control" id="manager_name"/>
-                                            <field-messages name="manager_name" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Manager's Name is a required field</div>
-                                            </field-messages>
-                                        </validate>
+                                            <input v-model="station.manager_name" name="manager_name" type="text"  autofocus placeholder="Station Manager's Name" class="form-control" id="manager_name"/>
+                                            
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="manager_number">Station Manager's Phone Number</label>
-                                            <input v-model="station.manager_phone" name="manager_phone" type="text" required placeholder="Station Manager's Phone Number" class="form-control" id="manager_phone"/>
-                                            <field-messages name="manager_phone" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Station Manager's Phone Number is a required field</div>
-                                                <div slot="manager_phone">Station Manager's Phone Number is not valid</div>
-                                            </field-messages>
-                                        </validate>
+                                            <input v-model="station.manager_phone" name="manager_phone" type="text" placeholder="Station Manager's Phone Number" class="form-control" id="manager_phone"/>
+                                           
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="manager_email">Station Manager's Email</label>
                                             <input v-model="station.manager_email" name="manager_email" type="email" required placeholder="Station Manager's Email" class="form-control" id="manager_email"/>
-                                            <field-messages name="manager_email" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Station Manager's Email is a required field</div>
-                                                <div slot="manager_email">Station Manager's Email is not valid</div>
-                                            </field-messages>
-                                        </validate>
+                                        
                                     </div>
                                 </div>
 
@@ -177,6 +159,25 @@
                                 </div>
 
                                 <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="approved_pms_tolerance">Approved PMS Tolerance</label>
+                                        <input v-model="station.approved_pms_tolerance" name="approved_pms_tolerance" type="number"  placeholder="Approved PMS Tolerance" class="form-control" id="approved_pms_tolerance"/>          
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="approved_ago_tolerance">Approved AGO Tolerance</label>
+                                        <input v-model="station.approved_ago_tolerance" name="approved_ago_tolerance" type="number"  placeholder="Approved AGO Tolerance" class="form-control" id="approved_ago_tolerance"/>          
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">  
+                                        <label for="approved_dpk_tolerance">Approved DPK Tolerance</label>
+                                        <input v-model="station.approved_dpk_tolerance" name="approved_dpk_tolerance" type="number"  placeholder="Approved DPK Tolerance" class="form-control" id="approved_dpk_tolerance"/>          
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
                                             <label for="pc_approval_levels">Fuel Price Change Approval Stages</label>
@@ -190,69 +191,50 @@
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="daily_budget"> Daily Budget</label>
-                                            <input v-model="station.daily_budget" name="daily_budget" type="text" required autofocus placeholder="Daily Budget" class="form-control" id="daily_budget"/>
-                                            <field-messages name="daily_budget" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Daily Budget is a required field</div>
-                                            </field-messages>
-                                        </validate>
+                                            <input v-model="station.daily_budget" name="daily_budget" type="text"  autofocus placeholder="Daily Budget" class="form-control" id="daily_budget"/>
+                                          
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
+                                        
                                             <label for="monthly_budget"> Monthly Budget</label>
-                                            <input v-model="station.monthly_budget" name="monthly_budget" type="text" required autofocus placeholder="Monthly Budget" class="form-control" id="monthly_budget"/>
-                                            <field-messages name="monthly_budget" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Monthly Budget is a required field</div>
-                                            </field-messages>
-
-                                        </validate>
+                                            <input v-model="station.monthly_budget" name="monthly_budget" type="text"  autofocus placeholder="Monthly Budget" class="form-control" id="monthly_budget"/>
+            
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <i><b>Start Date</b></i>
+                                    <i><b>Start Date *</b></i>
                                         <datepicker :format="format" v-model="station.start_date"  placeholder="Start Date"></datepicker>     
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="opening_time">Opening Time</label>
-                                            <input v-model="station.opening_time" rows="5" class="form-control resize_vertical" name="opening_time" id="opening_time" placeholder="Enter your Opening Time" required />
-                                            <field-messages name="opening_time" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Opening Time is required</div>
-                                            </field-messages>
-                                        </validate>
+                                            <input v-model="station.opening_time" rows="5" class="form-control resize_vertical" name="opening_time" id="opening_time" placeholder="Enter your Opening Time"  />
+                                           
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
-                                            <label for="expenses_type">Expenses Type</label>
-                                            <select id="expenses_type" name="expenses_type" size="1" class="form-control" v-model="station.expenses_type" required checkbox>
-                                                <option value="0" selected disabled>
-                                                    Please select
-                                                </option>
+                                             <label for="expenses_type">Expenses Type</label>
+                                            <select id="expenses_type" name="expenses_type" size="1" class="form-control" v-model="station.expenses_type"  >
+                                                
                                                 <option value="Prepaid">Prepaid</option>
                                                 <option value="Postpaid">Postpaid</option>
 
                                             </select>
-                                            <field-messages name="expenses_type" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Expenses Type is required</div>
-                                            </field-messages>
-                                        </validate>
+                                          
                                     </div>
                                 </div>
 
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <validate tag="div">
                                             <label for="license_type">License Type</label>
-                                            <select id="license_type" name="license_type" size="1" class="form-control" v-model="station.license_type" required checkbox>
+                                            <select id="license_type" name="license_type" size="1" class="form-control" v-model="station.license_type"  >
                                                 <option value="0" selected disabled>
                                                     Please select
                                                 </option>
@@ -260,17 +242,14 @@
                                                 <option value="E.E">Enterprise Edition</option>
 
                                             </select>
-                                            <field-messages name="license_type" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">License Type is required</div>
-                                            </field-messages>
-                                        </validate>
+                                            
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="hasFCC">Is Station Active? </label>
+                                            <label for="hasFCC">Is Station Active?  *</label>
                                             <select id="is_station_enabled" name="is_station_enabled" size="1" class="form-control" v-model="station.is_station_enabled" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -287,7 +266,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="hasFCC">Does this station have a Forecourt Controller (FCC)? </label>
+                                            <label for="hasFCC">Does this station have a Forecourt Controller (FCC)?  *</label>
                                             <select id="hasFCC" name="hasFCC" size="1" class="form-control" v-model="station.hasFCC" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -303,7 +282,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="hasATG">Does this station have an Automated Tank Gauge (ATG)?</label>
+                                            <label for="hasATG">Does this station have an Automated Tank Gauge (ATG)? *</label>
                                             <select id="hasATG" name="hasATG" size="1" class="form-control" v-model="station.hasATG" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -319,7 +298,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="fcc_active">FCC Active?</label>
+                                            <label for="fcc_active">FCC Active? *</label>
                                             <select id="fcc_active" name="fcc_active" size="1" class="form-control" v-model="station.fcc_active" required>
                                                
                                                 <option value="1">Yes</option>
@@ -335,7 +314,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="atg_active">ATG Active?</label>
+                                            <label for="atg_active">ATG Active? *</label>
                                             <select id="atg_active" name="atg_active" size="1" class="form-control" v-model="station.atg_active" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -352,7 +331,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_atg_data">Show ATG Data</label>
+                                            <label for="show_atg_data">Show ATG Data *</label>
                                             <select id="show_atg_data" name="show_atg_data" size="1" class="form-control" v-model="station.show_atg_data" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -369,7 +348,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_fcc_data">Show FCC Data</label>
+                                            <label for="show_fcc_data">Show FCC Data *</label>
                                             <select id="show_fcc_data" name="show_fcc_data" size="1" class="form-control" v-model="station.show_fcc_data" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -386,7 +365,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_fcc_pms">Show FCC PMS</label>
+                                            <label for="show_fcc_pms">Show FCC PMS *</label>
                                             <select id="show_fcc_pms" name="show_fcc_pms" size="1" class="form-control" v-model="station.show_fcc_pms" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -402,7 +381,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_fcc_ago">Show FCC AGO</label>
+                                            <label for="show_fcc_ago">Show FCC AGO *</label>
                                             <select id="show_fcc_ago" name="show_fcc_ago" size="1" class="form-control" v-model="station.show_fcc_ago" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -418,7 +397,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_fcc_dpk">Show FCC DPK</label>
+                                            <label for="show_fcc_dpk">Show FCC DPK *</label>
                                             <select id="show_fcc_dpk" name="show_fcc_dpk" size="1" class="form-control" v-model="station.show_fcc_dpk" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -434,7 +413,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_atg_pms">Show ATG PMS</label>
+                                            <label for="show_atg_pms">Show ATG PMS *</label>
                                             <select id="show_atg_pms" name="show_atg_pms" size="1" class="form-control" v-model="station.show_atg_pms" required>
                                                 
                                                 <option value="1">Yes</option>
@@ -450,7 +429,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_atg_ago">Show ATG AGO</label>
+                                            <label for="show_atg_ago">Show ATG AGO *</label>
                                             <select id="show_atg_ago" name="show_atg_ago" size="1" class="form-control" v-model="station.show_atg_ago" required>
                                                
                                                 <option value="1">Yes</option>
@@ -466,7 +445,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <validate tag="div">
-                                            <label for="show_atg_dpk">Show ATG DPK</label>
+                                            <label for="show_atg_dpk">Show ATG DPK *</label>
                                             <select id="show_atg_dpk" name="show_atg_dpk" size="1" class="form-control" v-model="station.show_atg_dpk" required>
                                                
                                                 <option value="1">Yes</option>
@@ -474,7 +453,7 @@
 
                                             </select>
                                             <field-messages name="show_atg_dpk" show="$invalid && $submitted" class="text-danger">
-                                                <div slot="required">Show ATG PMS is required</div>
+                                                <div slot="required">Show ATG DPK is required</div>
                                             </field-messages>
                                         </validate>
                                     </div>
@@ -606,6 +585,9 @@
                     show_fcc_pms:1,
                     show_fcc_ago:1,
                     show_fcc_dpk:1,
+                    approved_dpk_tolerance:20,
+                    approved_ago_tolerance:20,
+                    approved_pms_tolerance:20,
                     is_station_enabled: 1,
                     show_atg_pms:1,
                     show_atg_ago:1,

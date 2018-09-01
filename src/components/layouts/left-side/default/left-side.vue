@@ -78,7 +78,9 @@ export default {
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
-                        ,"RStk20","CStk20", "AMPS30", "EVCM50"];
+                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50"];
+            store.user_permission_slugs = permissions;
+
         }
         else
         {   ///company user
@@ -90,7 +92,7 @@ export default {
                 permissions.push(item.permission.UI_slug);
                 }
             });
-           // //console.log(permissions);
+            store.user_permission_slugs = permissions;
         }
 
        let menu_items=[];
@@ -385,6 +387,10 @@ export default {
                     },{
                         name: 'Manage Payments',
                         link: '/evcm/manage_payment',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'Manage Credit Limits',
+                        link: '/evcm/manage_creditlimit',
                         icon: 'fa fa-angle-double-right'
                     },{
                         name: 'Purchase History',

@@ -389,6 +389,7 @@
             this.$SmoothScroll(document.getElementById("content-header"));
             let formData = new FormData();
             formData.append('file', this.file);
+            //formData.append('company_id', this.preset.company_id);
             let user_details = JSON.parse(localStorage.getItem('user_details'));
             axios.post( this.$store.state.host_url+"/stock-readings/bovas_file_upload",
                 formData,
