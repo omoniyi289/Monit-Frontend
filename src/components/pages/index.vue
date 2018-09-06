@@ -262,22 +262,22 @@
                     numeric: false,
                     html: true,
                 }, {
-                    label: 'PPV',
+                    label: 'PPV (NGN)',
                     field: 'ppv',
                     numeric: false,
                     html: true,
                 }, {
-                    label: 'Pump Sales',
+                    label: 'Pump Sales (L)',
                     field: 'pump_sales',
                     numeric: false,
                     html: true,
                 }, {
-                    label: 'Tank Sales',
+                    label: 'Tank Sales (L)',
                     field: 'tank_sales',
                     numeric: false,
                     html: true,
                 }, {
-                    label: 'Expected Pump Sales',
+                    label: 'Expected Pump Sales (L)',
                     field: 'expected_pump_sales',
                     numeric: false,
                     html: true,

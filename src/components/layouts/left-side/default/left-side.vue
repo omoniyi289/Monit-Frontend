@@ -238,8 +238,15 @@ export default {
                             ///hardcode for bovas, and super admin
                             if(user_details.company_id == 25 || user_details.company_id == 'master'){
                              menu_items[current_index].child.push({
-                                name: 'Bulk Sales and Stock Upload',
+                                name: 'Bulk Stock Upload',
                                 link: '/ss-management/bovas-bulk-upload',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+                            if(user_details.company_id != 25 || user_details.company_id == 'master'){
+                             menu_items[current_index].child.push({
+                                name: 'Bulk Sales and Stock Upload',
+                                link: '/ss-management/bulk-upload',
                                 icon: 'fa fa-angle-double-right'
                             });
                             }
