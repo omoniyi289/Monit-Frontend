@@ -49,7 +49,9 @@
                             </div>
                           </div>
                           <div class="alert alert-warning alert-md" >
-                              <b>Please ensure your column header is formatted as shown below. (Station code, Date, and Product are compulsory)</b>
+                              <b>1. Please ensure your column header is formatted as shown below. (Station code, Date, and Product are compulsory).
+                              <br>2. Do not use comma to seperate numbers as it is being used by the system for delimiting cells.
+                              <br>3. Date should be formatted as YYYY-MM-DD.</b>
                             </div>
                            <table class="table">
                               <thead>

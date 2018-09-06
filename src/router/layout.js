@@ -141,6 +141,12 @@ const layout = [{
     path: '/ss-management/bovas-bulk-upload',
       component: resolve => require(['pages/ss-management/bovas-bulk-upload'], resolve),
       meta: {
+      title: "Upload Stock Readings File (.csv)",
+}
+}, {
+    path: '/ss-management/bulk-upload',
+      component: resolve => require(['pages/ss-management/bulk-upload'], resolve),
+      meta: {
       title: "Upload Sales and Stock Readings File (.csv)",
 }
 }, {

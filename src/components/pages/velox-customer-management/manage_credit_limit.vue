@@ -387,7 +387,7 @@
                         if(api_response.status === true) {
                             this.tableData.push(response.data.data);
                             store.commit("showAlertBox", {'alert_type': 'alert-success',
-                           'alert_message': 'Credit Limit Uploaded Successfully', 'show_alert': true});
+                           'alert_message': 'Credit Limit Uploaded for approval Successfully', 'show_alert': true});
                             this.formstate.$submitted=false;
                             this.form_reset();
                         }
