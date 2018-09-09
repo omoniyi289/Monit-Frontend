@@ -60,13 +60,18 @@
                                     </div>
                                 </div>
 
-                                <div class="col-sm-6">
+                                <div class="col-lg-6">
                                     <div class="form-group">
-                                            <label for="code"> Station Code</label>
-                                            <input v-model="station.code" name="code" type="text"  autofocus placeholder="Station Code" class="form-control" id="code"/>
-                                            
+                                        <validate tag="div">
+                                            <label for="code">Station Code *</label>
+                                            <input v-model="station.code"  class="form-control resize_vertical" name="code" id="code" placeholder="Station Code" required />
+                                            <field-messages name="code" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Station Code is required</div>
+                                            </field-messages>
+                                        </validate>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <validate tag="div">
@@ -585,9 +590,9 @@
                     show_fcc_pms:1,
                     show_fcc_ago:1,
                     show_fcc_dpk:1,
-                    approved_dpk_tolerance:20,
-                    approved_ago_tolerance:20,
-                    approved_pms_tolerance:20,
+                    approved_dpk_tolerance:20.5,
+                    approved_ago_tolerance:20.5,
+                    approved_pms_tolerance:20.5,
                     is_station_enabled: 1,
                     show_atg_pms:1,
                     show_atg_ago:1,

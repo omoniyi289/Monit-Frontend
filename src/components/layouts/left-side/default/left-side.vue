@@ -358,10 +358,16 @@ export default {
                     name: 'Cash Management',
                     icon: 'fa fa-money',
                     child: [{
-                        name: 'Manage Payments',
-                        link: '/cash-management/create',
-                        icon: 'fa fa-angle-double-right'
-                    }]
+                            name: 'Manage Payments',
+                            link: '/cash-management/create',
+                            icon: 'fa fa-angle-double-right'
+                            },
+                            {
+                            name: 'Payment Bulk Upload',
+                            link: '/cash-management/bulk-upload',
+                            icon: 'fa fa-angle-double-right'
+                           }
+                        ]
                     }); 
                             }
 

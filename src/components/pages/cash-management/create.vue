@@ -21,7 +21,7 @@
               <div class="row">
                 
                 <div class="col-sm-12">
-                    <label for="date">Transaction Date</label>
+                    <label for="date">Select the Transaction Date</label>
                     <datepicker :format="format" v-model="selected_reading_date"  placeholder="Sales Transaction Date">
                     </datepicker>
                     <br>
@@ -100,7 +100,7 @@
                 </div>
                </div>
                 <div class="col-sm-12">
-                    <datepicker :format="format" v-model="selected_payment_date"  placeholder="Sales Payment Date">
+                    <datepicker :format="format" v-model="selected_payment_date"  placeholder="Select the date the payment was made">
                     </datepicker>
                 </div>
                 <div class="col-sm-12">

@@ -36,7 +36,7 @@
                           <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
-                              <label>Stock Input CSV File: 
+                              <label>Stock Input Excel File: 
                                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                               </label>
                                 <span  class="btn btn-primary btn-md" v-on:click="submitStockFile()">Upload File</span>
@@ -50,7 +50,7 @@
                           </div>
                           <div class="alert alert-warning alert-md" >
                               <b>1. Please ensure your column header is formatted as shown below. (Station code, Date, and Tank code are compulsory).
-                              <br>2. Do not use comma to seperate numbers as it is being used by the system for delimiting cells.
+                              <br>2. If file is uploaded with a .csv extension, do not use comma to seperate figures as it is being used by the system for delimiting cells.
                               <br>3. Date should be formatted as YYYY-MM-DD.</b>
                             </div>
                            <table class="table">
@@ -126,7 +126,7 @@
                           <br><br>
                           <div class="container">
                             <div class="large-12 medium-12 small-12 cell">
-                              <label>Sales Input CSV File: 
+                              <label>Sales Input Excel File: 
                                 <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
                               </label>
                                 <span  class="btn btn-primary btn-md" v-on:click="submitSalesFile()">Upload File</span>
@@ -139,8 +139,10 @@
                             </div>
                           </div>
                           <div class="alert alert-warning alert-md" >
-                              <b>Please ensure your column header is formatted as shown below. (Station code, Date, and pump nozzle code are compulsory)</b>
-                          </div>
+                              <b>1. Please ensure your column header is formatted as shown below. (Station code, Date, and Tank code are compulsory).
+                              <br>2. If file is uploaded with a .csv extension, do not use comma to seperate figures as it is being used by the system for delimiting cells.
+                              <br>3. Date should be formatted as YYYY-MM-DD.</b>
+                            </div>
                         
                             <table class="table">
                               <thead>

@@ -141,13 +141,13 @@ const layout = [{
     path: '/ss-management/bovas-bulk-upload',
       component: resolve => require(['pages/ss-management/bovas-bulk-upload'], resolve),
       meta: {
-      title: "Upload Stock Readings File (.csv)",
+      title: "Upload Stock Readings File (.csv,.tsv,.xls,.xlsx,.xlsm)",
 }
 }, {
     path: '/ss-management/bulk-upload',
       component: resolve => require(['pages/ss-management/bulk-upload'], resolve),
       meta: {
-      title: "Upload Sales and Stock Readings File (.csv)",
+      title: "Upload Sales Stock Readings File (.csv,.tsv,.xls,.xlsx,.xlsm)",
 }
 }, {
     path: '/ss-management/close-station',
@@ -208,7 +208,13 @@ const layout = [{
       component: resolve => require(['pages/cash-management/create'], resolve),
       meta: {
       title: "Manage Payments",
-}}
+}}, {
+    path: '/cash-management/bulk-upload',
+      component: resolve => require(['pages/cash-management/bulk-upload'], resolve),
+      meta: {
+      title: "Upload Payment Log File (.csv,.tsv,.xls,.xlsx,.xlsm)",
+}
+}
 , {
     path: '/rops/create',
       component: resolve => require(['pages/rops/create'], resolve),
