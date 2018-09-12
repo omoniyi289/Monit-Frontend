@@ -34,6 +34,8 @@
                                   <th>Opening Volume Reading</th>
                                   <th>Quantity Received</th>
                                   <th>Return to Tank</th>
+                                  <th></th>
+                                  <th>GIT Loss</th>                
                                   <th>Closing Volume Reading</th>
                                 </tr>
                               </thead>
@@ -66,10 +68,27 @@
                                       </field-messages>
                                     </validate>        
                                     <validate tag="div">
-                                      <input v-model="close_tank_reading[index].c_rtt"  id="c_rtt" :name="c_rtt+index" type="number" required placeholder="Return to Tank" class="form-control" :sameas="close_tank_reading[index].rtt"/>
+                                      <input v-model="close_tank_reading[index].c_rtt"  id="c_rtt" :name="c_rtt+index" type="number" required placeholder=" Confirm Return to Tank" class="form-control" :sameas="close_tank_reading[index].rtt"/>
                                       <field-messages :name="c_rtt+index" show="$invalid && $submitted" class="text-danger">
-                                          <div slot="required">Confirm RTT Recieved is required</div>
+                                          <div slot="required">Confirm RTT  is required</div>
                                           <div slot="sameas">RTT should match</div>
+                                      </field-messages>
+                                    </validate>
+                                  </td>
+                                  <td>
+
+                                    <td>         
+                                    <validate tag="div">
+                                      <input v-model="close_tank_reading[index].git_loss" id="git_loss" :name="git_loss+index" type="number" required placeholder="GIT Loss" class="form-control" />
+                                      <field-messages :name="git_loss+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">GIT Loss is required</div>
+                                      </field-messages>
+                                    </validate>        
+                                    <validate tag="div">
+                                      <input v-model="close_tank_reading[index].c_git_loss"  id="c_git_loss" :name="c_git_loss+index" type="number" required placeholder=" Confirm GIT Loss" class="form-control" :sameas="close_tank_reading[index].git_loss"/>
+                                      <field-messages :name="c_git_loss+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Confirm GIT Loss  is required</div>
+                                          <div slot="sameas">GIT Loss should match</div>
                                       </field-messages>
                                     </validate>
                                   </td>
@@ -200,6 +219,8 @@
         c_qr: "confirm_quantity_received",
         prd: "pump_reading",
         rtt: "rtt",
+        c_git_loss: 'confirm_git_loss',
+        git_loss: 'git_loss',
         c_rtt: "c_rtt",
         c_prd: "confirm_pump_reading",
         cc:"cash_collected",
