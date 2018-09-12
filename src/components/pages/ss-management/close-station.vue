@@ -121,6 +121,7 @@
                                   <th>Pump Nozzle Code</th>
                                   <th>Opening Totalizer Reading</th>
                                   <th>Closing Totalizer Reading</th>
+                                  <th>Calculated Sales(L)</th>
                                   <th>Cash Collected </th>
                                   
                                 </tr>
@@ -146,6 +147,10 @@
                                           <div slot="sameas">Closing and Confirm Closing Reading should match</div>
                                       </field-messages>
                                     </validate>   
+                                  </td>
+                                  <td>               
+                                      <input readonly step="0.01" v-model="close_pump_reading[index].closing_reading-close_pump_reading[index].opening_reading"  class="form-control" />
+                                     
                                   </td>
                                   <td>
                                     <validate tag="div">
