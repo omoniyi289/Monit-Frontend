@@ -37,6 +37,7 @@
                                   <th>Opening Volume Reading</th>
                                   <th>Quantity Received</th>
                                   <th>Return to Tank</th>
+                                  <th>GIT Loss</th>
                                   <th>Closing Volume Reading</th>
                                 </tr>
                               </thead>
@@ -61,8 +62,15 @@
                                       <field-messages :name="rtt+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Retun to Tank is required</div>
                                       </field-messages>
-                                    </validate>        
-                                    
+                                    </validate>           
+                                  </td>
+                                  <td>         
+                                    <validate tag="div">
+                                      <input v-model="close_tank_reading[index].git_loss" id="git_loss" :name="git_loss+index" :disabled="isDisabled" type="number"   class="form-control" />
+                                      <field-messages :name="git_loss+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">GIT Loss is required</div>
+                                      </field-messages>
+                                    </validate>                                   
                                   </td>
                                   <td>
                   
@@ -190,6 +198,7 @@
         qr: "quantity_received",
         prd: "pump_reading",
         rtt: "rtt",
+        git_loss: 'git_loss',
         fsprd: "first_shift_pump_reading",
         ssprd: "second_shift_pump_reading",
         cc:"cash_collected",
@@ -260,6 +269,7 @@
             'tank_id': element.tank_id,'opening_reading': element.phy_shift_start_volume_reading, 
             'tank_id' : element.tank_id,'closing_reading': element.phy_shift_end_volume_reading,
             'reading_date': element.reading_date,
+            'git_loss': element.git_loss,
             'rtt':element.return_to_tank,'qty_received':element.end_delivery, 'status': 'Modified'});
           });
            
