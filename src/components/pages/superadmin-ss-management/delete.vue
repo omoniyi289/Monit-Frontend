@@ -25,12 +25,12 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form" >
                <input readonly type="text"  :value="selected_date" placeholder=""/>
               
-              <b-card header-tag="h4" class="bg-info-card" header="Modify Station Data">
+              <b-card header-tag="h4" class="bg-info-card" header="Delete Station Data">
                 <div class="row ">
                   <div class="col-lg-12">               
                     <b-tabs>
                         <b-tab title="Stock Readings" >
-                           <table class="table">
+                          <table class="table">
                               <thead>
                                 <tr>
                                   <th>Tank Code</th>
@@ -86,11 +86,7 @@
                                 </tr>
                               </tbody>
                             </table> 
-                            <div class="col-sm-12">
-                              <div class="form-group float-right">
-                                <span class="btn btn-success" v-on:click ="isDisabled = !isDisabled">CLICK TO EDIT</span>
-                              </div>
-                            </div>
+                            
                         </b-tab>
                         <b-tab title="Totalizer Readings" >
                             <table class="table">
@@ -149,14 +145,15 @@
                                 </tr>
                               </tbody>
                             </table> 
-                            <div class="col-sm-12">
-                              <div class="form-group float-right">
-                                <input type="submit" value="UPDATE READINGS" class="btn btn-success"></input>
-                              </div>
-                            </div>
+                            
                         </b-tab>
                         
-                    </b-tabs>           
+                    </b-tabs>  
+                            <div class="col-sm-12">
+                              <div class="form-group float-right">
+                                <input type="submit" value="DELETE ALL READINGS" class="btn btn-danger"></input>
+                              </div>
+                            </div>         
                   </div>
                 </div>
               </b-card>
@@ -327,28 +324,17 @@
                        'alert_message': '...Processing Request...', 'show_alert': true});
           this.$SmoothScroll(document.getElementById("content-header"));
           
-          ////stock//
-          this.final_stock_info.station_id= this.preset.station_id;
-          this.final_stock_info.company_id= this.preset.company_id;
+          let params = 'station_id='+this.preset.station_id+'&date='+this.selected_date; 
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.final_stock_info.last_modified_by = user_details.id;
-          this.final_stock_info.readings = this.close_tank_reading;
-
-          ////pumps///
-          this.final_pump_info.station_id= this.preset.station_id;
-          this.final_pump_info.company_id= this.preset.company_id;
-          this.final_pump_info.last_modified_by = user_details.id;
-          this.final_pump_info.readings = this.close_pump_reading;
-          //console.log(this.final_stock_info);
-          //console.log(this.final_pump_info);
+          this.final_pump_info.date = new Date(this.selected_date).toDateString();
           this.show_setup_form= false;
-          axios.patch(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
+          axios.delete(this.$store.state.host_url+"/stock-readings?"+params, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
           }).then( response => {                         
               store.commit("activateLoader", "end");
-              axios.patch(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
+              axios.delete(this.$store.state.host_url+"/pump-readings?"+params, {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }
@@ -356,7 +342,7 @@
                     let api_response = response.data;
                     if (api_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings Updated Successfully', 'show_alert': true});
+                       'alert_message': 'Readings Deleted Successfully', 'show_alert': true});
                        this.formstate.$submitted=false;
                         this.close_pump_reading= {};
                         this.close_tank_reading= {};

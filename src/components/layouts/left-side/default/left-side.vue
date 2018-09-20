@@ -426,6 +426,10 @@ export default {
                         name: 'Manage All Users',
                         link: '/superadmin/user/manage',
                         icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'Delete Readings',
+                        link: '/superadmin/ss-management/delete',
+                        icon: 'fa fa-angle-double-right'
                     }]
                     }); 
                             }

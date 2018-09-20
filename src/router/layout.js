@@ -266,6 +266,11 @@ const layout = [{
       component: resolve => require(['pages/superadmin-user/manage'], resolve),
       meta: {
       title: "Manage Users",
+}}, {
+    path: '/superadmin/ss-management/delete',
+      component: resolve => require(['pages/superadmin-ss-management/delete'], resolve),
+      meta: {
+      title: "Delete Sales and Stock Data by Date",
 }}
 ]
 

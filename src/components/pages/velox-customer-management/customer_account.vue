@@ -85,9 +85,9 @@
                                                 <option value="0" selected disabled>
                                                     Please select
                                                 </option>
-                                                <option value="Request Pending">Request Pending</option>
+                                                <!-- <option value="Request Pending">Request Pending</option> -->
                                                 <option value="In Partnership">In Partnership/Approved</option>
-                                                <option value="Partnership Declined">Partnership Declined</option>
+                                                <!-- <option value="Partnership Declined">Partnership Declined</option> -->
                                                 <option value="Partnership Suspended">Partnership Suspended</option>
                                               
                                  </select>

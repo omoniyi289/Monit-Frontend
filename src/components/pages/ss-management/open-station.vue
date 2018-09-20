@@ -286,6 +286,14 @@
           store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'input error, please cross-check stock and totalizer readings', 'show_alert': true});
           return;
+        }else if ( this.open_pump_reading == 0) {
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'input error, No pump readings supplied', 'show_alert': true});
+          return;
+        }else if ( this.open_tank_reading == 0) {
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'input error, No tank readings supplied', 'show_alert': true});
+          return;
         } else {
           store.commit("activateLoader", "start");
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
