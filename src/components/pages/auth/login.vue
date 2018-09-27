@@ -150,8 +150,9 @@ export default {
             }).then(response => {
                 //console.log('main resp');
             let auth_response = response.data;
-            if (auth_response.status === true) {
-                //console.log('rwsponse!');
+            if (auth_response.status == true) {
+                //console.log(auth_response);
+                //return;
                 this.login_submit = "LOGIN";
                 let user_data = auth_response.data;
                     localStorage.setItem('user_details',JSON.stringify(user_data));

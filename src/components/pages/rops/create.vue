@@ -491,6 +491,8 @@
       onSubmit() {
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'input error, please fill all necessary fields', 'show_alert': true});
           return;
         }else if(this.selected_survey_date == ''){
           store.commit("showAlertBox", {'alert_type': 'alert-danger',

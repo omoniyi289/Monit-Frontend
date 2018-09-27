@@ -174,7 +174,7 @@
                 <template slot="actions" slot-scope="props">
                     <div >
                       <i class='fa fa-pencil text-info mr-3' @click="onAction('view', props.rowData, props.rowIndex)">
-                        
+                        View Details
                       </i>
                     </div>
                 </template>

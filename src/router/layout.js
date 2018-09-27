@@ -171,19 +171,25 @@ const layout = [{
     path: '/store-management/stock-transfer',
       component: resolve => require(['pages/store-management/stock-transfer'], resolve),
       meta: {
-      title: "Stock Transfer",
+      title: "Manage Stock Transfers",
 }
 }, {
     path: '/store-management/stock-count',
       component: resolve => require(['pages/store-management/stock-count'], resolve),
       meta: {
-      title: "Stock Count",
+      title: "Perform a Stock Count",
+}
+}, {
+    path: '/store-management/stock-sales',
+      component: resolve => require(['pages/store-management/stock-sales'], resolve),
+      meta: {
+      title: "Manage Stock Sales",
 }
 }, {
     path: '/store-management/stock-refill',
       component: resolve => require(['pages/store-management/stock-refill'], resolve),
       meta: {
-      title: "Stock Refill",
+      title: "Manage Stock Refill",
 }
 }, {
     path: '/store-management/manage-item',

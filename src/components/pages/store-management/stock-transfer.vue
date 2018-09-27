@@ -261,7 +261,7 @@
       },
         update_variant_for_station() {
         this.$SmoothScroll(document.getElementById("content-header"));
-        if (this.formstate.$invalid) {
+        if (this.formstate2.$invalid) {
           return;
         } else {
           store.commit("activateLoader", "start");
@@ -285,7 +285,7 @@
             this.update_view(response);
             this.$alert.success({duration:10000,forceRender:'',
             message:'Stock Transfered successfully',transition:''});
-            this.formstate.$submitted=false;
+            this.formstate2.$submitted=false;
           }
         }).catch(error => { 
         store.commit("activateLoader", "end");   

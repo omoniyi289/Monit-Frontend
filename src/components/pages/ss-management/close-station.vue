@@ -317,22 +317,31 @@
             this.station_pumps = pump_response.data.data;
             this.close_pump_reading = [];
             this.station_pumps.forEach(element => {
-              if(element.shift_2_totalizer_reading != null){
+
+              let pump_split_array = element.nozzle_code.split(" ");
+              let number = parseInt(pump_split_array[pump_split_array.length-1]);
+
+            if(element.shift_2_totalizer_reading != null){
             this.close_pump_reading.push({'pump_id': element.pump_id,
             'pump_nozzle_code': element.nozzle_code, 'opening_reading' : element.shift_2_totalizer_reading , 
-            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
+            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed', 'serial' : number});
             }
-             else if(element.shift_1_totalizer_reading != null){
+
+            else if(element.shift_1_totalizer_reading != null){
             this.close_pump_reading.push({'pump_id': element.pump_id,
             'pump_nozzle_code': element.nozzle_code, 'opening_reading' : element.shift_1_totalizer_reading , 
-            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
-            }else{
+            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed', 'serial' : number});
+            }
+            
+            else{
               this.close_pump_reading.push({'pump_id': element.pump_id,
             'pump_nozzle_code': element.nozzle_code,'opening_reading' : element.open_shift_totalizer_reading  , 
-            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed'});
+            'closing_reading': '', 'c_closing_reading': '', 'status': 'Closed', 'serial' : number});
             }
+
           });
-         // //console.log(this.close_tank_reading);
+        
+           this.close_pump_reading.sort(function(a, b){return a.serial - b.serial});
   
         })
         .catch(function(error) {

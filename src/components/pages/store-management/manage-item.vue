@@ -242,10 +242,10 @@
                <div class="col-sm-12">
                   <div class="form-group">
                     <validate tag="div">
-                      <label for="cog">COGs</label>
-                      <input v-model="item_variant.supply_price" name="cog" type="number" required autofocus placeholder="COGs" class="form-control" id="cog"/>
+                      <label for="cog">COG</label>
+                      <input v-model="item_variant.supply_price" name="cog" type="number" required autofocus placeholder="COG" class="form-control" id="cog"/>
                       <field-messages name="cog" show="$invalid && $submitted" class="text-danger">
-                        <div slot="required">COGs is a required field</div>
+                        <div slot="required">COG is a required field</div>
                       </field-messages>
                     </validate>
                   </div>
@@ -373,7 +373,7 @@
           numeric: true,
           html: true,
         }, {
-          label: 'Cost of Goods',
+          label: 'Cost of Good',
           field: 'supply_price',
           numeric: true,
           html: true,
@@ -521,7 +521,8 @@
                 this.$SmoothScroll(document.getElementById("content-header"));
                 //console.log('slot action: ' + action, data.fullname, index);
                 if(action == 'edit'){
-                    this.fill_form = true;this.button_text = "HIDE FORM";
+                    this.fill_form = true;
+                    this.button_text = "HIDE FORM";
                     this.item = data;
                     this.item.submit_mode="UPDATE"
                 }else if(action =='delete'){
@@ -544,9 +545,10 @@
              onItemAction (action, data, index) {
                // this.$SmoothScroll(document.getElementById("content-header"));
                 if(action == 'edit'){
-                    this.fill_form = true;this.button_text = "HIDE FORM";
+                    this.fill_form_2 = true;
+                    this.button_text_2 = "HIDE FORM";
                     this.item_variant = data;
-                    this.item_variant.submit_mode="UPDATE"
+                    this.item_variant.submit_mode="UPDATE";
                 }else if(action =='delete'){
                     this.$modal.show('dialog', {
                         title: 'Alert!',
@@ -579,7 +581,7 @@
                             if (api_response.status === true) {
                                 this.tableData.splice(this.tableData.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
-                            message:'Item Variant Deleted Successfully',transition:''});
+                            message:'Item Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
                                 store.commit("activateLoader", "end");   
@@ -598,9 +600,9 @@
                             store.commit("activateLoader", "end");        
                             let api_response = response.data;
                             if (api_response.status === true) {
-                                this.tableData.splice(this.tableData.indexOf(data), 1);
+                                this.tableData_2.splice(this.tableData_2.indexOf(data), 1);
                                 this.$alert.success({duration:10000,forceRender:'',
-                            message:'Item Deleted Successfully',transition:''});
+                            message:'Item Variant Deleted Successfully',transition:''});
                             }
                             }).catch(error => { 
                                 store.commit("activateLoader", "end");   
@@ -611,7 +613,8 @@
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
-        } else {
+        }
+        else {
           store.commit("activateLoader", "start");
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
@@ -661,7 +664,7 @@
 
                         this.formstate.$submitted=false;
                         this.item= {submit_mode: "CREATE"};
-                        this.form_reset();
+                       // this.form_reset();
                         
                         }).catch(error => { 
                             store.commit("activateLoader", "end");   
@@ -734,7 +737,7 @@
                        'alert_message': 'Item Variant Updated Successfully', 'show_alert': true});
                         this.formstate.$submitted=false;
                         this.item_variant_detail= {submit_mode: "CREATE"};
-                        this.form_reset();
+                        //this.form_reset();
                         
                         }).catch(error => { 
                           this.$SmoothScroll(document.getElementById("content-header"));
