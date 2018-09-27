@@ -77,7 +77,7 @@ export default {
 
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
-                        "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20"
+                        "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20","SStk20"
                         ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50"];
             store.user_permission_slugs = permissions;
 
@@ -265,7 +265,7 @@ export default {
                                 }
                             }
         ///Store Mng
-        if( permissions.includes('AMIs20') || permissions.includes('FRSk20')|| permissions.includes('CStk20')|| permissions.includes('TStk20')|| permissions.includes('RStk20')){
+        if( permissions.includes('AMIs20') || permissions.includes('FRSk20')|| permissions.includes('CStk20')|| permissions.includes('TStk20')|| permissions.includes('RStk20')|| permissions.includes('SStk20')){
             menu_items.push({ name: 'Store Management',
                             icon: 'fa fa-pencil',
                             child: [],
@@ -299,6 +299,15 @@ export default {
                                 icon: 'fa fa-angle-double-right'
                             });
                               }
+
+                            if(permissions.includes("SStk20")){
+                            menu_items[current_index].child.push({
+                                name: 'Stock Sales',
+                                link: '/store-management/stock-sales',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                              }
+
                             if(permissions.includes("RStk20")){
                           menu_items[current_index].child.push({
                                 name: 'Manage Stock Received',
