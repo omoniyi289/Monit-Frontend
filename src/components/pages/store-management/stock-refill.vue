@@ -128,6 +128,15 @@
             </vue-form>
           </div>
           </div>
+           <div class="col-sm-12"  v-show="show_setup_form">
+            <div class="table-responsive">
+                <datatable title="Stock Fill History" :rows="fillData" :columns="fill_columndata">
+                    <template slot="actions" slot-scope="props">
+                    
+                    </template>
+                </datatable>
+            </div>
+          </div>
       </b-card>
     </div>
   </div>
@@ -152,61 +161,65 @@
     },
     data() {
       return {
-        variant_columndata: [
+        fill_columndata: [
+         {
+          label: 'Fill Date',
+          field: 'created_at',
+          numeric: false,
+          html: false,
+        },
           {
           label: 'Item Name',
           field: 'item.name',
           numeric: false,
           html: false,
-        }, {
-          label: 'Parent SKU',
-          field: 'item.parentsku',
-          numeric: false,
-          html: false,
-        },{
+        }
+        ,{
           label: 'Variant Option',
-          field: 'variant_option',
+          field: 'item_variant.variant_option',
           numeric: false,
           html: false,
         }, {
           label: 'Variant Value',
-          field: 'variant_value',
+          field: 'item_variant.variant_value',
           numeric: false,
           html: false,
         }, {
           label: 'Composite SKU',
-          field: 'compositesku',
+          field: 'item_variant.compositesku',
           numeric: true,
           html: false,
         },{
           label: 'Reorder Level',
-          field: 'reorder_level',
+          field: 'item_variant.reorder_level',
           numeric: true,
           html: false,
         }, {
-          label: 'Quantity in Stock',
-          field: 'qty_in_stock',
-          numeric: true,
-          html: true,
-        }, {
           label: 'Cost of Goods',
-          field: 'supply_price',
+          field: 'item_variant.supply_price',
           numeric: true,
           html: true,
         }, {
           label: 'Retail Price',
-          field: 'retail_price',
+          field: 'item_variant.retail_price',
           numeric: true,
           html: true,
         }, {
-          label: 'Last Restock Date',
-          field: 'last_restock_date',
+          label: 'Quantity Before Fill',
+          field: 'qty_before_restock',
           numeric: true,
           html: true,
-        },{
-          field: '__slot:actions',
-          label: 'Actions',
-          }],
+        }, {
+          label: 'Fill Quantity',
+          field: 'restock_qty',
+          numeric: true,
+          html: true,
+        }, {
+          label: 'Quantity After Fill',
+          field: 'qty_after_restock',
+          numeric: true,
+          html: true,
+        }],
         
         ajaxLoading: true,
         loading: true,
@@ -215,6 +228,7 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        fillData: [],
         show_setup_form_2 : false,
         tableData_2: [],
         format: 'yyyy-MM-dd',
@@ -265,6 +279,7 @@
           this.tableData = response.data.data;
           this.show_setup_form=true;
           this.show_setup_form_2=true;
+          this.show_station_fills();
           store.commit("activateLoader", "end");   
          
       })
@@ -274,6 +289,24 @@
         });
         
       },
+      show_station_fills(){
+          store.commit("activateLoader", "start");
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          let station_id= this.preset.station_id;
+          
+          axios.get(this.$store.state.host_url+"/item-variants/stock-refill/"+station_id,
+            {
+              headers : {
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+              }}).then(response => {
+                store.commit("activateLoader", "end");   
+            this.fillData = response.data.data;    
+        })
+        .catch(function(error) {
+           store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+          });
+        },
        show_item_variants(item_id){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
@@ -354,6 +387,7 @@
             let api_response = response.data;
           if (api_response.status === true) {
             this.update_view(response);
+            this.show_station_fills();
             this.$alert.success({duration:10000,forceRender:'',
             message:'Stock Refiiled successfully',transition:''});
             this.formstate2.$submitted=false;
