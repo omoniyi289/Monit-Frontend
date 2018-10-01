@@ -100,6 +100,15 @@
             </vue-form>
           </div>
           </div>
+          <div class="col-sm-12"  v-show="show_setup_form">
+            <div class="table-responsive">
+                <datatable title="Stock Count History" :rows="countData" :columns="count_columndata">
+                    <template slot="actions" slot-scope="props">
+                    
+                    </template>
+                </datatable>
+            </div>
+          </div>
       </b-card>
     </div>
   </div>
@@ -124,61 +133,39 @@
     },
     data() {
       return {
-        variant_columndata: [
+        count_columndata: [
+        {
+          label: 'Count Date',
+          field: 'created_at',
+          numeric: false,
+          html: false,
+        },
           {
           label: 'Item Name',
           field: 'item.name',
           numeric: false,
           html: false,
-        }, {
-          label: 'Parent SKU',
-          field: 'item.parentsku',
-          numeric: false,
-          html: false,
         },{
           label: 'Variant Option',
-          field: 'variant_option',
+          field: 'item_variant.variant_option',
           numeric: false,
           html: false,
         }, {
           label: 'Variant Value',
-          field: 'variant_value',
+          field: 'item_variant.variant_value',
           numeric: false,
           html: false,
         }, {
-          label: 'Composite SKU',
-          field: 'compositesku',
-          numeric: true,
-          html: false,
-        },{
-          label: 'Reorder Level',
-          field: 'reorder_level',
-          numeric: true,
-          html: false,
-        }, {
-          label: 'Quantity in Stock',
+          label: 'Quantity befpre Count',
           field: 'qty_in_stock',
           numeric: true,
           html: true,
         }, {
-          label: 'Cost of Goods',
-          field: 'supply_price',
+          label: 'Quantity Counted',
+          field: 'qty_counted',
           numeric: true,
           html: true,
-        }, {
-          label: 'Retail Price',
-          field: 'retail_price',
-          numeric: true,
-          html: true,
-        }, {
-          label: 'Last Restock Date',
-          field: 'last_restock_date',
-          numeric: true,
-          html: true,
-        },{
-          field: '__slot:actions',
-          label: 'Actions',
-          }],
+        }],
         
         ajaxLoading: true,
         loading: true,
@@ -187,6 +174,7 @@
         formstate2: {},
         show_setup_form : false,
         tableData: [],
+        countData: [],
         show_setup_form_2 : false,
         tableData_2: [],
         format: 'yyyy-MM-dd',
@@ -237,6 +225,7 @@
           this.tableData = response.data.data;
           this.show_setup_form=true;
           this.show_setup_form_2=true;
+          this.show_station_count();
           store.commit("activateLoader", "end");   
          
       })
@@ -265,6 +254,25 @@
         });
         
       },
+
+      show_station_count(){
+          store.commit("activateLoader", "start");
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+          let station_id= this.preset.station_id;
+          
+          axios.get(this.$store.state.host_url+"/item-variants/stock-count/"+station_id,
+            {
+              headers : {
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+              }}).then(response => {
+                store.commit("activateLoader", "end");   
+            this.countData = response.data.data;    
+        })
+        .catch(function(error) {
+           store.commit("activateLoader", "end");   
+          store.commit("catch_errors", error); 
+          });
+        },
      update_view(response){
        let table_data = [];
           table_data.item_variants=response.data.data.item_variants;
@@ -285,8 +293,6 @@
               }
                });
           //update the view
-          this.item_variants[index].retail_price = retail_price;
-          this.item_variants[index].supply_price = supply_price;
           this.item_variants[index].qty_in_stock = qty_in_stock;
           ///set quantity counted to what is currently avaiable
           this.item_variants[index].qty_counted = qty_in_stock;
@@ -327,6 +333,8 @@
             let api_response = response.data;
           if (api_response.status === true) {
             this.update_view(response);
+            //reload count
+            this.show_station_count();
             this.$alert.success({duration:10000,forceRender:'',
             message:'Stock Count Updated successfully',transition:''});
             this.formstate2.$submitted=false;
