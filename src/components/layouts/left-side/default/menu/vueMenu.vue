@@ -30,7 +30,8 @@ export default {
             this.openByIndex(index);
         });
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        this.url_params = 'https://www.e360stationanalytics.com/sm_redirect?UID='+user_details.id+'&Slug='+user_details.token_h;
+        //this.url_params = 'https://www.e360stationanalytics.com/sm_redirect?UID='+user_details.id+'&Slug='+user_details.token_h;
+         this.url_params = 'https://www.e360stationanalytics.com';
 
 
     }
