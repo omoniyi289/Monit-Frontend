@@ -267,6 +267,19 @@ const layout = [{
       component: resolve => require(['pages/velox-customer-management/manage_purchase'], resolve),
       meta: {
       title: "Manage Purchases",
+}}
+, {
+    path: '/maintenance/pump',
+      component: resolve => require(['pages/equipment-maintenance/pump'], resolve),
+      meta: {
+      title: "View Pump Readings",
+}}
+
+, {
+    path: '/maintenance/manage-pump-maintenance',
+      component: resolve => require(['pages/equipment-maintenance/manage-pump-maintenance'], resolve),
+      meta: {
+      title: "View and Update Pump Maintenance Log",
 }}, {
     path: '/superadmin/user/manage',
       component: resolve => require(['pages/superadmin-user/manage'], resolve),

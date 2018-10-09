@@ -20,7 +20,7 @@
            
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               <br>
-               <b>Date : {{this.set_date}}</b>
+               <b>Reading Date : {{this.set_date}}</b>
               
               <b-card header-tag="h4" class="bg-info-card" header="Close the Station">
                 <div class="row ">
@@ -274,7 +274,7 @@
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params = 'station_id='+this.preset.station_id; 
+        let params = 'station_id='+this.preset.station_id+'&get_station_last_readings=1'; 
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
@@ -307,7 +307,7 @@
           });
            
           ///pumps//
-          let params = 'station_id='+this.preset.station_id; 
+          let params = 'station_id='+this.preset.station_id+'&get_station_last_readings=1'; ; 
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {

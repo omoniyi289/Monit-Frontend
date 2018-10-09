@@ -78,7 +78,7 @@ export default {
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20","SStk20"
-                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50"];
+                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50", "PMM60", "MML60"];
             store.user_permission_slugs = permissions;
 
         }
@@ -420,6 +420,33 @@ export default {
                         icon: 'fa fa-angle-double-right'
                     }]
                     }); 
+                            }
+
+       
+        ///Equipment Maintenanace
+        if( permissions.includes('PMM60') || permissions.includes('MML60') ){
+            menu_items.push({ name: 'Facility Maintenance',
+                            icon: 'fa fa-cog',
+                            child: [],
+                                });      
+                            var current_index = menu_items.length-1;  
+
+                            if(permissions.includes('PMM60')){
+                            menu_items[current_index].child.push({
+                                name: 'View Pump Readings',
+                                link: '/maintenance/pump',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+
+                            if(permissions.includes('MML60')){
+                            menu_items[current_index].child.push({
+                                name: 'Manage Pump Maintenance Log',
+                                link: '/maintenance/manage-pump-maintenance',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+
                             }
 
         ///SUPERADMIN Mgt

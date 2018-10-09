@@ -14,8 +14,8 @@
                   </template>
                 </csview>
             <div class="col-lg-3">
-                <i><b>please select date to proceed</b></i>
-                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Date"></datepicker>     
+                <i><b>please select reading date to proceed</b></i>
+                    <datepicker :format="format" v-model="selected_date"  placeholder="Select Reading Date"></datepicker>     
             </div>
             <hr>
           </div>

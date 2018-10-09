@@ -177,7 +177,7 @@
         } else {store.commit("activateLoader", "start");
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-          let params = 'station_id='+this.preset.station_id; 
+          let params = 'station_id='+this.preset.station_id+'&get_station_last_readings=1'; ; 
         axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
           {
             headers : {

@@ -21,7 +21,7 @@
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               <div>
               <br>
-               <b>Date : {{this.set_date}}</b><br><br>
+               <b>Reading Date : {{this.set_date}}</b><br><br>
               <i>Please note that opening readings are pre-loaded based on readings from the previous day and can be edited in case of mismatch</i>
               <br>
               </div>
@@ -199,7 +199,7 @@
         } else {
           store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
-        let params = 'station_id='+this.preset.station_id; 
+        let params = 'station_id='+this.preset.station_id+'&get_station_last_readings=1'; 
         axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
           {
             headers : {
@@ -208,7 +208,9 @@
        if(response.data.data.length > 0){
          ///station has data
          let last_transaction = response.data.data[0];
-         if(last_transaction.phy_shift_start_volume_reading > 0 && last_transaction.phy_shift_end_volume_reading == null){
+         console.log(last_transaction);
+         //return;
+         if(last_transaction.phy_shift_start_volume_reading >= 0 && last_transaction.phy_shift_end_volume_reading == null){
           store.commit("showAlertBox", {'alert_type': 'alert-danger',
                       'alert_message': 'Oops! please close previous day readings to proceed', 'show_alert': true});
           store.commit("activateLoader", "end");
@@ -236,7 +238,7 @@
          return;
          }
          this.show_setup_form= true;    
-         let params = 'station_id='+this.preset.station_id+'&opening_station=1';  
+         let params = 'station_id='+this.preset.station_id+'&get_open_station_info=1';  
          axios.get(this.$store.state.host_url+"/pump-readings/by_station?"+params,
             {
               headers : {
@@ -254,7 +256,7 @@
           });
              this.open_pump_reading.sort(function(a, b){return a.serial - b.serial});
 
-            let params = 'station_id='+this.preset.station_id+'&opening_station=1'; 
+            let params = 'station_id='+this.preset.station_id+'&get_open_station_info=1'; 
             axios.get(this.$store.state.host_url+"/stock-readings/by_station?"+params,
             {
               headers : {
