@@ -3,7 +3,7 @@
         <div class="row" v-if="is_e360_super_user">               
             <div class="col-lg-4">
                 <div class="form-group" >
-                    Select Company
+                    Service Company
                     <select  name="company"  size="1" class="form-control"
                     v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
                         <option v-for="(option, index) in available_companies" v-bind:value="option.id"
@@ -39,7 +39,7 @@
         <div class="row" v-if="is_company_super_user">               
             <div class="col-lg-2">
                 <div class="form-group" >
-                     Company  <br> 
+                    Service Company  <br> 
                      
                     <button class="btn btn-warning btn-md">{{csu_company.name}}</button>                          
                 </div>

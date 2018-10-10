@@ -62,13 +62,20 @@ export default {
             var permissions= [];
             axios.get(store.state.host_url+'/roles/permissions/'+user_data.role_id).then( response => {
                   r_p_array = response.data.data;  
-                this.final_permissions= this.f_menu_items(r_p_array);               
+                this.final_permissions= this.f_menu_items(r_p_array);     
+                 //import excpetion for engineering companies not to see dashboard, this snippet is in dashboard code file too
+                let user_details = JSON.parse(localStorage.getItem('user_details'));
+                if( store.user_permission_slugs.includes("EN-PMM60") || store.user_permission_slugs.includes("EN-MML60") ){
+                    window.location.href = "/#/maintenance/manage-pump-maintenance-engineering-company"; 
+                     }      
+
                       });
                         
-                    }
+        }
+
+
     },
     destroyed: function() {
-
     },
      methods: {
      f_menu_items(r_p_array){
@@ -78,7 +85,7 @@ export default {
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20","SStk20"
-                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50", "PMM60", "MML60"];
+                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50", "PMM60", "MML60", "EN-PMM60", "EN-MML60"];
             store.user_permission_slugs = permissions;
 
         }
@@ -94,15 +101,16 @@ export default {
             });
             store.user_permission_slugs = permissions;
         }
-
        let menu_items=[];
        
-        
+       if(!permissions.includes('EN-PMM60') && !permissions.includes('EN-MML60') ) {
         menu_items.push({
                     name: 'Dashboard',
                     link: '/',
                     icon: ' fa fa-home'
                 });
+        }
+
        if(permissions.includes('CMCo') || permissions.includes('CMRe') || 
        permissions.includes('CMRo') || permissions.includes('CMUs') ){
        menu_items.push(
@@ -431,7 +439,7 @@ export default {
                                 });      
                             var current_index = menu_items.length-1;  
 
-                            if(permissions.includes('PMM60')){
+                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
                             menu_items[current_index].child.push({
                                 name: 'View Pump Readings',
                                 link: '/maintenance/pump',
@@ -439,10 +447,35 @@ export default {
                             });
                             }
 
-                            if(permissions.includes('MML60')){
+                            if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
                             menu_items[current_index].child.push({
                                 name: 'Manage Pump Maintenance Log',
                                 link: '/maintenance/manage-pump-maintenance',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+
+                            }
+         ///Equipment Maintenanace for the engineering company
+        if( permissions.includes('EN-PMM60') || permissions.includes('EN-MML60') ){
+            menu_items.push({ name: 'Facility Maintenance (EC)',
+                            icon: 'fa fa-cog',
+                            child: [],
+                                });      
+                            var current_index = menu_items.length-1;  
+
+                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
+                            menu_items[current_index].child.push({
+                                name: 'View Pump Readings',
+                                link: '/maintenance/pump-engineering-company',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+
+                            if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
+                            menu_items[current_index].child.push({
+                                name: 'Manage Pump Maintenance Log',
+                                link: '/maintenance/manage-pump-maintenance-engineering-company',
                                 icon: 'fa fa-angle-double-right'
                             });
                             }

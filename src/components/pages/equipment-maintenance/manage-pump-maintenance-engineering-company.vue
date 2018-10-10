@@ -4,7 +4,7 @@
       <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
           <div class="col-md-12">
-            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+            <MaintenanceCsview title="Custom Table"  :companies="available_companies" :stations="company_stations">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <button class="btn btn-success" 
@@ -12,7 +12,7 @@
                         
                     </div>
                   </template>
-            </csview>
+            </MaintenanceCsview>
             <hr>
           </div>
           
@@ -102,7 +102,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import MaintenanceCsview from "components/plugins/Company-Station-View/Maintenance-CSView.vue";
   import VueForm from "vue-form";     
   import vueSmoothScroll from 'vue-smoothscroll';     
   Vue.use(vueSmoothScroll);
@@ -114,7 +114,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,Datepicker
+      datatable,MaintenanceCsview,Datepicker
     },
     data() {
       return {

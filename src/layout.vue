@@ -99,7 +99,7 @@
         },
         mounted() {
             store.commit("check_login_details");
-          
+            
            if (window.innerWidth <= 992) {
                 this.$store.commit('left_menu', 'close')
             }

@@ -281,6 +281,18 @@ const layout = [{
       meta: {
       title: "View and Update Pump Maintenance Log",
 }}, {
+    path: '/maintenance/pump-engineering-company',
+      component: resolve => require(['pages/equipment-maintenance/pump-engineering-company'], resolve),
+      meta: {
+      title: "View Pump Readings",
+}}
+
+, {
+    path: '/maintenance/manage-pump-maintenance-engineering-company',
+      component: resolve => require(['pages/equipment-maintenance/manage-pump-maintenance-engineering-company'], resolve),
+      meta: {
+      title: "View and Update Pump Maintenance Log",
+}}, {
     path: '/superadmin/user/manage',
       component: resolve => require(['pages/superadmin-user/manage'], resolve),
       meta: {

@@ -185,7 +185,8 @@
     </div>
 </template>
 <script>
-    import Vue from 'vue' ;    import store from 'src/store/store.js';
+    import Vue from 'vue' ;    
+    import store from 'src/store/store.js';
 
     import IEcharts from 'vue-echarts-v3/src/full.js';
 
@@ -304,16 +305,22 @@
                 window.location.href = "/#/index/";
                 location.reload();         
             }
+           //import excpetion for engineering companies not to see dashboard
+            let user_details = JSON.parse(localStorage.getItem('user_details'));
+            if(store.user_permission_slugs != undefined && store.user_permission_slugs.includes("EN-PMM60") &&  user_details.company_id !='master'){
+               window.location.href = "/#/maintenance/manage-pump-maintenance-engineering-company"; 
+            }
             this.populate_dashboard();
           
          
         },
         methods: {
           populate_dashboard(){
+
             this.tableData= [];
             store.commit("activateLoader", "start");
-        let user_details = JSON.parse(localStorage.getItem('user_details'));
-        var company_route = '';
+            let user_details = JSON.parse(localStorage.getItem('user_details'));
+            var company_route = '';
        ///initially, i display 
         if(this.end_date == 'init'){
             var new_date = new Date();
