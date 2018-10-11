@@ -55,6 +55,7 @@
                                   <th>Quantity in Stock</th>                                  
                                   <th>Quantity Sold</th>
                                   <th>Cash Collected</th>
+                                  <th>Sales Date</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -62,10 +63,18 @@
                                   <td>{{option.item.name}}</td>
                                   <td>{{option.variant_option}}</td>
                                   <td>{{option.variant_value}}</td>
-                                  <td>{{option.retail_price}}</td>
+                                  
                                   <td>
                                     <validate tag="div">
-                                      <input readonly v-model="item_variants[index].qty_in_stock" id="cc" :name="cc+index" type="number" required placeholder="Quantity in Stock" class="form-control" />
+                                      <input  v-model="item_variants[index].retail_price" id="rd" :name="cc+index" type="number" required placeholder="Retail Price" class="form-control" />
+                                      <field-messages :name="rd+index" show="$invalid && $submitted" class="text-danger">
+                                          <div slot="required">Retail Price is required</div>
+                                      </field-messages>
+                                    </validate>        
+                                  </td>
+                                  <td>
+                                    <validate tag="div">
+                                      <input  v-model="item_variants[index].qty_in_stock" id="cc" :name="cc+index" type="number" required placeholder="Quantity in Stock" class="form-control" />
                                       <field-messages :name="cc+index" show="$invalid && $submitted" class="text-danger">
                                           <div slot="required">Quantity in Stock is required</div>
                                       </field-messages>
@@ -88,6 +97,11 @@
                                         
                                       </field-messages>
                                     </validate>
+                                  </td>
+                                  <td>
+            
+                                     <datepicker :format="format" v-model="item_variants[index].sales_date"  placeholder="Select Sales Date" />
+
                                   </td>
                   
                                 </tr>
@@ -144,7 +158,7 @@
         sales_columndata: [
          {
           label: 'Sales Date',
-          field: 'created_at',
+          field: 'sales_date',
           numeric: false,
           html: false,
         },
@@ -171,11 +185,6 @@
         }, {
           label: 'Retail Price',
           field: 'retail_price',
-          numeric: true,
-          html: true,
-        }, {
-          label: 'Quantity in Stock',
-          field: 'qty_in_stock',
           numeric: true,
           html: true,
         }, {
@@ -332,7 +341,7 @@
                  qty_in_stock = inner_element.qty_in_stock;
               }
                });
-         
+         this.item_variants[index].sales_date = '';
           this.item_variants[index].qty_in_stock = qty_in_stock;
           });
 
@@ -354,6 +363,22 @@
                        'alert_message': '...input error, please check figures...', 'show_alert': true});
           return;
         } else {
+
+             let invalid_monitor = false;
+             this.item_variants.forEach(element => {
+              console.log(element);
+                if(element.sales_date == ''){
+                     invalid_monitor = true;
+                     store.commit("showAlertBox", { 'alert_type': 'alert-danger',
+                           'alert_message': 'please select sales date for '+ element.variant_option +' '+element.variant_value, 'show_alert': true  });
+                     store.commit("activateLoader", "end");                
+                }
+              });
+          if (invalid_monitor) {
+              //stop script execution if true
+              return;
+           }
+
           store.commit("activateLoader", "start");
           //include station and company_id
          // this.users.station_id= this.preset.station_id;
