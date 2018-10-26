@@ -51,10 +51,10 @@
                                   <th>Item Name</th>
                                   <th>Variant Option</th>
                                   <th>Variant Value</th>
-                                  <th>Unit Price</th>
+                                  <th>Unit Price (&#8358;)</th>
                                   <th>Quantity in Stock</th>                                  
                                   <th>Quantity Sold</th>
-                                  <th>Cash Collected</th>
+                                  <th>Cash Collected (&#8358;)</th>
                                   <th>Sales Date</th>
                                 </tr>
                               </thead>
@@ -178,12 +178,12 @@
           numeric: false,
           html: false,
         }, {
-          label: 'Supply Price',
+          label: 'Supply Price (&#8358;)',
           field: 'supply_price',
           numeric: true,
-          html: false,
+          html: true,
         }, {
-          label: 'Retail Price',
+          label: 'Retail Price (&#8358;)',
           field: 'retail_price',
           numeric: true,
           html: true,
@@ -198,7 +198,7 @@
           numeric: true,
           html: false,
         }, {
-          label: 'Cash Collected',
+          label: 'Cash Collected (&#8358;)',
           field: 'cash_collected',
           numeric: false,
           html: false,

@@ -140,7 +140,8 @@
 <script>
   import Vue from 'vue';
   import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView_With_All_Stations.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
@@ -155,6 +156,12 @@
               {
           label: 'Requested On',
           field: 'created_at',
+          numeric: false,
+          html: false,
+        },
+        {
+          label: 'Station',
+          field: 'station.name',
           numeric: false,
           html: false,
         },
@@ -238,9 +245,17 @@
        show_station_pricing(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
+        this.show_setup_form= false;
         if (this.formstate2.$invalid) {
           return;
-        } else {
+        }
+        else if(this.preset.company_id == 6 && this.preset.station_id != 81){
+          //FOR E360 AFRICA ACCOUNT, only e360 lab station should be allowed 
+           store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Oops! Invalid E360 Station Selected for Pricing', 'show_alert': true}); 
+           return;
+        }
+         else {
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
           this.pricing = {new_price_tag: "",station_id: "",company_id: "",product_id:0,
@@ -359,8 +374,10 @@
           store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
           //include station and company_id
-          this.pricing.station_id= this.preset.station_id;
-          this.pricing.company_id= this.preset.company_id;
+
+          this.pricing.station_id= this.pricing.station.id;
+          this.pricing.company_id= this.pricing.station.company_id;
+
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.pricing.updated_by = user_details.id;
           this.pricing.approved_by = user_details.id;

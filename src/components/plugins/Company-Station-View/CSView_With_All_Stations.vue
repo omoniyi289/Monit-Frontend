@@ -3,7 +3,7 @@
         <div class="row" v-if="is_e360_super_user">               
             <div class="col-lg-4">
                 <div class="form-group" >
-                    Service Company
+                    Select Company
                     <select  name="company"  size="1" class="form-control"
                     v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
                         <option v-for="(option, index) in available_companies" v-bind:value="option.id"
@@ -15,7 +15,7 @@
 
             <div class="col-lg-4">
                 <div class="form-group">
-                    Select   Station
+                    Select Station
                     <select id="station" name="station" size="1" class="form-control" v-model="preset.station_id" required >
                         <option
                           v-for="option in company_stations"
@@ -39,7 +39,7 @@
         <div class="row" v-if="is_company_super_user">               
             <div class="col-lg-2">
                 <div class="form-group" >
-                    Service Company  <br> 
+                     Company  <br> 
                      
                     <button class="btn btn-warning btn-md">{{csu_company.name}}</button>                          
                 </div>
@@ -171,6 +171,7 @@
         methods: {
             show_company_stations(company_name){
         store.commit("activateLoader", "start");
+
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
         axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
@@ -180,13 +181,13 @@
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
+              //console.log(item);
               store.state.user_current_station_ids = [];
-            this.company_stations.forEach((item) => {
-                store.state.user_current_station_ids.push(item.id);
-            });
-            this.company_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
-            this.company_stations.reverse();
-
+              this.company_stations.forEach((item) => {
+                    store.state.user_current_station_ids.push(item.id);
+              });
+              this.company_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
+              this.company_stations.reverse();
       })
       .catch(function(error) {
           store.commit("activateLoader", "end");   
@@ -216,8 +217,8 @@
                 store.commit("catch_errors", error); 
             });
         }
-        else{
-          
+        else if(user_details.role_id == 'super' && user_details.company_id == 'super'){
+          //first company super user
           company_route = '/companies/first_company_user/'+user_details.id;
           axios.get(store.state.host_url+company_route,
           {
@@ -225,12 +226,9 @@
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
           store.commit("activateLoader", "end"); 
-          //this.available_companies = response.data.data;
-          //strictly hardcoded for ENYO for now
-          this.available_companies = [{"id":8,"name":"ENYO Retail & Supply"}];
+          this.available_companies = response.data.data;;
           ///one company  
-            //this.csu_company = response.data.data[0];
-            this.csu_company = {"id":8,"name":"ENYO Retail & Supply"};
+            this.csu_company = response.data.data[0];
             this.preset.company_id = this.csu_company.id;
             this.is_company_super_user = true;   
              axios.get(this.$store.state.host_url+"/stations/by_company/"+this.csu_company.id,
@@ -247,6 +245,42 @@
                         this.csu_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
                         this.csu_stations.reverse();
                 });
+            })
+            .catch(error => {
+            store.commit("activateLoader", "end");   
+                store.commit("catch_errors", error); 
+            });
+        }else{
+          ///for regular company users
+          company_route = '/companies/company_user/'+user_details.company_id;
+          axios.get(store.state.host_url+company_route,
+          {
+            headers : {
+              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+            }}).then(response => {
+          store.commit("activateLoader", "end"); 
+          ///one company
+            this.cru_company = response.data.data[0];
+            this.is_company_regular_user = true;   
+            this.preset.company_id = user_details.company_id;
+            axios.get(this.$store.state.host_url+"/stations/by_user/"+user_details.id,
+                    {
+                        headers : {
+                        "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                        }}).then(response => {
+                        store.commit("activateLoader", "end");   
+                        var stations = response.data.data;
+                        store.state.user_current_station_ids = [];
+                            
+                        stations.forEach((item, index) => {
+                            this.cru_stations.push(item.station);
+                            store.state.user_current_station_ids.push(item.station.id);
+                           });
+                        
+                         this.cru_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
+                         this.cru_stations.reverse();
+                });
+
             })
             .catch(error => {
             store.commit("activateLoader", "end");   

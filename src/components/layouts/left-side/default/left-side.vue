@@ -104,12 +104,21 @@ export default {
        let menu_items=[];
        
        if(!permissions.includes('EN-PMM60') && !permissions.includes('EN-MML60') ) {
-        menu_items.push({
-                    name: 'Dashboard',
-                    link: '/',
-                    icon: ' fa fa-home'
-                });
+        //to prevent enginerring companies (EN) from viewing dashboard, nothing there for them to see 
+            menu_items.push({
+                        name: 'Dashboard',
+                        link: '/',
+                        icon: ' fa fa-home'
+                    });
+        }else if(user_details.role_id == 'master'){
+            //even though superusers can view engineering module, they should have a dashboard link
+             menu_items.push({
+                        name: 'Dashboard',
+                        link: '/',
+                        icon: ' fa fa-home'
+                    });
         }
+
 
        if(permissions.includes('CMCo') || permissions.includes('CMRe') || 
        permissions.includes('CMRo') || permissions.includes('CMUs') ){
@@ -464,21 +473,23 @@ export default {
                                 });      
                             var current_index = menu_items.length-1;  
 
-                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
-                            menu_items[current_index].child.push({
-                                name: 'View Pump Readings',
-                                link: '/maintenance/pump-engineering-company',
-                                icon: 'fa fa-angle-double-right'
-                            });
-                            }
-
-                            if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
+                             if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
                             menu_items[current_index].child.push({
                                 name: 'Manage Pump Maintenance Log',
                                 link: '/maintenance/manage-pump-maintenance-engineering-company',
                                 icon: 'fa fa-angle-double-right'
                             });
                             }
+
+                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
+                            menu_items[current_index].child.push({
+                                name: 'View/Download Pump Readings',
+                                link: '/maintenance/pump-engineering-company',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                            }
+
+                           
 
                             }
 

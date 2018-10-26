@@ -23,6 +23,7 @@
                 <span v-on:click="button_toggle" style="margin-bottom: 10px" class="toggle btn btn-primary">{{this.button_text}}</span>             
             </div>
             <br>
+            Fill All Necessary Information Before Clicking the Upload Log Button Below
             <br>
               <b-card header-tag="h4" class="bg-info-card" v-show="fill_form" header="Station Pumps">
                 <div class="row ">
@@ -33,64 +34,42 @@
                             <table class="table">
                               <thead>
                                 <tr>
-                                  <th>STATION</th>
-                                  <th>PUMP NUMBER</th>
-                                  <th>CURRENT TOTALIZER READING</th>
-                                  <th>>=500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
-                                  <th> >=1,500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
-                                  <th> >=2,500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
-                                  <th>NOTE</th>
+                                  <th>Station</th>
+                                  <th>Pump Nozzle Code</th>
+                                  <th>Last Maintenance Date</th>
+                                  <th>Current Totalizer Reading</th>
+                                  <th>Total Sales Since Last Maintenance</th>
+                                  <th>New Maintenance Date*</th>
+                                  <th>Totalizer Reading After Maintenance *</th>
+                                  <th>Note</th>
                                   
                                 </tr>
                               </thead>
                               <tbody>
                                 <tr  v-for="(option, index) in open_pump_reading">
                                   <th>{{option.station_name}}</th>
-                                  <th>{{option.combined_pump_nozzle_code}}</th>
+                                  <th>{{option.pump_nozzle_code}}</th>
                                   <td>                
-                                      <input  id="cr"  type="text" v-model="open_pump_reading[index].combined_totalizer_reading" readonly placeholder="" class="form-control" />
+                                      <input  id="cr"  type="text" v-model="open_pump_reading[index].last_maintenance_date" readonly placeholder="" class="form-control" />
                                             
                                   </td>
                                   <td>                
-                                      
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading >= 500000" :format="format" v-model="open_pump_reading[index].D_issue_date"  placeholder="Select Issue Date" />
-
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading < 500000" :format="format" v-model="open_pump_reading[index].D_issue_date" :disabledPicker="true" placeholder="Select Issue Date" />
-                                      
-                                      <input v-if="open_pump_reading[index].combined_totalizer_reading >= 500000" id="cr"  type="text" v-model="open_pump_reading[index].D_invoice_number"  placeholder="Invoice Number" class="form-control" />
-                                     
-                                      <input  v-if="open_pump_reading[index].combined_totalizer_reading < 500000"  id="cr"  type="text" v-model="open_pump_reading[index].D_invoice_number" readonly="" placeholder="Invoice Number" class="form-control" />    
-                                  </td>
-
-                                  <td>                
-                                      
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading >= 1500000" :format="format" v-model="open_pump_reading[index].MD_issue_date"  placeholder="Select Issue Date" />
-
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading < 1500000" :format="format"  v-model="open_pump_reading[index].MD_issue_date" :disabledPicker="true" placeholder="Select Issue Date" />
-
-
-                                      <input v-if="open_pump_reading[index].combined_totalizer_reading >= 1500000" id="cr"  type="text" v-model="open_pump_reading[index].MD_invoice_number"  placeholder="Invoice Number" class="form-control" />
-
-                                      <input v-if="open_pump_reading[index].combined_totalizer_reading < 1500000"  id="cr" readonly type="text" v-model="open_pump_reading[index].MD_invoice_number"  placeholder="Invoice Number" class="form-control" />
+                                      <input  id="cr"  type="number" v-model="open_pump_reading[index].current_totalizer_reading" readonly placeholder="" class="form-control" />
                                             
                                   </td>
-
-                                  <td>                
-                                      
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading >= 2500000" :format="format" v-model="open_pump_reading[index].MMD_issue_date"  placeholder="Select Issue Date" />
-
-                                      <datepicker v-if="open_pump_reading[index].combined_totalizer_reading < 2500000"  :format="format"v-model="open_pump_reading[index].MMD_issue_date"  placeholder="Select Issue Date"  :disabledPicker="true"  />
-
-                                      <input v-if="open_pump_reading[index].combined_totalizer_reading >= 2500000" id="cr"  type="text" v-model="open_pump_reading[index].MMD_invoice_number"  placeholder="Invoice Number" class="form-control" />
-
-                                      <input v-if="open_pump_reading[index].combined_totalizer_reading < 2500000" id="cr" readonly  type="text" v-model="open_pump_reading[index].MMD_invoice_number"  placeholder="Invoice Number" class="form-control" />
+                                  <td> 
+                                      <input  id="cr"  type="number" v-model="open_pump_reading[index].sales_since_last_maintenance" readonly placeholder="" class="form-control" />
                                             
                                   </td>
+                                  <td>
+            
+                                     <datepicker :format="format" v-model="open_pump_reading[index].maintenance_date"  placeholder="Select Maintenance Date" />
 
-
+                                  </td>
+                                  <td>
+                                      <input v-model="open_pump_reading[index].new_totalizer_reading"  id="cr" :name="nr+index" type="number"  placeholder="" class="form-control" />
+                                      
+                                  </td>
                                    <td>
                                       <input v-model="open_pump_reading[index].note"  id="note" :name="note+index" type="text"  placeholder="" class="form-control" />
                                       
@@ -101,7 +80,7 @@
                             </table> 
                             <div class="col-sm-12">
                               <div class="form-group float-right">
-                                <input type="submit" value="UPDATE LOG" class="btn btn-success"></input>
+                                <input type="submit" value="UPLOAD LOG" class="btn btn-success"></input>
                               </div>
                             </div>
                         </b-tab>
@@ -110,10 +89,10 @@
                   </div>
                 </div>
               </b-card>
-<!--               <div class="table-responsive">
+              <div class="table-responsive">
               <datatable title="Pump Maintenance Log" :rows="open_maintenance_log" :columns="columndata">
               </datatable>
-            </div> -->
+            </div>
 
             </vue-form>
           </div>   
@@ -181,7 +160,6 @@
         available_company: [],
         products: "",
         set_date: "",
-       
         show_multi_company: false,
         show_single_company: false,
         nr: "new_reading",
@@ -197,15 +175,11 @@
           company_id: "",
           station_id: ""
         },
-        disabledDates: {
-          to: new Date(Date.now()),
-          from: new Date(Date.now())
-        },
         note:'',
         open_pump_reading : [],
         open_maintenance_log : [],
-        fill_form : true,
-        button_text : "HIDE UPLOAD FORM"
+        fill_form : false,
+        button_text : "CLICK TO UPLOAD PUMP MAINTENANCE LOG"
       }
     },
     methods: {
@@ -259,29 +233,18 @@
             //if(){
             this.show_setup_form= true;
             this.station_pumps.forEach(element => {
-              let pump_split_array = element.combined_pump_nozzle_code.split(" ");
+              let pump_split_array = element.pump_nozzle_code.split(" ");
               let number = parseInt(pump_split_array[pump_split_array.length-1]);
               //get the latest reading, opening or closing
-              // let latest_totalizer_reading = '';
-              // if(element.last_closing_reading != null){
-              //     latest_totalizer_reading =element.last_closing_reading;
-              // }
-              // else{
-              //     latest_totalizer_reading =element.last_opening_reading;
-              // }
-             this.open_pump_reading.push({'combined_pump_nozzle_code': element.combined_pump_nozzle_code,'station_name': element.station_name,'product': element.product,'station_id': element.station_id,'pump_1_nozzle_code': element.pump_1_nozzle_code,'pump_2_nozzle_code': element.pump_2_nozzle_code,'totalizer_1_reading': element.totalizer_1_reading,'totalizer_2_reading': element.totalizer_2_reading,
-               'combined_totalizer_reading': parseFloat(element.combined_totalizer_reading).toFixed(2), 
-            'D_issue_date': ( element.past_log.D_issue_date), 
-            'MD_issue_date': ( element.past_log.MD_issue_date), 
-            'MMD_issue_date': ( element.past_log.MMD_issue_date), 
-            'D_invoice_number': ( element.past_log.D_invoice_number), 
-            'MD_invoice_number': ( element.past_log.MD_invoice_number), 
-            'MMD_invoice_number': ( element.past_log.MMD_invoice_number),
-            'D_maintenenance_date': ( element.past_log.D_maintenenance_date), 
-            'MD_maintenenance_date': ( element.past_log.MD_maintenenance_date), 
-            'MMD_maintenenance_date': ( element.past_log.MMD_maintenenance_date),
-               
-             'serial' : number, 'note' :''});            
+              let latest_totalizer_reading = '';
+              if(element.last_closing_reading != null){
+                  latest_totalizer_reading =element.last_closing_reading;
+              }
+              else{
+                  latest_totalizer_reading =element.last_opening_reading;
+              }
+             this.open_pump_reading.push({'pump_nozzle_code': element.pump_nozzle_code,'station_name': element.station.name,'station_id': element.station.id,'pump_id': element.id,
+               'current_totalizer_reading': parseFloat(latest_totalizer_reading), 'sales_since_last_maintenance': parseFloat(element.sales_since_last_maintenance), 'last_maintenance_date': element.last_maintenance_date, 'new_totalizer_reading': '', 'status': 'Closed', 'product': element.product.code, 'maintenance_date': '', 'serial' : number, 'note' :''});            
             });
              this.open_pump_reading.sort(function(a, b){return a.station_id - b.station_id});
 
@@ -368,11 +331,12 @@
 
             let user_details = JSON.parse(localStorage.getItem('user_details')); 
           ////pumps///
-      
+          this.final_pump_info.station_id= this.preset.station_id;
           this.final_pump_info.company_id= this.preset.company_id;
           this.final_pump_info.created_by = user_details.id;
+          this.final_pump_info.reading_date = this.set_date;
           this.final_pump_info.readings = this.open_pump_reading;
-          //this.show_setup_form= false; 
+          this.show_setup_form= false; 
                            
             store.commit("activateLoader", "end");
               axios.post(this.$store.state.host_url+"/equipment_maintenance/create_pump_maintenance_log", {'pumps': this.final_pump_info}, {
@@ -384,8 +348,8 @@
                     if (api_response.status === true) {
                       store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Readings Updated Successfully', 'show_alert': true});
-                       //this.formstate.$submitted=false;
-                       //this.open_pump_reading= {};
+                       this.formstate.$submitted=false;
+                        this.open_pump_reading= {};
                         store.commit("activateLoader", "end");
                     }
                   }).catch(error => { store.commit("activateLoader", "end");   

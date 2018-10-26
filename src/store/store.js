@@ -50,6 +50,7 @@ const store = new Vuex.Store({
        // velox_api_url: velox_api_url,
         site_name: "Station Manager",
         user_permission_slugs : [],
+        user_current_station_ids : [],
         page_title: null,
         /*user: {
             name: username,

@@ -88,7 +88,8 @@
 <script>
   import Vue from 'vue';
   import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import csview from "components/plugins/Company-Station-View/CSView_With_All_Stations.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   Vue.use(VueForm, options);
@@ -100,6 +101,12 @@
     data() {
       return {columndata: [
          {
+          label: 'Station',
+          field: 'station.name',
+          numeric: false,
+          html: false,
+        },
+        {
           label: 'Product',
           field: 'product.code',
           numeric: false,
@@ -115,9 +122,16 @@
           label: 'Actions',
           }],
             log_columndata: [
+         
         {
           label: 'Requested On',
           field: 'created_at',
+          numeric: false,
+          html: false,
+        },
+         {
+          label: 'Station',
+          field: 'station.name',
           numeric: false,
           html: false,
         },
@@ -193,9 +207,17 @@
        show_station_pricing(station_id, company_id){
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
+        this.show_setup_form= false;
         if (this.formstate2.$invalid) {
           return;
-        } else {
+        }
+        else if(this.preset.company_id == 6 && this.preset.station_id != 81){
+          //FOR E360 AFRICA ACCOUNT, only e360 lab station should be allowed 
+           store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Oops! Invalid E360 Station Selected for Pricing', 'show_alert': true}); 
+           return;
+        }
+        else {
           store.commit("activateLoader", "start");
 
           this.show_setup_form= true;
@@ -275,18 +297,32 @@
         this.$SmoothScroll(document.getElementById("content-header"));
         if (this.formstate.$invalid) {
           return;
-        } else {
+        }
+        else{
           store.commit("activateLoader", "start");
            this.show_approval_pane=false;
           //include station and company_id
-          this.pricing.station_id= this.preset.station_id;
-          this.pricing.company_id= this.preset.company_id;
+          
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           this.pricing.creator_name = user_details.fullname;
           this.pricing.updated_by = user_details.id;
 
           if(this.pricing.submit_mode == 'Add Price'){
             this.pricing.mode ="create";
+            console.log(this.preset.station_id);
+            //make sure a particular station is selected
+            if(this.preset.station_id.length != 1){
+              store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'Oops!! Please select a particular station, then proceed', 'show_alert': true}); 
+
+              store.commit("activateLoader", "end");
+              return;
+            }
+            else{
+            this.pricing.station_id= this.preset.station_id;
+            this.pricing.company_id= this.preset.company_id;
+            }
+
              let price_detail = {
             product_change_log: this.pricing
           };
@@ -306,8 +342,7 @@
                       break;
                   }
               }          
-              this.tableData.push({'product':{'code': this.added_product_name}, 
-              'new_price_tag': this.pricing.requested_price_tag});
+              this.tableData.push(api_response.data);
               
 
               store.commit("showAlertBox", {'alert_type': 'alert-success',
@@ -317,10 +352,14 @@
         }).catch(error => {
           store.commit("activateLoader", "end");   
           store.commit("catch_errors", error); 
-        });}
+        });
+        }
         else if(this.pricing.submit_mode == 'Request Price Change'){
           this.pricing.mode ="update";
-      
+          
+          this.pricing.station_id= this.pricing.station.id;
+          this.pricing.company_id= this.pricing.station.company_id;
+
           //set current price tag value, requested price is still retained
           this.pricing.current_price_tag = this.pricing.new_price_tag;
              let price_detail = {
