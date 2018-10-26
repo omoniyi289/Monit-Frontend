@@ -180,6 +180,12 @@
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
+              store.state.user_current_station_ids = [];
+            this.company_stations.forEach((item) => {
+                store.state.user_current_station_ids.push(item.id);
+            });
+            this.company_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
+            this.company_stations.reverse();
 
       })
       .catch(function(error) {
@@ -234,6 +240,12 @@
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         this.csu_stations = response.data.data;
+                        store.state.user_current_station_ids = [];
+                        this.csu_stations.forEach((item) => {
+                                store.state.user_current_station_ids.push(item.id);
+                          });
+                        this.csu_stations.push({"id": store.state.user_current_station_ids, "name": "All Stations"});
+                        this.csu_stations.reverse();
                 });
             })
             .catch(error => {

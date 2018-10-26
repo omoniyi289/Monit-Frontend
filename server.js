@@ -1,9 +1,9 @@
-var express = require('express');
-var path = require('path');
-var serveStatic = require('serve-static');
+// var express = require('express');
+// var path = require('path');
+// var serveStatic = require('serve-static');
 
-app = express();
-app.use(serveStatic(__dirname + "/dist"));
+// app = express();
+// app.use(serveStatic(__dirname + "/dist"));
 
-var port = process.env.PORT || 10000;
-app.listen(port);
+// var port = process.env.PORT || 10000;
+// app.listen(port);

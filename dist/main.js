@@ -2276,9 +2276,9 @@ var mutations = {
     },
     catch_errors: function catch_errors(state, payload) {
         //console.log(payload);
-        if (payload.response.status == 401) {
+        if (payload.response !== undefined && payload.response.status == 401) {
             window.location.href = '/#/login?message=' + payload.response.data.error;
-        } else if (payload.response.status == 500) {
+        } else if (payload.response !== undefined && payload.response.status == 500) {
             state.show_alert = true;
             var error = payload.response.data.message + "";
             //console.log(payload.response.data.message);
@@ -2291,20 +2291,22 @@ var mutations = {
             setTimeout(function () {
                 state.show_alert = false;
             }, 10000);
-        } else if (payload.response.status == 422) {
+        } else if (payload.response !== undefined && payload.response.status == 422) {
             state.show_alert = true;
             state.alert_message = "omission error, please fill all necessary fields";
             state.alert_type = 'alert-danger';
             setTimeout(function () {
                 state.show_alert = false;
             }, 10000);
-        } else if (payload.response.status == 400) {
+        } else if (payload.response !== undefined && payload.response.status == 400) {
             state.show_alert = true;
             state.alert_message = payload.response.data.message;
             state.alert_type = 'alert-danger';
             setTimeout(function () {
                 state.show_alert = false;
             }, 10000);
+        } else {
+            console.log(payload);
         }
     },
     changePageTitle: function changePageTitle(state, title) {
@@ -3154,9 +3156,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     routes: __WEBPACK_IMPORTED_MODULE_2__routes_js__["a" /* default */],
-    linkActiveClass: "active",
-    mode: 'history',
-    history: true
+    linkActiveClass: "active"
+
 });
 
 router.beforeEach(function (to, from, next) {
@@ -4944,6 +4945,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* default */].Store({
         // velox_api_url: velox_api_url,
         site_name: "Station Manager",
         user_permission_slugs: [],
+        user_current_station_ids: [],
         page_title: null,
         /*user: {
             name: username,

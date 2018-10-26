@@ -5,7 +5,7 @@
         <div class="row">
 
           <div class="col-md-12">
-            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
+            <MaintenanceCsview title="Custom Table"  :companies="available_companies" :stations="company_stations">
                   <template slot="actions" slot-scope="props">
                     <div >
                       <button class="btn btn-success" 
@@ -13,25 +13,34 @@
                         
                     </div>
                   </template>
-            </csview>
+            </MaintenanceCsview>
          
             
             <hr>
           </div>
-             <div class="col-lg-3">  
+             <div class="col-lg-2">  
              Start Date          
                     <datepicker :format="format" v-model="selected_start_date"  placeholder="Select Start Date"></datepicker>     
             </div>
-            <div class="col-lg-3">  
+            <div class="col-lg-2">  
             End Date            
                     <datepicker :format="format" v-model="selected_end_date"  placeholder="Select End Date"></datepicker>     
+            </div>
+            <div class="col-lg-2">  
+            Volume Categories            
+                <select class="form-control" v-model="selected_volume_category">
+                  <option selected value="0"> All Categories</option>
+                  <option value="500000"> >=500,000 Litres</option>
+                  <option value="1500000"> >=1,500,000 Litres</option>
+                  <option value="2500000"> >=2,500,000 Litres</option>
+                </select>     
             </div>
           <br><br><br>
           <div class="col-md-12">
            
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form">
               
-              <b-card header-tag="h4" class="bg-info-card" header="Pump Readings">
+             <!--  <b-card header-tag="h4" class="bg-info-card" header="Pump Readings">
                 <div class="row ">
                   <div class="col-lg-12">               
                     <b-tabs>
@@ -39,6 +48,7 @@
                            <table class="table">
                               <thead>
                                 <tr>
+                                  <th>Station</th>
                                   <th>Nozzle Code</th>
                                   <th>Start Totalizer Reading</th>
                                   <th>End Totalizer Reading</th>
@@ -47,6 +57,7 @@
                               </thead>
                               <tbody>
                                 <tr v-for ="(option, index) in open_pump_readings">
+                                  <th>{{option.station_name}}</th>
                                   <th>{{option.nozzle_code}}</th>
                                   <td>
                   
@@ -68,8 +79,11 @@
                     </b-tabs>           
                   </div>
                 </div>
-              </b-card>
-             
+              </b-card> -->
+             <div class="table-responsive">
+              <datatable title="Pump Readings Table" :rows="open_pump_readings" :columns="columndata">
+              </datatable>
+            </div>
             </vue-form>
           </div>   
         </div>
@@ -80,7 +94,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import MaintenanceCsview from "components/plugins/Company-Station-View/CSView_With_All_Stations.vue";
   import VueForm from "vue-form";   
   import Datepicker from 'vuejs-datepicker';  
   import vueSmoothScroll from 'vue-smoothscroll';     
@@ -92,10 +106,69 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,Datepicker
+      datatable,MaintenanceCsview,Datepicker
     },
     data() {
       return {
+        columndata: 
+        [{
+          label: 'Station',
+          field: 'station_name',
+          numeric: false,
+          html: false,
+        },
+         {
+          label: 'Pump Number',
+          field: 'combined_pump_nozzle_code',
+          numeric: false,
+          html: false,
+        },
+        {
+          label: 'Totalizer Reading At Start Date',
+          field: 'combined_min_reading',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Totalizer Reading At End Date',
+          field: 'combined_max_reading',
+          numeric: false,
+          html: false,
+        }, {
+          label: 'Total Sales',
+          field: 'total_sales',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 500,000L Issue Date',
+          field: 'D_issue_date',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 500,000L Invoice Number',
+          field: 'D_invoice_number',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 1,500,000L Issue Date',
+          field: 'MD_issue_date',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 1,500,000L Invoice Number',
+          field: 'MD_invoice_number',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 2,500,000L Issue Date',
+          field: 'MMD_issue_date',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 2,500,000L Invoice Number',
+          field: 'MMD_invoice_number',
+          numeric: false,
+          html: false,
+        }],
         ajaxLoading: true,
         loading: true,
         url: this.$store.state.host_url+'/product_price_change',
@@ -105,6 +178,7 @@
         tableData: [],
         available_companies: [],
         available_company: [],
+        selected_volume_category: '',
         products: "",
         format: 'yyyy-MM-dd',
         set_date: "",
@@ -144,7 +218,7 @@
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
-          this.company_stations = response.data.data;
+              this.company_stations = response.data.data;
       })
       .catch(function(error) {
           store.commit("activateLoader", "end");   
@@ -152,7 +226,7 @@
         });
       },
       
-         show_open_station_info(station_id, company_id){
+      show_open_station_info(station_id, company_id){
           store.commit("activateLoader", "start");
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
@@ -170,13 +244,13 @@
         } else {
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           var d_date = new Date(this.selected_start_date);
-          d_date.setDate(d_date.getDate() + 1);
+          d_date.setDate(d_date.getDate());
           this.selected_start_date = moment(d_date).format('YYYY-MM-DD');
           var d_date = new Date(this.selected_end_date);
-          d_date.setDate(d_date.getDate() + 1);
+          d_date.setDate(d_date.getDate());
           this.selected_end_date = moment(d_date).format('YYYY-MM-DD');
 
-          let params = 'station_id='+this.preset.station_id+'&start_date='+this.selected_start_date+'&end_date='+this.selected_end_date; 
+          let params = 'station_id='+this.preset.station_id+'&start_date='+this.selected_start_date+'&end_date='+this.selected_end_date+'&volume_category='+this.selected_volume_category; 
          
           axios.get(this.$store.state.host_url+"/equipment_maintenance/pump_readings?"+params,
             {
@@ -187,9 +261,18 @@
               this.pump_readings = response.data.data;
               this.show_setup_form = true;
               this.pump_readings.forEach(element => {
-              this.open_pump_readings.push({'nozzle_code': element.nozzle_code,'min_reading': parseFloat(element.min_reading),'total_sales': parseFloat(element.total_sales),'max_reading': parseFloat(element.max_reading)});
-            });
-
+                   this.open_pump_readings.push({'combined_pump_nozzle_code': element.combined_pump_nozzle_code,'station_name': element.station_name, 'station_id': element.station_id,
+                'combined_totalizer_reading': parseFloat(element.combined_totalizer_reading).toFixed(2), 
+                'combined_min_reading': parseFloat(element.combined_min_reading).toFixed(2), 
+                'combined_max_reading': parseFloat(element.combined_max_reading).toFixed(2), 
+                 'total_sales': parseFloat(element.combined_max_reading).toFixed(2) - parseFloat(element.combined_min_reading).toFixed(2), 
+                'D_issue_date': ( element.past_log.D_issue_date), 
+                'MD_issue_date': ( element.past_log.MD_issue_date), 
+                'MMD_issue_date': ( element.past_log.MMD_issue_date), 
+                'D_invoice_number': ( element.past_log.D_invoice_number), 
+                'MD_invoice_number': ( element.past_log.MD_invoice_number), 
+                'MMD_invoice_number': ( element.past_log.MMD_invoice_number)});
+                 });
                 store.commit("activateLoader", "end"); 
                   }) 
           .catch(function(error) {
@@ -200,78 +283,7 @@
         }
       },
      
-      onSubmit() {
-          this.$SmoothScroll(document.getElementById("content-header"));
-        if (this.formstate.$invalid) {
-          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'input error, please cross-check stock and totalizer readings', 'show_alert': true});
-          return;
-        }else if ( this.open_pump_reading == 0) {
-          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'input error, No pump readings supplied', 'show_alert': true});
-          return;
-        }else if ( this.open_tank_reading == 0) {
-          store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'input error, No tank readings supplied', 'show_alert': true});
-          return;
-        } else {
-          store.commit("activateLoader", "start");
-          store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
-                       'alert_message': '...Processing Request...', 'show_alert': true});
-          let invalid_monitor = false;
-              this.open_pump_reading.forEach(element => {
-                if(parseFloat(element.opening_reading) < parseFloat(element.last_closing_reading)){
-                     invalid_monitor = true;
-                     store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                           'alert_message': 'invalid input for '+element.pump_nozzle_code+'. Opening reading cannot be less than previous day\'s closing reading', 'show_alert': true});
-                     store.commit("activateLoader", "end");                
-                }
-              });
-          if (invalid_monitor) {
-              //stop script eecution if true
-              return;
-           }
 
-          this.final_stock_info.station_id= this.preset.station_id;
-          this.final_stock_info.company_id= this.preset.company_id;
-          let user_details = JSON.parse(localStorage.getItem('user_details'));
-          this.final_stock_info.created_by = user_details.id;
-          this.final_stock_info.readings = this.open_tank_reading;
-          this.final_stock_info.reading_date = this.set_date;
-          ////pumps///
-          this.final_pump_info.station_id= this.preset.station_id;
-          this.final_pump_info.company_id= this.preset.company_id;
-          this.final_pump_info.created_by = user_details.id;
-          this.final_pump_info.reading_date = this.set_date;
-          this.final_pump_info.readings = this.open_pump_reading;
-          this.show_setup_form= false; 
-          axios.post(this.$store.state.host_url+"/stock-readings", {'stocks': this.final_stock_info}, {
-            headers : {
-              "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-            }
-          }).then( response => {                         
-            store.commit("activateLoader", "end");
-              axios.post(this.$store.state.host_url+"/pump-readings", {'pumps': this.final_pump_info}, {
-                headers : {
-                  "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
-                }
-              }).then( response => {                         
-                    let api_response = response.data;
-                    if (api_response.status === true) {
-                      store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Readings Saved Successfully', 'show_alert': true});
-                       this.formstate.$submitted=false;
-                        this.open_pump_reading= {};
-                        store.commit("activateLoader", "end");
-                    }
-                  }).catch(error => { store.commit("activateLoader", "end");   
-                    store.commit("catch_errors", error); 
-              });
-        }).catch(error => { 
-          store.commit("activateLoader", "end");   
-          store.commit("catch_errors", error); 
-        })}
-      }
     },
     mounted: function() {
       store.commit("check_login_details");
