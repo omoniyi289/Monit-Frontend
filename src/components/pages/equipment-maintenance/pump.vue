@@ -265,7 +265,7 @@
                 'combined_totalizer_reading': parseFloat(element.combined_totalizer_reading).toFixed(2), 
                 'combined_min_reading': parseFloat(element.combined_min_reading).toFixed(2), 
                 'combined_max_reading': parseFloat(element.combined_max_reading).toFixed(2), 
-                 'total_sales': parseFloat(element.combined_max_reading).toFixed(2) - parseFloat(element.combined_min_reading).toFixed(2), 
+                 'total_sales': parseFloat(element.combined_max_reading - element.combined_min_reading).toFixed(2),
                 'D_issue_date': ( element.past_log.D_issue_date), 
                 'MD_issue_date': ( element.past_log.MD_issue_date), 
                 'MMD_issue_date': ( element.past_log.MMD_issue_date), 
