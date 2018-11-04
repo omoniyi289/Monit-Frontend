@@ -311,10 +311,10 @@
             this.pricing.mode ="create";
             console.log(this.preset.station_id);
             //make sure a particular station is selected
-            if(this.preset.station_id == "" || this.preset.station_id == undefined){
+            if(Array.isArray(this.preset.station_id)  || this.preset.station_id == ""){
               store.commit("showAlertBox", {'alert_type': 'alert-danger',
                        'alert_message': 'Oops!! Please select a particular station, then proceed', 'show_alert': true}); 
-
+              this.show_approval_pane=true;
               store.commit("activateLoader", "end");
               return;
             }
