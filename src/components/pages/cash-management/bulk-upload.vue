@@ -303,7 +303,7 @@
                        'alert_message': 'File-Read Successful', 'show_alert': true});
               }
                else if(result[0].error.length == 0 && result[0].success.length > 0){
-                    //this.payment_log= result[0].success;
+                    this.payment_log= result[0].success;
                     this.show_setup_form = true;
                     this.show_stock_upload_button = true;
                     store.commit("showAlertBox", {'alert_type': 'alert-primary',
