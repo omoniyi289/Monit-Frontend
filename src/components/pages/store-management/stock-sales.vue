@@ -41,9 +41,10 @@
                 </div>
                 <div class="col-lg-7">
                 </div>
-              <b-card header-tag="h4" class="bg-info-card" header="Stock Sales">
-                <div class="row ">
-                  <div class="col-12">               
+            <div class="row " style="margin-right: 3%">
+              <div class="col-12">     
+              <b-card header-tag="h4" class="bg-info-card" header="Stock Sales" >
+                            
                             <i>Note that quantity sold can not be less than quantity in stock</i>
                             <table class="table">
                               <thead>
@@ -51,11 +52,12 @@
                                   <th>Item Name</th>
                                   <th>Variant Option</th>
                                   <th>Variant Value</th>
+                                   <th>Sales Date</th>
                                   <th>Unit Price (&#8358;)</th>
                                   <th>Quantity in Stock</th>                                  
                                   <th>Quantity Sold</th>
                                   <th>Cash Collected (&#8358;)</th>
-                                  <th>Sales Date</th>
+                                 
                                 </tr>
                               </thead>
                               <tbody>
@@ -63,7 +65,11 @@
                                   <td>{{option.item.name}}</td>
                                   <td>{{option.variant_option}}</td>
                                   <td>{{option.variant_value}}</td>
-                                  
+                                  <td>
+            
+                                     <datepicker :format="format" v-model="item_variants[index].sales_date"  placeholder="Select Sales Date" />
+
+                                  </td>
                                   <td>
                                     <validate tag="div">
                                       <input  v-model="item_variants[index].retail_price" id="rd" :name="cc+index" type="number" required placeholder="Retail Price" class="form-control" />
@@ -98,11 +104,7 @@
                                       </field-messages>
                                     </validate>
                                   </td>
-                                  <td>
-            
-                                     <datepicker :format="format" v-model="item_variants[index].sales_date"  placeholder="Select Sales Date" />
-
-                                  </td>
+                                  
                   
                                 </tr>
                               </tbody>
@@ -113,9 +115,11 @@
                               </div>
                             </div>
                                 
-                  </div>
+                 
+                  </b-card>
+                   </div>
                 </div>
-              </b-card>
+              
                 
               </div>
             </vue-form>
