@@ -521,7 +521,7 @@
               }
                   });        
             store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'User registered successfully, default password is 123456', 'show_alert': true});
+                       'alert_message': 'User registered successfully, details sent to the registered email', 'show_alert': true});
             this.formstate.$submitted=false;
             this.user= {submit_mode: "CREATE"};
           }
