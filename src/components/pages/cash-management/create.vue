@@ -16,18 +16,19 @@
             <hr>    
           </div>
 
-          <div class="col-sm-6">
+          <div class="col-sm-9">
             <vue-form :state="formstate" @submit.prevent="onSubmit" v-show="show_setup_form && fill_form">
               <div class="row">
                 
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                     <label for="date">Select the Transaction Date</label>
                     <datepicker :format="format" v-model="selected_reading_date"  placeholder="Sales Transaction Date">
                     </datepicker>
                     <br>
                     <span class="btn btn-sm btn-primary" @click="validate_payment_amount"> VALIDATE</span>
+                    <br><br>
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-7">
                   <div class="form-group">
                     <validate tag="div">
                       <label for="expected_amount">Expected Amount</label>
@@ -39,11 +40,11 @@
                   </div>
                 </div>
 
-                <div class="col-sm-12">
+               <!--  <div class="col-sm-12">
                     <div class="form-group">
                       <validate tag="div">
                         <label for="payment_type">Payment Type</label>
-                        <select id="payment_type" name="payment_type" size="1" class="form-control" v-model="deposit.payment_type" required v-on:change="show_details_inputs(deposit.payment_type)">
+                        <select id="payment_type" name="payment_type" size="1" class="form-control" v-model="deposit.payment_type" required >
                           <option value="POS">POS Payment</option>
                           <option value="Cash Deposit">Cash Deposit</option>
                         </select>
@@ -52,9 +53,135 @@
                         </field-messages>
                       </validate>
                   </div>
+                </div> -->
+                <br><br>
+                <div class="col-sm-7" v-show="show_payment_form_details" style="margin-bottom: 10px; margin-top: 10px">
+                    <datepicker :format="format" v-model="selected_payment_date"  placeholder="Select the date the payment was made">
+                    </datepicker>
                 </div>
+                <br><br>
+                <div class="col-sm-12" v-show="show_payment_form_details">
+                    <div class="col-sm-7"> 
+                      <label for="compartments"> Number of Cash Deposits</label>
+                      <input v-model="deposit.cash_deposit_frequency"  name="compartments" type="number"  min="0" required autofocus placeholder="Number of Cash Deposits" class="form-control" id=""/>
+                    </div>
+                        <br>
+                      <div v-for="n in parseInt(deposit.cash_deposit_frequency)" >
+                       
+                        <div class="form-group row">    
+                                  <div class="col-sm-3">
+                                    <validate tag="div">
+                                    <div class="form-group">
+                                        <label for="bank_name">Bank Name</label>
+                                         <select  name="cash_bank_name+n"  size="1" class="form-control" v-model="deposit.cash_deposit_bank[n-1]" >
+                                            <option v-for="(option, index) in available_banks"
+                                                                  v-bind:value="option.name" >{{ option.name }}
+                                            </option>                       
+                                         </select>
+                                    </div>
+                                    <field-messages name="cash_bank_name+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Bank Name is required</div>
+                                    </field-messages>
+                                    </validate>
+                                  </div>
+                                  
+                                  <div class="col-sm-3">
+                                    <!-- <validate tag="div"> -->
+                                    <div class="form-group">
+                                        <label for="account_number">Account Number</label>
+                                        <input v-model="deposit.account_number[n-1]" name="account_number+n" type="text" autofocus :placeholder="account_number+' '+n" class="form-control" id="account_number"/>
+
+                                    </div>
+                                    <!-- <field-messages name="account_number+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Account Number is required</div>
+                                    </field-messages>
+                                    </validate> -->
+                                  </div>
+                                  <div class="col-sm-3">
+                                    <!-- <validate tag="div"> -->
+                                    <div class="form-group">
+                                        <label for="teller_number">Teller Number</label>
+                                        <input v-model="deposit.teller_number[n-1]" name="teller_number+n" type="text" autofocus :placeholder="teller_number+' '+n" class="form-control" id="teller_number"/>  
+
+                                    </div>
+                                    <!-- <field-messages name="teller_number+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Teller Number is required</div>
+                                    </field-messages>
+                                    </validate> -->
+                                  </div>
+
+                                  <div class="col-sm-3">
+                                    <validate tag="div">
+                                    <div class="form-group">
+                                        <label for="deposit_amount">Amount Deposited</label>
+                                        <input v-model="deposit.deposit_amount[n-1]" name="deposit_amount+n" type="text" autofocus  class="form-control" id="deposit_amount"/>  
+
+                                    </div>
+                                    <field-messages name="deposit_amount+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Amount Deposited</div>
+                                    </field-messages>
+                                    </validate>
+                                  </div>
+                                 
+                        </div>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-12" v-show="show_payment_form_details">
+                    <div class="col-sm-7"> 
+                      <label for="compartments"> Number of Bank POS Payment</label>
+                      <input v-model="deposit.pos_frequency"  name="compartments" type="number" required autofocus placeholder="Number of Bank POS Payment" class="form-control" min="0" id=""/>
+                    </div>
+                        <br>
+                      <div v-for="n in parseInt(deposit.pos_frequency)" >
+                       
+                        <div class="form-group row">    
+                                  <div class="col-sm-4">
+                                    <validate tag="div">
+                                    <div class="form-group">
+                                        <label for="bank_name">Bank Name</label>
+                                         <select  name="bank_name+n"  size="1" class="form-control" v-model="deposit.pos_bank[n-1]" >
+                                            <option v-for="(option, index) in available_banks"
+                                                                  v-bind:value="option.name" >{{ option.name }}
+                                            </option>                       
+                                         </select>
+                                    </div>
+                                    <field-messages name="bank_name+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Bank Name is required</div>
+                                    </field-messages>
+                                    </validate>
+                                  </div>
+                                  
+                                  <div class="col-sm-4">
+                                   <!--  <validate tag="div"> -->
+                                    <div class="form-group">
+                                        <label for="pos_receipt_range">POS Receipt Range</label>
+                                        <input v-model="deposit.pos_receipt_range[n-1]" name="pos_receipt_range+n" type="text" autofocus class="form-control" id="pos_receipt_range"/>
+
+                                    </div>
+                                   <!--  <field-messages name="bank_name" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">POS Receipt Range</div>
+                                    </field-messages>
+                                    </validate> -->
+                                  </div>
+                                  <div class="col-sm-4">
+                                    <validate tag="div">
+                                    <div class="form-group">
+                                        <label for="pos_amount">Total Amount Collected</label>
+                                        <input v-model="deposit.pos_amount[n-1]" name="pos_amount+n" type="text" autofocus  class="form-control" id="pos_amount"/>  
+
+                                    </div>
+                                    <field-messages name="pos_amount+n" show="$invalid && $submitted" class="text-danger">
+                                                <div slot="required">Total Amount Collected</div>
+                                    </field-messages>
+                                    </validate>
+                                  </div>
+                                 
+                        </div>
+                      </div>
+                  </div>
                 
-                <div class="col-sm-12">
+                <!-- <div class="col-sm-12">
                   <validate tag="div">
                   <div class="form-group">
                       <label for="bank_name">Bank Name</label>
@@ -69,7 +196,6 @@
                   </field-messages>
                   </validate>
                 </div>
-                 <div v-if="show_bank_details">
                 
                 <div class="col-sm-12">
                   <div class="form-group">
@@ -84,8 +210,7 @@
                   </div>
                 </div>
                 
-                </div>
-                <div v-if="show_pos_details">
+                
                 <div class="col-sm-12">
                   <div class="form-group">
                       <label for="pos_receipt_number">POS Receipt Number</label>
@@ -98,7 +223,7 @@
                       <input v-model="deposit.pos_receipt_range" name="pos_receipt_range" type="text" autofocus placeholder="POS Receipt Range" class="form-control" id="pos_receipt_range"/>  
                   </div>
                 </div>
-               </div>
+              
                 <div class="col-sm-12">
                     <datepicker :format="format" v-model="selected_payment_date"  placeholder="Select the date the payment was made">
                     </datepicker>
@@ -113,13 +238,21 @@
                       </field-messages>
                     </validate>
                   </div>
+                </div> -->
+                <div class="col-sm-12" v-show="show_note_form">
+                    <label  class="col-sm-7" for="date">Note for cash difference</label>
+                    <br>
+                    <textarea   class="col-sm-7" v-model="deposit.note"  placeholder="Note for cash difference">
+                   </textarea> 
+                      <br><br><br>
                 </div>
-
+              
                 <div class="col-sm-12">
                   <div class="form-group float-left">
-                    <input v-show="show_submit_button" type="submit" value="Submit Payment" class="btn btn-success" />
+                    <input v-show="show_payment_form_details" type="submit" value="Submit Payment" class="btn btn-success" />
                   </div>
                 </div>
+                <br>
               </div>
 
             </vue-form>
@@ -127,7 +260,7 @@
           <div class="col-sm-12"  v-show="show_setup_form">
             
             <div>
-                <span v-on:click="button_toggle" style="float: right; margin-bottom: 10px" class="toggle btn btn-info ">{{this.button_text}}</span>             
+                <span v-on:click="button_toggle" style="float: left; margin-bottom: 10px" class="toggle btn btn-info btn-lg">{{this.button_text}}</span>             
             </div>
             <div class="table-responsive">
               <datatable title="Payments Made" :rows="tableData" :columns="columndata"></datatable>
@@ -201,6 +334,11 @@
           field: 'pos_receipt_range',
           numeric: false,
           html: true,
+        },{
+          label: 'Note',
+          field: 'note',
+          numeric: false,
+          html: true,
         }],
         ajaxLoading: true,
         selected: true,
@@ -218,6 +356,8 @@
         available_companies: "",
         button_text: "ADD NEW PAYMENT",
         selected_reading_date: "",
+        account_number: "Account Number",
+        teller_number: "Teller Number",
         selected_payment_date: "",
         station_pumps:"",
         company_stations: "",
@@ -226,20 +366,23 @@
           company_id: "",
           station_id: ""
         },
-        show_submit_button: false,
+        show_payment_form_details: false,
+        show_note_form: false,
         deposit : {
-          payment_type: 0,
-          amount: 0.00,
-          sales_transaction:"",
           teller_date: "",
           reading_date:"",
-          bank: "",
+          cash_deposit_bank: [],
+          pos_bank:[],
           expected_amount:0.00,
-          teller_number:"",
-          account_number:"",
-          pos_receipt_range:"",
-          pos_receipt_number:"",
-      
+          deposit_amount:[],
+          pos_amount: [],
+          teller_number:[],
+          cash_deposit_frequency: 0,
+          pos_frequency:0,
+          account_number:[],
+          pos_receipt_range:[],
+          
+          note: "",
         }
 
       }
@@ -278,7 +421,8 @@
                   return ;
                   }
               this.deposit.expected_amount = parseFloat(response.data.data);
-              this.show_submit_button= true;
+              this.show_payment_form_details = true;
+              this.show_note_form = false;
       })
       .catch(function(error) {
           store.commit("activateLoader", "end");   
@@ -369,6 +513,25 @@
           store.commit("activateLoader", "end");
           return;
             }
+
+          let total_amount_filled = 0;
+          for (var i = 0; i <this.deposit.pos_amount.length ;  i++) {
+            total_amount_filled = total_amount_filled + parseFloat(this.deposit.pos_amount[i]);
+          }
+          for (var i =0; i < this.deposit.deposit_amount.length;  i++) {
+            total_amount_filled = total_amount_filled + parseFloat(this.deposit.deposit_amount[i]);
+          }
+           console.log(this.deposit.note);
+          console.log(total_amount_filled);
+
+          if( ( (this.deposit.expected_amount - total_amount_filled) > 200 || (this.deposit.expected_amount - total_amount_filled) < -200) && (this.deposit.note == "") ){
+              store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                         'alert_message': 'A difference of over NGN 200.00 is detected, please fill the note below stating the reason', 'show_alert': true});
+              store.commit("activateLoader", "end");
+              this.show_note_form = true;
+              return;
+          }
+
           this.deposit.payment_date = new Date(this.selected_payment_date).toDateString();
           this.deposit.reading_date = new Date(this.selected_reading_date).toDateString();
            let deposit_detail = {
@@ -383,13 +546,13 @@
             //console.log(response.data);
             let api_response = response.data;
           if (api_response.status === true) {
-              this.tableData.push(api_response.data);
+             this.tableData = response.data.data;
              
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Payment Added Successfully', 'show_alert': true});
               this.formstate.$submitted=false;
-              this.fill_form = !this.fill_form;
-              this.deposit= {};
+              this.button_toggle();
+             // this.deposit= {};
             }
           }
         ).catch(error => {
