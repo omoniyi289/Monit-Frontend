@@ -149,7 +149,7 @@
                                     </validate>   
                                   </td>
                                   <td>               
-                                      <input readonly step="0.01" v-model="close_pump_reading[index].closing_reading-close_pump_reading[index].opening_reading"  class="form-control" />
+                                      <input readonly v-model="(close_pump_reading[index].closing_reading-close_pump_reading[index].opening_reading).toFixed(2)"  class="form-control" />
                                      
                                   </td>
                                   <td>

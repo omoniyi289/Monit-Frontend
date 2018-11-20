@@ -85,7 +85,7 @@ export default {
         if ( r_p_array == "master" ){
             permissions = ["SU-MAN","CMUs","CMSt","CMCo","CMSt", "CPCR", "APCR", "APCRL2", "APCRL3","EPCR","CMRo","CMRe","APDS", "AExp","SSCo","MSCo","CSSt","MSSt","AMPa", "AMEx",
                         "RFSu","AFRe","PFRe","RStk", "AMIs20", "FRSk20", "TStk20","SStk20"
-                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50", "PMM60", "MML60", "EN-PMM60", "EN-MML60"];
+                        ,"RStk20","CStk20", "AMPS30", "EVCM50", "EVCMPC50", "PMM60", "MML60", "EN-PMM60", "EN-MML60", "AMCOPS30"];
             store.user_permission_slugs = permissions;
 
         }
@@ -413,6 +413,24 @@ export default {
                     }]
                     }); 
                             }
+
+           ///ROPS Mgt
+        if(permissions.includes('AMCOPS30')){
+            menu_items.push({
+                    name: 'Commercial Online Price Survey',
+                    icon: 'fa fa-money',
+                    child: [{
+                        name: 'Submit Survey',
+                        link: '/cops/create',
+                        icon: 'fa fa-angle-double-right'
+                    },{
+                        name: 'View Past Surveys',
+                        link: '/cops/view',
+                        icon: 'fa fa-angle-double-right'
+                    }]
+                    }); 
+                            }
+
 
           ///EVCM Mgt
         if(permissions.includes('EVCM50')){

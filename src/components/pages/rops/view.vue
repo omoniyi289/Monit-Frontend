@@ -312,6 +312,14 @@
         </div>
       </b-card>
     </div>
+    <div class="col-sm-12" v-show="fill_form_2">
+              <div class="table-responsive">
+                <datatable title="Survey History" :rows="tableData" :columns="columndata">
+                 
+                </datatable>
+              </div>
+    </div>
+
   </div>
 </template>
 <script>
@@ -333,65 +341,21 @@
       Datepicker,
     },
     data() {
-      return {columndata: [
+      return {
+        columndata: [
          {
           label: 'Survey Date',
           field: 'survey_date',
           numeric: false,
           html: false,
         },{
-          label: 'PC 1',
-          field: 'pc1',
+          label: 'Uploaded By',
+          field: 'uploader.fullname',
           numeric: false,
           html: true,
         },{
-          label: 'PC 2',
-          field: 'pc2',
-          numeric: false,
-          html: true,
-        },{
-          label: 'PC 3',
-          field: 'pc3',
-          numeric: false,
-          html: true,
-        },{
-          label: 'SC 1',
-          field: 'sc1',
-          numeric: false,
-          html: true,
-        },{
-          label: 'SC 2',
-          field: 'sc2',
-          numeric: false,
-          html: true,
-        },{
-          label: 'SC 3',
-          field: 'sc3',
-          numeric: false,
-          html: true,
-        },{
-          label: 'PC 1',
-          field: 'pc1',
-          numeric: false,
-          html: true,
-        },{
-          label: 'PC 2',
-          field: 'pc2',
-          numeric: false,
-          html: true,
-        },{
-          label: 'Nearest Depot',
-          field: 'nearest_depot',
-          numeric: false,
-          html: true,
-        },{
-          label: 'Current S.P',
-          field: 'current_selling_price',
-          numeric: false,
-          html: true,
-        },{
-          label: 'Recommended S.P',
-          field: 'recommended_selling_price',
+          label: 'Uploaded On',
+          field: 'created_at',
           numeric: false,
           html: true,
         }],
@@ -419,7 +383,9 @@
         },
         show_submit_button: false,
         rops : {
-        }
+        },
+
+        fill_form_2: false,
 
       }
     },
@@ -446,11 +412,12 @@
         this.preset.company_id = company_id;
         this.preset.station_id = station_id;
         this.fill_form= false; 
+        this.show_past_report_summary();
         if (this.formstate2.$invalid) {
           return;
         } else if(this.selected_survey_date == ''){
           store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                       'alert_message': 'Please select date to proceed', 'show_alert': true});
+                       'alert_message': 'Please select a survey date to view a detailed report', 'show_alert': true});
            return;
             }
           else {
@@ -490,7 +457,23 @@
           this.available_companies = store.state.available_companies;
           this.show_multi_company = store.state.show_multi_company;
         }
-      }
+      },
+          show_past_report_summary(){
+          store.commit("activateLoader", "start");
+          this.fill_form_2 = true;
+          let user_details = JSON.parse(localStorage.getItem('user_details'));
+           let params= 'station_id='+this.preset.station_id+'&request_type=summary';
+          axios.get(this.$store.state.host_url+"/rops?"+params,
+            {
+              headers : {
+                "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
+                        }
+             }).then(response => {
+                store.commit("activateLoader", "end");   
+                this.tableData = response.data.data;
+
+              });
+      },
       
     },
     mounted: function() {

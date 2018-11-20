@@ -216,6 +216,7 @@
           store.commit("activateLoader", "end");
           return;
          }
+         
          var d_date = new Date(last_transaction.reading_date);
          d_date.setDate(d_date.getDate() + 1);
          this.set_date = moment(d_date).format('YYYY-MM-DD HH:mm:ss');

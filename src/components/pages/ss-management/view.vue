@@ -96,6 +96,7 @@
                                   <th>First Shift Reading</th>
                                   <th>Second Shift Reading</th>
                                   <th>Closing Totalizer Reading</th>
+                                  <th>Calculated Sales(L)</th>
                                    <th>PPV </th>
                                   <th>First Shift Cash Collected</th>
                                   <th>Second Shift Cash Collected</th>
@@ -122,6 +123,10 @@
                                   <td>                                         
                                       <input v-model="close_pump_reading[index].closing_reading" id="rd" :disabled="isDisabled" :name="prd+index" type="number"  placeholder="" class="form-control" />
                                 
+                                  </td>
+                                  <td>               
+                                      <input readonly  v-model="(close_pump_reading[index].closing_reading-close_pump_reading[index].opening_reading).toFixed(2)"  class="form-control" />
+                                     
                                   </td>
                                   <td>                                         
                                       <input v-model="close_pump_reading[index].ppv" id="rd" :disabled="isDisabled" :name="ppv+index" type="number"  placeholder="" class="form-control" />

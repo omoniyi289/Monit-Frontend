@@ -242,7 +242,7 @@
                 <div class="col-sm-12" v-show="show_note_form">
                     <label  class="col-sm-7" for="date">Note for cash difference</label>
                     <br>
-                    <textarea   class="col-sm-7" v-model="deposit.note"  placeholder="Note for cash difference">
+                    <textarea   class="col-sm-7" v-model="deposit.note"  placeholder="Leave a note explaining cash difference">
                    </textarea> 
                       <br><br><br>
                 </div>

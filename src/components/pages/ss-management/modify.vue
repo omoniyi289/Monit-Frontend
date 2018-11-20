@@ -27,6 +27,7 @@
               
               <b-card header-tag="h4" class="bg-info-card" header="Modify Station Data">
                 <div class="row ">
+                  <br>
                   <div class="col-lg-12">               
                     <b-tabs>
                         <b-tab title="Stock Readings" >
@@ -88,7 +89,7 @@
                             </table> 
                             <div class="col-sm-12">
                               <div class="form-group float-right">
-                                <span class="btn btn-success" v-on:click ="isDisabled = !isDisabled">CLICK TO EDIT</span>
+                                <span class="btn btn-success" v-on:click ="isDisabled = !isDisabled">CLICK TO ACTIVATE EDIT</span>
                               </div>
                             </div>
                         </b-tab>
@@ -101,7 +102,8 @@
                                   <th>First Shift Reading</th>
                                   <th>Second Shift Reading</th>
                                   <th>Closing Totalizer Reading</th>
-                                   <th>PPV </th>
+                                  <th>Calculated Sales(L)</th>
+                                  <th>PPV </th>
                                   <th>First Shift Cash Collected</th>
                                   <th>Second Shift Cash Collected</th>
                                   <th>Closing Cash Collected </th>
@@ -127,6 +129,10 @@
                                   <td>                                         
                                       <input v-model="close_pump_reading[index].closing_reading" id="rd" :disabled="isDisabled" :name="prd+index" type="number"  placeholder="" class="form-control" />
                                 
+                                  </td>
+                                  <td>               
+                                      <input readonly  v-model="(close_pump_reading[index].closing_reading-close_pump_reading[index].opening_reading).toFixed(2)"  class="form-control" />
+                                     
                                   </td>
                                   <td>                                         
                                       <input v-model="close_pump_reading[index].ppv" id="rd" :disabled="isDisabled" :name="ppv+index" type="number"  placeholder="" class="form-control" />

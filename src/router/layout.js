@@ -233,6 +233,17 @@ const layout = [{
       title: "View Fuel Price Survey",
 }}
 , {
+    path: '/cops/create',
+      component: resolve => require(['pages/cops/create'], resolve),
+      meta: {
+      title: "Create Commercial Online Pricing Survey",
+}}, {
+    path: '/cops/view',
+      component: resolve => require(['pages/cops/view'], resolve),
+      meta: {
+      title: "View Commercial Online Pricing Survey",
+}}
+, {
     path: '/superadmin/company/manage',
       component: resolve => require(['pages/superadmin-company/manage'], resolve),
       meta: {
