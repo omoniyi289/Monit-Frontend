@@ -1,9 +1,7 @@
 <template>
     <div class="preloader">
-        <div class="spinner">
-            <div class="dot1"></div>
-            <div class="dot2"></div>
-        </div>
+       
+
     </div>
 </template>
 <style scoped>

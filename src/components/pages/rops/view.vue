@@ -14,7 +14,7 @@
                   </template>
                 </csview>
                 <div class="col-lg-3">
-                <i><b>please select date before proceed</b></i>
+                <i><b>select a survey date to view details</b></i>
                     <datepicker :format="format" v-model="selected_survey_date"  placeholder="Select Date"></datepicker>     
                </div>
             <hr>    

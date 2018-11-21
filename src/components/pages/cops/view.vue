@@ -14,14 +14,14 @@
                   </template>
                 </csview>
                 <div class="col-lg-3">
-                <i><b>please select date before proceed</b></i>
+                <i><b>select a survey date to view details</b></i>
                     <datepicker :format="format" v-model="selected_survey_date"  placeholder="Select Date"></datepicker>     
                </div>
             <hr>      
           </div>
 
           <div class="col-sm-12">
-          <b-card header='COPS Form' class="bg-info-card" v-show="fill_form">
+          <b-card header='' class="bg-info-card" v-show="fill_form">
             <vue-form :state="formstate" @submit.prevent="onSubmit" >
               <div class="row">
                 
@@ -47,7 +47,7 @@
                 <div class="col-sm-12" >
                   <br><br>
                   <table class="table  table-striped" >
-                      <tr>
+                      <tr  class="btn-primary" style="font-size: 20px">
                           <th colspan="4"></th>
                           <th colspan="2" style="text-align: center" >PMS</th>
                           <th colspan="2"  style="text-align: center" >AGO</th>
@@ -56,7 +56,7 @@
                           <th colspan="2"  style="text-align: center" >LPG</th>
                       </tr>
                       <tr style="text-align: center">
-                          <th colspan="4" >B2B</th>
+                          <th colspan="4" style="text-align: left" >B2B</th>
                           <th >OMP</th>
                           <th >COMPANY</th>
                           
@@ -73,8 +73,8 @@
                           <th >COMPANY</th>
                       </tr> 
 
-                      <tr>
-                          <th colspan="4" >LOCATION</th>
+                      <tr  class="btn-info">
+                          <th colspan="4">LOCATION</th>
                           <th ></th>
                           <th ></th>
                           
@@ -110,15 +110,9 @@
                       </tr>    
 
 
-                      <tr>
-                          <th colspan="4" >COMPETITOR'S DATA</th>
-                          <th ></th>
-                          <th ></th>
+                      <tr class="btn-info">
+                          <th colspan="9" >COMPETITORS PRICE</th>
                           
-                          <th ></th>
-                          <th ></th>
-                          
-                          <th ></th>
                           <th ></th>
                           
                           <th ></th>
@@ -129,7 +123,7 @@
                       </tr> 
 
                       <tr v-for="n in cops.competitor_data" > 
-                          <td colspan="4"  ><input readonly v-model="n.location" type="text" class="form-control" /> </td>
+                          <td colspan="4"  ><input readonly v-model="n.competitor" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.omp_pms" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_pms" type="text" class="form-control" /> </td>
 
@@ -146,7 +140,7 @@
                          
                       </tr>    
 
-                      <tr>
+                      <tr  class="btn-info">
                           <th colspan="4" >D2D</th>
                           <th ></th>
                           <th ></th>
@@ -165,7 +159,7 @@
                       </tr> 
 
                       <tr v-for="n in cops.d2d_data" > 
-                          <td colspan="4"  ><input readonly v-model="n.location" type="text" class="form-control" /> </td>
+                          <td colspan="4"  ><input readonly v-model="n.d2d" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.omp_pms" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_pms" type="text" class="form-control" /> </td>
 
