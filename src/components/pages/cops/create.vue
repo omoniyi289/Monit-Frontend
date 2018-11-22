@@ -395,6 +395,13 @@
         this.preset.station_id = station_id;
         if (this.formstate2.$invalid) {
           return;
+        }
+        else if(station_id == "" || station_id == 0) {
+          
+          store.commit("showAlertBox", {'alert_type': 'alert-danger',
+                       'alert_message': 'input error, please select a station', 'show_alert': true});
+          return;
+        
         } else {
           this.fill_form= true;
         }},
