@@ -305,7 +305,7 @@
           store.commit("activateLoader", "start");
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           let survey_date = new Date(this.selected_survey_date).toDateString();
-          let params= 'station_id='+this.preset.station_id+'&survey_date='+survey_date;
+          let params= 'company_id='+this.preset.company_id+'&survey_date='+survey_date;
           axios.get(this.$store.state.host_url+"/cops?"+params,
             {
               headers : {
@@ -357,7 +357,7 @@
           store.commit("activateLoader", "start");
           this.fill_form_2 = true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
-           let params= 'station_id='+this.preset.station_id+'&request_type=summary';
+           let params= 'company_id='+this.preset.company_id+'&request_type=summary';
           axios.get(this.$store.state.host_url+"/cops?"+params,
             {
               headers : {
