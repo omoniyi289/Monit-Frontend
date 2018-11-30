@@ -33,6 +33,7 @@
                             <table class="table">
                               <thead>
                                 <tr>
+                                  <th></th>
                                   <th>STATION</th>
                                   <th>PUMP NUMBER</th>
                                   <th>CURRENT TOTALIZER READING</th>
@@ -48,6 +49,7 @@
                               </thead>
                               <tbody>
                                 <tr  v-for="(option, index) in open_pump_reading">
+                                  <th>{{index+1}}</th>
                                   <th>{{option.station_name}}</th>
                                   <th>{{option.combined_pump_nozzle_code}}</th>
                                   <td>                
