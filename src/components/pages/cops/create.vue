@@ -87,7 +87,19 @@
                       </tr> 
 
                       <tr v-for="n in parseInt(cops.location_frequency)" > 
-                          <td colspan="4"  ><input v-model="cops.location_name[n-1]" type="text" class="form-control" /> </td>
+                          <td colspan="4"  >
+                            <select  class="form-control" v-model="cops.location_name[n-1]">
+                              <option value="Anambra" >Anambra </option>
+                              <option value="Enugu" >Enugu </option>
+                              <option value="Kaduna" >Kaduna </option>
+                              <option value="Kano" >Kano </option>
+                              <option value="Lagos Area" >Lagos Area </option>
+                              <option value="Makurdi" >Makurdi </option>
+                              <option value="Suleja" >Suleja </option>
+                            </select>
+                     
+                          </td>
+        
                           <td ><input v-model="cops.location_omp_pms[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.location_company_pms[n-1]" type="text" class="form-control" /> </td>
 
@@ -118,7 +130,18 @@
                       </tr> 
 
                       <tr v-for="n in parseInt(cops.competitor_frequency)" >
-                          <td colspan="4"  ><input v-model="cops.competitor_name[n-1]" type="text" class="form-control" /> </td>
+                          <td colspan="4"  >
+                            <select  class="form-control" v-model="cops.competitor_name[n-1]">
+                              <option value="Oando" >Oando </option>
+                              <option value="Forte Oil" >Forte Oil   </option>
+                              <option value="Total" >Total </option>
+                              <option value="Sahara" >Sahara </option>
+                              <option value="NIPCO" >NIPCO </option>
+                              <option value=" A A Rano " > A A Rano  </option>
+                              <option value="Rahamaniya" >Rahamaniya </option>
+                            </select>
+
+                          </td>
                           <td ><input v-model="cops.competitor_omp_pms[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.competitor_company_pms[n-1]" type="text" class="form-control" /> </td>
 
@@ -154,7 +177,14 @@
                       </tr> 
 
                       <tr v-for="n in parseInt(cops.d2d_frequency)" >
-                          <td colspan="4"  ><input v-model="cops.d2d_name[n-1]" type="text" class="form-control" /> </td>
+                          <td colspan="4"  >
+                            <select  class="form-control" v-model="cops.d2d_name[n-1]">
+                              <option value="Sahara" >Sahara </option>
+                              <option value="Inter Oil" >Inter Oil </option>
+                              <option value="NDYTEX" >NDYTEX </option>
+                              <option value="Oando" >Oando </option>
+                          </select>
+                           </td>
                           <td ><input v-model="cops.d2d_omp_pms[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.d2d_company_pms[n-1]" type="text" class="form-control" /> </td>
 
