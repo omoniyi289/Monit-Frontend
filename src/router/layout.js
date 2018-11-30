@@ -297,6 +297,12 @@ const layout = [{
       meta: {
       title: "View Pump Readings",
 }}
+, {
+    path: '/maintenance/invoice-engineering-company',
+      component: resolve => require(['pages/equipment-maintenance/invoice-engineering-company'], resolve),
+      meta: {
+      title: "Current Invoices Status",
+}}
 
 , {
     path: '/maintenance/manage-pump-maintenance-engineering-company',

@@ -6,44 +6,9 @@
           <div class="col-md-12">
             <vue-form :state="formstate" @submit.prevent="add_company_roles">
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="col-lg-12">
-                      <div class="form-group" v-if="show_multi_company">
-                      <validate tag="div">
-                      Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_roles(preset.company_id)" v-model="preset.company_id" >
-                            <option
-                              v-for="(option, index) in available_companies"
-                              v-bind:value="option.id"
-                              >{{ option.name }}
-                            </option>                       
-                        </select>                     
-                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                          <div slot="requred">Company is required</div>
-                        </field-messages>
-                      </validate>
-                    </div>
-
-                    <div class="form-group" v-if="show_single_company">
-                      <validate tag="div">
-                        Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_roles(preset.company_id)" v-model="preset.company_id" >
-                          <option :value="available_company.id"
-                            >{{ available_company.name }}
-                          </option>
-                          
-                        </select>
-                        
-                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                          <div slot="requred">Company is required</div>
-                        </field-messages>
-                      </validate>
-                    </div>
-                   <!-- <button v-on:click="onclick_add_role = !onclick_add_role" class="btn btn-success">ADD NEW ROLE</button>
-                    -->
-                  </div>
-
-                </div>
+                <cview  v-on:update_comany_id="show_company_roles">
+      
+                </cview> 
 
                 <div class="col-sm-6" v-show="show_setup_form && fill_form">
                   <div class="col-sm-6">
@@ -125,7 +90,8 @@
 </template>
 <script>
   import Vue from 'vue'
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";     import vueSmoothScroll from 'vue-smoothscroll';     Vue.use(vueSmoothScroll);
   import options from "src/validations/validations.js";
   import store from 'src/store/store.js';
@@ -135,7 +101,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
        Multiselect,
     },
     data() {
@@ -244,7 +210,7 @@
 
       show_company_roles(company_id){
           store.commit("activateLoader", "start");
-          //store.commit("showAlertBox", {'alert_type': 'alert-danger', 'alert_message': 'This is sweet', 'show_alert': true});
+          this.preset.company_id= company_id;
           this.show_setup_form= true;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           //let company_id= this.preset.company_id;

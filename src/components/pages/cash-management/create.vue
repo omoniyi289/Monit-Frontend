@@ -335,6 +335,11 @@
           numeric: false,
           html: true,
         },{
+          label: 'Date Expected Total',
+          field: 'date_total_expected_amount',
+          numeric: false,
+          html: true,
+        },{
           label: 'Note',
           field: 'note',
           numeric: false,
@@ -420,7 +425,7 @@
                        'alert_message': 'No sales recorded for the selected date', 'show_alert': true});
                   return ;
                   }
-              this.deposit.expected_amount = parseFloat(response.data.data);
+              this.deposit.expected_amount = parseFloat(response.data.data).toFixed(2);
               this.show_payment_form_details = true;
               this.show_note_form = false;
       })

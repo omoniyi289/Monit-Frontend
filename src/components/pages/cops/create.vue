@@ -3,18 +3,12 @@
     <div class="col-lg-12">
       <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
-          <div class="col-md-12">
-            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
-                  <template slot="actions" slot-scope="props">
-                    <div >
-                      <button class="btn btn-success" 
-                      @click="show_station_rops( props.rowData, props.rowIndex)">Proceed</button>
-                        
-                    </div>
-                  </template>
-                </csview>
-            <hr>    
-          </div>
+         <div class="col-md-12">
+          <cview  v-on:update_comany_id="show_station_cops">
+      
+          </cview>                 
+          <hr>
+         </div>
 
           <div class="col-sm-12">
           <b-card header='' class="bg-info-card" v-show="fill_form">
@@ -204,7 +198,7 @@
   import Vue from 'vue';
   import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";     
   import vueSmoothScroll from 'vue-smoothscroll';     
   Vue.use(vueSmoothScroll);
@@ -215,7 +209,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
       Datepicker,
     },
     data() {
@@ -383,36 +377,19 @@
           store.commit("catch_errors", error); 
         });
       },
-      show_details_inputs(selected){
-        if(selected == 'POS'){
-            this.show_pos_details = true;
-            this.show_bank_details = false;
-        }else if(selected == 'Cash Deposit'){
-            this.show_pos_details = false;
-            this.show_bank_details = true;
-        }
-      },
-         show_station_rops(station_id, company_id){
-        this.preset.company_id = company_id;
-        this.preset.station_id = station_id;
-        if (this.formstate2.$invalid) {
-          return;
-        }
-        // else if(station_id == "" || station_id == 0) {
 
-        //   store.commit("showAlertBox", {'alert_type': 'alert-danger',
-        //                'alert_message': 'input error, please select a station', 'show_alert': true});
-        //   return;
-        
-        // } 
-        else {
+      
+      show_station_cops(company_id){
+          this.preset.company_id = company_id;
           this.fill_form= true;
-        }},
+        },
+
       show_available_companies(){ 
         this.products = store.state.products;
         if(store.state.show_single_company){
           this.available_company = store.state.available_company;
           this.show_single_company = store.state.show_single_company;
+          this.preset.company_id = this.available_company.id;
         }else if(store.state.show_multi_company == true){
           this.available_companies = store.state.available_companies;
           this.show_multi_company = store.state.show_multi_company;
@@ -457,7 +434,7 @@
               this.tableData.push(api_response.data);
              
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Suvey Submitted Successfully', 'show_alert': true});
+                       'alert_message': 'Survey Submitted Successfully', 'show_alert': true});
               this.formstate.$submitted=false;
               
             }

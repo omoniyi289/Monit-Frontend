@@ -4,44 +4,14 @@
             <b-card header="" header-tag="h4" class="bg-info-card">
                 <div class="row">
                     <div class="col-md-12">
-                        <vue-form :state="formstate2" @submit.prevent="show_company_stations">
+                       
                             <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group" v-if="show_multi_company">
-                                        <validate tag="div">
-                                       Select Company
-                                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
-                                            <option
-                                                v-for="(option, index) in available_companies"
-                                                v-bind:value="option.id"
-                                                >{{ option.name }}
-                                            </option>                       
-                                        </select>                     
-                                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                                            <div slot="requred">Company is required</div>
-                                        </field-messages>
-                                        </validate>
-                                    </div>
-
-                                    <div class="form-group" v-if="show_single_company">
-                                        <validate tag="div">
-                                        Select Company
-                                        <select  name="company" size="1" class="form-control" v-on:change="show_company_stations(preset.company_id)" v-model="preset.company_id" >
-                                            <option :value="available_company.id"
-                                            >{{ available_company.name }}
-                                            </option>
-                                            
-                                        </select>
-                                        
-                                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                                            <div slot="requred">Company is required</div>
-                                        </field-messages>
-                                        </validate>
-                                    </div>
-                                </div>
+                                 <cview  v-on:update_comany_id="show_company_stations">
+      
+                                 </cview>
 
                             </div>
-                        </vue-form>
+                        
                         <hr>
                     </div>
                     <div class="col-md-6">
@@ -501,7 +471,7 @@
     import Vue from 'vue'; 
     import store from 'src/store/store.js';
     import datatable from "components/plugins/DataTable/DataTable.vue";
-    import csview from "components/plugins/Company-Station-View/CSView.vue";
+    import cview from "components/plugins/Company-Station-View/CompanyView.vue";
     import VueForm from "vue-form";     
     import vueSmoothScroll from 'vue-smoothscroll';     
     Vue.use(vueSmoothScroll);
@@ -512,7 +482,8 @@
         name: "formfeatures",
         components: {
             datatable,
-            Datepicker
+            Datepicker,
+            cview
         },
         data() {
             return {columndata: [ {
@@ -608,21 +579,21 @@
         },
         methods: {
              button_toggle(){
-        this.fill_form = !this.fill_form;
-        if(this.button_text == "ADD A NEW STATION"){
-        this.button_text = "HIDE FORM";
-        }else if("HIDE FORM"){
-          this.button_text = "ADD A NEW STATION";
-        }
-      },
-            show_company_stations(){
+                this.fill_form = !this.fill_form;
+                if(this.button_text == "ADD A NEW STATION"){
+                this.button_text = "HIDE FORM";
+                }else if("HIDE FORM"){
+                  this.button_text = "ADD A NEW STATION";
+                }
+            },
+            show_company_stations(company_id){
 
                 if (this.formstate2.$invalid) {
                     return;
                 } else {store.commit("activateLoader", "start");
                     this.show_setup_form= true;
                     let user_details = JSON.parse(localStorage.getItem('user_details'));
-                    let company_id= this.preset.company_id;
+                    this.preset.company_id = company_id;
                     axios.get(this.$store.state.host_url+"/stations/by_company/"+company_id,
                         {
                             headers : {

@@ -536,7 +536,7 @@
               this.tableData.push(api_response.data);
              
               store.commit("showAlertBox", {'alert_type': 'alert-success',
-                       'alert_message': 'Suvey Submitted Successfully', 'show_alert': true});
+                       'alert_message': 'Survey Submitted Successfully', 'show_alert': true});
               this.formstate.$submitted=false;
               this.fill_form = !this.fill_form;
               this.rops= {};

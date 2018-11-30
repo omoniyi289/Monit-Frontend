@@ -37,11 +37,11 @@
                                   <th>PUMP NUMBER</th>
                                   <th>CURRENT TOTALIZER READING</th>
                                   <th>>=500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
+                                   Issue Date <br> Invoice Number<br> Payment Status</th>
                                   <th> >=1,500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
+                                   Issue Date <br> Invoice Numbe0<br> Payment Statusr</th>
                                   <th> >=2,500,000 LITRES VOLUME CATEGORY<hr>
-                                   Issue Date <br> Invoice Number</th>
+                                   Issue Date <br> Invoice Number<br> Payment Status</th>
                                   <th>NOTE</th>
                                   
                                 </tr>
@@ -62,7 +62,18 @@
                                       
                                       <input v-if="open_pump_reading[index].combined_totalizer_reading >= 500000" id="cr"  type="text" v-model="open_pump_reading[index].D_invoice_number"  placeholder="Invoice Number" class="form-control" />
                                      
-                                      <input  v-if="open_pump_reading[index].combined_totalizer_reading < 500000"  id="cr"  type="text" v-model="open_pump_reading[index].D_invoice_number" readonly="" placeholder="Invoice Number" class="form-control" />    
+                                      <input  v-if="open_pump_reading[index].combined_totalizer_reading < 500000"  id="cr"  type="text" v-model="open_pump_reading[index].D_invoice_number" readonly="" placeholder="Invoice Number" class="form-control" />
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading >= 500000"  v-model="open_pump_reading[index].D_payment_status"   >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading < 500000"  v-model="open_pump_reading[index].D_payment_status" disabled  >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
+
                                   </td>
 
                                   <td>                
@@ -75,6 +86,16 @@
                                       <input v-if="open_pump_reading[index].combined_totalizer_reading >= 1500000" id="cr"  type="text" v-model="open_pump_reading[index].MD_invoice_number"  placeholder="Invoice Number" class="form-control" />
 
                                       <input v-if="open_pump_reading[index].combined_totalizer_reading < 1500000"  id="cr" readonly type="text" v-model="open_pump_reading[index].MD_invoice_number"  placeholder="Invoice Number" class="form-control" />
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading >= 1500000"  v-model="open_pump_reading[index].MD_payment_status"   >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading < 1500000"  v-model="open_pump_reading[index].MD_payment_status" disabled  >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
                                             
                                   </td>
 
@@ -87,6 +108,18 @@
                                       <input v-if="open_pump_reading[index].combined_totalizer_reading >= 2500000" id="cr"  type="text" v-model="open_pump_reading[index].MMD_invoice_number"  placeholder="Invoice Number" class="form-control" />
 
                                       <input v-if="open_pump_reading[index].combined_totalizer_reading < 2500000" id="cr" readonly  type="text" v-model="open_pump_reading[index].MMD_invoice_number"  placeholder="Invoice Number" class="form-control" />
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading >= 2500000"  v-model="open_pump_reading[index].MMD_payment_status"   >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
+
+                                      <select v-if="open_pump_reading[index].combined_totalizer_reading < 2500000"  v-model="open_pump_reading[index].MMD_payment_status" disabled  >
+                                        <option value="Paid">Paid</option>
+                                        <option selected value="Unpaid">Unpaid</option>
+                                      </select>
+
+                                     
                                             
                                   </td>
 
@@ -280,6 +313,9 @@
             'D_maintenenance_date': ( element.past_log.D_maintenenance_date), 
             'MD_maintenenance_date': ( element.past_log.MD_maintenenance_date), 
             'MMD_maintenenance_date': ( element.past_log.MMD_maintenenance_date),
+            'D_payment_status': ( element.past_log.D_payment_status), 
+            'MD_payment_status': ( element.past_log.MD_payment_status), 
+            'MMD_payment_status': ( element.past_log.MMD_payment_status),
                
              'serial' : number, 'note' :''});            
             });

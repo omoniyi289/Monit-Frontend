@@ -6,45 +6,9 @@
           <div class="col-md-12">
             <vue-form :state="formstate" @submit.prevent="add_company_regions">
               <div class="row">
-                <div class="col-sm-6">
-                  <div class="col-lg-12">
-                      <div class="form-group" v-if="show_multi_company">
-                      <validate tag="div">
-                      Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_regions(preset.company_id)" v-model="preset.company_id" >
-                            <option
-                              v-for="(option, index) in available_companies"
-                              v-bind:value="option.id"
-                              >{{ option.name }}
-                            </option>                       
-                        </select>                     
-                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                          <div slot="requred">Company is required</div>
-                        </field-messages>
-                      </validate>
-                    </div>
-
-                    <div class="form-group" v-if="show_single_company">
-                      <validate tag="div">
-                        Select Company
-                        <select  name="company"  size="1" class="form-control" v-on:change="show_company_regions(preset.company_id)" v-model="preset.company_id" >
-                          <option :value="available_company.id"
-                            >{{ available_company.name }}
-                          </option>
-                          
-                        </select>
-                        
-                        <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                          <div slot="requred">Company is required</div>
-                        </field-messages>
-                      </validate>
-                    </div>
-                   <!-- <button v-on:click="onclick_add_region = !onclick_add_region" class="btn btn-success">ADD NEW REGION</button>
-                    -->
-                  </div>
-
-                </div>
-
+                  <cview  v-on:update_comany_id="show_company_regions">
+                  </cview>
+              
                 <div class="col-sm-6" v-show="show_setup_form && fill_form">
                   <div class="col-sm-6">
                   <div class="form-group">
@@ -146,7 +110,7 @@
 <script>
   import Vue from 'vue'
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";    
    import vueSmoothScroll from 'vue-smoothscroll';  
       Vue.use(vueSmoothScroll);
@@ -158,7 +122,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
        Multiselect,
     },
     data() {
@@ -243,6 +207,7 @@
       show_company_regions(company_id){
           store.commit("activateLoader", "start");
           this.show_setup_form= true;
+          this.preset.company_id= company_id;
           let user_details = JSON.parse(localStorage.getItem('user_details'));
           //get stations
           this.company_stations_null= "No stations added yet, please add stations under configuration to proceed with creating regions";
@@ -358,7 +323,7 @@
         store.commit("activateLoader", "start");
         store.commit("showPermAlertBox", {'alert_type': 'alert-warning',
                        'alert_message': '...Processing Request...', 'show_alert': true});
-        this.region.station_id= this.preset.station_id;
+        
         this.region.company_id= this.preset.company_id;
           // //console.log(this.region);
         //   let new_ids=[];

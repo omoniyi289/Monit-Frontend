@@ -466,7 +466,7 @@ export default {
                                 });      
                             var current_index = menu_items.length-1;  
 
-                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
+                            if(permissions.includes('PMM60')  ){
                             menu_items[current_index].child.push({
                                 name: 'View Pump Readings',
                                 link: '/maintenance/pump',
@@ -474,7 +474,7 @@ export default {
                             });
                             }
 
-                            if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
+                            if(permissions.includes('MML60') ){
                             menu_items[current_index].child.push({
                                 name: 'Manage Pump Maintenance Log',
                                 link: '/maintenance/manage-pump-maintenance',
@@ -491,7 +491,13 @@ export default {
                                 });      
                             var current_index = menu_items.length-1;  
 
-                             if(permissions.includes('MML60') ||  permissions.includes('EN-MML60')){
+                            menu_items[current_index].child.push({
+                                name: 'Current Invoices Status',
+                                link: '/maintenance/invoice-engineering-company',
+                                icon: 'fa fa-angle-double-right'
+                            });
+                         
+                             if( permissions.includes('EN-MML60')){
                             menu_items[current_index].child.push({
                                 name: 'Manage Pump Maintenance Log',
                                 link: '/maintenance/manage-pump-maintenance-engineering-company',
@@ -499,7 +505,7 @@ export default {
                             });
                             }
 
-                            if(permissions.includes('PMM60') ||  permissions.includes('EN-PMM60') ){
+                            if( permissions.includes('EN-PMM60') ){
                             menu_items[current_index].child.push({
                                 name: 'View/Download Pump Readings',
                                 link: '/maintenance/pump-engineering-company',
@@ -507,8 +513,7 @@ export default {
                             });
                             }
 
-                           
-
+                            
                             }
 
         ///SUPERADMIN Mgt

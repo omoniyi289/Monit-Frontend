@@ -4,18 +4,16 @@
       <b-card header="" header-tag="h4" class="bg-info-card">
         <div class="row">
           <div class="col-md-12">
-            <csview title="Custom Table"  :companies="available_companies" :stations="company_stations">
-                  <template slot="actions" slot-scope="props">
-                    <div >
-                      <button class="btn btn-success" 
-                      @click="show_station_cops( props.rowData, props.rowIndex)">Proceed</button>
-                        
-                    </div>
-                  </template>
-                </csview>
-                <div class="col-lg-3">
+            
+                <cview  v-on:update_comany_id="show_station_cops">
+      
+                </cview>      
+                <div class="col-lg-5">
                 <i><b>select a survey date to view details</b></i>
-                    <datepicker :format="format" v-model="selected_survey_date"  placeholder="Select Date"></datepicker>     
+                    <datepicker :format="format" v-model="selected_survey_date"  placeholder="Select Date"></datepicker>  
+
+                    <button class="btn btn-success" 
+                      @click="show_station_cops(preset.company_id)">Proceed</button>    
                </div>
             <hr>      
           </div>
@@ -204,7 +202,7 @@
   import Vue from 'vue';
   import store from 'src/store/store.js';
   import datatable from "components/plugins/DataTable/DataTable.vue";
-  import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";     
   import vueSmoothScroll from 'vue-smoothscroll';     
   Vue.use(vueSmoothScroll);
@@ -215,7 +213,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
       Datepicker,
     },
     data() {
@@ -289,9 +287,8 @@
           store.commit("catch_errors", error); 
         });
       },
-         show_station_cops(station_id, company_id){
+      show_station_cops( company_id){
         this.preset.company_id = company_id;
-        this.preset.station_id = station_id;
         this.fill_form= false; 
         this.show_past_report_summary();
         if (this.formstate2.$invalid) {

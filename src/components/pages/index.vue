@@ -307,8 +307,8 @@
             }
            //import excpetion for engineering companies not to see dashboard
             let user_details = JSON.parse(localStorage.getItem('user_details'));
-            if(store.user_permission_slugs != undefined && store.user_permission_slugs.includes("EN-PMM60") &&  user_details.company_id !='master'){
-               window.location.href = "/#/maintenance/manage-pump-maintenance-engineering-company"; 
+            if(store.user_permission_slugs != undefined && ( store.user_permission_slugs.includes("EN-PMM60") ||  store.user_permission_slugs.includes("EN-MML60 ")  ) &&  user_details.company_id !='master'){
+               window.location.href = "/#/maintenance/invoice-engineering-company"; 
             }
             this.populate_dashboard();
           

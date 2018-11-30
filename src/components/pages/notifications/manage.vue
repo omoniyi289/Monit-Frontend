@@ -6,41 +6,9 @@
           <div class="col-md-12">
             <vue-form :state="formstate" @submit.prevent="onSubmit">
               <div class="row">
-                <div class="col-lg-6">
-                  <div class="col-lg-12">
-                  <div class="form-group" v-if="show_multi_company">
-                    <validate tag="div">
-                      Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="load_company_notifications(preset.company_id)" v-model="preset.company_id" >
-                          <option
-                            v-for="(option, index) in available_companies"
-                            v-bind:value="option.id"
-                            >{{ option.name }}
-                          </option>                       
-                      </select>                     
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-
-                  <div class="form-group" v-if="show_single_company">
-                    <validate tag="div">
-                      Select Company
-                      <select  name="company" size="1" class="form-control" v-on:change="load_company_notifications(preset.company_id)" v-model="preset.company_id" >
-                        <option :value="available_company.id"
-                          >{{ available_company.name }}
-                        </option>
-                        
-                      </select>
-                      
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
-                </div>
+                <cview  v-on:update_comany_id="load_company_notifications">
+      
+                </cview>
 
               <div class="col-lg-6">
               </div>
@@ -158,7 +126,8 @@
 </template>
 <script>
   import Vue from 'vue'; import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";    
   import vueSmoothScroll from 'vue-smoothscroll'; 
   Vue.use(vueSmoothScroll);
@@ -169,7 +138,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
       Multiselect,
     },
     data() {

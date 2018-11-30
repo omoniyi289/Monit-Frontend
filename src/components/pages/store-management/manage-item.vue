@@ -6,39 +6,9 @@
           <div class="col-md-12">
             <vue-form :state="formstate" @submit.prevent="onSubmit">
               <div class="row">
-                <div class="col-lg-5">
-                  <div class="form-group" v-if="show_multi_company">
-                    <validate tag="div">
-                      Select Company
-                      <select  name="company"  size="1" class="form-control" v-on:change="show_company_items(preset.company_id)" v-model="preset.company_id" >
-                          <option
-                            v-for="(option, index) in available_companies"
-                            v-bind:value="option.id"
-                            >{{ option.name }}
-                          </option>                       
-                      </select>                     
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
+                <cview  v-on:update_comany_id="show_company_items">
+                </cview>
 
-                  <div class="form-group" v-if="show_single_company">
-                    <validate tag="div">
-                      Select Company
-                      <select  name="company" size="1" class="form-control" v-on:change="show_company_items(preset.company_id)" v-model="preset.company_id" >
-                        <option :value="available_company.id"
-                          >{{ available_company.name }}
-                        </option>
-                        
-                      </select>
-                      
-                      <field-messages name="company" show="$invalid && $submitted" class="text-danger">
-                        <div slot="requred">Company is required</div>
-                      </field-messages>
-                    </validate>
-                  </div>
-                </div>
               <div class="col-lg-5" v-show="show_setup_form && fill_form" >
                 
                 <div class="col-sm-12">
@@ -299,7 +269,8 @@
 </template>
 <script>
   import Vue from 'vue'; import store from 'src/store/store.js';
-  import datatable from "components/plugins/DataTable/DataTable.vue";import csview from "components/plugins/Company-Station-View/CSView.vue";
+  import datatable from "components/plugins/DataTable/DataTable.vue";
+  import cview from "components/plugins/Company-Station-View/CompanyView.vue";
   import VueForm from "vue-form";    
   import vueSmoothScroll from 'vue-smoothscroll'; 
   Vue.use(vueSmoothScroll);
@@ -311,7 +282,7 @@
   export default {
     name: "formfeatures",
     components: {
-      datatable,csview,
+      datatable,cview,
       Multiselect,
       Datepicker,
     },
@@ -465,11 +436,12 @@
           this.button_text_2 = "ADD NEW ITEM VARIANT";
         }
         },
-      show_company_items(company_name){
+      show_company_items(company_id){
+        this.preset.company_id= company_id;
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         
-        axios.get(this.$store.state.host_url+"/items/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/items/by_company/"+company_id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"

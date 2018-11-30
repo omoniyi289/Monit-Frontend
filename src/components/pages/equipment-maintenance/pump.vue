@@ -1,4 +1,4 @@
-<template>
+`<template>
   <div class="row">
     <div class="col-lg-12">
       <b-card header="" header-tag="h4" class="bg-info-card">
@@ -35,6 +35,16 @@
                   <option value="2500000"> >=2,500,000 Litres</option>
                 </select>     
             </div>
+
+            <div class="col-lg-2">  
+            Payment Status            
+                <select class="form-control" v-model="selected_payment_status">
+                  <option selected value=""> All Categories</option>
+                  <option value="Paid"> Paid</option>
+                  <option value="Unpaid"> Unpaid</option>
+                </select>     
+            </div>
+
           <br><br><br>
           <div class="col-md-12">
            
@@ -149,6 +159,11 @@
           numeric: false,
           html: false,
         }, {
+          label: '@ 500,000L Payment Status',
+          field: 'D_payment',
+          numeric: false,
+          html: false,
+        }, {
           label: '@ 1,500,000L Issue Date',
           field: 'MD_issue_date',
           numeric: false,
@@ -156,6 +171,11 @@
         }, {
           label: '@ 1,500,000L Invoice Number',
           field: 'MD_invoice_number',
+          numeric: false,
+          html: false,
+        }, {
+          label: '@ 1,500,000L Payment Status',
+          field: 'MD_payment',
           numeric: false,
           html: false,
         }, {
@@ -168,10 +188,15 @@
           field: 'MMD_invoice_number',
           numeric: false,
           html: false,
+        }, {
+          label: '@ 2,500,000L Payment Status',
+          field: 'MMD_payment',
+          numeric: false,
+          html: false,
         }],
         ajaxLoading: true,
         loading: true,
-        url: this.$store.state.host_url+'/product_price_change',
+        url: this.$store.state.host_url+'/',
         formstate: {},
         formstate2: {},
         show_setup_form : false,
@@ -179,6 +204,7 @@
         available_companies: [],
         available_company: [],
         selected_volume_category: '',
+        selected_payment_status: '',
         products: "",
         format: 'yyyy-MM-dd',
         set_date: "",
@@ -250,7 +276,7 @@
           d_date.setDate(d_date.getDate());
           this.selected_end_date = moment(d_date).format('YYYY-MM-DD');
 
-          let params = 'station_id='+this.preset.station_id+'&start_date='+this.selected_start_date+'&end_date='+this.selected_end_date+'&volume_category='+this.selected_volume_category; 
+          let params = 'station_id='+this.preset.station_id+'&start_date='+this.selected_start_date+'&end_date='+this.selected_end_date+'&volume_category='+this.selected_volume_category+'&payment_status='+this.selected_payment_status; 
          
           axios.get(this.$store.state.host_url+"/equipment_maintenance/pump_readings?"+params,
             {
@@ -265,13 +291,17 @@
                 'combined_totalizer_reading': parseFloat(element.combined_totalizer_reading).toFixed(2), 
                 'combined_min_reading': parseFloat(element.combined_min_reading).toFixed(2), 
                 'combined_max_reading': parseFloat(element.combined_max_reading).toFixed(2), 
-                 'total_sales': parseFloat(element.combined_max_reading - element.combined_min_reading).toFixed(2),
+                 'total_sales': parseFloat(element.combined_max_reading - element.combined_min_reading).toFixed(2), 
                 'D_issue_date': ( element.past_log.D_issue_date), 
                 'MD_issue_date': ( element.past_log.MD_issue_date), 
                 'MMD_issue_date': ( element.past_log.MMD_issue_date), 
                 'D_invoice_number': ( element.past_log.D_invoice_number), 
                 'MD_invoice_number': ( element.past_log.MD_invoice_number), 
-                'MMD_invoice_number': ( element.past_log.MMD_invoice_number)});
+                'MMD_invoice_number': ( element.past_log.MMD_invoice_number),
+              'D_payment': ( element.past_log.MD_payment), 
+                'MD_payment': ( element.past_log.MD_payment), 
+                'MMD_payment': ( element.past_log.MMD_payment)
+                  });
                  });
                 store.commit("activateLoader", "end"); 
                   }) 
