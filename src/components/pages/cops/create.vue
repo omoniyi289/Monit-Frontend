@@ -95,7 +95,21 @@
                               <option value="Kano" >Kano </option>
                               <option value="Lagos Area" >Lagos Area </option>
                               <option value="Makurdi" >Makurdi </option>
+                              <option value="Benin" >Benin </option>
+                              <option value="Calabar" >Calabar </option>
                               <option value="Suleja" >Suleja </option>
+                              <option value="Gombe" >Gombe </option>
+                              <option value="Gusau" >Gusau </option>                
+                              <option value="Ibadan" >Ibadan </option>
+                              <option value="Aba" >Aba </option>
+                              <option value="Ilorin" >Ilorin </option>             
+                              <option value="Jos" >Jos </option>
+                              <option value="Minna" >Minna </option>
+                              <option value="Ore" >Ore </option>
+                              <option value="Owerri" >Owerri </option>
+                              <option value="Port Harcourt" >Port Harcourt </option>
+                              <option value="Warri" >Warri </option>
+                              <option value="Yola" >Yola </option>
                             </select>
                      
                           </td>
@@ -137,8 +151,15 @@
                               <option value="Total" >Total </option>
                               <option value="Sahara" >Sahara </option>
                               <option value="NIPCO" >NIPCO </option>
-                              <option value=" A A Rano " > A A Rano  </option>
+                              <option value="A A Rano" > A A Rano  </option>
                               <option value="Rahamaniya" >Rahamaniya </option>
+                              <option value="Prudent Oil" >Prudent Oil   </option>
+                              <option value="MRS" >MRS </option>
+                              <option value="Petrocam" >Petrocam </option>
+                              <option value="Second Coming" >Second Coming </option>
+                              <option value="OVH" > OVH  </option>
+                              <option value="Oko Oba/Ikeja" >Oko Oba/Ikeja </option>
+
                             </select>
 
                           </td>
