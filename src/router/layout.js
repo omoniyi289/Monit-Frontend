@@ -242,6 +242,11 @@ const layout = [{
       component: resolve => require(['pages/cops/view'], resolve),
       meta: {
       title: "View Commercial Online Pricing Survey",
+}}, {
+    path: '/cops/cops_lcd_config',
+      component: resolve => require(['pages/cops/cops_lcd_config'], resolve),
+      meta: {
+      title: "Configure locations, D2D and Competitors for COPS",
 }}
 , {
     path: '/superadmin/company/manage',

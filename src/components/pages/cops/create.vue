@@ -89,27 +89,9 @@
                       <tr v-for="n in parseInt(cops.location_frequency)" > 
                           <td colspan="4"  >
                             <select  class="form-control" v-model="cops.location_name[n-1]">
-                              <option value="Anambra" >Anambra </option>
-                              <option value="Enugu" >Enugu </option>
-                              <option value="Kaduna" >Kaduna </option>
-                              <option value="Kano" >Kano </option>
-                              <option value="Lagos Area" >Lagos Area </option>
-                              <option value="Makurdi" >Makurdi </option>
-                              <option value="Benin" >Benin </option>
-                              <option value="Calabar" >Calabar </option>
-                              <option value="Suleja" >Suleja </option>
-                              <option value="Gombe" >Gombe </option>
-                              <option value="Gusau" >Gusau </option>                
-                              <option value="Ibadan" >Ibadan </option>
-                              <option value="Aba" >Aba </option>
-                              <option value="Ilorin" >Ilorin </option>             
-                              <option value="Jos" >Jos </option>
-                              <option value="Minna" >Minna </option>
-                              <option value="Ore" >Ore </option>
-                              <option value="Owerri" >Owerri </option>
-                              <option value="Port Harcourt" >Port Harcourt </option>
-                              <option value="Warri" >Warri </option>
-                              <option value="Yola" >Yola </option>
+                             <option v-for="(option, index) in locations"
+                                                v-bind:value="option.name" >{{ option.name }}
+                                    </option> 
                             </select>
                      
                           </td>
@@ -146,19 +128,9 @@
                       <tr v-for="n in parseInt(cops.competitor_frequency)" >
                           <td colspan="4"  >
                             <select  class="form-control" v-model="cops.competitor_name[n-1]">
-                              <option value="Oando" >Oando </option>
-                              <option value="Forte Oil" >Forte Oil   </option>
-                              <option value="Total" >Total </option>
-                              <option value="Sahara" >Sahara </option>
-                              <option value="NIPCO" >NIPCO </option>
-                              <option value="A A Rano" > A A Rano  </option>
-                              <option value="Rahamaniya" >Rahamaniya </option>
-                              <option value="Prudent Oil" >Prudent Oil   </option>
-                              <option value="MRS" >MRS </option>
-                              <option value="Petrocam" >Petrocam </option>
-                              <option value="Second Coming" >Second Coming </option>
-                              <option value="OVH" > OVH  </option>
-                              <option value="Oko Oba/Ikeja" >Oko Oba/Ikeja </option>
+                              <option v-for="(option, index) in competitors"
+                                                v-bind:value="option.name" >{{ option.name }}
+                              </option>   
 
                             </select>
 
@@ -200,10 +172,9 @@
                       <tr v-for="n in parseInt(cops.d2d_frequency)" >
                           <td colspan="4"  >
                             <select  class="form-control" v-model="cops.d2d_name[n-1]">
-                              <option value="Sahara" >Sahara </option>
-                              <option value="Inter Oil" >Inter Oil </option>
-                              <option value="NDYTEX" >NDYTEX </option>
-                              <option value="Oando" >Oando </option>
+                              <option v-for="(option, index) in d2ds"
+                                                v-bind:value="option.name" >{{ option.name }}
+                              </option> 
                           </select>
                            </td>
                           <td ><input v-model="cops.d2d_omp_pms[n-1]" type="text" class="form-control" /> </td>
@@ -341,6 +312,9 @@
         show_single_company: false,
         show_multi_company: false,
         available_banks : '',
+        locations:[],
+        d2ds: [],
+        competitors: [],
         available_companies: "",
         button_text: "ADD NEW SURVEY",
         selected_survey_date: "",
@@ -359,7 +333,6 @@
           d2d_name: [],
           location_name: [],
           competitor_name: [],
-
           d2d_omp_pms:[],
           d2d_omp_ago:[],
           d2d_omp_dpk:[],
@@ -410,17 +383,26 @@
         }
       },
      
-      show_company_stations(company_name){
+      get_company_config(company_id){
         store.commit("activateLoader", "start");
         let user_details = JSON.parse(localStorage.getItem('user_details'));
         //let company_name= this.preset.company_name;
-        axios.get(this.$store.state.host_url+"/stations/by_company/"+company_name,
+        axios.get(this.$store.state.host_url+"/cops_lcd_config/by_company/"+company_id,
           {
             headers : {
               "Authorization" : "Bearer " + user_details.token,  "Cache-Control": "no-cache"
             }}).then(response => {
               store.commit("activateLoader", "end");   
-              this.company_stations = response.data.data;
+              let config = response.data.data;
+              config.forEach(item =>{
+                if(item.type == 'Location'){
+                  this.locations.push(item);
+                }else if(item.type == 'Competition'){
+                  this.competitors.push(item);
+                }else if(item.type == 'D2D'){
+                  this.d2ds.push(item);
+                }
+              }); 
 
       })
       .catch(function(error) {
@@ -433,6 +415,7 @@
       show_station_cops(company_id){
           this.preset.company_id = company_id;
           this.fill_form= true;
+          this.get_company_config(company_id);
         },
 
       show_available_companies(){ 

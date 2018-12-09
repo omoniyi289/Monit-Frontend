@@ -419,7 +419,12 @@ export default {
             menu_items.push({
                     name: 'Commercial Online Price Survey',
                     icon: 'fa fa-money',
-                    child: [{
+                    child: [
+                        {
+                        name: 'COPS Config',
+                        link: '/cops/cops_lcd_config',
+                        icon: 'fa fa-angle-double-right'
+                        },{
                         name: 'Submit Survey',
                         link: '/cops/create',
                         icon: 'fa fa-angle-double-right'
