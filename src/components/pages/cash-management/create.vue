@@ -528,10 +528,10 @@
           }
            console.log(this.deposit.note);
           console.log(total_amount_filled);
-
-          if( ( (this.deposit.expected_amount - total_amount_filled) > 200 || (this.deposit.expected_amount - total_amount_filled) < -200) && (this.deposit.note == "") ){
+          let cash_difference = Math.abs(parseFloat(this.deposit.expected_amount - total_amount_filled));
+          if( (cash_difference > 1 ) && (this.deposit.note == "") ){
               store.commit("showAlertBox", {'alert_type': 'alert-danger',
-                         'alert_message': 'A difference of over NGN 200.00 is detected, please fill the note below stating the reason', 'show_alert': true});
+                         'alert_message': 'A difference of N'+cash_difference.toFixed(2).toLocaleString()+' is detected, please fill the note below stating the reason', 'show_alert': true});
               store.commit("activateLoader", "end");
               this.show_note_form = true;
               return;
