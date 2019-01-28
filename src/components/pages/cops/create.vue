@@ -47,8 +47,8 @@
                           <th colspan="2" style="text-align: center" >PMS</th>
                           <th colspan="2"  style="text-align: center" >AGO</th>
                           <th colspan="2"  style="text-align: center">DPK</th>
-                          <th colspan="2"  style="text-align: center" >LUBES</th>
-                          <th colspan="2"  style="text-align: center" >LPG</th>
+                          <!-- <th colspan="2"  style="text-align: center" >LUBES</th> -->
+                          <th colspan="2"  style="text-align: center" >LPG (12.5kg)</th>
                       </tr>
                       <tr style="text-align: center">
                           <th colspan="4" style="text-align: left" >B2B</th>
@@ -61,8 +61,8 @@
                           <th >OMP</th>
                           <th >COMPANY</th>
                           
-                          <th >OMP</th>
-                          <th >COMPANY</th>
+                          <!-- <th >OMP</th>
+                          <th >COMPANY</th> -->
 
                           <th >OMP</th>
                           <th >COMPANY</th>
@@ -79,8 +79,8 @@
                           <th ></th>
                           <th ></th>
                           
-                          <th ></th>
-                          <th ></th>
+                          <!-- <th ></th>
+                          <th ></th> -->
 
                           <th ></th>
                           <th ></th>
@@ -101,11 +101,13 @@
 
                           <td ><input v-model="cops.location_omp_ago[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.location_company_ago[n-1]" type="text" class="form-control" /> </td>
+                          
                           <td ><input v-model="cops.location_omp_dpk[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.location_company_dpk[n-1]" type="text" class="form-control" /> </td>
-                          <td ><input v-model="cops.location_omp_lube[n-1]" type="text" class="form-control" /> </td>
+                          
+                          <!-- <td ><input v-model="cops.location_omp_lube[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.location_company_lube[n-1]" type="text" class="form-control" /> </td>
-
+ -->
                           <td ><input v-model="cops.location_omp_lpg[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.location_company_lpg[n-1]" type="text" class="form-control" /> </td>
                           
@@ -121,8 +123,8 @@
                           <th ></th>
                           <th ></th>
 
-                          <th ></th>
-                          <th ></th>
+                          <!-- <th ></th>
+                          <th ></th> -->
                       </tr> 
 
                       <tr v-for="n in parseInt(cops.competitor_frequency)" >
@@ -144,8 +146,8 @@
                           <td ><input v-model="cops.competitor_omp_dpk[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.competitor_company_dpk[n-1]" type="text" class="form-control" /> </td>
 
-                          <td ><input v-model="cops.competitor_omp_lube[n-1]" type="text" class="form-control" /> </td>
-                          <td ><input v-model="cops.competitor_company_lube[n-1]" type="text" class="form-control" /> </td>
+                          <!-- <td ><input v-model="cops.competitor_omp_lube[n-1]" type="text" class="form-control" /> </td>
+                          <td ><input v-model="cops.competitor_company_lube[n-1]" type="text" class="form-control" /> </td> -->
 
                           <td ><input v-model="cops.competitor_omp_lpg[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.competitor_company_lpg[n-1]" type="text" class="form-control" /> </td>
@@ -162,8 +164,8 @@
                           <th ></th>
                           <th ></th>
                           
-                          <th ></th>
-                          <th ></th>
+                          <!-- <th ></th>
+                          <th ></th> -->
 
                           <th ></th>
                           <th ></th>
@@ -186,9 +188,9 @@
                           <td ><input v-model="cops.d2d_omp_dpk[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.d2d_company_dpk[n-1]" type="text" class="form-control" /> </td>
 
-                          <td ><input v-model="cops.d2d_omp_lube[n-1]" type="text" class="form-control" /> </td>
+                         <!--  <td ><input v-model="cops.d2d_omp_lube[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.d2d_company_lube[n-1]" type="text" class="form-control" /> </td>
-
+ -->
                           <td ><input v-model="cops.d2d_omp_lpg[n-1]" type="text" class="form-control" /> </td>
                           <td ><input v-model="cops.d2d_company_lpg[n-1]" type="text" class="form-control" /> </td>
                       </tr>             

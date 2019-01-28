@@ -180,6 +180,8 @@
             }}).then(response => {
               store.commit("activateLoader", "end");   
               this.company_stations = response.data.data;
+              this.company_stations.reverse();
+
 
       })
       .catch(function(error) {
@@ -231,6 +233,7 @@
                         }}).then(response => {
                         store.commit("activateLoader", "end");   
                         this.csu_stations = response.data.data;
+                        this.csu_stations.reverse();
                 });
             })
             .catch(error => {
@@ -261,6 +264,7 @@
                             //console.log(item);
                             this.cru_stations.push(item.station);
                         });
+                        this.cru_stations.reverse();
                 });
 
             })

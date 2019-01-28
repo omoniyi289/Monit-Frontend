@@ -552,7 +552,7 @@
             let api_response = response.data;
           if (api_response.status === true) {
              this.tableData = response.data.data;
-             
+             this.deposit = '';
               store.commit("showAlertBox", {'alert_type': 'alert-success',
                        'alert_message': 'Payment Added Successfully', 'show_alert': true});
               this.formstate.$submitted=false;

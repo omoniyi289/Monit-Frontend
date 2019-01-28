@@ -50,8 +50,8 @@
                           <th colspan="2" style="text-align: center" >PMS</th>
                           <th colspan="2"  style="text-align: center" >AGO</th>
                           <th colspan="2"  style="text-align: center">DPK</th>
-                          <th colspan="2"  style="text-align: center" >LUBES</th>
-                          <th colspan="2"  style="text-align: center" >LPG</th>
+                          <!-- <th colspan="2"  style="text-align: center" >LUBES</th> -->
+                          <th colspan="2"  style="text-align: center" >LPG (12.5kg)</th>
                       </tr>
                       <tr style="text-align: center">
                           <th colspan="4" style="text-align: left" >B2B</th>
@@ -64,8 +64,8 @@
                           <th >OMP</th>
                           <th >COMPANY</th>
                           
-                          <th >OMP</th>
-                          <th >COMPANY</th>
+                         <!--  <th >OMP</th>
+                          <th >COMPANY</th> -->
 
                           <th >OMP</th>
                           <th >COMPANY</th>
@@ -82,8 +82,8 @@
                           <th ></th>
                           <th ></th>
                           
-                          <th ></th>
-                          <th ></th>
+                          <!-- <th ></th>
+                          <th ></th> -->
 
                           <th ></th>
                           <th ></th>
@@ -98,9 +98,9 @@
                           <td ><input readonly v-model="n.company_ago" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.omp_dpk" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_dpk" type="text" class="form-control" /> </td>
-                          <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
+                          <!-- <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lube" type="text" class="form-control" /> </td>
-
+ -->
                           <td ><input readonly v-model="n.omp_lpg" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lpg" type="text" class="form-control" /> </td>
                           
@@ -116,8 +116,8 @@
                           <th ></th>
                           <th ></th>
 
-                          <th ></th>
-                          <th ></th>
+<!--                           <th ></th>
+                          <th ></th> -->
                       </tr> 
 
                       <tr v-for="n in cops.competitor_data" > 
@@ -127,11 +127,12 @@
 
                           <td ><input readonly v-model="n.omp_ago" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_ago" type="text" class="form-control" /> </td>
+                          
                           <td ><input readonly v-model="n.omp_dpk" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_dpk" type="text" class="form-control" /> </td>
-                          <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
+                         <!--  <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lube" type="text" class="form-control" /> </td>
-
+ -->
                           <td ><input readonly v-model="n.omp_lpg" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lpg" type="text" class="form-control" /> </td>
                           
@@ -149,8 +150,8 @@
                           <th ></th>
                           <th ></th>
                           
-                          <th ></th>
-                          <th ></th>
+                          <!-- <th ></th>
+                          <th ></th> -->
 
                           <th ></th>
                           <th ></th>
@@ -163,11 +164,13 @@
 
                           <td ><input readonly v-model="n.omp_ago" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_ago" type="text" class="form-control" /> </td>
+                          
                           <td ><input readonly v-model="n.omp_dpk" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_dpk" type="text" class="form-control" /> </td>
-                          <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
+                          
+                          <!-- <td ><input readonly v-model="n.omp_lube" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lube" type="text" class="form-control" /> </td>
-
+ -->
                           <td ><input readonly v-model="n.omp_lpg" type="text" class="form-control" /> </td>
                           <td ><input readonly v-model="n.company_lpg" type="text" class="form-control" /> </td>
                           
